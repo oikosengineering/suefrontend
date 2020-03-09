@@ -1,0 +1,17 @@
+<div class="container">
+    <mat-card>
+        <mat-card-title>
+            Benvenuti
+        </mat-card-title>
+        <mat-card-subtitle>
+            Sezione dedicata alla richiesta delle autorizzazioni per il comune di Chiavari
+        </mat-card-subtitle>
+        <mat-card-content>
+            Seguendo pochissimi passaggi avrete la possibilità di innoltrare in modo 
+            digitale divversi tipi di richieste di autorizzazzione verso il comune di Chiavari.
+            Una volta registati avete la possibilità di innoltrate le seguenti richieste:
+            <a *ngFor="let richiesta of richieste" [href]="richiesta.link"></a>
+        </mat-card-content>
+    </mat-card>
+</div>
+
