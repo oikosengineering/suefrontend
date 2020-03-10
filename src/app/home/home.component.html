@@ -10,7 +10,8 @@
             Seguendo pochissimi passaggi avrete la possibilità di innoltrare in modo 
             digitale divversi tipi di richieste di autorizzazzione verso il comune di Chiavari.
             Una volta registati avete la possibilità di innoltrate le seguenti richieste:
-            <a *ngFor="let richiesta of richieste" [href]="richiesta.link"></a>
+            <br>
+            <span *ngFor="let richiesta of richieste">- <a [href]="richiesta.link">{{richiesta.name}}</a></span>
         </mat-card-content>
     </mat-card>
 </div>

@@ -1,1 +1,180 @@
-<p>richiesta-rottura-suolo works!</p>
+<div class="container">
+    <form [formGroup]="pratica_form">
+        <mat-expansion-panel formGroupName="referente" class="referente-group">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Referente 
+                </mat-panel-title>
+                <mat-panel-description>
+                  Compilare con i dati anagrafici del referente
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field>
+                <mat-label>Nome</mat-label>
+                <input formControlName="nome" matInput type="text">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Cognome</mat-label>
+                <input formControlName="cognome" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Cofice fiscale</mat-label>
+                <input formControlName="cf" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Ragione sociale</mat-label>
+                <input matInput type="text" formControlName="ragione_denominazione_sociale" >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Luogo di nascita</mat-label>
+                <input formControlName="luogo_nascita" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Provincia di nascita</mat-label>
+                <input formControlName="provincia_nascita" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Sede legale</mat-label>
+                <input formControlName="sede_legale" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Partita IVA</mat-label>
+                <input formControlName="p_iva" matInput type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Documento d'identità</mat-label>
+                <input formControlName="documento_identita" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Data di nascita</mat-label>
+                <input formControlName="data_nascita" matInput [matDatepicker]="picker_referente">
+                <mat-datepicker-toggle matSuffix [for]="picker_referente"></mat-datepicker-toggle>
+                <mat-datepicker #picker_referente></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Luogo di residenza</mat-label>
+                <input formControlName="luogo_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Provincia di residenza</mat-label>
+                <input formControlName="provincia_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Indirizzo di residenza</mat-label>
+                <input formControlName="indirizzo_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Numero di residenza</mat-label>
+                <input formControlName="numero_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Cap di residenza</mat-label>
+                <input formControlName="cap_residenza" matInput type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Telefono</mat-label>
+                <input formControlName="telefono" matInput type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput type="email">
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel formGroupName="tecnico" class="tecnico-group">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Tecnico
+                </mat-panel-title>
+                <mat-panel-description>
+                    Compilare con i dati anagrafici del tecnico che assiste la pratica
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field>
+                <mat-label>Nome</mat-label>
+                <input formControlName="nome" matInput type="text">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Cognome</mat-label>
+                <input formControlName="cognome" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Cofice fiscale</mat-label>
+                <input formControlName="cf" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Ragione sociale</mat-label>
+                <input matInput type="text" formControlName="ragione_denominazione_sociale" >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Luogo di nascita</mat-label>
+                <input formControlName="luogo_nascita" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Provincia di nascita</mat-label>
+                <input formControlName="provincia_nascita" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Sede legale</mat-label>
+                <input formControlName="sede_legale" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Partita IVA</mat-label>
+                <input formControlName="p_iva" matInput type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Documento d'identità</mat-label>
+                <input formControlName="documento_identita" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Data di nascita</mat-label>
+                <input formControlName="data_nascita" matInput [matDatepicker]="picker_tecnico">
+                <mat-datepicker-toggle matSuffix [for]="picker_tecnico"></mat-datepicker-toggle>
+                <mat-datepicker #picker_tecnico></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Luogo di residenza</mat-label>
+                <input formControlName="luogo_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Provincia di residenza</mat-label>
+                <input formControlName="provincia_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Indirizzo di residenza</mat-label>
+                <input formControlName="indirizzo_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Numero di residenza</mat-label>
+                <input formControlName="numero_residenza" matInput type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Cap di residenza</mat-label>
+                <input formControlName="cap_residenza" matInput type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Telefono</mat-label>
+                <input formControlName="telefono" matInput type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput type="email">
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Dati richiesta
+                </mat-panel-title>
+                <mat-panel-description>
+                Compila con i dati per l'autorizzazione
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field>
+                <mat-label>Descrizione</mat-label>
+                <input matInput type="text">
+            </mat-form-field>
+        </mat-expansion-panel>
+    </form>
+</div>
