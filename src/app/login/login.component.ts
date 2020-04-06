@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { ValidationService } from '../core/services/validation.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   hide = true;
   constructor( 
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private validationService: ValidationService
     ) {
 
       this.loginForm = this.formBuilder.group({
@@ -24,7 +26,8 @@ export class LoginComponent implements OnInit {
         )],
         password: ['', Validators.compose(
           [
-            Validators.required
+            Validators.required,
+            Validators.minLength(6)
           ]
         )]
       });
@@ -39,6 +42,10 @@ export class LoginComponent implements OnInit {
       return false;
     }
     console.log(this.loginForm.value.user, this.loginForm.value.password);
+  }
+
+  getErrorMessage(control: AbstractControl){
+    return this.validationService.getErrorMessage(control);
   }
 
 }

@@ -53,6 +53,7 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { LoginComponent } from './login/login.component';
     RichiestaRotturaSuoloComponent,
     HomeComponent,
     NuovaPraticaComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

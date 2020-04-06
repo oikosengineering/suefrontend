@@ -10,13 +10,10 @@ export class ValidationService {
 
   getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     let validation_messages = {
-      'required': 'Il campo è obbligatorio',
-      'invalidCreditCard': 'Is invalid credit card number',
-      'invalidEmailAddress': 'Invalid email address',
-      'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',
-      'minlength': `Minimum length ${validatorValue.requiredLength}`,
-      'phoneVali': 'Check your phone number',
-      'checkPinNumber': 'Check your pin number'
+      'required': 'Il campo è obbligatorio.',
+      'minlength': `Lunghezza minima ${validatorValue.requiredLength} caratteri, lunghezza attuale ${validatorValue.actualLength} caratteri.`,
+      'maxlength': `Lunghezza massima ${validatorValue.requiredLength} caratteri.`,
+      'pattern': `Deve contenere solo i seguenti caratteri ${validatorValue.requiredPattern} caratteri.`,
     };
     return validation_messages[validatorName];
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { ValidationService } from '../../services/validation.service';
+import { ValidationService } from '../../../core/services/validation.service';
 @Component({
   selector: 'app-richiesta-rottura-suolo',
   templateUrl: './richiesta-rottura-suolo.component.html',
