@@ -25,6 +25,6 @@ export class DynamicFormDirective {
     );
     this.componentRef = this.container.createComponent(factory);
     this.componentRef.instance.modulo = this.modulo;
-    this.componentRef.instance.idPratica = this.idPratica
+    this.componentRef.instance.idPratica = this.idPratica;
   }
 }

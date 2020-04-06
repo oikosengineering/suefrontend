@@ -58,7 +58,7 @@ import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
     AppComponent,
     RichiestaRotturaSuoloComponent,
     HomeComponent,
-    NuovaPraticaComponent,
+    NuovaPraticaComponent
   ],
   imports: [
     BrowserModule,

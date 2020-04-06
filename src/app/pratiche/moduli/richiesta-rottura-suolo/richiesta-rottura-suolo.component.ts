@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { ValidationService } from '../../services/validation.service';
 @Component({
   selector: 'app-richiesta-rottura-suolo',
   templateUrl: './richiesta-rottura-suolo.component.html',
@@ -28,7 +29,9 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   //       email: <string>
   //   },
 
-  constructor() { }
+  constructor(
+    private validationService: ValidationService
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -141,5 +144,14 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         ]))
       })
     });
+  }
+
+  getErrorMessage(control: AbstractControl){
+    for (let propertyName in control.errors) {
+      if (control.errors.hasOwnProperty(propertyName) && control.touched) {
+        return this.validationService.getValidatorErrorMessage(propertyName, control.errors[propertyName]);
+      }
+    }
+    return null;
   }
 }

@@ -1,6 +1,6 @@
 <div class="container">
     <form [formGroup]="pratica_form">
-        <mat-expansion-panel formGroupName="referente" class="referente-group">
+        <mat-expansion-panel formGroupName="referente" class="referente-group" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                   Referente 
@@ -12,6 +12,7 @@
             <mat-form-field>
                 <mat-label>Nome</mat-label>
                 <input formControlName="nome" matInput type="text">
+                <mat-error>{{getErrorMessage(pratica_form.get('referente').get('nome'))}}</mat-error>
             </mat-form-field>
         
             <mat-form-field>
@@ -81,7 +82,7 @@
                 <input formControlName="email" matInput type="email">
             </mat-form-field>
         </mat-expansion-panel>
-        <mat-expansion-panel formGroupName="tecnico" class="tecnico-group">
+        <mat-expansion-panel formGroupName="tecnico" class="tecnico-group" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                   Tecnico
@@ -162,7 +163,7 @@
                 <input formControlName="email" matInput type="email">
             </mat-form-field>
         </mat-expansion-panel>
-        <mat-expansion-panel>
+        <mat-expansion-panel expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                 Dati richiesta
