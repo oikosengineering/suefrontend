@@ -1,0 +1,21 @@
+<mat-card class="login-form">
+    <form [formGroup]="loginForm">
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Utente</mat-label>
+            <input matInput formControlName="user" placeholder="Utente" required>
+        </mat-form-field>
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <div class="div-buttons">
+          <span><mat-icon>info_outline</mat-icon> Entra come utente registrato oppure <a routerLink="/reguser">registrati</a>.</span>
+          <div class="example-fill-remaining-space "></div>
+          <button class="button-login" mat-raised-button color="primary" (click)="logIn()">Login</button>
+        </div>
+    </form>
+</mat-card>
+

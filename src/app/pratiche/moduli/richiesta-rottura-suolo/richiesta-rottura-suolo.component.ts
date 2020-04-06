@@ -147,11 +147,6 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   }
 
   getErrorMessage(control: AbstractControl){
-    for (let propertyName in control.errors) {
-      if (control.errors.hasOwnProperty(propertyName) && control.touched) {
-        return this.validationService.getValidatorErrorMessage(propertyName, control.errors[propertyName]);
-      }
-    }
-    return null;
+    return this.validationService.getErrorMessage(control);
   }
 }

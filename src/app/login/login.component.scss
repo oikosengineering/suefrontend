@@ -1,0 +1,40 @@
+.login-form {
+    max-width: 600px;
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div-buttons{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.div-buttons span {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.div-buttons mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    vertical-align: text-bottom;
+}
+
+.example-fill-remaining-space {
+    flex: 1 1 auto;
+}
+
+@media only screen and (max-width: 410) {
+    .example-fill-remaining-space {
+        flex: 0;
+    }
+
+    .div-buttons{
+        flex-direction: column !important;
+    }
+}

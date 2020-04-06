@@ -7,7 +7,7 @@ import {MediaMatcher} from '@angular/cdk/layout';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
+  isUserLoggedIn = false;
   richieste = [
     {name: "Richiesta rottura suolo", link: "pratiche/richiesta-rottura-suolo"}
   ];

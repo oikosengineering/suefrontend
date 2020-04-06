@@ -65,3 +65,13 @@ mat-radio-button{
 
 
 /* Fine gestione dimensione dei campi */
+
+@media only screen and (max-width: 600px) {
+    .example-fill-remaining-space {
+        flex: 0;
+    }
+
+    .div-buttons{
+        flex-direction: column !important;
+    }
+}

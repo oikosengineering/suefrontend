@@ -10,7 +10,7 @@ export class ValidationService {
 
   getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     let validation_messages = {
-      'required': 'Required',
+      'required': 'Il campo è obbligatorio',
       'invalidCreditCard': 'Is invalid credit card number',
       'invalidEmailAddress': 'Invalid email address',
       'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',

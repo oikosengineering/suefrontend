@@ -52,13 +52,15 @@ import { RichiestaRotturaSuoloComponent } from './pratiche/moduli/richiesta-rott
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RichiestaRotturaSuoloComponent,
     HomeComponent,
-    NuovaPraticaComponent
+    NuovaPraticaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
