@@ -1,0 +1,67 @@
+mat-radio-group.ng-invalid .mat-radio-outer-circle {
+    border-color: rgb(244, 67, 54);
+}
+
+mat-radio-button{
+    margin-left: 1em;
+}
+
+.div-radio-group {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.div-radio-group{
+    margin: .25em 0;
+}
+
+.div-radio-group mat-radio-button{
+    margin-bottom: .25em;
+    margin-top: .25em;
+}
+
+.vartical-radiobutton{
+    display: flex;
+    flex-direction: column;
+}
+
+.inner-div{
+    margin-left: 1em;
+}
+
+/* Inizio gestione dimensione dei campi */
+.div-full{
+    width: 100%;
+}
+
+.div-half{
+    width: 50%;
+}
+
+.div-a-third{
+    width: 33.33%;
+}
+
+.div-a-quarter{
+    width: 25%;
+}
+
+@media only screen and (max-width: 600px) {
+    .div-full{
+        width: 100%;
+    }
+    
+    .div-half{
+        width: 100%;
+    }
+    
+    .div-a-third{
+        width: 100%;
+    }
+    .div-a-quarter{
+        width: 50%;
+    }
+}
+
+
+/* Fine gestione dimensione dei campi */

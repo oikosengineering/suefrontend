@@ -48,15 +48,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RichiestaRotturaSuoloComponent } from './pratiche/richiesta-rottura-suolo/richiesta-rottura-suolo.component';
+import { RichiestaRotturaSuoloComponent } from './pratiche/moduli/richiesta-rottura-suolo/richiesta-rottura-suolo.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RichiestaRotturaSuoloComponent,
     HomeComponent,
+    NuovaPraticaComponent,
   ],
   imports: [
     BrowserModule,
