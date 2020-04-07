@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, ValidatorFn, FormGroup, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,11 @@ export class ValidationService {
   getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     let validation_messages = {
       'required': 'Il campo è obbligatorio.',
-      'minlength': `Lunghezza minima ${validatorValue.requiredLength} caratteri, lunghezza attuale ${validatorValue.actualLength} caratteri.`,
+      'minlength': `Lunghezza minima ${validatorValue.requiredLength} caratteri.`,
       'maxlength': `Lunghezza massima ${validatorValue.requiredLength} caratteri.`,
-      'pattern': `Deve contenere solo i seguenti caratteri ${validatorValue.requiredPattern} caratteri.`,
+      'pattern': `Valore non valido`,
+      'atLeastOnecfpiva': "Uno dei due campi 'Codice fiscale' o 'Partita IVA' deve essere compilato.",
+      'mismatchPsw': "Le password non sono uguali."
     };
     return validation_messages[validatorName];
   }
@@ -26,4 +28,50 @@ export class ValidationService {
     }
     return null;
   }
+
+  validateAllFormFields(formGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      if(formGroup.get(field).controls){
+        this.validateAllFormFields(<FormGroup>formGroup.controls[field]);
+      } else {
+        const control = formGroup.get(field);
+        control.markAsTouched({ onlySelf: true });
+      }
+      
+    });
+  }
+}
+
+export const atLeastOnecfpiva = (validator: ValidatorFn, controls:string[] = null) => (
+  group: FormGroup,
+): ValidationErrors | null => {
+  if(!controls){
+    controls = Object.keys(group.controls)
+  }
+
+  const hasAtLeastOne = group && group.controls && controls
+    .some(k => !validator(group.controls[k]));
+
+  return hasAtLeastOne ? null : {
+    atLeastOnecfpiva: true,
+  };
+};
+
+export const atLeastOne = (validator: ValidatorFn, controls:string[] = null) => (
+  group: FormGroup,
+): ValidationErrors | null => {
+  if(!controls){
+    controls = Object.keys(group.controls)
+  }
+
+  const hasAtLeastOne = group && group.controls && controls
+    .some(k => !validator(group.controls[k]));
+
+  return hasAtLeastOne ? null : {
+    atLeastOne: true,
+  };
+};
+
+export const passwordMatch = (control: string) => (self: AbstractControl) =>{
+  return self.parent.controls[control].value === self.value ? null : {'mismatchPsw': true};
 }

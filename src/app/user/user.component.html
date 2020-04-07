@@ -1,0 +1,102 @@
+<mat-card class="user-form">
+    <form [formGroup]="form">
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Cognome</mat-label>
+            <input matInput formControlName="cognome" placeholder="Cognome" required>
+            <mat-error>{{getErrorMessage(form.get('cognome'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" placeholder="Nome" required>
+            <mat-error>{{getErrorMessage(form.get('nome'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Codice fiscale</mat-label>
+            <input matInput formControlName="codicefiscale" placeholder="Codice fiscale" required>
+            <mat-error>{{getErrorMessage(form.get('codicefiscale'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Partita IVA</mat-label>
+            <input matInput formControlName="partitaiva" placeholder="Partita IVA" required>
+            <mat-error>{{getErrorMessage(form.get('partitaiva'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <input matInput [matDatepicker]="picker" placeholder="Data di nascita" formControlName="data_nascita" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>{{getErrorMessage(form.get('data_nascita'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Comune di nascita</mat-label>
+            <input matInput formControlName="comune_nascita" placeholder="Comune di nascita" required>
+            <mat-error>{{getErrorMessage(form.get('comune_nascita'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Provincia di nascita</mat-label>
+            <input matInput formControlName="provincia_nascita" placeholder="Provincia di nascita" required>
+            <mat-error>{{getErrorMessage(form.get('provincia_nascita'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Via\P.zza\Str.</mat-label>
+            <input matInput formControlName="via" placeholder="Via\P.zza\Str." required>
+            <mat-error>{{getErrorMessage(form.get('via'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>N.</mat-label>
+            <input matInput formControlName="civico" placeholder="N." required>
+            <mat-error>{{getErrorMessage(form.get('civico'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Comune</mat-label>
+            <input matInput formControlName="comune" placeholder="Comune" required>
+            <mat-error>{{getErrorMessage(form.get('comune'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Provincia</mat-label>
+            <input matInput formControlName="provincia" placeholder="Provincia" required>
+            <mat-error>{{getErrorMessage(form.get('provincia'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>CAP</mat-label>
+            <input matInput formControlName="cap" placeholder="CAP" required>
+            <mat-error>{{getErrorMessage(form.get('cap'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Cellulare</mat-label>
+            <input matInput formControlName="cellulare" placeholder="Cellulare" required>
+            <mat-error>{{getErrorMessage(form.get('cellulare'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Telefono</mat-label>
+            <input matInput formControlName="telefono" placeholder="Telefono" required>
+            <mat-error>{{getErrorMessage(form.get('telefono'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Fax</mat-label>
+            <input matInput formControlName="fax" placeholder="Fax">
+            <mat-error>{{getErrorMessage(form.get('fax'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>E-mail</mat-label>
+            <input matInput formControlName="email" placeholder="E-mail" required>
+            <mat-error>{{getErrorMessage(form.get('email'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>PEC</mat-label>
+            <input matInput formControlName="pec" placeholder="PEC" required>
+            <mat-error>{{getErrorMessage(form.get('pec'))}}</mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error>{{getErrorMessage(form.get('password'))}}</mat-error>
+        </mat-form-field> -->
+        <div class="div-buttons">
+            <button class="button-login" mat-raised-button color="primary" (click)="modifica()">Modifica</button>
+          <button class="button-login" mat-raised-button color="primary" (click)="submit()">Conferma</button>
+        </div>
+    </form>
+</mat-card>

@@ -7,28 +7,15 @@ import { ValidationService } from '../../../core/services/validation.service';
   styleUrls: ['./richiesta-rottura-suolo.component.scss']
 })
 export class RichiestaRotturaSuoloComponent implements OnInit {
-  pratica_form: FormGroup;
-
-  // referente = {
-  //       nome: <string>,
-  //       cognome: <string>,
-  //       cf: <string>,
-  //       ragione_denominazione_sociale: <string>,
-  //       luogo_nascita: <string>,
-  //       sede_legale: <string>,
-  //       p_iva: <number>,
-  //       documento_identita: <string>,
-  //       provincia_nascita: <string>,
-  //       data_nascita: <string>,
-  //       luogo_residenza: <string>,
-  //       provincia_residenza: <string>,
-  //       indirizzo_residenza: <string>,
-  //       numero_residenza: <number>,
-  //       cap_residenza: <number>,
-  //       telefono: <number>,
-  //       email: <string>
-  //   },
-
+  form: FormGroup;
+  tipologie = [
+    {name: "Persona fisica", value: 0},
+    {name: "Persona giuridica", value: 1}
+  ];
+  generi = [
+    {name: "Maschio", value: 'm'},
+    {name: "Femmina", value: 'f'}
+  ]
   constructor(
     private validationService: ValidationService
   ) { }
@@ -38,34 +25,39 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   }
 
   createForm(){
-    this.pratica_form = new FormGroup({
+    this.form = new FormGroup({
       referente: new FormGroup({
+        tipo_persona: new FormControl (null, Validators.compose([
+          Validators.required
+        ])),
+        genere: new FormControl (null, Validators.compose([
+          Validators.required
+        ])),
         nome: new FormControl('', Validators.compose([
           Validators.required,
         ])),
         cognome: new FormControl('', Validators.compose([Validators.required])),
-        cf: new FormControl('', Validators.compose([
+        codicefiscale: new FormControl('', Validators.compose([
           Validators.required,
           Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
         ])),
-        ragione_denominazione_sociale: new FormControl(''),
-        luogo_nascita: new FormControl('', Validators.compose([
+        ragionesociale: new FormControl(''),
+        nascita_comune: new FormControl('', Validators.compose([
           Validators.required,
         ])),
-        sede_legale: new FormControl(''),
-        p_iva: new FormControl('', Validators.compose([
+        nascita_provincia: new FormControl('', Validators.compose([
+          Validators.required,
+        ])),
+        nascita_stato: new FormControl('', Validators.compose([
+          Validators.required,
+        ])),
+        nascita_data: new FormControl('', Validators.compose([
+          Validators.required,
+        ])),
+        partitaiva: new FormControl('', Validators.compose([
           Validators.pattern('/^[0-9]{11}$/')
         ])),
-        documento_identita: new FormControl('', Validators.compose([
-          Validators.required,
-        ])),
-        provincia_nascita: new FormControl('', Validators.compose([
-          Validators.required,
-        ])),
-        data_nascita: new FormControl('', Validators.compose([
-          Validators.required,
-        ])),
-        luogo_residenza: new FormControl('', Validators.compose([
+        comune_residenza: new FormControl('', Validators.compose([
           Validators.required,
         ])),
         provincia_residenza: new FormControl('', Validators.compose([
@@ -74,7 +66,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         indirizzo_residenza: new FormControl('', Validators.compose([
           Validators.required,
         ])),
-        numero_residenza: new FormControl('', Validators.compose([
+        civico_residenza: new FormControl('', Validators.compose([
           Validators.required,
         ])),
         cap_residenza: new FormControl('', Validators.compose([
@@ -86,7 +78,14 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
           Validators.required,
           Validators.pattern('/(0[1-9]|[12][0-9]|3[01])[\/](0[1-9]|1[012])[\/](19|20)\d\d/')
         ])),
+        cellulare: new FormControl('', Validators.compose([
+          Validators.required,
+        ])),
         email: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        ])),
+        pec: new FormControl('', Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ]))

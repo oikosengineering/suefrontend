@@ -1,9 +1,19 @@
 <mat-card class="signup-form">
-    <form [formGroup]="signupForm">
+    <form [formGroup]="form">
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Codice fiscale</mat-label>
+            <input matInput formControlName="codicefiscale" placeholder="Codice fiscale" [required]="check('codicefiscale','partitaiva','')">
+            <mat-error>{{getErrorMessage(form.get('codicefiscale'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Partita IVA</mat-label>
+            <input matInput formControlName="partitaiva" placeholder="Partita IVA" [required]="check('partitaiva','codicefiscale','')">
+            <mat-error>{{getErrorMessage(form.get('partitaiva'))}}</mat-error>
+        </mat-form-field>
         <mat-form-field class="div-full" appearance="outline">
-            <mat-label>Utente</mat-label>
-            <input matInput formControlName="user" placeholder="Utente" required>
-            <mat-error>{{getErrorMessage(signupForm.get('user'))}}</mat-error>
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="E-mail" required>
+            <mat-error>{{getErrorMessage(form.get('email'))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-full" appearance="outline">
             <mat-label>Password</mat-label>
@@ -11,8 +21,17 @@
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            <mat-error>{{getErrorMessage(signupForm.get('password'))}}</mat-error>
+            <mat-error>{{getErrorMessage(form.get('password'))}}</mat-error>
         </mat-form-field>
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Conferma password</mat-label>
+            <input matInput formControlName="password2" placeholder="Password" [type]="hide2 ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error>{{getErrorMessage(form.get('password2'))}}</mat-error>
+        </mat-form-field>
+        <mat-error class="error-form" *ngIf="getErrorMessage(form)"><mat-icon>info_outline</mat-icon>{{getErrorMessage(form)}}</mat-error>
         <div class="div-buttons">
           <span><mat-icon>info_outline</mat-icon> Se sei già registrato esegui la <a routerLink="/login">login</a>.</span>
           <div class="example-fill-remaining-space "></div>

@@ -1,9 +1,9 @@
 <mat-card class="login-form">
-    <form [formGroup]="loginForm">
+    <form [formGroup]="form">
         <mat-form-field class="div-full" appearance="outline">
             <mat-label>Utente</mat-label>
             <input matInput formControlName="user" placeholder="Utente" required>
-            <mat-error>{{getErrorMessage(loginForm.get('user'))}}</mat-error>
+            <mat-error>{{getErrorMessage(form.get('user'))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-full" appearance="outline">
             <mat-label>Password</mat-label>
@@ -11,7 +11,7 @@
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            <mat-error>{{getErrorMessage(loginForm.get('password'))}}</mat-error>
+            <mat-error>{{getErrorMessage(form.get('password'))}}</mat-error>
         </mat-form-field>
         <div class="div-buttons">
           <span><mat-icon>info_outline</mat-icon> Entra come utente registrato oppure <a routerLink="/signup">registrati</a>.</span>

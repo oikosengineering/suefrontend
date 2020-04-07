@@ -54,6 +54,7 @@ import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { SignupComponent } from './signup/signup.component';
     HomeComponent,
     NuovaPraticaComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

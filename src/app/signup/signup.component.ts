@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ValidationService } from '../core/services/validation.service';
+import { ValidationService, atLeastOnecfpiva, passwordMatch } from '../core/services/validation.service';
 
 @Component({
   selector: 'app-signup',
@@ -10,42 +10,101 @@ import { ValidationService } from '../core/services/validation.service';
 })
 export class SignupComponent implements OnInit {
 
-  signupForm: FormGroup;
+  form: FormGroup;
   hide = true;
+  hide2 = true;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private validationService: ValidationService
   ) { 
-    this.signupForm = this.formBuilder.group({
-      user: ['', Validators.compose(
+    
+  }
+
+  ngOnInit(): void {
+    this.createForm();
+  }
+
+  createForm(){
+    this.form = this.formBuilder.group({
+      codicefiscale: ['', Validators.compose(
         [
           Validators.required,
-          Validators.pattern("^[a-zA-Z]+$")
+        ]
+      )],
+      partitaiva: ['', Validators.compose(
+        [
+          Validators.required,
+        ]
+      )],
+      email: ['', Validators.compose(
+        [
+          Validators.required,
         ]
       )],
       password: ['', Validators.compose(
         [
           Validators.required,
-          Validators.minLength(6)
         ]
-      )]
-    });
-  }
-
-  ngOnInit(): void {
+      )],
+      password2: ['', Validators.compose(
+        [
+          Validators.required
+        ]
+      )],
+    }, { validator: atLeastOnecfpiva(Validators.required, ['codicefiscale','partitaiva'])});
+    this.form.get('password2').setValidators(passwordMatch('password'));
+    this.form.get('password2').updateValueAndValidity();
   }
 
   submit() {
-    if (!this.signupForm.valid) {
-      return false;
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.form.valid) {
+      console.log(this.form.getRawValue());
+    } else {
+      this.validationService.validateAllFormFields(this.form);
+      console.log(this.form.getRawValue());
     }
-    console.log(this.signupForm.value.user, this.signupForm.value.password);
   }
 
   getErrorMessage(control: AbstractControl){
     return this.validationService.getErrorMessage(control);
+  }
+
+  check(field: string, target: string, value: any){
+    if(this.form.get(target).value === value){
+      this.form.get(field).setValidators(this.addValidators(field));
+      this.form.get(field).updateValueAndValidity();
+      return true;
+    } else {
+      this.form.get(field).clearValidators();
+      this.form.get(field).updateValueAndValidity();
+      this.form.get(field).setValidators(this.safeValidators(field));
+      this.form.get(field).updateValueAndValidity();
+      return false;
+    }
+    
+  }
+
+  addValidators(value: string){
+    switch(value){
+      case 'codicefiscale':
+        return [Validators.required, Validators.pattern("/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i")];
+      case 'partitaiva':
+        return [Validators.required, Validators.maxLength(11), Validators.minLength(11)];
+    }
+  }
+
+  safeValidators(value: string){
+    switch(value){
+      case 'codicefiscale':
+        return [Validators.pattern("/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i")];
+      case 'partitaiva':
+        console.log('entrato');
+        return [Validators.maxLength(11), Validators.minLength(11)];
+    }
   }
 
 }

@@ -10,7 +10,7 @@ import { ValidationService } from '../core/services/validation.service';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  form: FormGroup;
   hide = true;
   constructor( 
     private formBuilder: FormBuilder,
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     private validationService: ValidationService
     ) {
 
-      this.loginForm = this.formBuilder.group({
+      this.form = this.formBuilder.group({
         user: ['', Validators.compose(
           [
             Validators.required
@@ -38,10 +38,14 @@ export class LoginComponent implements OnInit {
   }
 
   logIn() {
-    if (!this.loginForm.valid) {
-      return false;
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.form.valid) {
+      console.log(this.form.getRawValue());
+    } else {
+      this.validationService.validateAllFormFields(this.form);
+      console.log(this.form.getRawValue());
     }
-    console.log(this.loginForm.value.user, this.loginForm.value.password);
   }
 
   getErrorMessage(control: AbstractControl){

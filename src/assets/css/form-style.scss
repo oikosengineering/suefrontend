@@ -1,12 +1,61 @@
+/* css form login, user, registrazione */
+.div-buttons{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.div-buttons span {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.div-buttons mat-icon, .error-form mat-icon{
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    vertical-align: text-bottom;
+}
+
+.example-fill-remaining-space {
+    flex: 1 1 auto;
+}
+
+@media only screen and (max-width: 410) {
+    .example-fill-remaining-space {
+        flex: 0;
+    }
+
+    .div-buttons{
+        flex-direction: column !important;
+    }
+}
+
+/* css form login, user, registrazione */
+
+mat-card {
+    margin-bottom: 1em;
+}
+
 mat-radio-group.ng-invalid .mat-radio-outer-circle {
     border-color: rgb(244, 67, 54);
+}
+
+mat-expansion-panel.ng-invalid.ng-dirty {
+    border-left: solid 3px red;
+}
+
+mat-expansion-panel.ng-valid{
+    border-left: solid 3px green;
 }
 
 mat-radio-button{
     margin-left: 1em;
 }
 
-.div-radio-group {
+.mat-form-field-wrapper, .div-checkbox, .div-radio-group, .div-button {
     padding-left: 4px;
     padding-right: 4px;
 }
