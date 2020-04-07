@@ -15,7 +15,8 @@ export class ValidationService {
       'maxlength': `Lunghezza massima ${validatorValue.requiredLength} caratteri.`,
       'pattern': `Valore non valido`,
       'atLeastOnecfpiva': "Uno dei due campi 'Codice fiscale' o 'Partita IVA' deve essere compilato.",
-      'mismatchPsw': "Le password non sono uguali."
+      'mismatchPsw': "Le password non sono uguali.",
+      'min': `Il valore minimo è ${validatorValue.min}`
     };
     return validation_messages[validatorName];
   }

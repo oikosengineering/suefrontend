@@ -203,18 +203,67 @@
                 <input formControlName="email" matInput type="email">
             </mat-form-field>
         </mat-expansion-panel> -->
-        <mat-expansion-panel expanded>
+        <mat-expansion-panel formGroupName="dati_pratica" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                Dati richiesta
+                Dati pratica
                 </mat-panel-title>
                 <mat-panel-description>
-                Compila con i dati per l'autorizzazione
+                Compila con i dati per l'autorizzazione alla rottura suolo pubblico
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <mat-form-field>
-                <mat-label>Descrizione</mat-label>
-                <input matInput type="text">
+            <p>Inoltra la presente istanza al fine di essere autorizzato alla rottura del suolo pubblico di cui all'oggetto per</p>
+            <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Motivo scavi</mat-label>
+                <input matInput formControlName="motivo" type="text">
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('motivo'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Descrizione lavori</mat-label>
+                <textarea matInput formControlName="descrizione" type="text"></textarea>
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('descrizione'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third text-right" appearance="outline">
+                <mat-label>Estensione degli scavi</mat-label>
+                <input matInput formControlName="area_scavi" type="number">
+                <span matSuffix>m<sup>2</sup></span>
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('area_scavi'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third" appearance="outline">
+                <mat-label>Tipologia pavimentazione</mat-label>
+                <mat-select formControlName="pavimentazione">
+                    <mat-option>Nessuna</mat-option>
+                    <mat-option *ngFor="let pavimentazione of pavimentazioni" [value]="pavimentazione.value">
+                        {{pavimentazione.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('pavimentazione'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third text-right" appearance="outline">
+                <mat-label>Estensione del cantiere</mat-label>
+                <input matInput formControlName="area_cantiere" type="number">
+                <span matSuffix>m<sup>2</sup></span>
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('area_cantiere'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third" appearance="outline">
+                <mat-label>Inizio lavori</mat-label>
+                <input formControlName="inizio_lavori" matInput [matDatepicker]="inizio_lavori" (dateChange)="difference(form.get('dati_pratica'), 'fine_lavori', 'inizio_lavori', 'durata_lavori')">
+                <mat-datepicker-toggle matSuffix [for]="inizio_lavori"></mat-datepicker-toggle>
+                <mat-datepicker #inizio_lavori></mat-datepicker>
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('inizio_lavori'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third" appearance="outline">
+                <mat-label>Fine lavori</mat-label>
+                <input formControlName="fine_lavori" [min]="calculateMinDate(form.get('dati_pratica'), 'inizio_lavori')" matInput [matDatepicker]="fine_lavori" (dateChange)="difference(form.get('dati_pratica'), 'fine_lavori', 'inizio_lavori', 'durata_lavori')">
+                <mat-datepicker-toggle matSuffix [for]="fine_lavori"></mat-datepicker-toggle>
+                <mat-datepicker #fine_lavori></mat-datepicker>
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('fine_lavori'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third text-right" appearance="outline">
+                <mat-label>Durata lavori</mat-label>
+                <input matInput formControlName="durata_lavori" type="number" readonly="true">
+                <span matSuffix>gg</span>
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('durata_lavori'))}}</mat-error>
             </mat-form-field>
         </mat-expansion-panel>
     </form>

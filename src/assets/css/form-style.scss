@@ -51,6 +51,11 @@ mat-expansion-panel.ng-valid{
     border-left: solid 3px green;
 }
 
+mat-expansion-panel p{
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
 mat-radio-button{
     margin-left: 1em;
 }
@@ -76,6 +81,18 @@ mat-radio-button{
 
 .inner-div{
     margin-left: 1em;
+}
+
+.text-right input{
+    text-align: right;
+}
+
+.paragraph-text-suffix{
+    width: fit-content;
+}
+
+.mat-form-field-suffix{
+    top: auto !important;
 }
 
 /* Inizio gestione dimensione dei campi */
