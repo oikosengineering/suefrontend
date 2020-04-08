@@ -287,6 +287,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   uploadFile(event){
     if(event.target.files[0]){
       this.file_bollo.push(event.target.files[0]);
+      event.target.value = "";
     }
   }
 
