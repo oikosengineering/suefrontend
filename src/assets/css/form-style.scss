@@ -48,8 +48,12 @@ mat-radio-group.ng-invalid .mat-radio-outer-circle {
     border-color: rgb(244, 67, 54);
 }
 
-mat-expansion-panel.ng-invalid.ng-touched {
+mat-expansion-panel.ng-invalid {
     border-left: solid 3px red;
+}
+
+mat-card.ng-invalid {
+    border: solid 2px red;
 }
 
 mat-expansion-panel.ng-valid{

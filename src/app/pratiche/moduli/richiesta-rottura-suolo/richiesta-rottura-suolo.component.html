@@ -306,14 +306,14 @@
                         <div class="mat-raised-button">
                             Aggiungi file
                         </div>  
-                        <input id="file_bollo" (change)="uploadFile($event)" hidden formControlName="file_bollo" type="file" accept=".pdf">
+                        <input id="file_bollo" (change)="uploadFile($event, form.get('allegati_pratica').get('marca_bollo'), 'file_bollo')" hidden formControlName="file_bollo" type="file" accept=".pdf">
                     </label>
                 </div>
                 <mat-nav-list class="div-full list-element" *ngIf="file_bollo.length > 0">
                     <ng-container  *ngFor="let file of file_bollo">
                         <mat-list-item >
                             <p matLine >{{ file.name }}</p>
-                            <button mat-icon-button (click)="removeFile(file)">
+                            <button mat-icon-button (click)="removeFile(file, form.get('allegati_pratica').get('marca_bollo'), 'file_bollo')">
                                <mat-icon>cancel</mat-icon>
                             </button>
                             <mat-divider></mat-divider>

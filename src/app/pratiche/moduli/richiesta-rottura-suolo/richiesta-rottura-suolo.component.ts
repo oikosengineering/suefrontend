@@ -284,17 +284,19 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     }
   }
 
-  uploadFile(event){
+  uploadFile(event, form: AbstractControl, control: string){
     if(event.target.files[0]){
       this.file_bollo.push(event.target.files[0]);
       event.target.value = "";
+      form.get(control).disable()
     }
   }
 
-  removeFile(target){
+  removeFile(target, form: AbstractControl, control: string){
     let index = this.file_bollo.indexOf(target);
     if (index >= 0) {
       this.file_bollo.splice(index, 1);
+      form.get(control).enable()
     }
   }
 
