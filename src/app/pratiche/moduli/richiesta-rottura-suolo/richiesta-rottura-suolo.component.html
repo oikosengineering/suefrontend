@@ -298,8 +298,31 @@
                 <input matInput formControlName="marca_bollo" type="file" accept=".pdf">
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
             </mat-form-field> -->
-            <input formControlName="marca_bollo" type="file" accept=".pdf">
-            <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
+            <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Marca da bollo</mat-label>
+                <ngx-mat-file-input formControlName="marca_bollo" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Planimetria 1/500</mat-label>
+                <ngx-mat-file-input formControlName="planimetria1" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('planimetria1'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Planimetria 1/100</mat-label>
+                <ngx-mat-file-input formControlName="planimetria2" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('planimetria2'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Polizza fidejussoria</mat-label>
+                <ngx-mat-file-input formControlName="polizza_fidejussoria" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('polizza_fidejussoria'))}}</mat-error>
+            </mat-form-field>
         </mat-expansion-panel>
+        <button class="button-login" mat-raised-button color="primary" (click)="submit()">Convalida</button>
     </form>
 </div>

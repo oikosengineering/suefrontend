@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -21,6 +21,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
   ]
   constructor(
+    private fb: FormBuilder,
     private validationService: ValidationService
   ) { }
 
@@ -29,8 +30,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   }
 
   createForm(){
-    this.form = new FormGroup({
-      referente: new FormGroup({
+    this.form = this.fb.group({
+      referente: this.fb.group({
         tipo_persona: new FormControl (null, Validators.compose([
           Validators.required
         ])),
@@ -146,7 +147,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       //     Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
       //   ]))
       // })
-      dati_pratica: new FormGroup({
+      dati_pratica: this.fb.group({
         motivo: new FormControl ('', Validators.compose([
           Validators.required,
           Validators.maxLength(80)
@@ -184,8 +185,17 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
           Validators.required
         ])),
       }),
-      allegati_pratica: new FormGroup({
-        marca_bollo: new FormControl (Validators.compose([
+      allegati_pratica: this.fb.group({
+        marca_bollo: new FormControl ('', Validators.compose([
+          Validators.required
+        ])),
+        planimetria1: new FormControl ('', Validators.compose([
+          Validators.required
+        ])),
+        planimetria2: new FormControl ('', Validators.compose([
+          Validators.required
+        ])),
+        polizza_fidejussoria: new FormControl ('', Validators.compose([
           Validators.required
         ])),
       })
@@ -233,5 +243,16 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   getErrorMessage(control: AbstractControl){
     return this.validationService.getErrorMessage(control);
+  }
+
+  submit(){
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.form.valid) {
+      console.log(this.form.getRawValue());
+    } else {
+      this.validationService.validateAllFormFields(this.form);
+      console.log(this.form.getRawValue());
+    }
   }
 }
