@@ -177,6 +177,12 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         valore_polizza: new FormControl ('', Validators.compose([
           Validators.required
         ])),
+        foglio_catasto: new FormControl ('', Validators.compose([
+          Validators.required
+        ])),
+        particella_catasto: new FormControl ('', Validators.compose([
+          Validators.required
+        ])),
       }),
     });
   }

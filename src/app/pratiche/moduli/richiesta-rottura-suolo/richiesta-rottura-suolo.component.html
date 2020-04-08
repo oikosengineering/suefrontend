@@ -272,6 +272,18 @@
                 <span matPrefix>€</span>
                 <mat-error>{{getErrorMessage(form.get('dati_pratica').get('valore_polizza'))}}</mat-error>
             </mat-form-field>
+            <div class="div-a-third padding-div">Informazioni catastali:</div>
+            <mat-form-field class="div-a-third" appearance="outline">
+                <mat-label>Foglio</mat-label>
+                <input matInput formControlName="foglio_catasto" type="number">
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('foglio_catasto'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third" appearance="outline">
+                <mat-label>Particella</mat-label>
+                <input matInput formControlName="particella_catasto" type="number">
+                <mat-error>{{getErrorMessage(form.get('dati_pratica').get('particella_catasto'))}}</mat-error>
+            </mat-form-field>
+
         </mat-expansion-panel>
     </form>
 </div>
