@@ -17,8 +17,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Femmina", value: 'f'}
   ];
   pavimentazioni = [
-    {name: "Stradale", value: 0},
-    {name: "Pavimentazione di pregio", value: 1}
+    {name: "Stradale", value: 0, price: 200, min: 2500},
+    {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
   ]
   constructor(
     private validationService: ValidationService
@@ -174,18 +174,43 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         fine_lavori: new FormControl ('', Validators.compose([
           Validators.required
         ])),
+        valore_polizza: new FormControl ('', Validators.compose([
+          Validators.required
+        ])),
       }),
     });
   }
 
-  difference(form: AbstractControl, value1: string, value2: string, dest: string){
-    if(form.get(value1).value === null || form.get(value1).value === '')
+  differenceDate(form: AbstractControl, value1: string, value2: string, dest: string){
+    if(form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
       return;
-    if(form.get(value2).value === null || form.get(value2).value === '')
+    if(form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined)
       return;
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
     form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)));
+  }
+
+  multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string){
+    if(form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
+      return;
+    if(form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined){
+      return;
+    } else {
+      let min = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2).value).min;
+      form.get(dest).clearValidators();
+      form.get(dest).setValidators(Validators.min(min));
+      form.get(dest).updateValueAndValidity();
+    }
+    let pavimentazione = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2).value);
+    let price = pavimentazione.price;
+    let min = pavimentazione.min;
+    let tot = Math.floor(price * form.get(value1).value);
+    if(tot >= min){
+      form.get(dest).patchValue(tot);
+    } else {
+      form.get(dest).patchValue(min);
+    }
   }
 
   calculateMinDate(form: AbstractControl, target: string){

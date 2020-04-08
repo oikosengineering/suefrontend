@@ -1,3 +1,8 @@
+* { 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+     box-sizing: border-box; 
+}
 /* css form login, user, registrazione */
 .div-buttons{
     display: flex;
@@ -51,16 +56,11 @@ mat-expansion-panel.ng-valid{
     border-left: solid 3px green;
 }
 
-mat-expansion-panel p{
-    padding-left: 4px;
-    padding-right: 4px;
-}
-
 mat-radio-button{
     margin-left: 1em;
 }
 
-.mat-form-field-wrapper, .div-checkbox, .div-radio-group, .div-button {
+.mat-form-field, .div-checkbox, .div-radio-group, .div-button, .padding-div {
     padding-left: 4px;
     padding-right: 4px;
 }
@@ -95,37 +95,62 @@ mat-radio-button{
     top: auto !important;
 }
 
+.mat-form-field-prefix{
+    margin-right: 0.3em;
+    top: auto !important
+}
+
+.paragraph-text-prefix{
+    width: fit-content;
+}
+
 /* Inizio gestione dimensione dei campi */
 .div-full{
     width: 100%;
+    display: inline-block;
 }
 
 .div-half{
     width: 50%;
+    display: inline-block;
 }
 
 .div-a-third{
     width: 33.33%;
+    display: inline-block;
 }
 
 .div-a-quarter{
     width: 25%;
+    display: inline-block;
 }
 
 @media only screen and (max-width: 600px) {
     .div-full{
         width: 100%;
+        display: inline-block;
     }
     
     .div-half{
         width: 100%;
+        display: inline-block;
     }
     
     .div-a-third{
         width: 100%;
+        display: inline-block;
     }
     .div-a-quarter{
         width: 50%;
+        display: inline-block;
+    }
+
+    .mat-expansion-panel-body {
+        padding: 0 0.5em 0.5em !important;
+    }
+
+    .mat-form-field-suffix{
+        margin-left: 0.3em;
     }
 }
 
