@@ -184,6 +184,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
           Validators.required
         ])),
       }),
+      allegati_pratica: new FormGroup({
+        marca_bollo: new FormControl (Validators.compose([
+          Validators.required
+        ])),
+      })
     });
   }
 

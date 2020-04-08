@@ -283,7 +283,23 @@
                 <input matInput formControlName="particella_catasto" type="number">
                 <mat-error>{{getErrorMessage(form.get('dati_pratica').get('particella_catasto'))}}</mat-error>
             </mat-form-field>
-
+        </mat-expansion-panel>
+        <mat-expansion-panel formGroupName="allegati_pratica" expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Allegati pratica
+                </mat-panel-title>
+                <mat-panel-description>
+                Carica gli allegati necessari
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <!-- <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Marca da bollo</mat-label>
+                <input matInput formControlName="marca_bollo" type="file" accept=".pdf">
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
+            </mat-form-field> -->
+            <input formControlName="marca_bollo" type="file" accept=".pdf">
+            <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
         </mat-expansion-panel>
     </form>
 </div>
