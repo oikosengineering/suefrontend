@@ -8,6 +8,7 @@ import {MediaMatcher} from '@angular/cdk/layout';
 })
 export class AppComponent {
   isUserLoggedIn = false;
+  open = true;
   richieste = [
     {name: "Richiesta rottura suolo", link: "pratiche/richiesta-rottura-suolo"}
   ];

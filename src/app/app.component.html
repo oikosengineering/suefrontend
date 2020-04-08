@@ -10,7 +10,7 @@
   </mat-toolbar>
   
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+    <mat-sidenav #snav [opened]="mobileQuery.matches ? false : true" [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches">
       <mat-nav-list>
         <mat-list-item (click)="snav.toggle()" routerLink="">
