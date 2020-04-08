@@ -55,7 +55,6 @@ import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { UserComponent } from './user/user.component';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 @NgModule({
   declarations: [
@@ -116,8 +115,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatTreeModule,
     PortalModule,
     ScrollingModule,
-    FlexLayoutModule,
-    MaterialFileInputModule
+    FlexLayoutModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},

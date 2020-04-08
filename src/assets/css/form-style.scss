@@ -48,7 +48,7 @@ mat-radio-group.ng-invalid .mat-radio-outer-circle {
     border-color: rgb(244, 67, 54);
 }
 
-mat-expansion-panel.ng-invalid.ng-dirty {
+mat-expansion-panel.ng-invalid.ng-touched {
     border-left: solid 3px red;
 }
 
@@ -60,7 +60,8 @@ mat-radio-button{
     margin-left: 1em;
 }
 
-.mat-form-field, .div-checkbox, .div-radio-group, .div-button, .padding-div {
+.mat-form-field, .div-checkbox, .div-radio-group,
+ .div-button, .padding-div, .list-element {
     padding-left: 4px;
     padding-right: 4px;
 }
@@ -84,6 +85,10 @@ mat-radio-button{
 }
 
 .text-right input{
+    text-align: right;
+}
+
+.right-align{
     text-align: right;
 }
 

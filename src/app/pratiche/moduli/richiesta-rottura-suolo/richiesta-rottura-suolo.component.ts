@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
+import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-richiesta-rottura-suolo',
   templateUrl: './richiesta-rottura-suolo.component.html',
@@ -19,7 +20,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   pavimentazioni = [
     {name: "Stradale", value: 0, price: 200, min: 2500},
     {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
-  ]
+  ];
+  file_bollo = [];
   constructor(
     private fb: FormBuilder,
     private validationService: ValidationService
@@ -186,9 +188,14 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         ])),
       }),
       allegati_pratica: this.fb.group({
-        marca_bollo: new FormControl ('', Validators.compose([
-          Validators.required
-        ])),
+        marca_bollo: this.fb.group({
+          codice_bollo:new FormControl ('', Validators.compose([
+            Validators.required
+          ])),
+          file_bollo: new FormControl ('', Validators.compose([
+            Validators.required
+          ])),
+        }),
         planimetria1: new FormControl ('', Validators.compose([
           Validators.required
         ])),
@@ -243,6 +250,51 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   getErrorMessage(control: AbstractControl){
     return this.validationService.getErrorMessage(control);
+  }
+
+  changedTipologia(form: AbstractControl, event: MatSelectChange){
+    switch(event.value){
+      case 0:
+        form.get('nome').enable()
+        form.get('cognome').enable();
+        form.get('codicefiscale').enable();
+        form.get('genere').enable();
+        form.get('nascita_comune').enable();
+        form.get('nascita_provincia').enable();
+        form.get('nascita_stato').enable();
+        form.get('nascita_data').enable();
+        form.get('nascita_provincia').enable();
+        form.get('ragionesociale').clearValidators();
+        form.get('ragionesociale').updateValueAndValidity();
+        break;
+      case 1:
+        form.get('nome').disable()
+        form.get('cognome').disable();
+        form.get('codicefiscale').disable();
+        form.get('genere').disable();
+        form.get('nascita_comune').disable();
+        form.get('nascita_provincia').disable();
+        form.get('nascita_stato').disable();
+        form.get('nascita_data').disable();
+        form.get('nascita_provincia').disable();
+        form.get('ragionesociale').enable();
+        form.get('ragionesociale').setValidators([Validators.required]);
+        form.get('ragionesociale').updateValueAndValidity();
+        break;
+    }
+  }
+
+  uploadFile(event){
+    if(event.target.files[0]){
+      this.file_bollo.push(event.target.files[0]);
+    }
+  }
+
+  removeFile(target){
+    let index = this.file_bollo.indexOf(target);
+    if (index >= 0) {
+      this.file_bollo.splice(index, 1);
+    }
   }
 
   submit(){

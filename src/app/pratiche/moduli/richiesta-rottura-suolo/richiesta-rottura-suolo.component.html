@@ -11,7 +11,7 @@
             </mat-expansion-panel-header>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Tipologia</mat-label>
-                <mat-select formControlName="tipo_persona">
+                <mat-select formControlName="tipo_persona" (selectionChange)="changedTipologia(form.get('referente'), $event)">
                     <mat-option>Nessuna</mat-option>
                     <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
                         {{tipologia.name}}
@@ -293,35 +293,50 @@
                 Carica gli allegati necessari
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <!-- <mat-form-field class="div-full" appearance="outline">
-                <mat-label>Marca da bollo</mat-label>
-                <input matInput formControlName="marca_bollo" type="file" accept=".pdf">
+            <mat-card formGroupName="marca_bollo" class="div-full" appearance="outline">
+                <h2>Marca da bollo</h2>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Codice marca da bollo</mat-label>
+                    <input matInput formControlName="codice_bollo" type="number">
+                    <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo').get('codice_bollo'))}}</mat-error>
+                </mat-form-field>
+                <div class="div-a-third padding-div">Caricare il file appropriato:</div>
+                <div class="div-a-third right-align">
+                    <label class="upload-button" for="file_bollo">
+                        <div class="mat-raised-button">
+                            Aggiungi file
+                        </div>  
+                        <input id="file_bollo" (change)="uploadFile($event)" hidden formControlName="file_bollo" type="file" accept=".pdf">
+                    </label>
+                </div>
+                <mat-nav-list class="div-full list-element" *ngIf="file_bollo.length > 0">
+                    <ng-container  *ngFor="let file of file_bollo">
+                        <mat-list-item >
+                            <p matLine >{{ file.name }}</p>
+                            <button mat-icon-button (click)="removeFile(file)">
+                               <mat-icon>cancel</mat-icon>
+                            </button>
+                            <mat-divider></mat-divider>
+                         </mat-list-item>
+                    </ng-container>
+                </mat-nav-list>
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
-            </mat-form-field> -->
-            <mat-form-field class="div-full" appearance="outline">
-                <mat-label>Marca da bollo</mat-label>
-                <ngx-mat-file-input formControlName="marca_bollo" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
-                <mat-icon matSuffix>folder</mat-icon>
-                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-full" appearance="outline">
+            </mat-card>
+            <!-- <mat-card class="div-full" appearance="outline">
                 <mat-label>Planimetria 1/500</mat-label>
-                <ngx-mat-file-input formControlName="planimetria1" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
-                <mat-icon matSuffix>folder</mat-icon>
+                <input formControlName="planimetria1" type="file" accept=".pdf">
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('planimetria1'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-full" appearance="outline">
+            </mat-card>
+            <mat-card class="div-full" appearance="outline">
                 <mat-label>Planimetria 1/100</mat-label>
-                <ngx-mat-file-input formControlName="planimetria2" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
-                <mat-icon matSuffix>folder</mat-icon>
+                <input formControlName="planimetria2" type="file" accept=".pdf">
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('planimetria2'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-full" appearance="outline">
+            </mat-card>
+            <mat-card class="div-full" appearance="outline">
                 <mat-label>Polizza fidejussoria</mat-label>
-                <ngx-mat-file-input formControlName="polizza_fidejussoria" placeholder="PDF file only" [accept]="'.pdf'"></ngx-mat-file-input>
-                <mat-icon matSuffix>folder</mat-icon>
+                <input formControlName="polizza_fidejussoria" type="file" accept=".pdf">
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('polizza_fidejussoria'))}}</mat-error>
-            </mat-form-field>
+            </mat-card> -->
         </mat-expansion-panel>
         <button class="button-login" mat-raised-button color="primary" (click)="submit()">Convalida</button>
     </form>
