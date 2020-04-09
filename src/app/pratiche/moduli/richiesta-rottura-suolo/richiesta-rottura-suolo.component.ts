@@ -22,6 +22,10 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
   ];
   file_bollo = [];
+  planimetria1 = [];
+  planimetria2 = [];
+  polizza_fidejussoria = [];
+  
   constructor(
     private fb: FormBuilder,
     private validationService: ValidationService
@@ -192,19 +196,25 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
           codice_bollo:new FormControl ('', Validators.compose([
             Validators.required
           ])),
-          file_bollo: new FormControl ('', Validators.compose([
+          file: new FormControl ('', Validators.compose([
             Validators.required
           ])),
         }),
-        planimetria1: new FormControl ('', Validators.compose([
-          Validators.required
-        ])),
-        planimetria2: new FormControl ('', Validators.compose([
-          Validators.required
-        ])),
-        polizza_fidejussoria: new FormControl ('', Validators.compose([
-          Validators.required
-        ])),
+        planimetria1: this.fb.group({
+          file: new FormControl ('', Validators.compose([
+            Validators.required
+          ])),
+        }),
+        planimetria2: this.fb.group({
+          file: new FormControl ('', Validators.compose([
+            Validators.required
+          ])),
+        }),
+        polizza_fidejussoria: this.fb.group({
+          file: new FormControl ('', Validators.compose([
+            Validators.required
+          ])),
+        }),
       })
     });
   }
@@ -286,17 +296,17 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   uploadFile(event, form: AbstractControl, control: string){
     if(event.target.files[0]){
-      this.file_bollo.push(event.target.files[0]);
+      this[control].push(event.target.files[0]);
       event.target.value = "";
-      form.get(control).disable()
+      form.get('file').disable()
     }
   }
 
   removeFile(target, form: AbstractControl, control: string){
-    let index = this.file_bollo.indexOf(target);
+    let index = this[control].indexOf(target);
     if (index >= 0) {
-      this.file_bollo.splice(index, 1);
-      form.get(control).enable()
+      this[control].splice(index, 1);
+      form.get('file').enable()
     }
   }
 

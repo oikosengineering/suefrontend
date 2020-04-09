@@ -306,7 +306,7 @@
                         <div class="mat-raised-button">
                             Aggiungi file
                         </div>  
-                        <input id="file_bollo" (change)="uploadFile($event, form.get('allegati_pratica').get('marca_bollo'), 'file_bollo')" hidden formControlName="file_bollo" type="file" accept=".pdf">
+                        <input id="file_bollo" (change)="uploadFile($event, form.get('allegati_pratica').get('marca_bollo'), 'file_bollo')" hidden formControlName="file" type="file" accept=".pdf">
                     </label>
                 </div>
                 <mat-nav-list class="div-full list-element" *ngIf="file_bollo.length > 0">
@@ -322,6 +322,79 @@
                 </mat-nav-list>
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('marca_bollo'))}}</mat-error>
             </mat-card>
+            <mat-card formGroupName="planimetria1" class="div-full" appearance="outline">
+                <h2>Planimetria 1/500</h2>
+                <div class="div-half">Caricare il file appropriato:</div>
+                <div class="div-half right-align">
+                    <label class="upload-button" for="planimetria1">
+                        <div class="mat-raised-button">
+                            Aggiungi file
+                        </div>  
+                        <input id="planimetria1" (change)="uploadFile($event, form.get('allegati_pratica').get('planimetria1'), 'planimetria1')" formControlName="file" hidden type="file" accept=".pdf">
+                    </label>
+                </div>
+                <mat-nav-list class="div-full list-element" *ngIf="planimetria1.length > 0">
+                    <ng-container  *ngFor="let file of planimetria1">
+                        <mat-list-item >
+                            <p matLine >{{ file.name }}</p>
+                            <button mat-icon-button (click)="removeFile(file, form.get('allegati_pratica').get('planimetria1'), 'planimetria1')">
+                               <mat-icon>cancel</mat-icon>
+                            </button>
+                            <mat-divider></mat-divider>
+                         </mat-list-item>
+                    </ng-container>
+                </mat-nav-list>
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('planimetria1'))}}</mat-error>
+            </mat-card>
+            <mat-card formGroupName="planimetria2" class="div-full" appearance="outline">
+                <h2>Planimetria 1/100</h2>
+                <div class="div-half">Caricare il file appropriato:</div>
+                <div class="div-half right-align">
+                    <label class="upload-button" for="planimetria2">
+                        <div class="mat-raised-button">
+                            Aggiungi file
+                        </div>  
+                        <input id="planimetria2" (change)="uploadFile($event, form.get('allegati_pratica').get('planimetria2'), 'planimetria2')" formControlName="file" hidden type="file" accept=".pdf">
+                    </label>
+                </div>
+                <mat-nav-list class="div-full list-element" *ngIf="planimetria2.length > 0">
+                    <ng-container  *ngFor="let file of planimetria2">
+                        <mat-list-item >
+                            <p matLine >{{ file.name }}</p>
+                            <button mat-icon-button (click)="removeFile(file, form.get('allegati_pratica').get('planimetria2'), 'planimetria2')">
+                               <mat-icon>cancel</mat-icon>
+                            </button>
+                            <mat-divider></mat-divider>
+                         </mat-list-item>
+                    </ng-container>
+                </mat-nav-list>
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('planimetria2'))}}</mat-error>
+            </mat-card>
+            <mat-card formGroupName="polizza_fidejussoria" class="div-full" appearance="outline">
+                <h2>Polizza fidejussoria</h2>
+                <div class="div-half">Caricare il file appropriato:</div>
+                <div class="div-half right-align">
+                    <label class="upload-button" for="polizza_fidejussoria">
+                        <div class="mat-raised-button">
+                            Aggiungi file
+                        </div>  
+                        <input id="polizza_fidejussoria" (change)="uploadFile($event, form.get('allegati_pratica').get('polizza_fidejussoria'), 'polizza_fidejussoria')" formControlName="file" hidden type="file" accept=".pdf">
+                    </label>
+                </div>
+                <mat-nav-list class="div-full list-element" *ngIf="polizza_fidejussoria.length > 0">
+                    <ng-container  *ngFor="let file of polizza_fidejussoria">
+                        <mat-list-item >
+                            <p matLine >{{ file.name }}</p>
+                            <button mat-icon-button (click)="removeFile(file, form.get('allegati_pratica').get('polizza_fidejussoria'), 'polizza_fidejussoria')">
+                               <mat-icon>cancel</mat-icon>
+                            </button>
+                            <mat-divider></mat-divider>
+                         </mat-list-item>
+                    </ng-container>
+                </mat-nav-list>
+                <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('polizza_fidejussoria'))}}</mat-error>
+            </mat-card>
+            
             <!-- <mat-card class="div-full" appearance="outline">
                 <mat-label>Planimetria 1/500</mat-label>
                 <input formControlName="planimetria1" type="file" accept=".pdf">

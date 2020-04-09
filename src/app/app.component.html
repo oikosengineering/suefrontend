@@ -19,12 +19,12 @@
     <mat-sidenav #snav [opened]="mobileQuery.matches ? false : true" [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches">
       <mat-nav-list>
-        <mat-list-item (click)="snav.toggle()" routerLink="">
+        <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="">
             <h4 matLine>Home</h4>
         </mat-list-item>
         <mat-divider></mat-divider>
         <h3 matSubheader>Pratiche</h3>
-          <mat-list-item (click)="snav.toggle()" routerLink="nuova-pratica">
+          <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="nuova-pratica">
             <h4 matLine>Nuova Pratica</h4>
           </mat-list-item>
         <mat-divider></mat-divider>
