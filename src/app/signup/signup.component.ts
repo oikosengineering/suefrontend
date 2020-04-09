@@ -53,6 +53,11 @@ export class SignupComponent implements OnInit {
           Validators.required
         ]
       )],
+      privacy: [false, Validators.compose(
+        [
+          Validators.requiredTrue
+        ]
+      )]
     }, { validator: atLeastOnecfpiva(Validators.required, ['codicefiscale','partitaiva'])});
     this.form.get('password2').setValidators(passwordMatch('password'));
     this.form.get('password2').updateValueAndValidity();
@@ -93,7 +98,7 @@ export class SignupComponent implements OnInit {
       case 'codicefiscale':
         return [Validators.required, Validators.pattern("/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i")];
       case 'partitaiva':
-        return [Validators.required, Validators.maxLength(11), Validators.minLength(11)];
+        return [Validators.required, Validators.pattern("/[A-Z]{2}\d{11}$/i")];
     }
   }
 
@@ -102,8 +107,7 @@ export class SignupComponent implements OnInit {
       case 'codicefiscale':
         return [Validators.pattern("/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i")];
       case 'partitaiva':
-        console.log('entrato');
-        return [Validators.maxLength(11), Validators.minLength(11)];
+        return [Validators.pattern("/[A-Z]{2}\d{11}$/i")];
     }
   }
 
