@@ -12,6 +12,10 @@
     vertical-align: middle;
 }
 
+.button-login{
+    margin-left: 4px !important;
+}
+
 .div-buttons span {
     margin-top: auto;
     margin-bottom: auto;
@@ -157,14 +161,6 @@ mat-radio-button{
     .div-a-quarter{
         width: 50%;
         display: inline-block;
-    }
-
-    .mat-expansion-panel-body {
-        padding: 0 0.5em 0.5em !important;
-    }
-
-    .mat-form-field-suffix{
-        margin-left: 0.3em;
     }
 }
 

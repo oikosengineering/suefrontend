@@ -29,12 +29,11 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
   }
 
   saveEvent(event){
+    console.log(event);
     this.saved_form = event;
   }
 
   canDeactivate(): Observable<boolean> | boolean {
-    console.log("ciao");
-    console.log(this.saved_form);
     if (!this.saved_form) {
       return window.confirm('Are you sure?');
     }

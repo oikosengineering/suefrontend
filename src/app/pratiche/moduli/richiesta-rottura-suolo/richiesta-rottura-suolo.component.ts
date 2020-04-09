@@ -40,13 +40,18 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.form.valueChanges.subscribe(value => {
-      this.saved_form = false;
-      this.saved.emit(this.saved_form);
+      if(this.form.touched){
+        this.saved_form = false;
+        this.saved.emit(this.saved_form);
+      }
     })
   }
 
-  save() {
+  save(event) {
+    event.preventDefault();
+    event.stopPropagation();
     this.saved_form = true;
+    this.form.markAsUntouched();
     this.saved.emit(this.saved_form);
   }
 
