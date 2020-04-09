@@ -1,7 +1,11 @@
 <div class="container">
   <mat-toolbar color="primary" class="toolbar main-menu">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <h1 routerLink="" class="app-name">{{title}}</h1>
+    <span class="municipality__squared">
+      <img src="../assets/img/stemma.png" alt="">
+    </span>
+    <span class="municipality__name">{{title}}</span>
+    <h1 routerLink="" class="app-name"></h1>
     <span class="example-fill-remaining-space"></span>
     <button mat-button *ngIf="!isUserLoggedIn" routerLink="/login">
       <mat-icon>account_circle</mat-icon>

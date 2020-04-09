@@ -12,7 +12,7 @@ export class AppComponent {
   richieste = [
     {name: "Richiesta rottura suolo", link: "pratiche/richiesta-rottura-suolo"}
   ];
-  title = 'Oikos pratiche';
+  title = 'Comune di Chiavari';
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
