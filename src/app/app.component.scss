@@ -43,20 +43,30 @@ h1.app-name {
     width: 55px;
     height: 55px;
     line-height: 80px;
+    outline: none;
 }
 .municipality__squared img{
-    width: 100%;
-    height: 100%;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
+    vertical-align: middle;
 }
 
 .municipality__name {
     padding-left: 10px;
     font-size: 32px;
+    outline: none;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {
     .municipality__squared {
+        width: 40px;
+        height: 40px;
+        line-height: 60px;
+    }
+    .municipality__squared img{
         width: 40px;
         height: 40px;
         line-height: 60px;
