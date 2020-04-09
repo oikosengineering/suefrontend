@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CanComponentDeactivate } from 'src/app/core/guards/can-deactivate.guard';
 import { Observable } from 'rxjs';
+import { CanComponentDeactivate } from 'src/app/core/guards/can-deactivate.guard';
 
 @Component({
   selector: 'app-modulo',
@@ -13,6 +13,12 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
   idModulo;
   idPratica;
   saved_form = true;
+  @HostListener('window:beforeunload') canDeactivate(): Observable<boolean> | boolean {
+    if (!this.saved_form) {
+      return window.confirm('Are you sure?');
+    }
+    return true;
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -32,12 +38,5 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
     console.log(event);
     this.saved_form = event;
   }
-
-  canDeactivate(): Observable<boolean> | boolean {
-    if (!this.saved_form) {
-      return window.confirm('Are you sure?');
-    }
-    return true;
-} 
 
 }

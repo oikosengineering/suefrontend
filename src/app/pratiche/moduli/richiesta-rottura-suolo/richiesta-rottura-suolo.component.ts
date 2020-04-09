@@ -22,7 +22,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Stradale", value: 0, price: 200, min: 2500},
     {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
   ];
-
+  
   @Output() saved = new EventEmitter<boolean>();
 
   saved_form = true;
