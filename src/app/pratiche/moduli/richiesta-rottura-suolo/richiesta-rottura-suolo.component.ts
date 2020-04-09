@@ -245,7 +245,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       return;
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
-    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)));
+    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24))+1);
   }
 
   multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string){
@@ -274,7 +274,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     if(form.get(target).value === null || form.get(target).value === '')
       return;
     let date: any = new Date(form.get(target).value);
-    return new Date(date.setDate(date.getDate() + 1));
+    return new Date(date.setDate(date.getDate()));
   }
 
   getErrorMessage(control: AbstractControl){

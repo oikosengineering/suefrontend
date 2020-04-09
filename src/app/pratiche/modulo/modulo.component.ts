@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CanComponentDeactivate } from 'src/app/core/guards/can-deactivate.guard';
+import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 
 @Component({
   selector: 'app-modulo',
@@ -13,15 +14,13 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
   idModulo;
   idPratica;
   saved_form = true;
-  @HostListener('window:beforeunload') canDeactivate(): Observable<boolean> | boolean {
-    if (!this.saved_form) {
-      return window.confirm('Are you sure?');
-    }
-    return true;
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+    $event.returnValue =false;
   }
 
   constructor(
     private route: ActivatedRoute,
+    private dialog: DialogMessageService
   ) {
     this.route.params.subscribe(routeParams => {
       console.log(routeParams);
@@ -37,6 +36,13 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
   saveEvent(event){
     console.log(event);
     this.saved_form = event;
+  }
+
+  canDeactivate(): Observable<boolean> | boolean {
+    if (!this.saved_form) {
+      return this.dialog.openDialog("Attenzione", "Stai per uscire dalla pratica senza aver salvato, sei sicuro?");
+    }
+    return true;
   }
 
 }
