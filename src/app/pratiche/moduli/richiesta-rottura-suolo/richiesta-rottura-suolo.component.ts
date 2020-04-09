@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
+
 @Component({
   selector: 'app-richiesta-rottura-suolo',
   templateUrl: './richiesta-rottura-suolo.component.html',
@@ -21,6 +22,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Stradale", value: 0, price: 200, min: 2500},
     {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
   ];
+
+  @Output() saved = new EventEmitter<boolean>();
+
+  saved_form = true;
+
   file_bollo = [];
   planimetria1 = [];
   planimetria2 = [];
@@ -33,6 +39,15 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.form.valueChanges.subscribe(value => {
+      this.saved_form = false;
+      this.saved.emit(this.saved_form);
+    })
+  }
+
+  save() {
+    this.saved_form = true;
+    this.saved.emit(this.saved_form);
   }
 
   createForm(){

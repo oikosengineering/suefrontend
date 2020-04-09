@@ -57,6 +57,7 @@ import { SignupComponent } from './signup/signup.component';
 import { UserComponent } from './user/user.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor.service';
+import { CanDeactivateGuard } from './core/guards/can-deactivate.guard';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { AuthInterceptor } from './core/interceptors/auth-interceptor.service';
     FlexLayoutModule
   ],
   providers: [
+    CanDeactivateGuard,
     {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
