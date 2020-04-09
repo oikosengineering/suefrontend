@@ -80,7 +80,6 @@ export class SignupComponent implements OnInit {
       return true;
     } else {
       this.form.get(field).clearValidators();
-      this.form.get(field).updateValueAndValidity();
       this.form.get(field).setValidators(this.safeValidators(field));
       this.form.get(field).updateValueAndValidity();
       return false;

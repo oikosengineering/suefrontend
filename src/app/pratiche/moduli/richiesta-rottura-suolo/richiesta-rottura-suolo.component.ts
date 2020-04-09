@@ -25,7 +25,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   planimetria1 = [];
   planimetria2 = [];
   polizza_fidejussoria = [];
-  
+
   constructor(
     private fb: FormBuilder,
     private validationService: ValidationService
@@ -87,7 +87,6 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         ])),
         telefono: new FormControl('', Validators.compose([
           Validators.required,
-          Validators.pattern('/(0[1-9]|[12][0-9]|3[01])[\/](0[1-9]|1[012])[\/](19|20)\d\d/')
         ])),
         cellulare: new FormControl('', Validators.compose([
           Validators.required,
@@ -276,6 +275,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('nascita_provincia').enable();
         form.get('ragionesociale').clearValidators();
         form.get('ragionesociale').updateValueAndValidity();
+        form.get('partitaiva').clearValidators();
+        form.get('partitaiva').updateValueAndValidity();
         break;
       case 1:
         form.get('nome').disable()
@@ -290,8 +291,22 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('ragionesociale').enable();
         form.get('ragionesociale').setValidators([Validators.required]);
         form.get('ragionesociale').updateValueAndValidity();
+        form.get('partitaiva').enable();
+        form.get('partitaiva').setValidators([Validators.required]);
+        form.get('partitaiva').updateValueAndValidity();
         break;
     }
+  }
+
+  check(form: AbstractControl, field: string, target: string){
+    if(form.get(field).value == '' || form.get(field).value == null || form.get(field).value === undefined){
+      form.get(target).setValidators(Validators.required);
+      form.get(target).updateValueAndValidity();
+    } else {
+      form.get(target).clearValidators();
+      form.get(target).updateValueAndValidity();
+    }
+    
   }
 
   uploadFile(event, form: AbstractControl, control: string){
