@@ -55,6 +55,8 @@ import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { UserComponent } from './user/user.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -119,6 +121,7 @@ import { UserComponent } from './user/user.component';
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
