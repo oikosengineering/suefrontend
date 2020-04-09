@@ -58,6 +58,7 @@ import { UserComponent } from './user/user.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor.service';
 import { CanDeactivateGuard } from './core/guards/can-deactivate.guard';
+import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { CanDeactivateGuard } from './core/guards/can-deactivate.guard';
     NuovaPraticaComponent,
     LoginComponent,
     SignupComponent,
-    UserComponent
+    UserComponent,
+    MiePraticheComponent
   ],
   imports: [
     BrowserModule,
