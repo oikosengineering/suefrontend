@@ -78,14 +78,14 @@ measureTooltip;
  * Message to show when the user is drawing a polygon.
  * @type {string}
  */
-continuePolygonMsg = 'Click to continue drawing the polygon';
+continuePolygonMsg = 'Clicca per continuare a disegnare il poligono';
 
 
 /**
  * Message to show when the user is drawing a line.
  * @type {string}
  */
-continueLineMsg = 'Click to continue drawing the line';
+continueLineMsg = 'Clicca per continuare a disegnare la linea';
 
 listener;
 
@@ -133,12 +133,13 @@ listener;
       target: "map",
       layers: [
         new TileLayer({
-          source: new OSM()
+          source: new OSM(),
         }),
         this.vector,
         this.vector_cantiere
       ],
       view: new View({
+        projection: 'EPSG:3857',
         center: proj.fromLonLat([9.32, 44.32]),
         zoom: 14
       })
@@ -219,7 +220,7 @@ listener;
           return;
         }
         /** @type {string} */
-        var helpMsg = 'Click to start drawing';
+        var helpMsg = 'Clicca per iniziare a disegnare';
       
         if (this.sketch) {
           var geom = this.sketch.getGeometry();
@@ -273,7 +274,7 @@ listener;
     var area = getArea(polygon);
     var output;
 
-    output = (Math.round(area * 100) / 1000) + ' ' + 'm<sup>2</sup>';
+    output = (Math.round(area * 100) / 100) + ' ' + 'm<sup>2</sup>';
     return output;
   };
 

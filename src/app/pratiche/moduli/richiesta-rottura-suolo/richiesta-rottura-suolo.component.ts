@@ -348,6 +348,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   }
 
   openMap(){
+    event.preventDefault();
+    event.stopPropagation();
     this.dialog.openMap('').subscribe(value => {
       console.log('Mappa chiusa', value);
     }, error => {
