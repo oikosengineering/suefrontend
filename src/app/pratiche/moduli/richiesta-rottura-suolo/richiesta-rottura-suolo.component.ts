@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
+import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -34,7 +35,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private validationService: ValidationService
+    private validationService: ValidationService,
+    private dialog: DialogMessageService
   ) { }
 
   ngOnInit(): void {
@@ -343,6 +345,14 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       this[control].splice(index, 1);
       form.get('file').enable()
     }
+  }
+
+  openMap(){
+    this.dialog.openMap('').subscribe(value => {
+      console.log('Mappa chiusa', value);
+    }, error => {
+      console.log('errore mappa')
+    });
   }
 
   submit(){
