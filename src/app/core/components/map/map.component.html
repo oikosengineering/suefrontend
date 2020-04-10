@@ -1,7 +1,10 @@
 <div mat-dialog-content class="container-map">
     <div id="map" class="map"></div>
     <div class="panel">
-        <button (click)="addInteraction('Polygon')">
+        <button (click)="addInteraction('Polygon', 'source')">
+            Area scavo
+        </button>
+        <button (click)="addInteraction('Polygon', 'source_cantiere')">
             Area scavo
         </button>
         <button (click)="removeSelectedFeature()">
