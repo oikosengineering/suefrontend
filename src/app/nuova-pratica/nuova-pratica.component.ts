@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ValidationService } from '../core/services/validation.service';
 
 @Component({
   selector: 'app-nuova-pratica',
@@ -17,7 +18,8 @@ export class NuovaPraticaComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private validationService: ValidationService
   ) {}
 
   ngOnInit() {
@@ -38,6 +40,10 @@ export class NuovaPraticaComponent implements OnInit {
         ]
       )]
     });
+  }
+
+  getErrorMessage(control: AbstractControl){
+    return this.validationService.getErrorMessage(control);
   }
 
   getPratica(){

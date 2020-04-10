@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
 
 
 const routes: Routes = [
@@ -15,14 +16,15 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'nuova-pratica', component: NuovaPraticaComponent },
       { path: 'login', component: LoginComponent},
-      { path: 'signup', component: SignupComponent}
+      { path: 'signup', component: SignupComponent},
+      { path: 'mie-pratiche', component: MiePraticheComponent}
     ],
 
   },
   {
     path: 'pratiche/:idModulo/:idPratica',
     loadChildren: () => import('./pratiche/pratiche.module').then(mod => mod.PraticheModule),
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 ];
 

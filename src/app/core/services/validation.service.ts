@@ -16,7 +16,8 @@ export class ValidationService {
       'pattern': `Valore non valido`,
       'atLeastOnecfpiva': "Uno dei due campi 'Codice fiscale' o 'Partita IVA' deve essere compilato.",
       'mismatchPsw': "Le password non sono uguali.",
-      'min': `Il valore minimo è ${validatorValue.min}`
+      'min': `Il valore minimo è ${validatorValue.min}`,
+      'atLeastOnetelcel': "Uno dei due campi 'Telefono' o 'Cellulare' deve essere compilato."
     };
     return validation_messages[validatorName];
   }

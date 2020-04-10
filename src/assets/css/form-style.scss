@@ -12,6 +12,10 @@
     vertical-align: middle;
 }
 
+.button-login{
+    margin-left: 4px !important;
+}
+
 .div-buttons span {
     margin-top: auto;
     margin-bottom: auto;
@@ -62,6 +66,11 @@ mat-expansion-panel.ng-valid{
 
 mat-radio-button{
     margin-left: 1em;
+}
+
+.upload-button .mat-raised-button {
+    background-color: #3f51b5;
+    color: white;
 }
 
 .mat-form-field, .div-checkbox, .div-radio-group,
@@ -152,14 +161,6 @@ mat-radio-button{
     .div-a-quarter{
         width: 50%;
         display: inline-block;
-    }
-
-    .mat-expansion-panel-body {
-        padding: 0 0.5em 0.5em !important;
-    }
-
-    .mat-form-field-suffix{
-        margin-left: 0.3em;
     }
 }
 
