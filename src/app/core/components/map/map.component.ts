@@ -25,6 +25,10 @@ export class MapComponent implements AfterViewInit {
   source: VectorSource;
   vector: VectorLayer;
   draw: Draw;
+  select: Select;
+  featureID = 0;
+  selectedFeatureID;
+
   constructor(public dialogRef: MatDialogRef<MapComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngAfterViewInit(): void {
@@ -46,14 +50,14 @@ export class MapComponent implements AfterViewInit {
         }),
       })
     });
-    let select = new Select();
+    this.select = new Select();
     
     var modify = new Modify({
-      features: select.getFeatures()
+      features: this.select.getFeatures()
     });
 
     this.map = new  Map({
-      interactions: defaultInteractions().extend([select, modify]),
+      interactions: defaultInteractions().extend([this.select, modify]),
       target: "map",
       layers: [
         new TileLayer({
@@ -67,6 +71,10 @@ export class MapComponent implements AfterViewInit {
       })
     });
     this.vector.getSource().on('addfeature', () => this.onDrawEnd());
+    this.select.getFeatures().on('add', function (event) {
+      var properties = event.element.getProperties();
+      this.selectedFeatureID = properties.id;       
+     });
   }
 
   addInteraction(value) {
@@ -75,6 +83,13 @@ export class MapComponent implements AfterViewInit {
         source: this.source,
         type: value
       });
+      this.draw.on('drawend', (event) => {
+        console.log("drawend")
+        this.featureID = this.featureID + 1;
+        event.feature.setId(this.featureID);
+        console.log(event.feature);
+        console.log(this.featureID);
+     })
       this.map.addInteraction(this.draw);
     }
   }
@@ -83,5 +98,25 @@ export class MapComponent implements AfterViewInit {
     console.log('entrato');
     this.map.removeInteraction(this.draw);
   }
+
+  printInfo(){
+    console.log(this.select.getFeatures());
+  }
+
+  removeSelectedFeature() {
+    let features = this.source.getFeatures();
+      if (features != null && features.length > 0) {
+          features.forEach(feature => {
+             let properties = feature.getProperties();
+             console.log(properties);
+             var id = properties.id;
+             if (id == this.selectedFeatureID) {
+               this.source.removeFeature(feature);
+                return;
+             }
+           }
+          )
+         }
+       }
 
 }
