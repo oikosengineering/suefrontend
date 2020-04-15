@@ -36,6 +36,8 @@ export class MapComponent implements AfterViewInit {
   vector_cantiere: VectorLayer;
   draw: Draw;
   select: Select;
+  translate;
+  modify;
 
   style = new Style({
     fill: new Fill({
@@ -81,17 +83,11 @@ export class MapComponent implements AfterViewInit {
     });
     
     this.select = new Select();
-    var modify = new Modify({
-      features: this.select.getFeatures()
-    });
-    var translate = new Translate({
-      features: this.select.getFeatures()
-    });
-    var element = document.createElement('button');
-    var myControl = new Control({element: element});
 
+    var element = document.getElementById('panel_options');
+    var panel = new Control({element: element});
     this.map = new  Map({
-      interactions: defaultInteractions().extend([this.select, modify, translate]),
+      interactions: defaultInteractions().extend([this.select]),
       controls: defaultControls().extend([
         new FullScreen(),
         new ScaleLine({
@@ -99,7 +95,7 @@ export class MapComponent implements AfterViewInit {
           text: true,
           steps: 1
         }),
-        myControl
+        panel,
       ]),
       target: "map",
       layers: [
@@ -134,14 +130,38 @@ export class MapComponent implements AfterViewInit {
 
   }
 
+  onTranslate(){
+    if(!this.translate){
+      this.translate = new Translate({
+        features: this.select.getFeatures()
+      });
+      this.map.addInteraction(this.translate);
+    } else {
+      this.map.removeInteraction(this.translate);
+      this.translate = null;
+    }
+  }
+
+  onModify(){
+    if(!this.modify){
+      this.modify = new Modify({
+        features: this.select.getFeatures()
+      });
+      this.map.addInteraction(this.modify);
+    } else {
+      this.map.removeInteraction(this.modify);
+      this.modify = null;
+    }
+  }
+
   onDrawStart(event){
     this.select.setActive(false);
   }
 
   onDrawEnd(event){
     console.log(event);
-    this.select.setActive(true);
     this.map.removeInteraction(this.draw);
+    this.select.setActive(true);
   }
 
   printInfo(event){

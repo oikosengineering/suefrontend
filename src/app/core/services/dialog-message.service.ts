@@ -23,8 +23,8 @@ export class DialogMessageService {
   openMap(data: any) {
     console.log('entrato');
     const dialogRef = this.dialog.open(MapComponent, {
-      width: '95%',
-      height: '95%',
+      width: '100%',
+      height: '100%',
       data: data
     });
 

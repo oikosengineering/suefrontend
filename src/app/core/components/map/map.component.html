@@ -1,14 +1,25 @@
-<div mat-dialog-content class="container-map">
+<div mat-dialog-content>
     <div id="map" class="map"></div>
-    <div class="panel">
-        <button (click)="addInteraction('Polygon')">
+    
+    
+    <!-- <button mat-button class="menu_button">
+        <mat-icon>menu</mat-icon>
+    </button> -->
+    <div id="panel_options" class="sidepanel">
+        <button mat-raised-button (click)="addInteraction('Polygon')">
             Area scavo
         </button>
-        <button (click)="addInteraction('Polygon')">
-            Area scavo
+        <button class="div-full" mat-raised-button (click)="addInteraction('Polygon')">
+            Area cantiere
         </button>
-        <!-- <button (click)="removeSelectedFeature()">
-            Cangella geometrie
-        </button> -->
+        
+        <button mat-raised-button (click)="onModify()">
+            <mat-icon *ngIf="modify">done</mat-icon>
+            Modifica
+        </button>
+        <button mat-raised-button (click)="onTranslate()">
+            <mat-icon *ngIf="translate">done</mat-icon>
+            Sposta
+        </button>
     </div>
 </div>
