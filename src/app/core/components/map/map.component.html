@@ -6,10 +6,7 @@
         <mat-icon>menu</mat-icon>
     </button> -->
     <div id="panel_options" class="sidepanel">
-        <mat-toolbar class="menu_panel">
-            <button mat-button>
-                <mat-icon>menu</mat-icon>
-            </button>
+        <mat-card class="menu_panel">
             <span class="example-fill-remaining-space"></span>
             <mat-form-field appearance="legacy" floatLabel="never">
                 <input matInput placeholder="Cerca...">
@@ -17,49 +14,33 @@
                     <mat-icon>search</mat-icon>
                 </button>
             </mat-form-field>
-        </mat-toolbar>
-        <button mat-raised-button (click)="addInteraction('Polygon')">
-            Area scavo
+        </mat-card>
+        <button mat-raised-button (click)="addInteraction('Polygon')" matTooltip="Disegna poligono" matTooltipPosition="after" [ngClass]="draw ? 'selected_button' : ''">
+           <fa-icon icon="draw-polygon"></fa-icon> Scavo
         </button>
-        
-        
-        <!-- <mat-button-toggle-group vertical name="editing" aria-label="Font Style">
-            <mat-button-toggle (click)="onModify()"><fa-icon icon="edit"></fa-icon></mat-button-toggle>
-            <mat-button-toggle (click)="onTranslate()"><fa-icon icon="arrows-alt"></fa-icon></mat-button-toggle>
-        </mat-button-toggle-group> -->
-        <!-- <button mat-raised-button (click)="addInteraction('Polygon')">
-            Area scavo
-        </button>
-        <button class="div-full" mat-raised-button (click)="addInteraction('Polygon')">
-            Area cantiere
-        </button>
-        
-        <button mat-raised-button (click)="onModify()">
-            <mat-icon *ngIf="modify">done</mat-icon>
-            Modifica
-        </button>
-        <button mat-raised-button (click)="onTranslate()">
-            <mat-icon *ngIf="translate">done</mat-icon>
-            Sposta
-        </button> -->
     </div>
     <div id="edit_panel" [hidden]="!(source && source.getFeatures().length > 0)">
-        <button mat-stroked-button matTooltip="Modifica" matTooltipPosition="after" (click)="onModify()">
-            <fa-icon icon="pen">
-            </fa-icon>
-            <fa-icon *ngIf="modify" icon="ban" class="nested_icon"></fa-icon>
+        <button mat-raised-button matTooltip="Modifica" matTooltipPosition="after" (click)="onModify()" [ngClass]="modify ? 'selected_button' : ''">
+            <fa-icon icon="pen"></fa-icon>
         </button>
-        <button mat-stroked-button matTooltip="Sposta" matTooltipPosition="after" (click)="onTranslate()">
+        <button mat-raised-button matTooltip="Sposta" matTooltipPosition="after" (click)="onTranslate()" [ngClass]="translate ? 'selected_button' : ''">
             <fa-icon icon="arrows-alt"></fa-icon>
-            <fa-icon *ngIf="translate" icon="ban" class="nested_icon"></fa-icon>
         </button>
-        <button mat-stroked-button matTooltip="Cancella" matTooltipPosition="after" (click)="onCancel()">
+        <button mat-raised-button matTooltip="Cancella" matTooltipPosition="after" (click)="onCancel()">
             <fa-icon icon="eraser"></fa-icon>
         </button>
     </div>
     <div id="close_panel">
-        <button mat-stroked-button matTooltip="Chiudi mappa" matTooltipPosition="below" (click)="close()">
+        <button mat-raised-button matTooltip="Chiudi mappa" matTooltipPosition="below" (click)="close()">
             <fa-icon icon="times"></fa-icon>
+        </button>
+    </div>
+    <div id="zoom_panel">
+        <button mat-raised-button matTooltip="Zoom in" matTooltipPosition="before" (click)="zoomIn()">
+            <fa-icon icon="plus"></fa-icon>
+        </button>
+        <button mat-raised-button matTooltip="Zoom out" matTooltipPosition="before" (click)="zoomOut()">
+            <fa-icon icon="minus"></fa-icon>
         </button>
     </div>
 </div>

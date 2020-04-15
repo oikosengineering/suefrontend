@@ -21,6 +21,7 @@ import OverlayPositioning from 'ol/OverlayPositioning';
 import {unByKey} from 'ol/Observable';
 import {defaults as defaultControls, FullScreen, Control} from 'ol/control';
 import ScaleLine from 'ol/control/ScaleLine';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map',
@@ -70,7 +71,11 @@ export class MapComponent implements AfterViewInit {
     })
   })
 
-  constructor(public dialogRef: MatDialogRef<MapComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(
+    public dialogRef: MatDialogRef<MapComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _snackBar: MatSnackBar
+    ) { }
 
   ngAfterViewInit(): void {
     this.createMap();
@@ -91,9 +96,18 @@ export class MapComponent implements AfterViewInit {
     var edit_panel = new Control({element: edit_options});
     var close_options = document.getElementById('close_panel');
     var close_panel = new Control({element: close_options});
+    var zoom_options = document.getElementById('zoom_panel');
+    var zoom_panel = new Control({element: zoom_options});
     this.map = new  Map({
       interactions: defaultInteractions().extend([this.select]),
-      controls: defaultControls().extend([
+      controls: defaultControls(
+        {
+          zoom: false,
+          attributionOptions: {
+            collapsible: true
+          }
+        }
+      ).extend([
         new ScaleLine({
           bar: true,
           text: true,
@@ -101,7 +115,8 @@ export class MapComponent implements AfterViewInit {
         }),
         panel,
         edit_panel,
-        close_panel
+        close_panel,
+        zoom_panel
       ]),
       target: "map",
       layers: [
@@ -123,7 +138,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   addInteraction(value) {
-    if (value !== 'None') {
+    if (!this.draw) {
       this.draw = new Draw({
         source: this.source,
         type: value,
@@ -132,6 +147,9 @@ export class MapComponent implements AfterViewInit {
       this.draw.on('drawstart', (event) => this.onDrawStart(event));
       this.draw.on('drawend', (event) => this.onDrawEnd(event));
       this.map.addInteraction(this.draw);
+    } else {
+      this.map.removeInteraction(this.draw);
+      this.draw = null;
     }
 
   }
@@ -174,6 +192,19 @@ export class MapComponent implements AfterViewInit {
       selected_feature.forEach(feature => {
         this.source.removeFeature(feature);
       });
+      this._snackBar.open("Elementi cancellati", null, {duration: 2000});
+    } else {
+      this._snackBar.open("Nessuna geometria selezionata", null, {duration: 2000});
+    }
+    if(this.source.getFeatures().length == 0){
+      if(this.translate){
+        this.map.removeInteraction(this.translate);
+        this.translate = null;
+      }
+      if(this.modify){
+        this.map.removeInteraction(this.modify);
+        this.modify = null;
+      }
     }
   }
 
@@ -184,6 +215,7 @@ export class MapComponent implements AfterViewInit {
   onDrawEnd(event){
     console.log(event);
     this.map.removeInteraction(this.draw);
+    this.draw = null;
     this.activeLater();
   }
 
@@ -224,5 +256,17 @@ export class MapComponent implements AfterViewInit {
 
   close(){
     this.dialogRef.close();
+  }
+
+  zoomIn(){
+    var view = this.map.getView();
+    var zoom = view.getZoom();
+    view.setZoom(zoom + 1);
+  }
+
+  zoomOut(){
+    var view = this.map.getView();
+    var zoom = view.getZoom();
+    view.setZoom(zoom - 1);
   }
 }
