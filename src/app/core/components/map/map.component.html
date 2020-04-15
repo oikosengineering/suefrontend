@@ -6,7 +6,28 @@
         <mat-icon>menu</mat-icon>
     </button> -->
     <div id="panel_options" class="sidepanel">
+        <mat-toolbar class="menu_panel">
+            <button mat-button>
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span class="example-fill-remaining-space"></span>
+            <mat-form-field appearance="legacy" floatLabel="never">
+                <input matInput placeholder="Cerca...">
+                <button mat-button matSuffix matTooltip="Cerca" matTooltipPosition="below" (click)="search()">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+        </mat-toolbar>
         <button mat-raised-button (click)="addInteraction('Polygon')">
+            Area scavo
+        </button>
+        
+        
+        <!-- <mat-button-toggle-group vertical name="editing" aria-label="Font Style">
+            <mat-button-toggle (click)="onModify()"><fa-icon icon="edit"></fa-icon></mat-button-toggle>
+            <mat-button-toggle (click)="onTranslate()"><fa-icon icon="arrows-alt"></fa-icon></mat-button-toggle>
+        </mat-button-toggle-group> -->
+        <!-- <button mat-raised-button (click)="addInteraction('Polygon')">
             Area scavo
         </button>
         <button class="div-full" mat-raised-button (click)="addInteraction('Polygon')">
@@ -20,6 +41,25 @@
         <button mat-raised-button (click)="onTranslate()">
             <mat-icon *ngIf="translate">done</mat-icon>
             Sposta
+        </button> -->
+    </div>
+    <div id="edit_panel" [hidden]="!(source && source.getFeatures().length > 0)">
+        <button mat-stroked-button matTooltip="Modifica" matTooltipPosition="after" (click)="onModify()">
+            <fa-icon icon="pen">
+            </fa-icon>
+            <fa-icon *ngIf="modify" icon="ban" class="nested_icon"></fa-icon>
+        </button>
+        <button mat-stroked-button matTooltip="Sposta" matTooltipPosition="after" (click)="onTranslate()">
+            <fa-icon icon="arrows-alt"></fa-icon>
+            <fa-icon *ngIf="translate" icon="ban" class="nested_icon"></fa-icon>
+        </button>
+        <button mat-stroked-button matTooltip="Cancella" matTooltipPosition="after" (click)="onCancel()">
+            <fa-icon icon="eraser"></fa-icon>
+        </button>
+    </div>
+    <div id="close_panel">
+        <button mat-stroked-button matTooltip="Chiudi mappa" matTooltipPosition="below" (click)="close()">
+            <fa-icon icon="times"></fa-icon>
         </button>
     </div>
 </div>

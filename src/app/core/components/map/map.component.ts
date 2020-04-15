@@ -38,6 +38,7 @@ export class MapComponent implements AfterViewInit {
   select: Select;
   translate;
   modify;
+  eraser;
 
   style = new Style({
     fill: new Fill({
@@ -86,16 +87,21 @@ export class MapComponent implements AfterViewInit {
 
     var element = document.getElementById('panel_options');
     var panel = new Control({element: element});
+    var edit_options = document.getElementById('edit_panel');
+    var edit_panel = new Control({element: edit_options});
+    var close_options = document.getElementById('close_panel');
+    var close_panel = new Control({element: close_options});
     this.map = new  Map({
       interactions: defaultInteractions().extend([this.select]),
       controls: defaultControls().extend([
-        new FullScreen(),
         new ScaleLine({
           bar: true,
           text: true,
-          steps: 1
+          steps: 2
         }),
         panel,
+        edit_panel,
+        close_panel
       ]),
       target: "map",
       layers: [
@@ -131,6 +137,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   onTranslate(){
+    if(this.modify){
+      this.map.removeInteraction(this.modify);
+      this.modify = null;
+    }
     if(!this.translate){
       this.translate = new Translate({
         features: this.select.getFeatures()
@@ -143,6 +153,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   onModify(){
+    if(this.translate){
+      this.map.removeInteraction(this.translate);
+      this.translate = null;
+    }
     if(!this.modify){
       this.modify = new Modify({
         features: this.select.getFeatures()
@@ -154,6 +168,15 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  onCancel(){
+    let selected_feature = this.select.getFeatures().getArray();
+    if(selected_feature.length > 0){
+      selected_feature.forEach(feature => {
+        this.source.removeFeature(feature);
+      });
+    }
+  }
+
   onDrawStart(event){
     this.select.setActive(false);
   }
@@ -161,7 +184,13 @@ export class MapComponent implements AfterViewInit {
   onDrawEnd(event){
     console.log(event);
     this.map.removeInteraction(this.draw);
-    this.select.setActive(true);
+    this.activeLater();
+  }
+
+  activeLater(){
+    setTimeout(() => {
+      this.select.setActive(true);
+    }, 300);
   }
 
   printInfo(event){
@@ -189,4 +218,11 @@ export class MapComponent implements AfterViewInit {
     return output;
   };
 
+  search(){
+    console.log("search");
+  }
+
+  close(){
+    this.dialogRef.close();
+  }
 }

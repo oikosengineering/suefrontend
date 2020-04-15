@@ -25,6 +25,8 @@ export class DialogMessageService {
     const dialogRef = this.dialog.open(MapComponent, {
       width: '100%',
       height: '100%',
+      maxWidth: '100%',
+      panelClass: 'map_dialog',
       data: data
     });
 

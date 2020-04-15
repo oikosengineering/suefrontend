@@ -21,6 +21,8 @@ import { ComponentsModule } from './core/components/components.module';
 import { MaterialModule } from './core/module/material/material.module';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    ComponentsModule
+    ComponentsModule,
+    FontAwesomeModule
   ],
   providers: [
     CanDeactivateGuard,
@@ -50,4 +53,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(fas);
+  }
+}
