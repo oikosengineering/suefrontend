@@ -10,3 +10,16 @@
 .ol-attribution button{
     outline: none;
 }
+
+.menu_layers{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.menu_layers h3:not(:last-child) {
+    margin-bottom: 0.5em;
+}
+
+.menu_layers h3:not(:first-child) {
+    margin-top: 0.5em;
+}

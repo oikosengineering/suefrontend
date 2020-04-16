@@ -98,6 +98,8 @@ export class MapComponent implements AfterViewInit {
     var close_panel = new Control({element: close_options});
     var zoom_options = document.getElementById('zoom_panel');
     var zoom_panel = new Control({element: zoom_options});
+    var layers_options = document.getElementById('layers_panel');
+    var layers_panel = new Control({element: layers_options});
     this.map = new  Map({
       interactions: defaultInteractions().extend([this.select]),
       controls: defaultControls(
@@ -116,7 +118,8 @@ export class MapComponent implements AfterViewInit {
         panel,
         edit_panel,
         close_panel,
-        zoom_panel
+        zoom_panel,
+        layers_panel
       ]),
       target: "map",
       layers: [

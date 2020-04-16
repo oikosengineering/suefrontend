@@ -43,4 +43,20 @@
             <fa-icon icon="minus"></fa-icon>
         </button>
     </div>
+    <div id="layers_panel">
+        <button mat-raised-button matTooltip="Layers" matTooltipPosition="before" [matMenuTriggerFor]="appMenu">
+            <fa-icon icon="layer-group"></fa-icon>
+        </button>
+        <mat-menu class="menu_layers" #appMenu="matMenu" yPosition="above">
+            <h3>Wms</h3>
+            <section class="wms_layers">
+                <mat-checkbox class="example-margin" (click)="$event.stopPropagation();" >Checked</mat-checkbox>
+                <mat-checkbox class="example-margin" (click)="$event.stopPropagation();" >Indeterminate</mat-checkbox>
+            </section>
+            <h3>Livelli base</h3>
+            <mat-radio-group class="base_layers">
+                <mat-radio-button value="1" (click)="$event.stopPropagation();">Option 1</mat-radio-button>
+            </mat-radio-group>
+        </mat-menu>
+    </div>
 </div>

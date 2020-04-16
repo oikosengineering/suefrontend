@@ -86,13 +86,29 @@
   right: .5em;
 }
 
-#close_panel button {
+#close_panel button,
+#layers_panel button {
   min-width: 0px;
   width: 2.6em;
   height: 2.6em;
   padding: 0px;
   display: block;
   background-color: rgb(245, 245, 245);
+}
+
+#layers_panel {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
+}
+
+.wms_layers mat-checkbox,
+.base_layers mat-radio-button{
+  display: block;
+}
+
+.wms_layers mat-checkbox {
+  margin-left: 1em;
 }
 
 fa-icon{
