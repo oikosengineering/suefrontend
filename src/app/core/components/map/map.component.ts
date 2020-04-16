@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, EventEmitter } from '@angular/core';
 import { Map, View, Overlay } from 'ol';
 import { Layer } from 'ol/layer';
 import * as proj from 'ol/proj';
@@ -22,13 +22,18 @@ import {unByKey} from 'ol/Observable';
 import {defaults as defaultControls, FullScreen, Control} from 'ol/control';
 import ScaleLine from 'ol/control/ScaleLine';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatChipSelectionChange } from '@angular/material/chips';
+import BaseLayer from 'ol/layer/Base';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements OnInit {
+
+  loading_map = true;
 
   map: Map;
   source: VectorSource;
@@ -40,6 +45,9 @@ export class MapComponent implements AfterViewInit {
   translate;
   modify;
   eraser;
+
+  base_layers;
+  layers;
 
   style = new Style({
     fill: new Fill({
@@ -76,30 +84,19 @@ export class MapComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar
     ) { }
-
-  ngAfterViewInit(): void {
+    
+  ngOnInit(): void {
     this.createMap();
   }
   
   createMap(){
-    this.source = new VectorSource({wrapX: false});
-    this.vector = new VectorLayer({
-      source: this.source,
-      style: this.style
-    });
+    this.base_layers = this.createBaseLayers();
+    
+    this.layers = this.createLayers();
+    
     
     this.select = new Select();
-
-    var element = document.getElementById('panel_options');
-    var panel = new Control({element: element});
-    var edit_options = document.getElementById('edit_panel');
-    var edit_panel = new Control({element: edit_options});
-    var close_options = document.getElementById('close_panel');
-    var close_panel = new Control({element: close_options});
-    var zoom_options = document.getElementById('zoom_panel');
-    var zoom_panel = new Control({element: zoom_options});
-    var layers_options = document.getElementById('layers_panel');
-    var layers_panel = new Control({element: layers_options});
+    
     this.map = new  Map({
       interactions: defaultInteractions().extend([this.select]),
       controls: defaultControls(
@@ -115,18 +112,11 @@ export class MapComponent implements AfterViewInit {
           text: true,
           steps: 2
         }),
-        panel,
-        edit_panel,
-        close_panel,
-        zoom_panel,
-        layers_panel
       ]),
       target: "map",
       layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-        this.vector
+        ...this.base_layers,
+        ...this.layers
       ],
       view: new View({
         projection: 'EPSG:3857',
@@ -135,9 +125,83 @@ export class MapComponent implements AfterViewInit {
       }),
       
     });
-   
+    this.addCustomControls();
+    console.log(this.map.getLayers().getArray()[0].getProperties());
     this.vector.getSource().on('addfeature', (event) => this.onDrawEnd(event));
     this.select.on('select', (event) => this.printInfo(event));
+    this.loading_map = false;
+  }
+
+  addCustomControls(){
+    let controls = this.createControls();
+    controls.forEach(control => {
+      this.map.addControl(control);
+    });
+  }
+
+  createBaseLayers(){
+    let base_layers = [];
+    let oms = new TileLayer({
+        source: new OSM(),
+      });
+    oms.setProperties({'name': 'Open Streat Map'});
+    console.log(oms.get('name'));
+    base_layers.push(oms);
+    return base_layers;
+  }
+
+  createLayers(){
+    let layers = [];
+    this.source = new VectorSource({wrapX: false});
+    this.vector = new VectorLayer({
+      source: this.source,
+      style: this.style
+    });
+    this.vector.setProperties({'name': 'Area scavi'});
+    layers.push(this.vector);
+    return layers;
+  }
+
+  onChangeWMS(layer: BaseLayer){
+    layer.setVisible(!layer.getVisible());
+  }
+
+  onChangeBaseLayers(layer: BaseLayer){
+    layer.setVisible(true);
+    let base_layers = this.getBaseLayers()
+    base_layers.forEach(base_layer => {
+      if(base_layer != layer){
+        base_layer.setVisible(false);
+      }
+    })
+  }
+
+  getBaseLayers(){
+    return this.map.getLayers().getArray().filter(layer => layer instanceof TileLayer);
+  }
+
+  getLayers(){
+    return this.map.getLayers().getArray().filter(layer => !(layer instanceof TileLayer));
+  }
+
+  createControls(){
+    let controls = [];
+    var element = document.getElementById('panel_options');
+    var panel = new Control({element: element});
+    controls.push(panel);
+    var edit_options = document.getElementById('edit_panel');
+    var edit_panel = new Control({element: edit_options});
+    controls.push(edit_panel);
+    var close_options = document.getElementById('close_panel');
+    var close_panel = new Control({element: close_options});
+    controls.push(close_panel);
+    var zoom_options = document.getElementById('zoom_panel');
+    var zoom_panel = new Control({element: zoom_options});
+    controls.push(zoom_panel);
+    var layers_options = document.getElementById('layers_panel');
+    var layers_panel = new Control({element: layers_options});
+    controls.push(layers_panel);
+    return controls;
   }
 
   addInteraction(value) {
