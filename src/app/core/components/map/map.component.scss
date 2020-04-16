@@ -12,11 +12,21 @@
     z-index: 2;
 }
 
-.sidepanel {
+#panel_options {
   width: fit-content;;
   top: .5em;
   left: .5em;
   position: absolute;
+}
+
+#panel_options .features_button{
+  text-align: left;
+  min-width: 0px;
+  width: 10em;
+  height: 2.6em;
+  display: block;
+  background-color: rgb(245, 245, 245);
+  border-radius: 0px;
 }
 
 .menu_panel{
@@ -63,18 +73,21 @@
 }
 
 #edit_panel button:not(:last-child),
-#zoom_panel button:not(:last-child) {
+#zoom_panel button:not(:last-child),
+#panel_options .features_button:not(:last-child) {
   border-bottom: none; /* Prevent double borders */
 }
 
 #edit_panel button:first-child,
-#zoom_panel button:first-child {
+#zoom_panel button:first-child,
+#panel_options .features_button:first-child{
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
 
 #edit_panel button:last-child,
-#zoom_panel button:last-child{
+#zoom_panel button:last-child,
+#panel_options .features_button:last-child{
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }

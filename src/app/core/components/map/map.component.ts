@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, AfterViewInit, EventEmitter } from '@angular/core';
-import { Map, View, Overlay } from 'ol';
+import { Map, View, Overlay, Feature } from 'ol';
 import { Layer } from 'ol/layer';
 import * as proj from 'ol/proj';
 import OSM from 'ol/source/OSM';
@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Draw from 'ol/interaction/Draw';
 import TileLayer from 'ol/layer/Tile';
 import Source from 'ol/source/Source';
-import VectorSource from 'ol/source/Vector';
+import VectorSource, { VectorSourceEvent } from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import {Circle as CircleStyle} from 'ol/style';
 import Style from 'ol/style/Style';
@@ -22,9 +22,9 @@ import {unByKey} from 'ol/Observable';
 import {defaults as defaultControls, FullScreen, Control} from 'ol/control';
 import ScaleLine from 'ol/control/ScaleLine';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatChipSelectionChange } from '@angular/material/chips';
 import BaseLayer from 'ol/layer/Base';
-import { MatRadioChange } from '@angular/material/radio';
+import WKT from 'ol/format/WKT';
+import { layer } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'app-map',
@@ -34,6 +34,9 @@ import { MatRadioChange } from '@angular/material/radio';
 export class MapComponent implements OnInit {
 
   loading_map = true;
+
+  options = this.data;
+  
 
   map: Map;
   source: VectorSource;
@@ -55,6 +58,26 @@ export class MapComponent implements OnInit {
     }),
     stroke: new Stroke({
       color: '#ffcc33',
+      width: 2
+    }),
+  });
+
+  style_scavo = new Style({
+    fill: new Fill({
+      color: 'rgba(255, 255, 255, 0.2)'
+    }),
+    stroke: new Stroke({
+      color: '#ff8247',
+      width: 2
+    }),
+  });
+
+  style_cantiere = new Style({
+    fill: new Fill({
+      color: 'rgba(255, 255, 255, 0.2)'
+    }),
+    stroke: new Stroke({
+      color: '#2a623d',
       width: 2
     }),
   });
@@ -126,8 +149,13 @@ export class MapComponent implements OnInit {
       
     });
     this.addCustomControls();
-    console.log(this.map.getLayers().getArray()[0].getProperties());
-    this.vector.getSource().on('addfeature', (event) => this.onDrawEnd(event));
+    this.checkInitFeatures();
+    this.map.getLayers().getArray().forEach(layer => {
+      if(!(layer instanceof TileLayer)){
+        layer.get('source').on('addfeature', (event) => this.onAddFeature(event));
+      }
+    });
+    // this.vector.getSource().on('addfeature', (event) => this.onAddFeature(event));
     this.select.on('select', (event) => this.printInfo(event));
     this.loading_map = false;
   }
@@ -137,6 +165,21 @@ export class MapComponent implements OnInit {
     controls.forEach(control => {
       this.map.addControl(control);
     });
+  }
+
+  checkInitFeatures(){
+    if(this.options.features.length > 0){
+      let format = new WKT()
+      this.options.features.forEach(init_feature => {
+        let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == init_feature.type);
+        let source: VectorSource = layer.get('source');
+        init_feature.features.forEach(feature => {
+          let new_feature = format.readFeature(feature);
+          new_feature.setProperties({'target': init_feature.type})
+          source.addFeature(new_feature);
+        });
+      })
+    }
   }
 
   createBaseLayers(){
@@ -152,13 +195,23 @@ export class MapComponent implements OnInit {
 
   createLayers(){
     let layers = [];
-    this.source = new VectorSource({wrapX: false});
-    this.vector = new VectorLayer({
-      source: this.source,
-      style: this.style
+    this.options.layers.forEach(layer => {
+      let source = new VectorSource({wrapX: false});
+      let vector = new VectorLayer({
+        source: source,
+        style: this[layer.style]
+      });
+      vector.setProperties({'name': layer.name});
+      vector.setProperties({'id': layer.id});
+      layers.push(vector);
     });
-    this.vector.setProperties({'name': 'Area scavi'});
-    layers.push(this.vector);
+    // this.source = new VectorSource({wrapX: false});
+    // this.vector = new VectorLayer({
+    //   source: this.source,
+    //   style: this.style
+    // });
+    // this.vector.setProperties({'name': 'Area scavi'});
+    // layers.push(this.vector);
     return layers;
   }
 
@@ -204,15 +257,17 @@ export class MapComponent implements OnInit {
     return controls;
   }
 
-  addInteraction(value) {
+  addInteraction(value, style, target) {
+    let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == target)
+    let source = layer.get('source');
     if (!this.draw) {
       this.draw = new Draw({
-        source: this.source,
+        source: source,
         type: value,
         style: this.style_interaction
       });
       this.draw.on('drawstart', (event) => this.onDrawStart(event));
-      this.draw.on('drawend', (event) => this.onDrawEnd(event));
+      this.draw.on('drawend', (event) => this.onDrawEnd(event, target));
       this.map.addInteraction(this.draw);
     } else {
       this.map.removeInteraction(this.draw);
@@ -254,24 +309,24 @@ export class MapComponent implements OnInit {
   }
 
   onCancel(){
+    if(this.translate){
+      this.map.removeInteraction(this.translate);
+      this.translate = null;
+    }
+    if(this.modify){
+      this.map.removeInteraction(this.modify);
+      this.modify = null;
+    }
     let selected_feature = this.select.getFeatures().getArray();
     if(selected_feature.length > 0){
       selected_feature.forEach(feature => {
-        this.source.removeFeature(feature);
+        let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == feature.get('target'));
+        let source = layer.get('source');
+        source.removeFeature(feature);
       });
       this._snackBar.open("Elementi cancellati", null, {duration: 2000});
     } else {
       this._snackBar.open("Nessuna geometria selezionata", null, {duration: 2000});
-    }
-    if(this.source.getFeatures().length == 0){
-      if(this.translate){
-        this.map.removeInteraction(this.translate);
-        this.translate = null;
-      }
-      if(this.modify){
-        this.map.removeInteraction(this.modify);
-        this.modify = null;
-      }
     }
   }
 
@@ -279,11 +334,16 @@ export class MapComponent implements OnInit {
     this.select.setActive(false);
   }
 
-  onDrawEnd(event){
+  onDrawEnd(event, target){
     console.log(event);
+    event.feature.setProperties({'target': target});
     this.map.removeInteraction(this.draw);
     this.draw = null;
     this.activeLater();
+  }
+
+  onAddFeature(event: VectorSourceEvent){
+    // event.feature.setStyle(this.style_scavo);
   }
 
   activeLater(){
@@ -293,7 +353,8 @@ export class MapComponent implements OnInit {
   }
 
   printInfo(event){
-    console.log(event.selected);
+    let features: Feature[] = event.selected;
+    console.log(features);
   }
 
   formatLength(line){
@@ -322,7 +383,22 @@ export class MapComponent implements OnInit {
   }
 
   close(){
-    this.dialogRef.close();
+    let result = [];
+    let new_features = this.options.features;
+    let format = new WKT();
+    let layers = this.map.getLayers().getArray().filter(layer => this.options.layers.find(mylayer => mylayer.id == layer.get('id')));
+    layers.forEach(layer => {
+        let features: Feature[] = layer.get('source').getFeatures();
+        features.forEach(feature => {
+          result.push(format.writeFeature(feature));
+        })
+        let dest = new_features.find(opt_feature => opt_feature.type == layer.get('id'));
+        dest.features = [];
+        dest.features.push(...result);
+        result = []
+    })
+    console.log(new_features);
+    this.dialogRef.close(new_features);
   }
 
   zoomIn(){

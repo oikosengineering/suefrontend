@@ -15,11 +15,14 @@
                 </button>
             </mat-form-field>
         </mat-card>
-        <button mat-raised-button (click)="addInteraction('Polygon')" matTooltip="Disegna poligono" matTooltipPosition="after" [ngClass]="draw ? 'selected_button' : ''">
-           <fa-icon icon="draw-polygon"></fa-icon> Scavo
-        </button>
+        <ng-container *ngFor="let button of options.buttons">
+            <button class="features_button" mat-raised-button (click)="addInteraction(button.geometryType, button.style, button.target)" [matTooltip]="button.tooltip" matTooltipPosition="after" [ngClass]="draw ? 'selected_button' : ''">
+                <fa-icon icon="draw-polygon"></fa-icon> {{button.name}}
+            </button>
+        </ng-container>
+        
     </div>
-    <div id="edit_panel" [hidden]="!(source && source.getFeatures().length > 0)">
+    <div id="edit_panel">
         <button mat-raised-button matTooltip="Modifica" matTooltipPosition="after" (click)="onModify()" [ngClass]="modify ? 'selected_button' : ''">
             <fa-icon icon="pen"></fa-icon>
         </button>
