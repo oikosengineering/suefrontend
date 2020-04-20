@@ -1,0 +1,25 @@
+.map_dialog mat-dialog-container{
+    padding: 0px;
+}
+
+
+.selected_button{
+    background-color: #c7c7c7 !important;
+}
+
+.ol-attribution button{
+    outline: none;
+}
+
+.menu_layers{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.menu_layers h3:not(:last-child) {
+    margin-bottom: 0.5em;
+}
+
+.menu_layers h3:not(:first-child) {
+    margin-top: 0.5em;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
+import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -22,6 +23,47 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Stradale", value: 0, price: 200, min: 2500},
     {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
   ];
+
+  map_cfg = {
+    buttons: [ 
+      {
+        name: "Scavo",
+        style: 'style_scavo',
+        geometryType: 'Polygon',
+        tooltip: 'Disegna area scavo',
+        target: 'scavo'
+      },
+      {
+        name: "Cantiere",
+        style: 'style_cantiere',
+        geometryType: 'Polygon',
+        tooltip: 'Disegna area Cantiere',
+        target: 'cantiere'
+      }
+    ],
+    layers: [
+      {
+        name: "Scavo",
+        style: "style_scavo",
+        id: 'scavo'
+      },
+      {
+        name: "Cantiere",
+        style: "style_cantiere",
+        id: 'cantiere'
+      }
+    ],
+    features: [
+      {
+        type: 'scavo',
+        features: []
+      },
+      {
+        type: 'cantiere',
+        features: []
+      }
+    ]
+  };
   
   @Output() saved = new EventEmitter<boolean>();
 
@@ -34,7 +76,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private validationService: ValidationService
+    private validationService: ValidationService,
+    private dialog: DialogMessageService
   ) { }
 
   ngOnInit(): void {
@@ -343,6 +386,19 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       this[control].splice(index, 1);
       form.get('file').enable()
     }
+  }
+
+  openMap(){
+    event.preventDefault();
+    event.stopPropagation();
+    this.dialog.openMap(this.map_cfg).subscribe(value => {
+      if(value){
+        this.map_cfg.features = value;
+      }
+      console.log('Mappa chiusa', value);
+    }, error => {
+      console.log('errore mappa')
+    });
   }
 
   submit(){

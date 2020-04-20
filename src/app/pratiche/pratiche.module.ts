@@ -13,7 +13,6 @@ import { ComponentsModule } from '../core/components/components.module';
   imports: [
     CommonModule,
     PraticheRoutingModule,
-    ComponentsModule
   ]
 })
 export class PraticheModule { }

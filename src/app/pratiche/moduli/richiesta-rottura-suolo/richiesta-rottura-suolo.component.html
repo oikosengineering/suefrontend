@@ -284,6 +284,7 @@
                 <input matInput formControlName="particella_catasto" type="number">
                 <mat-error>{{getErrorMessage(form.get('dati_pratica').get('particella_catasto'))}}</mat-error>
             </mat-form-field>
+            <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Apri mappa</button>
         </mat-expansion-panel>
         <mat-expansion-panel formGroupName="allegati_pratica" expanded>
             <mat-expansion-panel-header>

@@ -1,0 +1,72 @@
+<div mat-dialog-content>
+    <div id="map" class="map"></div>
+    
+    
+    <!-- <button mat-button class="menu_button">
+        <mat-icon>menu</mat-icon>
+    </button> -->
+    <div id="panel_options" class="sidepanel">
+        <mat-card class="menu_panel">
+            <span class="example-fill-remaining-space"></span>
+            <mat-form-field appearance="legacy" floatLabel="never">
+                <input matInput placeholder="Cerca...">
+                <button mat-button matSuffix matTooltip="Cerca" matTooltipPosition="below" (click)="search()">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+        </mat-card>
+        <ng-container *ngFor="let button of options.buttons">
+            <button class="features_button" mat-raised-button (click)="addInteraction(button.geometryType, button.style, button.target)" [matTooltip]="button.tooltip" matTooltipPosition="after" [ngClass]="draw ? 'selected_button' : ''">
+                <fa-icon icon="draw-polygon"></fa-icon> {{button.name}}
+            </button>
+        </ng-container>
+        
+    </div>
+    <div id="edit_panel">
+        <button mat-raised-button matTooltip="Modifica" matTooltipPosition="after" (click)="onModify()" [ngClass]="modify ? 'selected_button' : ''">
+            <fa-icon icon="pen"></fa-icon>
+        </button>
+        <button mat-raised-button matTooltip="Sposta" matTooltipPosition="after" (click)="onTranslate()" [ngClass]="translate ? 'selected_button' : ''">
+            <fa-icon icon="arrows-alt"></fa-icon>
+        </button>
+        <button mat-raised-button matTooltip="Cancella" matTooltipPosition="after" (click)="onCancel()">
+            <fa-icon icon="eraser"></fa-icon>
+        </button>
+    </div>
+    <div id="close_panel">
+        <button mat-raised-button matTooltip="Chiudi mappa" matTooltipPosition="below" (click)="close()">
+            <fa-icon icon="times"></fa-icon>
+        </button>
+    </div>
+    <div id="zoom_panel">
+        <button mat-raised-button matTooltip="Zoom in" matTooltipPosition="before" (click)="zoomIn()">
+            <fa-icon icon="plus"></fa-icon>
+        </button>
+        <button mat-raised-button matTooltip="Zoom out" matTooltipPosition="before" (click)="zoomOut()">
+            <fa-icon icon="minus"></fa-icon>
+        </button>
+    </div>
+    <div id="layers_panel">
+        <button mat-raised-button matTooltip="Layers" matTooltipPosition="before" [matMenuTriggerFor]="appMenu">
+            <fa-icon icon="layer-group"></fa-icon>
+        </button>
+        <mat-menu class="menu_layers" #appMenu="matMenu" yPosition="above">
+            <ng-container *ngIf="!loading_map">
+
+                <h3 *ngIf="getLayers().length > 0">Livelli vettoriali</h3>
+                <ng-container *ngFor="let layer of getLayers()">
+                    <section class="wms_layers">
+                        <mat-checkbox class="example-margin" [checked]="layer.getVisible()" (change)="onChangeWMS(layer)"
+                        [value]="layer.ol_uid" (click)="$event.stopPropagation();" >{{layer.get('name')}}</mat-checkbox>
+                    </section>
+                </ng-container>
+                <h3 *ngIf="getBaseLayers().length > 0">Mappe</h3>
+                <ng-container *ngFor="let layer of getBaseLayers()">
+                    <mat-radio-group class="base_layers" (change)="onChangeBaseLayers($event.value)">
+                        <mat-radio-button [value]="layer" [checked]="layer.getVisible()" (click)="$event.stopPropagation();">{{layer.get('name')}}</mat-radio-button>
+                    </mat-radio-group>
+                </ng-container>
+            </ng-container>
+        </mat-menu>
+    </div>
+</div>
