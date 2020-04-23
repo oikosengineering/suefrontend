@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidationService, atLeastOnecfpiva, passwordMatch } from '../core/services/validation.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -108,6 +109,11 @@ export class SignupComponent implements OnInit {
       case 'partitaiva':
         return [Validators.pattern("/[A-Z]{2}\d{11}$/i")];
     }
+  }
+
+  loginIdm() {
+    const url = environment.authEndPoint.idmUrl;
+    window.location.href = url;
   }
 
 }
