@@ -1,0 +1,88 @@
+<mat-card>
+    <mat-card-title>
+        Ricerca una pratica
+    </mat-card-title>
+    <mat-card-subtitle>
+        Compila i campi per effettuare una ricerca
+    </mat-card-subtitle>
+</mat-card>
+<form [formGroup]="form">
+    <mat-expansion-panel formGroupName="referente" class="referente-group" [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Referente
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Comune</mat-label>
+            <input formControlName="comune" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('referente').get('comune'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Titolare</mat-label>
+            <input formControlName="titolare" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('referente').get('titolare'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-two-thirds" appearance="outline">
+            <mat-label>Indirizzo</mat-label>
+            <input formControlName="indirizzo" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('referente').get('indirizzo'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Civico</mat-label>
+            <input formControlName="civico" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('referente').get('civico'))}}</mat-error>
+        </mat-form-field>
+        <mat-error>{{getErrorMessage(form.get('referente'))}}</mat-error>
+    </mat-expansion-panel>
+    <mat-expansion-panel formGroupName="dati_pratica" class="pratica-group" [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Protocollo
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Inizio</mat-label>
+            <input formControlName="inizio" matInput [matDatepicker]="picker_dati_pratica_inizio">
+            <mat-datepicker-toggle matSuffix [for]="picker_dati_pratica_inizio"></mat-datepicker-toggle>
+            <mat-datepicker #picker_dati_pratica_inizio></mat-datepicker>
+            <mat-error>{{getErrorMessage(form.get('dati_pratica').get('inizio'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Fine</mat-label>
+            <input formControlName="fine" matInput [matDatepicker]="picker_dati_pratica_fine">
+            <mat-datepicker-toggle matSuffix [for]="picker_dati_pratica_fine"></mat-datepicker-toggle>
+            <mat-datepicker #picker_dati_pratica_fine></mat-datepicker>
+            <mat-error>{{getErrorMessage(form.get('dati_pratica').get('fine'))}}</mat-error>
+        </mat-form-field>
+        <mat-error>{{getErrorMessage(form.get('dati_pratica'))}}</mat-error>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Da Numero</mat-label>
+            <input formControlName="danumero" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('dati_pratica').get('danumero'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>A Numero</mat-label>
+            <input formControlName="anumero" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('dati_pratica').get('anumero'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Sezione</mat-label>
+            <input formControlName="sezione_catasto" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('dati_pratica').get('sezione_catasto'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Foglio</mat-label>
+            <input formControlName="foglio_catasto" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('dati_pratica').get('foglio_catasto'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Numero</mat-label>
+            <input formControlName="numero_catasto" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('dati_pratica').get('numero_catasto'))}}</mat-error>
+        </mat-form-field>
+        <mat-error>{{getErrorMessage(form.get('dati_pratica'))}}</mat-error>
+    </mat-expansion-panel>
+    <button class="button-login" mat-raised-button color="primary" (click)="reset()">Reimposta</button>
+    <button class="button-login" mat-raised-button color="primary" (click)="submit()">Ricerca</button>
+</form>

@@ -13,7 +13,10 @@ import { EvtSignIn} from '../core/models/models';
 export class NuovaPraticaComponent implements OnInit {
 
   options = [
-    { value: 0, name: "Richiesta rottura suolo pubblico" }
+    { value: 0, name: "Richiesta Autorizzazione per la rottura di suolo pubblico" },
+    { value: 1, name: "Richiesta Occupazione suolo a fini edili" },
+    { value: 2, name: "Richiesta Rottura suolo ordinaria" },
+    { value: 2, name: "Richiesta Rottura suolo urgente" },
   ];
 
   firstFormGroup: FormGroup;
