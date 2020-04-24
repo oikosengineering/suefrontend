@@ -6,7 +6,7 @@ import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
-
+import { RouteGuard } from './core/guards/routeguard.guard';
 
 const routes: Routes = [
   {
@@ -17,9 +17,8 @@ const routes: Routes = [
       { path: 'nuova-pratica', component: NuovaPraticaComponent },
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
-      { path: 'mie-pratiche', component: MiePraticheComponent}
+      { path: 'mie-pratiche', component: MiePraticheComponent, canActivate: [RouteGuard]}
     ],
-
   },
   {
     path: 'pratiche/:idModulo/:idPratica',

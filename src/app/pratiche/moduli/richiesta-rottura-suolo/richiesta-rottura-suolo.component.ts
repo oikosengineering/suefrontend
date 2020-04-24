@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from
 import { ValidationService } from '../../../core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
 import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -12,20 +13,20 @@ import { DialogMessageService } from 'src/app/core/services/dialog-message.servi
 export class RichiestaRotturaSuoloComponent implements OnInit {
   form: FormGroup;
   tipologie = [
-    {name: "Persona fisica", value: 0},
-    {name: "Persona giuridica", value: 1}
+    { name: "Persona fisica", value: 0 },
+    { name: "Persona giuridica", value: 1 }
   ];
   generi = [
-    {name: "Maschio", value: 'm'},
-    {name: "Femmina", value: 'f'}
+    { name: "Maschio", value: 'm' },
+    { name: "Femmina", value: 'f' }
   ];
   pavimentazioni = [
-    {name: "Stradale", value: 0, price: 200, min: 2500},
-    {name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000}
+    { name: "Stradale", value: 0, price: 200, min: 2500 },
+    { name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000 }
   ];
 
   map_cfg = {
-    buttons: [ 
+    buttons: [
       {
         name: "Scavo",
         style: 'style_scavo',
@@ -64,7 +65,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       }
     ]
   };
-  
+
   @Output() saved = new EventEmitter<boolean>();
 
   saved_form = true;
@@ -74,37 +75,44 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   planimetria2 = [];
   polizza_fidejussoria = [];
 
+  isUserLoggedIn = false;
+
   constructor(
     private fb: FormBuilder,
     private validationService: ValidationService,
-    private dialog: DialogMessageService
+    private dialog: DialogMessageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.createForm();
     this.form.valueChanges.subscribe(value => {
-      if(this.form.touched){
+      if (this.form.touched) {
         this.saved_form = false;
         this.saved.emit(this.saved_form);
       }
-    })
+    });
   }
 
   save(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.saved_form = true;
-    this.form.markAsUntouched();
-    this.saved.emit(this.saved_form);
+    if (this.isUserLoggedIn) {
+      this.saved_form = true;
+      this.form.markAsUntouched();
+      this.saved.emit(this.saved_form);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
-  createForm(){
+  createForm() {
     this.form = this.fb.group({
       referente: this.fb.group({
-        tipo_persona: new FormControl (null, Validators.compose([
+        tipo_persona: new FormControl(null, Validators.compose([
           Validators.required
         ])),
-        genere: new FormControl (null, Validators.compose([
+        genere: new FormControl(null, Validators.compose([
           Validators.required
         ])),
         nome: new FormControl('', Validators.compose([
@@ -216,64 +224,64 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       //   ]))
       // })
       dati_pratica: this.fb.group({
-        motivo: new FormControl ('', Validators.compose([
+        motivo: new FormControl('', Validators.compose([
           Validators.required,
           Validators.maxLength(80)
         ])),
-        descrizione: new FormControl ('', Validators.compose([
+        descrizione: new FormControl('', Validators.compose([
           Validators.required,
           Validators.maxLength(1000)
         ])),
-        area_scavi: new FormControl ('', Validators.compose([
+        area_scavi: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        pavimentazione: new FormControl ('', Validators.compose([
+        pavimentazione: new FormControl('', Validators.compose([
           Validators.required,
         ])),
-        area_cantiere: new FormControl ('', Validators.compose([
+        area_cantiere: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        durata_lavori: new FormControl ('', Validators.compose([
+        durata_lavori: new FormControl('', Validators.compose([
           Validators.required,
           Validators.min(1)
         ])),
-        inizio_lavori: new FormControl ('', Validators.compose([
+        inizio_lavori: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        fine_lavori: new FormControl ('', Validators.compose([
+        fine_lavori: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        valore_polizza: new FormControl ('', Validators.compose([
+        valore_polizza: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        foglio_catasto: new FormControl ('', Validators.compose([
+        foglio_catasto: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        particella_catasto: new FormControl ('', Validators.compose([
+        particella_catasto: new FormControl('', Validators.compose([
           Validators.required
         ])),
       }),
       allegati_pratica: this.fb.group({
         marca_bollo: this.fb.group({
-          codice_bollo:new FormControl ('', Validators.compose([
+          codice_bollo: new FormControl('', Validators.compose([
             Validators.required
           ])),
-          file: new FormControl ('', Validators.compose([
+          file: new FormControl('', Validators.compose([
             Validators.required
           ])),
         }),
         planimetria1: this.fb.group({
-          file: new FormControl ('', Validators.compose([
+          file: new FormControl('', Validators.compose([
             Validators.required
           ])),
         }),
         planimetria2: this.fb.group({
-          file: new FormControl ('', Validators.compose([
+          file: new FormControl('', Validators.compose([
             Validators.required
           ])),
         }),
         polizza_fidejussoria: this.fb.group({
-          file: new FormControl ('', Validators.compose([
+          file: new FormControl('', Validators.compose([
             Validators.required
           ])),
         }),
@@ -281,20 +289,20 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     });
   }
 
-  differenceDate(form: AbstractControl, value1: string, value2: string, dest: string){
-    if(form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
+  differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
+    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
       return;
-    if(form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined)
+    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined)
       return;
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
-    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24))+1);
+    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)) + 1);
   }
 
-  multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string){
-    if(form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
+  multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string) {
+    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
       return;
-    if(form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined){
+    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined) {
       return;
     } else {
       let min = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2).value).min;
@@ -306,26 +314,26 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     let price = pavimentazione.price;
     let min = pavimentazione.min;
     let tot = Math.floor(price * form.get(value1).value);
-    if(tot >= min){
+    if (tot >= min) {
       form.get(dest).patchValue(tot);
     } else {
       form.get(dest).patchValue(min);
     }
   }
 
-  calculateMinDate(form: AbstractControl, target: string){
-    if(form.get(target).value === null || form.get(target).value === '')
+  calculateMinDate(form: AbstractControl, target: string) {
+    if (form.get(target).value === null || form.get(target).value === '')
       return;
     let date: any = new Date(form.get(target).value);
     return new Date(date.setDate(date.getDate()));
   }
 
-  getErrorMessage(control: AbstractControl){
+  getErrorMessage(control: AbstractControl) {
     return this.validationService.getErrorMessage(control);
   }
 
-  changedTipologia(form: AbstractControl, event: MatSelectChange){
-    switch(event.value){
+  changedTipologia(form: AbstractControl, event: MatSelectChange) {
+    switch (event.value) {
       case 0:
         form.get('nome').enable()
         form.get('cognome').enable();
@@ -361,26 +369,26 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     }
   }
 
-  check(form: AbstractControl, field: string, target: string){
-    if(form.get(field).value == '' || form.get(field).value == null || form.get(field).value === undefined){
+  check(form: AbstractControl, field: string, target: string) {
+    if (form.get(field).value == '' || form.get(field).value == null || form.get(field).value === undefined) {
       form.get(target).setValidators(Validators.required);
       form.get(target).updateValueAndValidity();
     } else {
       form.get(target).clearValidators();
       form.get(target).updateValueAndValidity();
     }
-    
+
   }
 
-  uploadFile(event, form: AbstractControl, control: string){
-    if(event.target.files[0]){
+  uploadFile(event, form: AbstractControl, control: string) {
+    if (event.target.files[0]) {
       this[control].push(event.target.files[0]);
       event.target.value = "";
       form.get('file').disable()
     }
   }
 
-  removeFile(target, form: AbstractControl, control: string){
+  removeFile(target, form: AbstractControl, control: string) {
     let index = this[control].indexOf(target);
     if (index >= 0) {
       this[control].splice(index, 1);
@@ -388,11 +396,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     }
   }
 
-  openMap(){
+  openMap() {
     event.preventDefault();
     event.stopPropagation();
     this.dialog.openMap(this.map_cfg).subscribe(value => {
-      if(value){
+      if (value) {
         this.map_cfg.features = value;
       }
       console.log('Mappa chiusa', value);
@@ -401,7 +409,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     });
   }
 
-  submit(){
+  submit() {
     event.preventDefault();
     event.stopPropagation();
     if (this.form.valid) {

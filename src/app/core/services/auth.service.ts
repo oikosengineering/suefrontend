@@ -14,9 +14,6 @@ declare var window;
 })
 export class AuthService {
   private isUserLogged = false;
-  private isFirstLogin = false;
-  // private isAdmin = false;
-  // private isSupervisor = false;
   private iduser: string;
 
   @Output() usersignedin = new EventEmitter();
