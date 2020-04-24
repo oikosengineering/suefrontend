@@ -15,7 +15,12 @@
         </mat-expansion-panel-header>
         <mat-form-field class="div-full" appearance="outline">
             <mat-label>Comune</mat-label>
-            <input formControlName="comune" matInput type="text">
+            <mat-select formControlName="comune">
+                <mat-option>----</mat-option>
+                <mat-option *ngFor="let comune of comuni" [value]="comune.value">
+                    {{comune.name}}
+                </mat-option>
+            </mat-select>
             <mat-error>{{getErrorMessage(form.get('referente').get('comune'))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-full" appearance="outline">

@@ -14,6 +14,9 @@ import { NavigationEnd, Router } from '@angular/router';
 export class RicercaPraticheComponent implements OnInit {
   form: FormGroup;
   isUserLoggedIn = false;
+  comuni = [
+    { name: "Chiavari", value: 'chiavari' },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -63,7 +66,7 @@ export class RicercaPraticheComponent implements OnInit {
   }
 
   reset(){
-    
+    this.form.reset();
   }
 
 }

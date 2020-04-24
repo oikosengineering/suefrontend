@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaderResponse, HttpErrorResponse, HttpHeaders } from '
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
-import { AppApiService } from './app-api.service';
 import { User, Professional_Title, Jwt, Address, Birthplace, EvtSignIn, Profile } from '../models/models';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -24,7 +23,6 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private apiservice: AppApiService,
     private router: Router,
     private zone: NgZone,
     private activateRoute: ActivatedRoute,
