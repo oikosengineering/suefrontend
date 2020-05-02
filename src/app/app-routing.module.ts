@@ -6,6 +6,7 @@ import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
+import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    PathLocationStrategy,
+    { provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
 })
 export class AppRoutingModule { }
