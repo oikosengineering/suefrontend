@@ -133,6 +133,11 @@ mat-radio-button{
     display: inline-block;
 }
 
+.div-two-thirds{
+    width: 66%;
+    display: inline-block;
+}
+
 .div-a-third{
     width: 33.33%;
     display: inline-block;
@@ -150,6 +155,11 @@ mat-radio-button{
     }
     
     .div-half{
+        width: 100%;
+        display: inline-block;
+    }
+
+    .div-two-thirds{
         width: 100%;
         display: inline-block;
     }

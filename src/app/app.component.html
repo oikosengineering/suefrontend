@@ -25,7 +25,10 @@
         <mat-divider></mat-divider>
         <h3 matSubheader>Pratiche</h3>
           <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="nuova-pratica">
-            <h4 matLine>Nuova Pratica</h4>
+            <h4 matLine>Nuova</h4>
+          </mat-list-item>
+          <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="ricerca-pratiche">
+            <h4 matLine>Ricerca</h4>
           </mat-list-item>
           <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="mie-pratiche">
             <h4 matLine>Le mie pratiche</h4>

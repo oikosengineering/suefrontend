@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { RichiestaRotturaSuoloComponent } from './pratiche/moduli/richiesta-rottura-suolo/richiesta-rottura-suolo.component';
 import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
+import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
-import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
-
+import { PathLocationStrategy, LocationStrategy } from '@angular/common';
+import { RouteGuard } from './core/guards/routeguard.guard';
 
 const routes: Routes = [
   {
@@ -16,11 +17,11 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'nuova-pratica', component: NuovaPraticaComponent },
+      { path: 'ricerca-pratiche', component: RicercaPraticheComponent },
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
-      { path: 'mie-pratiche', component: MiePraticheComponent}
+      { path: 'mie-pratiche', component: MiePraticheComponent, canActivate: [RouteGuard]}
     ],
-
   },
   {
     path: 'pratiche/:idModulo/:idPratica',
@@ -34,7 +35,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     PathLocationStrategy,
-    { provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
 })
 export class AppRoutingModule { }

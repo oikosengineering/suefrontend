@@ -1,50 +1,27 @@
 <mat-vertical-stepper [linear]="true" #stepper>
-    <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Specificare il tipo di pratica</ng-template>
-        <div class="div-radio-group">
-            <mat-label>Selezionare il tipo di pratica:</mat-label>
-            <mat-radio-group formControlName="tipo_pratica" class="vartical-radiobutton">
-                <ng-container *ngFor="let option of options">
-                    <mat-radio-button [value]="option.value">{{option.name}}</mat-radio-button>
-                </ng-container>
-            </mat-radio-group>
-            <mat-error>{{getErrorMessage(firstFormGroup.get('tipo_pratica'))}}</mat-error>
-        </div>
-        <div>
-          <button mat-button matStepperNext>Avanti</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Informazioni relativi alla nuova pratica</ng-template>
-        <mat-form-field class="div-full" appearance="outline">
-          <mat-label>Oggetto</mat-label>
-          <input matInput formControlName="oggetto" placeholder="Oggetto" required>
-          <mat-error>{{getErrorMessage(secondFormGroup.get('oggetto'))}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="div-full" appearance="outline">
-            <mat-label>Breve descrizione</mat-label>
-            <textarea matInput formControlName="descrizione" placeholder="Breve descrizione" required></textarea>
-            <mat-error>{{getErrorMessage(secondFormGroup.get('descrizione'))}}</mat-error>
-          </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Indietro</button>
-          <button mat-button matStepperNext>Avanti</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Riepilogo</ng-template>
-        <p>Confermi i seguenti dati?</p>
-        <p><strong>Tipo pratica: </strong> {{getPratica()}}</p>
-        <p><strong>Oggetto: </strong> {{secondFormGroup.value.oggetto}}</p>
-        <p><strong>Descrizione: </strong> {{secondFormGroup.value.descrizione}}</p>
-      <div>
-        <button mat-button matStepperPrevious>Indietro</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-        <button mat-button [disabled]="(!firstFormGroup.valid && !secondFormGroup.valid)" (click)="submit()">Conferma</button>
+  <mat-step *ngIf="isUserLoggedIn == false">
+    <ng-template matStepLabel>Accesso al sistema</ng-template>
+    <mat-label>E' richiesto l'accesso al portale per inviare le pratiche, puoi farlo cliccando </mat-label><a href="/login"><button class="button-login" mat-raised-button color="primary">qui</button></a>
+    <p>Se non vuoi farlo ora, sarà necessario effettuarlo prima di inoltrare la pratica.</p>
+    <div>
+      <button mat-button matStepperNext>Avanti</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Selezionare la tipologia di pratica</ng-template>
+      <div class="div-radio-group">
+        <mat-label>Selezionare il tipo di pratica:</mat-label>
+        <mat-radio-group formControlName="tipo_pratica" class="vartical-radiobutton">
+          <ng-container *ngFor="let option of options">
+            <mat-radio-button [value]="option.value">{{option.name}}</mat-radio-button>
+          </ng-container>
+        </mat-radio-group>
+        <mat-error>{{getErrorMessage(firstFormGroup.get('tipo_pratica'))}}</mat-error>
       </div>
-    </mat-step>
-  </mat-vertical-stepper>
+      <div>
+        <button mat-button [disabled]="(!firstFormGroup.valid)" (click)="submit()">Avanti</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>

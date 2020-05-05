@@ -31,6 +31,8 @@
             </button>
             <mat-error>{{getErrorMessage(form.get('password2'))}}</mat-error>
         </mat-form-field>
+        <mat-checkbox class="div-full" formControlName="privacy" required value="before">Accetti le condizioni sulla privacy</mat-checkbox>
+        <mat-error>{{getErrorMessage(form.get('privacy'))}}</mat-error>
         <mat-error class="error-form" *ngIf="getErrorMessage(form)"><mat-icon>info_outline</mat-icon>{{getErrorMessage(form)}}</mat-error>
         <div class="div-buttons">
           <span><mat-icon>info_outline</mat-icon> Se sei già registrato esegui la <a routerLink="/login">login</a>.</span>

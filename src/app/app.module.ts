@@ -23,6 +23,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
     LoginComponent,
     SignupComponent,
     UserComponent,
-    MiePraticheComponent
+    MiePraticheComponent,
+    RicercaPraticheComponent
   ],
   imports: [
     BrowserModule,
@@ -44,16 +47,17 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
     MaterialModule,
     FlexLayoutModule,
     ComponentsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule,
   ],
   providers: [
     CanDeactivateGuard,
-    {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},
+    { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas);
   }

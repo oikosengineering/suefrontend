@@ -25,3 +25,8 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+## Esempio di chiamata WMS
+
+http://192.168.0.12/cgi-bin/qgis_mapserv.fcgi?MAP=/usr/lib/qgis/chiavari.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1522671,4906505,1527936,4909890&SRS=EPSG:4326&WIDTH=665&HEIGHT=551&LAYERS=chiavari&FORMAT=image/png
