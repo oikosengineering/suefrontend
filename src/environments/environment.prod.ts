@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  api_url: 'https://api.digitale.comune.chiavari.ge.it',
+  api_url: 'https://api-digitale.comune.chiavari.it/frontoffice',
   oikos_url: 'https://geo.portalecomuni.net/sue/api/suechiavari',
   authEndPoint: {
     redirect_uri: 'https://map.portalecomuni.net/mapguide/progetti/testing/suechiavari/',
