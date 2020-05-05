@@ -123,6 +123,129 @@
             </mat-form-field>
             <mat-error>{{getErrorMessage(form.get('referente'))}}</mat-error>
         </mat-expansion-panel>
+        <mat-expansion-panel formGroupName="tecnico" class="referente-group" expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Referente 
+                </mat-panel-title>
+                <mat-panel-description>
+                  Compilare con i dati anagrafici del referente
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Tipologia</mat-label>
+                <mat-select formControlName="tipo_persona" (selectionChange)="changedTipologia(form.get('referente'), $event)">
+                    <mat-option>Nessuna</mat-option>
+                    <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
+                        {{tipologia.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(form.get('referente').get('tipo_persona'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Sesso</mat-label>
+                <mat-select formControlName="genere">
+                    <mat-option>Nessuna</mat-option>
+                    <mat-option *ngFor="let genere of generi" [value]="genere.value">
+                        {{genere.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(form.get('referente').get('genere'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Cognome</mat-label>
+                <input formControlName="cognome" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('cognome'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input formControlName="nome" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('nome'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Codice fiscale</mat-label>
+                <input formControlName="codicefiscale" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('codicefiscale'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Partita IVA</mat-label>
+                <input formControlName="partitaiva" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('partitaiva'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-full" appearance="outline">
+                <mat-label>Ragione sociale</mat-label>
+                <input matInput type="text" formControlName="ragionesociale" >
+                <mat-error>{{getErrorMessage(form.get('referente').get('ragionesociale'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Stato di nascita</mat-label>
+                <input formControlName="nascita_stato" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('nascita_stato'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Comune di nascita</mat-label>
+                <input formControlName="nascita_comune" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('nascita_comune'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Provincia di nascita</mat-label>
+                <input formControlName="nascita_provincia" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('nascita_provincia'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Data di nascita</mat-label>
+                <input formControlName="nascita_data" matInput [matDatepicker]="picker_tecnico">
+                <mat-datepicker-toggle matSuffix [for]="picker_tecnico"></mat-datepicker-toggle>
+                <mat-datepicker #picker_tecnico></mat-datepicker>
+                <mat-error>{{getErrorMessage(form.get('referente').get('nascita_data'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Comune</mat-label>
+                <input formControlName="comune_residenza" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('comune_residenza'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Provincia</mat-label>
+                <input formControlName="provincia_residenza" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('provincia_residenza'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Indirizzo</mat-label>
+                <input formControlName="indirizzo_residenza" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('indirizzo_residenza'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-quarter" appearance="outline">
+                <mat-label>N.</mat-label>
+                <input formControlName="civico_residenza" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('civico_residenza'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-quarter" appearance="outline">
+                <mat-label>Cap</mat-label>
+                <input formControlName="cap_residenza" matInput type="number">
+                <mat-error>{{getErrorMessage(form.get('referente').get('cap_residenza'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Telefono</mat-label>
+                <input formControlName="telefono" matInput type="number" (change)="check(form.get('referente'), 'telefono','cellulare')">
+                <mat-error>{{getErrorMessage(form.get('referente').get('telefono'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Cellulare</mat-label>
+                <input formControlName="cellulare" matInput type="number" (change)="check(form.get('referente'), 'cellulare','telefono')">
+                <mat-error>{{getErrorMessage(form.get('referente').get('cellulare'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput type="email">
+                <mat-error>{{getErrorMessage(form.get('referente').get('email'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>PEC</mat-label>
+                <input formControlName="pec" matInput type="email">
+                <mat-error>{{getErrorMessage(form.get('referente').get('pec'))}}</mat-error>
+            </mat-form-field>
+            <mat-error>{{getErrorMessage(form.get('referente'))}}</mat-error>
+        </mat-expansion-panel>
         <!-- <mat-expansion-panel formGroupName="tecnico" class="tecnico-group" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
