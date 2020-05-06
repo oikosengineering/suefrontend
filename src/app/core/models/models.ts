@@ -153,7 +153,7 @@ export interface Expert {
     first_name?: string;
     last_name?: string;
     fiscal_code?: string;
-    professional_title?: string;
+    professional_title?: Professional_Title;
     vat?: string;
     gender?: GenderType;
     address?: Address;
@@ -230,7 +230,7 @@ export interface Referrer {
     fiscal_code?: string;
     gender?: string;
     birth_date?: string;
-    birthplace?: string;
+    birthplace?: Birthplace;
     document?: FiscalDocument;
     address?: Address;
     phone?: string;

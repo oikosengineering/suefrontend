@@ -234,58 +234,6 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ]))
       }),
-      // tecnico: new FormGroup({
-      //   nome: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   cognome: new FormControl('', Validators.compose([Validators.required])),
-      //   cf: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //     Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
-      //   ])),
-      //   ragione_denominazione_sociale: new FormControl(''),
-      //   luogo_nascita: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   sede_legale: new FormControl(''),
-      //   p_iva: new FormControl('', Validators.compose([
-      //     Validators.pattern('/^[0-9]{11}$/')
-      //   ])),
-      //   documento_identita: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   provincia_nascita: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   data_nascita: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   luogo_residenza: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   provincia_residenza: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   indirizzo_residenza: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   numero_residenza: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //   ])),
-      //   cap_residenza: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //     Validators.minLength(5),
-      //     Validators.maxLength(5)
-      //   ])),
-      //   telefono: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //     Validators.pattern('/(0[1-9]|[12][0-9]|3[01])[\/](0[1-9]|1[012])[\/](19|20)\d\d/')
-      //   ])),
-      //   email: new FormControl('', Validators.compose([
-      //     Validators.required,
-      //     Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      //   ]))
-      // })
       dati_pratica: this.fb.group({
         motivo: new FormControl('', Validators.compose([
           Validators.required,
@@ -350,6 +298,74 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         }),
       })
     });
+
+    this.form = this.fb.group({
+      referrer: this.fb.group({
+        first_name: new FormControl('', Validators.compose([Validators.required])),
+        last_name: new FormControl('', Validators.compose([Validators.required])),
+        full_name: new FormControl('', Validators.compose([Validators.required])),
+        fiscal_code: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
+        ])),
+        gender: new FormControl('', Validators.compose([Validators.required])),
+        birth_date: new FormControl('', Validators.compose([Validators.required])),
+        birthplace: this.fb.group({
+          city: new FormControl('', Validators.compose([Validators.required])),
+          province: new FormControl('', Validators.compose([Validators.required])),
+        }),
+        document: this.fb.group({
+          document_type: new FormControl('', Validators.compose([Validators.required])),
+          document_number: new FormControl('', Validators.compose([Validators.required])),
+        }),
+        address: this.fb.group({
+          street_name: new FormControl('', Validators.compose([Validators.required])),
+          postcode: new FormControl('', Validators.compose([Validators.required])),
+          city: new FormControl('', Validators.compose([Validators.required])),
+          province: new FormControl('', Validators.compose([Validators.required])),
+          country: new FormControl('', Validators.compose([Validators.required])),
+        }),
+        email: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        ])),
+        phone: new FormControl('', Validators.compose([
+          Validators.required,
+        ])),
+      }),
+      expert: this.fb.group({
+        first_name: new FormControl('', Validators.compose([Validators.required])),
+        last_name: new FormControl('', Validators.compose([Validators.required])),
+        fiscal_code: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
+        ])),
+        professional_title: this.fb.group({
+          long: new FormControl(''),
+          short: new FormControl('')
+        }),
+        vat: new FormControl('', Validators.compose([
+          Validators.pattern('/^[0-9]{11}$/'),
+          Validators.required
+        ])),
+        gender: new FormControl('', Validators.compose([Validators.required])),
+        address: this.fb.group({
+          street_name: new FormControl('', Validators.compose([Validators.required])),
+          postcode: new FormControl('', Validators.compose([Validators.required])),
+          city: new FormControl('', Validators.compose([Validators.required])),
+          province: new FormControl('', Validators.compose([Validators.required])),
+          country: new FormControl('', Validators.compose([Validators.required])),
+        }),
+        pec: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        ])),
+        phone: new FormControl('', Validators.compose([
+          Validators.required,
+        ])),
+        type: new FormControl('', Validators.compose([Validators.required])),
+      })
+    })
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
