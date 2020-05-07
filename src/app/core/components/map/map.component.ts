@@ -154,7 +154,7 @@ export class MapComponent implements OnInit {
     let find = false;
     extents.forEach(extent => {
       if(!isEmpty(extent) && !find){
-        this.map.getView().fit(extent);
+        this.map.getView().fit(extent, {minResolution: 1});
         find = true;
       }
     })
