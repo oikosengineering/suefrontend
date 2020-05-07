@@ -25,7 +25,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import BaseLayer from 'ol/layer/Base';
 import WKT from 'ol/format/WKT';
 import { layer } from '@fortawesome/fontawesome-svg-core';
-
+import {Extent, isEmpty} from 'ol/extent';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -149,7 +149,15 @@ export class MapComponent implements OnInit {
       
     });
     this.addCustomControls();
-    this.checkInitFeatures();
+    
+    let extents: Extent[] = this.checkInitFeatures();
+    let find = false;
+    extents.forEach(extent => {
+      if(!isEmpty(extent) && !find){
+        this.map.getView().fit(extent);
+        find = true;
+      }
+    })
     this.map.getLayers().getArray().forEach(layer => {
       if(!(layer instanceof TileLayer)){
         layer.get('source').on('addfeature', (event) => this.onAddFeature(event));
@@ -169,6 +177,7 @@ export class MapComponent implements OnInit {
 
   checkInitFeatures(){
     if(this.options.features.length > 0){
+      let extents = [];
       let format = new WKT()
       this.options.features.forEach(init_feature => {
         let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == init_feature.type);
@@ -178,7 +187,11 @@ export class MapComponent implements OnInit {
           new_feature.setProperties({'target': init_feature.type})
           source.addFeature(new_feature);
         });
+        extents.push(source.getExtent());
       })
+      return extents;
+    } else {
+      return [];
     }
   }
 
