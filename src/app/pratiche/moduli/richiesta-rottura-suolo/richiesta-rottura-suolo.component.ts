@@ -294,10 +294,16 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         area_scavi: new FormControl('', Validators.compose([
           Validators.required
         ])),
+        geometria_scavo: new FormControl([], Validators.compose([
+          Validators.required
+        ])),
         pavimentazione: new FormControl('', Validators.compose([
           Validators.required,
         ])),
         area_cantiere: new FormControl('', Validators.compose([
+          Validators.required
+        ])),
+        geometria_cantiere: new FormControl([], Validators.compose([
           Validators.required
         ])),
         durata_lavori: new FormControl('', Validators.compose([
@@ -495,9 +501,30 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   openMap() {
     event.preventDefault();
     event.stopPropagation();
-    this.dialog.openMap(this.map_cfg).subscribe(value => {
+    let features = [
+      {
+        type: 'scavo',
+        features: this.form.get('dati_pratica').get('geometria_scavo').value
+      },
+      {
+        type: 'cantiere',
+        features: this.form.get('dati_pratica').get('geometria_cantiere').value
+      }
+    ]
+    this.map_cfg.features = features;
+    this.dialog.openMap(this.map_cfg, ).subscribe(value => {
       if (value) {
         this.map_cfg.features = value;
+        value.forEach(feature => {
+          switch(feature.type){
+            case 'scavo':
+              this.form.get('dati_pratica').get('geometria_scavo').patchValue(feature.features);
+              break;
+            case 'cantiere':
+              this.form.get('dati_pratica').get('geometria_cantiere').patchValue(feature.features);
+          }
+        });
+        console.log("Dati pratica",this.form.get('dati_pratica').value);
       }
       console.log('Mappa chiusa', value);
     }, error => {
