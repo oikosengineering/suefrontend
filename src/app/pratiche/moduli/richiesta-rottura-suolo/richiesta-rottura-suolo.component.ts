@@ -294,7 +294,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         area_scavi: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        geometria_scavo: new FormControl([], Validators.compose([
+        geometria_scavi: new FormControl([], Validators.compose([
           Validators.required
         ])),
         pavimentazione: new FormControl('', Validators.compose([
@@ -504,7 +504,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     let features = [
       {
         type: 'scavo',
-        features: this.form.get('dati_pratica').get('geometria_scavo').value
+        features: this.form.get('dati_pratica').get('geometria_scavi').value
       },
       {
         type: 'cantiere',
@@ -518,10 +518,12 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         value.forEach(feature => {
           switch(feature.type){
             case 'scavo':
-              this.form.get('dati_pratica').get('geometria_scavo').patchValue(feature.features);
+              this.form.get('dati_pratica').get('geometria_scavi').patchValue(feature.features);
+              this.form.get('dati_pratica').get('area_scavi').patchValue(feature.area);
               break;
             case 'cantiere':
               this.form.get('dati_pratica').get('geometria_cantiere').patchValue(feature.features);
+              this.form.get('dati_pratica').get('area_cantiere').patchValue(feature.area);
           }
         });
         console.log("Dati pratica",this.form.get('dati_pratica').value);
