@@ -48,7 +48,15 @@ mat-card {
     margin-bottom: 1em;
 }
 
+.div-checkbox{
+    margin-bottom: 1em;
+}
+
 mat-radio-group.ng-invalid .mat-radio-outer-circle {
+    border-color: rgb(244, 67, 54);
+}
+
+mat-checkbox.ng-invalid .mat-checkbox-frame {
     border-color: rgb(244, 67, 54);
 }
 
