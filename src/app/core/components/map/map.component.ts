@@ -26,6 +26,8 @@ import BaseLayer from 'ol/layer/Base';
 import WKT from 'ol/format/WKT';
 import { layer } from '@fortawesome/fontawesome-svg-core';
 import {Extent, isEmpty} from 'ol/extent';
+import Geometry from 'ol/geom/Geometry';
+import LinearRing from 'ol/geom/LinearRing';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -48,6 +50,9 @@ export class MapComponent implements OnInit {
   translate;
   modify;
   eraser;
+
+  measureTooltipElement;
+  measureTooltip;
 
   base_layers;
   layers;
@@ -344,6 +349,22 @@ export class MapComponent implements OnInit {
   }
 
   onDrawStart(event){
+      let sketch = event.feature;
+      var tooltipCoord = event.coordinate;
+      this.createMeasureTooltip();
+      let listener = sketch.getGeometry().on('change', (evt) => {
+        
+        
+        
+        var geom: Polygon = evt.target;
+        console.log("draw event",geom);
+        var output;
+        output = this.formatLength(geom);
+        tooltipCoord = geom.getInteriorPoint().getCoordinates();
+        
+        this.measureTooltipElement.innerHTML = output;
+        this.measureTooltip.setPosition(tooltipCoord);
+      });
     this.select.setActive(false);
   }
 
@@ -368,6 +389,20 @@ export class MapComponent implements OnInit {
   printInfo(event){
     let features: Feature[] = event.selected;
     console.log(features);
+  }
+
+  createMeasureTooltip() {
+    if (this.measureTooltipElement) {
+      this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
+    }
+    this.measureTooltipElement = document.createElement('div');
+    this.measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure';
+    this.measureTooltip = new Overlay({
+      element: this.measureTooltipElement,
+      offset: [0, -15],
+      positioning: OverlayPositioning.BOTTOM_CENTER
+    });
+    this.map.addOverlay(this.measureTooltip);
   }
 
   formatLength(line){
