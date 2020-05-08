@@ -52,6 +52,31 @@ mat-card {
     margin-bottom: 1em;
 }
 
+.button-add{
+    float: right;
+    margin-bottom: 1em;
+}
+
+.button-delete{
+    position: absolute !important;
+    top: -0.9em;
+    right: -0em;
+    width: 25px !important;
+    height: 25px !important;
+    .mat-button-wrapper{
+        width: 25px !important;
+        height: 25px !important;
+        padding: 1px 0 !important;
+        * {
+            vertical-align: baseline !important;
+        }
+    }
+}
+
+.array-list{
+    padding-top: 2em;
+}
+
 mat-radio-group.ng-invalid .mat-radio-outer-circle {
     border-color: rgb(244, 67, 54);
 }
@@ -61,15 +86,19 @@ mat-checkbox.ng-invalid .mat-checkbox-frame {
 }
 
 mat-expansion-panel.ng-invalid {
-    border-left: solid 3px red;
+    border-left: solid 2px red;
 }
 
 mat-card.ng-invalid {
-    border: solid 2px red;
+    border-left: solid 2px red;
 }
 
 mat-expansion-panel.ng-valid{
-    border-left: solid 3px green;
+    border-left: solid 2px green;
+}
+
+mat-card.ng-ivalid {
+    border-left: solid 2px green;
 }
 
 mat-radio-button{
@@ -179,6 +208,19 @@ mat-radio-button{
     .div-a-quarter{
         width: 50%;
         display: inline-block;
+    }
+    mat-expansion-panel{
+        mat-expansion-panel-header{
+            padding: 0.5em;
+        }
+        .mat-expansion-panel-body{
+            padding: 0.5em;
+        }
+    }
+
+    mat-card {
+        padding-left: 0.5em !important;
+        padding-right: 0.5em !important;
     }
 }
 

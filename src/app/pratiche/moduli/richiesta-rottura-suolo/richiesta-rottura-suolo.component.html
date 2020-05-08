@@ -106,6 +106,47 @@
                 <input formControlName="cap_residenza" matInput type="number">
                 <mat-error>{{getErrorMessage(form.get('referente').get('cap_residenza'))}}</mat-error>
             </mat-form-field>
+            <mat-expansion-panel [disabled]="!formContattiReferente.enabled" formArrayName="contatti" [expanded]="formContattiReferente.enabled && formContattiReferente.controls.length > 0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Contatti 
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Lista contatti
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card class="array-list" *ngFor="let contatto of formContattiReferente.controls; let i = index;" [formGroupName]="i">
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Tipo</mat-label>
+                        <mat-select formControlName="tipo">
+                            <mat-option>Nessuna</mat-option>
+                            <mat-option *ngFor="let tipologia of tipologie_contatto" [value]="tipologia.value">
+                                {{tipologia.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{getErrorMessage(formContattiReferente.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Nome referente</mat-label>
+                        <input formControlName="nome" matInput type="text">
+                        <mat-error>{{getErrorMessage(formContattiReferente.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Telefono</mat-label>
+                        <input formControlName="telefono" matInput type="number">
+                        <mat-error>{{getErrorMessage(formContattiReferente.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="email" matInput type="email">
+                        <mat-error>{{getErrorMessage(formContattiReferente.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <button class="button-delete" mat-mini-fab color="warn" (click)="removeContatto(formContattiReferente, i);"><mat-icon>close</mat-icon></button>
+                </mat-card>
+                <div class="div-full">
+                    <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('referente').get('contatti'));">Aggiungi</button>
+                </div>
+            </mat-expansion-panel>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Telefono</mat-label>
                 <input formControlName="telefono" matInput type="number" (change)="check(form.get('referente'), 'telefono','cellulare')">
@@ -229,6 +270,47 @@
                 <input formControlName="cap_residenza" matInput type="number">
                 <mat-error>{{getErrorMessage(form.get('tecnico').get('cap_residenza'))}}</mat-error>
             </mat-form-field>
+            <mat-expansion-panel [disabled]="!formContattiTecnico.enabled" formArrayName="contatti" [expanded]="formContattiTecnico.enabled && formContattiTecnico.controls.length > 0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Contatti 
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Lista contatti
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card class="array-list" *ngFor="let contatto of formContattiTecnico.controls; let i = index;" [formGroupName]="i">
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Tipo</mat-label>
+                        <mat-select formControlName="tipo">
+                            <mat-option>Nessuna</mat-option>
+                            <mat-option *ngFor="let tipologia of tipologie_contatto" [value]="tipologia.value">
+                                {{tipologia.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{getErrorMessage(formContattiTecnico.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Nome referente</mat-label>
+                        <input formControlName="nome" matInput type="text">
+                        <mat-error>{{getErrorMessage(formContattiTecnico.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Telefono</mat-label>
+                        <input formControlName="telefono" matInput type="number">
+                        <mat-error>{{getErrorMessage(formContattiTecnico.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="email" matInput type="email">
+                        <mat-error>{{getErrorMessage(formContattiTecnico.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <button class="button-delete" mat-mini-fab color="warn" (click)="removeContatto(formContattiTecnico, i);"><mat-icon>close</mat-icon></button>
+                </mat-card>
+                <div class="div-full">
+                    <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('tecnico').get('contatti'));">Aggiungi</button>
+                </div>
+            </mat-expansion-panel>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Telefono</mat-label>
                 <input formControlName="telefono" matInput type="number" (change)="check(form.get('tecnico'), 'telefono','cellulare')">
@@ -305,6 +387,47 @@
                 <input formControlName="cap_residenza" matInput type="number">
                 <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('cap_residenza'))}}</mat-error>
             </mat-form-field>
+            <mat-expansion-panel formArrayName="contatti" [expanded]="formContattiDitta.controls.length > 0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Contatti 
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Lista contatti
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card class="array-list" *ngFor="let contatto of formContattiDitta.controls; let i = index;" [formGroupName]="i">
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Tipo</mat-label>
+                        <mat-select formControlName="tipo">
+                            <mat-option>Nessuna</mat-option>
+                            <mat-option *ngFor="let tipologia of tipologie_contatto" [value]="tipologia.value">
+                                {{tipologia.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{getErrorMessage(formContattiDitta.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Nome referente</mat-label>
+                        <input formControlName="nome" matInput type="text">
+                        <mat-error>{{getErrorMessage(formContattiDitta.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Telefono</mat-label>
+                        <input formControlName="telefono" matInput type="number">
+                        <mat-error>{{getErrorMessage(formContattiDitta.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-half" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="email" matInput type="email">
+                        <mat-error>{{getErrorMessage(formContattiDitta.controls[i].get('tipo'))}}</mat-error>
+                    </mat-form-field>
+                    <button class="button-delete" mat-mini-fab color="warn" (click)="removeContatto(formContattiDitta, i);"><mat-icon>close</mat-icon></button>
+                </mat-card>
+                <div class="div-full">
+                    <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('ditta_lavori').get('contatti'));">Aggiungi</button>
+                </div>
+            </mat-expansion-panel>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Telefono</mat-label>
                 <input formControlName="telefono" matInput type="number" (change)="check(form.get('ditta_lavori'), 'telefono','cellulare')">
