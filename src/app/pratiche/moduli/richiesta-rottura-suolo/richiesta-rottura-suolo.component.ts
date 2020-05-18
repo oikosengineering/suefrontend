@@ -148,8 +148,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   createForm() {
     this.form = this.fb.group({
       delegato: new FormControl(''),
-      referente: this.createPersona(),
-      tecnico: this.createPersona(),
+      referente: this.createProprietario(),
+      tecnico: this.createProprietario(),
       dati_pratica: this.createDatiPratica(),
       esecutore_lavori: new FormControl('business', Validators.compose([
         Validators.required
@@ -241,7 +241,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       ])),
     })
   }
-  createPersona(): FormGroup {
+  createProprietario(): FormGroup {
     return this.fb.group({
       tipo_persona: new FormControl(null, Validators.compose([
         Validators.required
