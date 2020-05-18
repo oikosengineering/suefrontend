@@ -37,6 +37,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Contabilità", value: "accounting"},
     {name: "Altro", value: "other"}
   ]
+  qualifiche = [
+    {name: "Proprietario", value:"owner"},
+    {name: "Rappresentante della compagnia", value:"company_representative"},
+    {name: "Amministratore", value:"property_manager"}
+  ]
 
   map_cfg = {
     buttons: [
@@ -130,6 +135,10 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         Validators.required
       ])),
       ditta_lavori: this.createDitta(),
+      qualifica: new FormControl('owner', Validators.compose([
+        Validators.required
+      ])),
+      amministratore: this.createEsperto(),
       allegati_pratica: this.fb.group({
         marca_bollo: this.fb.group({
           codice_bollo: new FormControl('', Validators.compose([
@@ -278,6 +287,51 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       ]))
     });
   }
+  createEsperto(): FormGroup {
+    return this.fb.group({
+      genere: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      nome: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      cognome: new FormControl('', Validators.compose([Validators.required])),
+      codicefiscale: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
+      ])),
+      titolo_professionale: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      partitaiva: new FormControl('', Validators.compose([
+        Validators.pattern('/^[0-9]{11}$/')
+      ])),
+      comune_residenza: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      provincia_residenza: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      indirizzo_residenza: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      civico_residenza: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      cap_residenza: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(5)
+      ])),
+      telefono: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      pec: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+      ]))
+    });
+  }
   createDitta(): FormGroup {
     return this.fb.group({
       ragionesociale: new FormControl(''),
@@ -355,6 +409,10 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     if(!this.form.get('delegato').value){
       this.form.get('tecnico').disable();
       this.form.get('tecnico').updateValueAndValidity();
+    }
+    if(this.form.get('qualifica').value == 'owner'){
+      this.form.get('amministratore').disable();
+      this.form.get('amministratore').updateValueAndValidity();
     }
   }
 
@@ -463,6 +521,19 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         control.disable()
         control.updateValueAndValidity();
         break;
+    }
+  }
+
+  changeQualifica(event: MatRadioChange, control: AbstractControl){
+    switch(event.value){
+      case 'owner':
+        control.disable();
+        control.updateValueAndValidity();
+        break;
+      default:
+        control.enable()
+        control.updateValueAndValidity();
+      break;
     }
   }
 
