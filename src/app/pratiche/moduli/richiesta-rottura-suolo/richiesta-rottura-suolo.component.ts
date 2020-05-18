@@ -20,12 +20,12 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     { name: "Persona giuridica", value: 1 }
   ];
   generi = [
-    { name: "Maschio", value: 'm' },
-    { name: "Femmina", value: 'f' }
+    { name: "Maschio", value: 'M' },
+    { name: "Femmina", value: 'F' }
   ];
   pavimentazioni = [
-    { name: "Stradale", value: 0, price: 200, min: 2500 },
-    { name: "Pavimentazione di pregio", value: 1, price: 250, min: 5000 }
+    { name: "Stradale", value: 'standard', price: 200, min: 2500 },
+    { name: "Pavimentazione di pregio", value: 'high-quality', price: 250, min: 5000 }
   ];
   esecutori = [
     {name: "In proprio", value: 'self'},
@@ -41,6 +41,26 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     {name: "Proprietario", value:"owner"},
     {name: "Rappresentante della compagnia", value:"company_representative"},
     {name: "Amministratore", value:"property_manager"}
+  ]
+  titoli_professionali = [
+    "architetto",
+    "avvocato",
+    "cavaliere",
+    "commendatore",
+    "dottore",
+    "dottoressa",
+    "generale",
+    "geometra",
+    "ingegnere",
+    "monsignore",
+    "onorevole",
+    "professore",
+    "professoressa",
+    "ragioniere",
+    "reverendo",
+    "senatore",
+    "tenente",
+    "ufficiale"
   ]
 
   map_cfg = {
@@ -446,6 +466,12 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     } else {
       form.get(dest).patchValue(min);
     }
+  }
+
+  minDate(){
+    var result = new Date();
+    result.setDate(result.getDate() + 15);
+    return result;
   }
 
   calculateMinDate(form: AbstractControl, target: string) {

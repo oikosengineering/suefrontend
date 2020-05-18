@@ -480,16 +480,6 @@
                 <mat-error>{{getErrorMessage(form.get('amministratore').get('nome'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Sesso</mat-label>
-                <mat-select formControlName="genere">
-                    <mat-option>Nessuna</mat-option>
-                    <mat-option *ngFor="let genere of generi" [value]="genere.value">
-                        {{genere.name}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>{{getErrorMessage(form.get('amministratore').get('genere'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Codice fiscale</mat-label>
                 <input formControlName="codicefiscale" matInput type="text">
                 <mat-error>{{getErrorMessage(form.get('amministratore').get('codicefiscale'))}}</mat-error>
@@ -501,8 +491,23 @@
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Titolo professionale</mat-label>
-                <input matInput type="text" formControlName="titolo_professionale" >
+                <mat-select formControlName="titolo_professionale">
+                    <mat-option>Nessuna</mat-option>
+                    <mat-option *ngFor="let titolo of titoli_professionali" [value]="titolo">
+                        {{titolo | titlecase}}
+                    </mat-option>
+                </mat-select>
                 <mat-error>{{getErrorMessage(form.get('amministratore').get('titolo_professionale'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Sesso</mat-label>
+                <mat-select formControlName="genere">
+                    <mat-option>Nessuna</mat-option>
+                    <mat-option *ngFor="let genere of generi" [value]="genere.value">
+                        {{genere.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(form.get('amministratore').get('genere'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Comune</mat-label>
@@ -563,7 +568,7 @@
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Inizio lavori</mat-label>
-                <input formControlName="inizio_lavori" matInput [matDatepicker]="inizio_lavori" (dateChange)="differenceDate(form.get('dati_pratica'), 'fine_lavori', 'inizio_lavori', 'durata_lavori')">
+                <input formControlName="inizio_lavori" [min]="minDate()" matInput [matDatepicker]="inizio_lavori" (dateChange)="differenceDate(form.get('dati_pratica'), 'fine_lavori', 'inizio_lavori', 'durata_lavori')">
                 <mat-datepicker-toggle matSuffix [for]="inizio_lavori"></mat-datepicker-toggle>
                 <mat-datepicker #inizio_lavori></mat-datepicker>
                 <mat-error>{{getErrorMessage(form.get('dati_pratica').get('inizio_lavori'))}}</mat-error>
