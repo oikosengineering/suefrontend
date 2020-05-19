@@ -542,6 +542,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('birthplace').enable();
         form.get('county_of_birth').enable();
         form.get('birthday').enable();
+        form.get('document_type').enable();
+        form.get('document_number').enable();
         form.get('contacts').disable();
         form.get('name').clearValidators();
         form.get('name').updateValueAndValidity();
@@ -556,6 +558,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('birthplace').disable();
         form.get('county_of_birth').disable();
         form.get('birthday').disable();
+        form.get('document_type').disable();
+        form.get('document_number').disable();
         form.get('name').enable();
         form.get('contacts').enable();
         form.get('name').setValidators([Validators.required]);
