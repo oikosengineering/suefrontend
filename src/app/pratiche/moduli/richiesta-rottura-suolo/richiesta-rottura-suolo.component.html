@@ -11,7 +11,7 @@
             </mat-expansion-panel-header>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Tipologia</mat-label>
-                <mat-select formControlName="tipo_persona" (selectionChange)="changedTipologia(form.get('referente'), $event)">
+                <mat-select formControlName="tipo_persona" (selectionChange)="changedTipologiaPersona(form.get('referente'), $event)">
                     <mat-option>Nessuna</mat-option>
                     <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
                         {{tipologia.name}}
@@ -55,52 +55,59 @@
                 <mat-error>{{getErrorMessage(form.get('referente').get('ragionesociale'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Stato di nascita</mat-label>
-                <input formControlName="nascita_stato" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('referente').get('nascita_stato'))}}</mat-error>
+                <mat-label>Tipo documento</mat-label>
+                <mat-select formControlName="tipo_documento">
+                    <mat-option>Nessuna</mat-option>
+                    <mat-option *ngFor="let documento of tipi_documento" [value]="documento.value">
+                        {{documento.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(form.get('referente').get('tipo_documento'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Numero documento</mat-label>
+                <input formControlName="numero_documento" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('numero_documento'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third" appearance="outline">
+                <mat-label>Provincia di nascita (o Stato estero)</mat-label>
+                <input formControlName="nascita_provincia" matInput type="text">
+                <mat-error>{{getErrorMessage(form.get('referente').get('nascita_provincia'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Comune di nascita</mat-label>
                 <input formControlName="nascita_comune" matInput type="text">
                 <mat-error>{{getErrorMessage(form.get('referente').get('nascita_comune'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Provincia di nascita</mat-label>
-                <input formControlName="nascita_provincia" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('referente').get('nascita_provincia'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
+            <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Data di nascita</mat-label>
                 <input formControlName="nascita_data" matInput [matDatepicker]="picker_referente">
                 <mat-datepicker-toggle matSuffix [for]="picker_referente"></mat-datepicker-toggle>
                 <mat-datepicker #picker_referente></mat-datepicker>
                 <mat-error>{{getErrorMessage(form.get('referente').get('nascita_data'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Comune</mat-label>
-                <input formControlName="comune_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('referente').get('comune_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Provincia</mat-label>
-                <input formControlName="provincia_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('referente').get('provincia_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Indirizzo</mat-label>
-                <input formControlName="indirizzo_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('referente').get('indirizzo_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>N.</mat-label>
-                <input formControlName="civico_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('referente').get('civico_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>Cap</mat-label>
-                <input formControlName="cap_residenza" matInput type="number">
-                <mat-error>{{getErrorMessage(form.get('referente').get('cap_residenza'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="indirizzo">
+                <mat-form-field class="div-two-thirds" appearance="outline">
+                    <mat-label>Indirizzo</mat-label>
+                    <input formControlName="indirizzo_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('referente').get('indirizzo').get('indirizzo_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Cap</mat-label>
+                    <input formControlName="cap_residenza" matInput type="number">
+                    <mat-error>{{getErrorMessage(form.get('referente').get('indirizzo').get('cap_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Provincia</mat-label>
+                    <input formControlName="provincia_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('referente').get('indirizzo').get('provincia_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Comune</mat-label>
+                    <input formControlName="comune_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('referente').get('indirizzo').get('comune_residenza'))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <mat-expansion-panel [disabled]="!formContattiReferente.enabled" formArrayName="contatti" [expanded]="formContattiReferente.enabled && formContattiReferente.controls.length > 0">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -180,7 +187,7 @@
             </mat-expansion-panel-header>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Tipologia</mat-label>
-                <mat-select formControlName="tipo_persona" (selectionChange)="changedTipologia(form.get('tecnico'), $event)">
+                <mat-select formControlName="tipo_persona" (selectionChange)="changedTipologiaEsperto(form.get('tecnico'), $event)">
                     <mat-option>Nessuna</mat-option>
                     <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
                         {{tipologia.name}}
@@ -223,53 +230,28 @@
                 <input matInput type="text" formControlName="ragionesociale" >
                 <mat-error>{{getErrorMessage(form.get('tecnico').get('ragionesociale'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Stato di nascita</mat-label>
-                <input formControlName="nascita_stato" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('nascita_stato'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Comune di nascita</mat-label>
-                <input formControlName="nascita_comune" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('nascita_comune'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Provincia di nascita</mat-label>
-                <input formControlName="nascita_provincia" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('nascita_provincia'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Data di nascita</mat-label>
-                <input formControlName="nascita_data" matInput [matDatepicker]="picker_tecnico">
-                <mat-datepicker-toggle matSuffix [for]="picker_tecnico"></mat-datepicker-toggle>
-                <mat-datepicker #picker_tecnico></mat-datepicker>
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('nascita_data'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Comune</mat-label>
-                <input formControlName="comune_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('comune_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Provincia</mat-label>
-                <input formControlName="provincia_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('provincia_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Indirizzo</mat-label>
-                <input formControlName="indirizzo_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('indirizzo_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>N.</mat-label>
-                <input formControlName="civico_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('civico_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>Cap</mat-label>
-                <input formControlName="cap_residenza" matInput type="number">
-                <mat-error>{{getErrorMessage(form.get('tecnico').get('cap_residenza'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="indirizzo">
+                <mat-form-field class="div-two-thirds" appearance="outline">
+                    <mat-label>Indirizzo</mat-label>
+                    <input formControlName="indirizzo_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('tecnico').get('indirizzo').get('indirizzo_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Cap</mat-label>
+                    <input formControlName="cap_residenza" matInput type="number">
+                    <mat-error>{{getErrorMessage(form.get('tecnico').get('indirizzo').get('cap_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Provincia</mat-label>
+                    <input formControlName="provincia_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('tecnico').get('indirizzo').get('provincia_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Comune</mat-label>
+                    <input formControlName="comune_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('tecnico').get('indirizzo').get('comune_residenza'))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <mat-expansion-panel [disabled]="!formContattiTecnico.enabled" formArrayName="contatti" [expanded]="formContattiTecnico.enabled && formContattiTecnico.controls.length > 0">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -392,40 +374,37 @@
                 </mat-select>
                 <mat-error>{{getErrorMessage(form.get('amministratore').get('genere'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Comune</mat-label>
-                <input formControlName="comune_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('amministratore').get('comune_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Provincia</mat-label>
-                <input formControlName="provincia_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('amministratore').get('provincia_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Indirizzo</mat-label>
-                <input formControlName="indirizzo_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('amministratore').get('indirizzo_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>N.</mat-label>
-                <input formControlName="civico_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('amministratore').get('civico_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>Cap</mat-label>
-                <input formControlName="cap_residenza" matInput type="number">
-                <mat-error>{{getErrorMessage(form.get('amministratore').get('cap_residenza'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="indirizzo">
+                <mat-form-field class="div-two-thirds" appearance="outline">
+                    <mat-label>Indirizzo</mat-label>
+                    <input formControlName="indirizzo_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('amministratore').get('indirizzo').get('indirizzo_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Cap</mat-label>
+                    <input formControlName="cap_residenza" matInput type="number">
+                    <mat-error>{{getErrorMessage(form.get('amministratore').get('indirizzo').get('cap_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Provincia</mat-label>
+                    <input formControlName="provincia_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('amministratore').get('indirizzo').get('provincia_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Comune</mat-label>
+                    <input formControlName="comune_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('amministratore').get('indirizzo').get('comune_residenza'))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Telefono</mat-label>
                 <input formControlName="telefono" matInput type="number">
                 <mat-error>{{getErrorMessage(form.get('amministratore').get('telefono'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
-                <mat-label>PEC</mat-label>
-                <input formControlName="pec" matInput type="email">
-                <mat-error>{{getErrorMessage(form.get('amministratore').get('pec'))}}</mat-error>
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput type="email">
+                <mat-error>{{getErrorMessage(form.get('amministratore').get('email'))}}</mat-error>
             </mat-form-field>
             <mat-error>{{getErrorMessage(form.get('amministratore'))}}</mat-error>
         </mat-expansion-panel>
@@ -458,31 +437,28 @@
                 <input formControlName="partitaiva" matInput type="text">
                 <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('partitaiva'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Comune</mat-label>
-                <input formControlName="comune_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('comune_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Provincia</mat-label>
-                <input formControlName="provincia_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('provincia_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Indirizzo</mat-label>
-                <input formControlName="indirizzo_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('indirizzo_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>N.</mat-label>
-                <input formControlName="civico_residenza" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('civico_residenza'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-quarter" appearance="outline">
-                <mat-label>Cap</mat-label>
-                <input formControlName="cap_residenza" matInput type="number">
-                <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('cap_residenza'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="indirizzo">
+                <mat-form-field class="div-two-thirds" appearance="outline">
+                    <mat-label>Indirizzo</mat-label>
+                    <input formControlName="indirizzo_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('indirizzo').get('indirizzo_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Cap</mat-label>
+                    <input formControlName="cap_residenza" matInput type="number">
+                    <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('indirizzo').get('cap_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Provincia</mat-label>
+                    <input formControlName="provincia_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('indirizzo').get('provincia_residenza'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Comune</mat-label>
+                    <input formControlName="comune_residenza" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('indirizzo').get('comune_residenza'))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <mat-expansion-panel formArrayName="contatti" [expanded]="formContattiDitta.controls.length > 0">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -530,19 +506,9 @@
                 <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('telefono'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Cellulare</mat-label>
-                <input formControlName="cellulare" matInput type="number" (change)="check(form.get('ditta_lavori'), 'cellulare','telefono')">
-                <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('cellulare'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Email</mat-label>
                 <input formControlName="email" matInput type="email">
                 <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('email'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>PEC</mat-label>
-                <input formControlName="pec" matInput type="email">
-                <mat-error>{{getErrorMessage(form.get('ditta_lavori').get('pec'))}}</mat-error>
             </mat-form-field>
             <mat-error>{{getErrorMessage(form.get('ditta_lavori'))}}</mat-error>
         </mat-expansion-panel>
