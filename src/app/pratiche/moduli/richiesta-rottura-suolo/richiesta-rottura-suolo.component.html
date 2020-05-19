@@ -534,39 +534,39 @@
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Inizio lavori</mat-label>
-                <input formControlName="inizio_lavori" [min]="minDate()" matInput [matDatepicker]="inizio_lavori" (dateChange)="differenceDate(form.get('details'), 'fine_lavori', 'inizio_lavori', 'durata_lavori')">
-                <mat-datepicker-toggle matSuffix [for]="inizio_lavori"></mat-datepicker-toggle>
-                <mat-datepicker #inizio_lavori></mat-datepicker>
-                <mat-error>{{getErrorMessage(form.get('details').get('inizio_lavori'))}}</mat-error>
+                <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form.get('details'), 'end_date', 'start_date', 'duration')">
+                <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+                <mat-datepicker #start_date></mat-datepicker>
+                <mat-error>{{getErrorMessage(form.get('details').get('start_date'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Fine lavori</mat-label>
-                <input formControlName="fine_lavori" [min]="calculateMinDate(form.get('details'), 'inizio_lavori')" matInput [matDatepicker]="fine_lavori" (dateChange)="differenceDate(form.get('details'), 'fine_lavori', 'inizio_lavori', 'durata_lavori')">
-                <mat-datepicker-toggle matSuffix [for]="fine_lavori"></mat-datepicker-toggle>
-                <mat-datepicker #fine_lavori></mat-datepicker>
-                <mat-error>{{getErrorMessage(form.get('details').get('fine_lavori'))}}</mat-error>
+                <input formControlName="end_date" [min]="calculateMinDate(form.get('details'), 'start_date')" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form.get('details'), 'end_date', 'start_date', 'duration')">
+                <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+                <mat-datepicker #end_date></mat-datepicker>
+                <mat-error>{{getErrorMessage(form.get('details').get('end_date'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third text-right" appearance="outline">
                 <mat-label>Durata lavori</mat-label>
-                <input matInput formControlName="durata_lavori" type="number" readonly="true">
+                <input matInput formControlName="duration" type="number" readonly="true">
                 <span matSuffix>gg</span>
-                <mat-error>{{getErrorMessage(form.get('details').get('durata_lavori'))}}</mat-error>
+                <mat-error>{{getErrorMessage(form.get('details').get('duration'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third text-right" appearance="outline">
                 <mat-label>Estensione degli scavi</mat-label>
-                <input matInput formControlName="area_scavi" type="number" (change)="multiplicationPolizza(form.get('details'), 'area_scavi', 'pavimentazione', 'valore_polizza')">
+                <input matInput formControlName="area_scavi" type="number" (change)="multiplicationPolizza(form.get('details'), 'area_scavi', 'flooring_type', 'valore_polizza')">
                 <span matSuffix>m<sup>2</sup></span>
                 <mat-error>{{getErrorMessage(form.get('details').get('area_scavi'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Tipologia pavimentazione</mat-label>
-                <mat-select formControlName="pavimentazione" (selectionChange)="multiplicationPolizza(form.get('details'), 'area_scavi', 'pavimentazione', 'valore_polizza')">
+                <mat-select formControlName="flooring_type" (selectionChange)="multiplicationPolizza(form.get('details'), 'area_scavi', 'flooring_type', 'valore_polizza')">
                     <mat-option>Nessuna</mat-option>
-                    <mat-option *ngFor="let pavimentazione of pavimentazioni" [value]="pavimentazione.value">
-                        {{pavimentazione.name}} - € {{pavimentazione.price}} m<sup>2</sup>
+                    <mat-option *ngFor="let flooring_type of pavimentazioni" [value]="flooring_type.value">
+                        {{flooring_type.name}} - € {{flooring_type.price}} m<sup>2</sup>
                     </mat-option>
                 </mat-select>
-                <mat-error>{{getErrorMessage(form.get('details').get('pavimentazione'))}}</mat-error>
+                <mat-error>{{getErrorMessage(form.get('details').get('flooring_type'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third text-right" appearance="outline">
                 <mat-label>Estensione del cantiere</mat-label>

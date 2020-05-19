@@ -16,8 +16,8 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 export class RichiestaRotturaSuoloComponent implements OnInit {
   form: FormGroup;
   tipologie = [
-    { name: "Persona fisica", value: 0 },
-    { name: "Persona giuridica", value: 1 }
+    { name: "Persona fisica", value: 'person' },
+    { name: "Persona giuridica", value: 'business' }
   ];
   generi = [
     { name: "Maschio", value: 'M' },
@@ -153,8 +153,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   createForm() {
     this.form = this.fb.group({
       delegated: new FormControl(false),
-      owner: this.createProprietario(),
-      expert: this.createEspertoDitta(),
+      owner: this.createOwner(),
+      expert: this.createExpertBusiness(),
       details: this.createDatiPratica(),
       work_supplier: new FormControl('self', Validators.compose([
         Validators.required
@@ -210,13 +210,15 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         Validators.required,
         Validators.maxLength(1000)
       ])),
+      excavation_details: this.createGeometryDetails(),
+      building_site: this.createGeometryDetails(),
       area_scavi: new FormControl('', Validators.compose([
         Validators.required
       ])),
       geometria_scavi: new FormControl([], Validators.compose([
         Validators.required
       ])),
-      pavimentazione: new FormControl('', Validators.compose([
+      flooring_type: new FormControl('', Validators.compose([
         Validators.required,
       ])),
       area_cantiere: new FormControl('', Validators.compose([
@@ -225,14 +227,14 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       geometria_cantiere: new FormControl([], Validators.compose([
         Validators.required
       ])),
-      durata_lavori: new FormControl('', Validators.compose([
+      duration: new FormControl('', Validators.compose([
         Validators.required,
         Validators.min(1)
       ])),
-      inizio_lavori: new FormControl('', Validators.compose([
+      start_date: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      fine_lavori: new FormControl('', Validators.compose([
+      end_date: new FormControl('', Validators.compose([
         Validators.required
       ])),
       valore_polizza: new FormControl('', Validators.compose([
@@ -246,7 +248,19 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       ])),
     })
   }
-  createProprietario(): FormGroup {
+
+  createGeometryDetails(): FormGroup{
+    return this.fb.group({
+      area_number: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      geometry: new FormControl([], Validators.compose([
+        Validators.required
+      ])),
+    })
+  }
+
+  createOwner(): FormGroup {
     return this.fb.group({
       type: new FormControl(null, Validators.compose([
         Validators.required
@@ -299,7 +313,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       ]))
     });
   }
-  createEspertoDitta(): FormGroup{
+  createExpertBusiness(): FormGroup{
     return this.fb.group({
       type: new FormControl(null, Validators.compose([
         Validators.required
@@ -508,7 +522,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   changedTipologiaPersona(form: AbstractControl, event: MatSelectChange) {
     switch (event.value) {
-      case 0:
+      case 'person':
         form.get('first_name').enable()
         form.get('last_name').enable();
         form.get('fiscal_code').enable();
@@ -522,7 +536,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('vat').clearValidators();
         form.get('vat').updateValueAndValidity();
         break;
-      case 1:
+      case 'business':
         form.get('first_name').disable()
         form.get('last_name').disable();
         form.get('fiscal_code').disable();
@@ -543,7 +557,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   changedTipologiaEsperto(form: AbstractControl, event: MatSelectChange) {
     switch (event.value) {
-      case 0:
+      case 'person':
         form.get('first_name').enable()
         form.get('last_name').enable();
         form.get('fiscal_code').enable();
@@ -554,7 +568,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('vat').clearValidators();
         form.get('vat').updateValueAndValidity();
         break;
-      case 1:
+      case 'business':
         form.get('first_name').disable()
         form.get('last_name').disable();
         form.get('fiscal_code').disable();
