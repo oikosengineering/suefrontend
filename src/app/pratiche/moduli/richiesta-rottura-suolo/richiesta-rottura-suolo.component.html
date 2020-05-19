@@ -552,15 +552,17 @@
                 <span matSuffix>gg</span>
                 <mat-error>{{getErrorMessage(form.get('details').get('duration'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-a-third text-right" appearance="outline">
-                <mat-label>Estensione degli scavi</mat-label>
-                <input matInput formControlName="area_scavi" type="number" (change)="multiplicationPolizza(form.get('details'), 'area_scavi', 'flooring_type', 'valore_polizza')">
-                <span matSuffix>m<sup>2</sup></span>
-                <mat-error>{{getErrorMessage(form.get('details').get('area_scavi'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="excavation_details">
+                <mat-form-field class="div-a-third text-right" appearance="outline">
+                    <mat-label>Estensione degli scavi</mat-label>
+                    <input matInput formControlName="area_number" type="number" (change)="multiplicationPolizza(form.get('details'), 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
+                    <span matSuffix>m<sup>2</sup></span>
+                    <mat-error>{{getErrorMessage(form.get('details').get('excavation_details').get('area_number'))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Tipologia pavimentazione</mat-label>
-                <mat-select formControlName="flooring_type" (selectionChange)="multiplicationPolizza(form.get('details'), 'area_scavi', 'flooring_type', 'valore_polizza')">
+                <mat-select formControlName="flooring_type" (selectionChange)="multiplicationPolizza(form.get('details'), 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
                     <mat-option>Nessuna</mat-option>
                     <mat-option *ngFor="let flooring_type of pavimentazioni" [value]="flooring_type.value">
                         {{flooring_type.name}} - € {{flooring_type.price}} m<sup>2</sup>
@@ -568,19 +570,27 @@
                 </mat-select>
                 <mat-error>{{getErrorMessage(form.get('details').get('flooring_type'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-a-third text-right" appearance="outline">
-                <mat-label>Estensione del cantiere</mat-label>
-                <input matInput formControlName="area_cantiere" type="number">
-                <span matSuffix>m<sup>2</sup></span>
-                <mat-error>{{getErrorMessage(form.get('details').get('area_cantiere'))}}</mat-error>
-            </mat-form-field>
-            <div class="div-half padding-div">Il richiedente si impegna a costituire, a titolo di cauzione, una polizza fidejussoria per l’importo di:</div>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Valore polizza</mat-label>
-                <input matInput formControlName="valore_polizza" type="number">
-                <span matPrefix>€</span>
-                <mat-error>{{getErrorMessage(form.get('details').get('valore_polizza'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="building_site">
+                <mat-form-field class="div-a-third text-right" appearance="outline">
+                    <mat-label>Estensione del cantiere</mat-label>
+                    <input matInput formControlName="area_number" type="number">
+                    <span matSuffix>m<sup>2</sup></span>
+                    <mat-error>{{getErrorMessage(form.get('details').get('building_site').get('area_number'))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
+            <div class="div-full padding-div">Il richiedente si impegna a costituire, a titolo di cauzione</div>
+            <ng-container formGroupName="insurance">
+                <div class="div-checkbox div-half">
+                    <mat-checkbox formControlName="surety">Conferma la sottoscrizione della poliza</mat-checkbox>
+                    <mat-error>{{getErrorMessage(form.get('details').get('insurance').get('surety'))}}</mat-error>
+                </div>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Valore polizza</mat-label>
+                    <input matInput formControlName="amount" type="number">
+                    <span matPrefix>€</span>
+                    <mat-error>{{getErrorMessage(form.get('details').get('insurance').get('amount'))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <div class="div-a-third padding-div">Informazioni catastali:</div>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Foglio</mat-label>

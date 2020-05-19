@@ -212,20 +212,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       ])),
       excavation_details: this.createGeometryDetails(),
       building_site: this.createGeometryDetails(),
-      area_scavi: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      geometria_scavi: new FormControl([], Validators.compose([
-        Validators.required
-      ])),
       flooring_type: new FormControl('', Validators.compose([
         Validators.required,
-      ])),
-      area_cantiere: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      geometria_cantiere: new FormControl([], Validators.compose([
-        Validators.required
       ])),
       duration: new FormControl('', Validators.compose([
         Validators.required,
@@ -237,6 +225,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       end_date: new FormControl('', Validators.compose([
         Validators.required
       ])),
+      insurance: this.createInsurance(),
       valore_polizza: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -244,6 +233,17 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         Validators.required
       ])),
       particella_catasto: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+    })
+  }
+
+  createInsurance(): FormGroup{
+    return this.fb.group({
+      surety: new FormControl(false, Validators.compose([
+        Validators.pattern('true')
+      ])),
+      amount: new FormControl('', Validators.compose([
         Validators.required
       ])),
     })
@@ -482,24 +482,24 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   }
 
   multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string) {
-    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
+    if (form.get(value1.split("/")).value === null || form.get(value1.split("/")).value === '' || form.get(value2.split("/")).value === undefined)
       return;
-    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined) {
+    if (form.get(value2.split("/")).value === null || form.get(value2.split("/")).value === '' || form.get(value2.split("/")).value === undefined) {
       return;
     } else {
-      let min = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2).value).min;
-      form.get(dest).clearValidators();
-      form.get(dest).setValidators(Validators.min(min));
-      form.get(dest).updateValueAndValidity();
+      let min = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2.split("/")).value).min;
+      form.get(dest.split("/")).clearValidators();
+      form.get(dest.split("/")).setValidators(Validators.min(min));
+      form.get(dest.split("/")).updateValueAndValidity();
     }
-    let pavimentazione = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2).value);
+    let pavimentazione = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2.split("/")).value);
     let price = pavimentazione.price;
     let min = pavimentazione.min;
-    let tot = Math.floor(price * form.get(value1).value);
+    let tot = Math.floor(price * form.get(value1.split("/")).value);
     if (tot >= min) {
-      form.get(dest).patchValue(tot);
+      form.get(dest.split("/")).patchValue(tot);
     } else {
-      form.get(dest).patchValue(min);
+      form.get(dest.split("/")).patchValue(min);
     }
   }
 
@@ -656,11 +656,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     let features = [
       {
         type: 'scavo',
-        features: this.form.get('details').get('geometria_scavi').value
+        features: this.form.get('details').get('excavation_details').get('geometry').value
       },
       {
         type: 'cantiere',
-        features: this.form.get('details').get('geometria_cantiere').value
+        features: this.form.get('details').get('building_site').get('geometry').value
       }
     ]
     this.map_cfg.features = features;
@@ -670,12 +670,12 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         value.forEach(feature => {
           switch(feature.type){
             case 'scavo':
-              this.form.get('details').get('geometria_scavi').patchValue(feature.features);
-              this.form.get('details').get('area_scavi').patchValue(feature.area);
+              this.form.get('details').get('excavation_details').get('geometry').patchValue(feature.features);
+              this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
               break;
             case 'cantiere':
-              this.form.get('details').get('geometria_cantiere').patchValue(feature.features);
-              this.form.get('details').get('area_cantiere').patchValue(feature.area);
+              this.form.get('details').get('building_site').get('geometry').patchValue(feature.features);
+              this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
           }
         });
         console.log("Dati pratica",this.form.get('details').value);
