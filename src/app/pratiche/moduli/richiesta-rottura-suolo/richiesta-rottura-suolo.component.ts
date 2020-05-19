@@ -154,7 +154,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     this.form = this.fb.group({
       delegated: new FormControl(false),
       owner: this.createOwner(),
-      expert: this.createExpertBusiness(),
+      // expert: this.createExpertBusiness(),
+      experts: this.fb.array([this.createExpertBusiness()]),
       details: this.createDatiPratica(),
       work_supplier: new FormControl('self', Validators.compose([
         Validators.required
@@ -194,12 +195,16 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   get formOwner() { return this.form.get('owner'); }
   get formExpert() { return this.form.get('expert'); }
+  get formExperts() {return <FormArray>this.form.get('experts');}
   get formDittaLavori() { return this.form.get('supplier_business'); }
   get formDatiPratica() { return this.form.get('details'); }
   get formContactsDitta() { return <FormArray>this.form.get('supplier_business').get('contacts'); }
   get formContactsExpert() { return <FormArray>this.form.get('expert').get('contacts'); }
   get formContactsOwner() { return <FormArray>this.form.get('owner').get('contacts'); }
 
+  getArray(value: string){
+    return <FormArray>this.form.get(value.split("/"));
+  }
   createDatiPratica(): FormGroup {
     return this.fb.group({
       reason: new FormControl('', Validators.compose([
@@ -449,17 +454,24 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     items.push(this.createContatto());
   }
 
-  removeContatto(array: AbstractControl, index: number){
+  removeItem(array: AbstractControl, index: number){
     event.preventDefault();
     event.stopPropagation();
     let items = array as FormArray;
     items.removeAt(index);
   }
 
+  addExpert(array: AbstractControl): void {
+    event.preventDefault();
+    event.stopPropagation();
+    let items = array as FormArray;
+    items.push(this.createExpertBusiness());
+  }
+
   checkState(){
     if(!this.form.get('delegated').value){
-      this.form.get('expert').disable();
-      this.form.get('expert').updateValueAndValidity();
+      this.form.get('experts').disable();
+      this.form.get('experts').updateValueAndValidity();
     }
     if(this.form.get('qualification').value == 'owner'){
       this.form.get('business_administrator').disable();
