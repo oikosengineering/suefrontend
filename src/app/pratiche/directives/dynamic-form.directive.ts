@@ -3,7 +3,7 @@ import { RichiestaRotturaSuoloComponent } from '../moduli/richiesta-rottura-suol
 import { FormGroup } from '@angular/forms';
 
 const componentMapper = {
-  0: RichiestaRotturaSuoloComponent,
+  'rottura_suolo': RichiestaRotturaSuoloComponent,
 };
 
 @Directive({
