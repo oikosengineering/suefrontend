@@ -16,10 +16,7 @@ export class FormUtilService {
         Validators.required,
         Validators.maxLength(80)
       ])),
-      description: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.maxLength(1000)
-      ])),
+      description: this.createDescriptionRotturaSuolo(),
       excavation_details: this.createGeometryDetails(),
       building_site: this.createGeometryDetails(),
       flooring_type: new FormControl('', Validators.compose([
@@ -55,6 +52,27 @@ export class FormUtilService {
       ])),
       amount: new FormControl('', Validators.compose([
         Validators.required
+      ])),
+    })
+  }
+
+  createDescriptionRotturaSuolo(): FormGroup{
+    return this.fb.group({
+      laying_type: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      diameter: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      motive: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(80)
+      ])),
+      notes: new FormControl('', Validators.compose([
+        Validators.maxLength(1000)
       ])),
     })
   }

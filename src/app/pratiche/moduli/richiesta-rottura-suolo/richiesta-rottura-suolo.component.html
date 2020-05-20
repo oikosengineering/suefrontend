@@ -673,11 +673,39 @@
                 <input matInput formControlName="reason" type="text">
                 <mat-error>{{getErrorMessage(form.get('details').get('reason'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-full" appearance="outline">
-                <mat-label>Descrizione lavori</mat-label>
-                <textarea matInput formControlName="description" type="text"></textarea>
-                <mat-error>{{getErrorMessage(form.get('details').get('description'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="description">
+                <mat-form-field class="div-full" appearance="outline">
+                    <mat-label>Causale</mat-label>
+                    <input matInput formControlName="motive" type="text">
+                    <mat-error>{{getErrorMessage(form.get(['details','description','motive']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Tipo di posa</mat-label>
+                    <input matInput formControlName="laying_type" type="text">
+                    <mat-hint>Tubazioni, polifore, etc.</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','laying_type']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third text-right" appearance="outline">
+                    <mat-label>Diametro</mat-label>
+                    <input matInput formControlName="diameter" type="number">
+                    <span matSuffix>cm</span>
+                    <mat-hint>Diametro espresso in cm</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','diameter']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third text-right" appearance="outline">
+                    <mat-label>Lunghezza</mat-label>
+                    <input matInput formControlName="length" type="number">
+                    <span matSuffix>m</span>
+                    <mat-hint>Lunghezza espressa in metri</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','length']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-full" appearance="outline">
+                    <mat-label>Note</mat-label>
+                    <textarea matInput formControlName="notes" type="text"></textarea>
+                    <mat-hint>Note aggiuntive opzionali</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','notes']))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Inizio lavori</mat-label>
                 <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form.get('details'), 'end_date', 'start_date', 'duration')">
