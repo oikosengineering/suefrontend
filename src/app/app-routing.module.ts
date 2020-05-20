@@ -7,6 +7,7 @@ import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.co
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
+import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouteGuard } from './core/guards/routeguard.guard';
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    PathLocationStrategy,
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
+  ],
 })
 export class AppRoutingModule { }

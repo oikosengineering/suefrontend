@@ -20,7 +20,6 @@
                 <fa-icon icon="draw-polygon"></fa-icon> {{button.name}}
             </button>
         </ng-container>
-        
     </div>
     <div id="edit_panel">
         <button mat-raised-button matTooltip="Modifica" matTooltipPosition="after" (click)="onModify()" [ngClass]="modify ? 'selected_button' : ''">
@@ -69,4 +68,5 @@
             </ng-container>
         </mat-menu>
     </div>
+    <div class="measureTooltip"></div>
 </div>

@@ -25,7 +25,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import BaseLayer from 'ol/layer/Base';
 import WKT from 'ol/format/WKT';
 import { layer } from '@fortawesome/fontawesome-svg-core';
-
+import {Extent, isEmpty} from 'ol/extent';
+import Geometry from 'ol/geom/Geometry';
+import LinearRing from 'ol/geom/LinearRing';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -48,6 +50,9 @@ export class MapComponent implements OnInit {
   translate;
   modify;
   eraser;
+
+  measureTooltipElement;
+  measureTooltip;
 
   base_layers;
   layers;
@@ -149,7 +154,15 @@ export class MapComponent implements OnInit {
       
     });
     this.addCustomControls();
-    this.checkInitFeatures();
+    
+    let extents: Extent[] = this.checkInitFeatures();
+    let find = false;
+    extents.forEach(extent => {
+      if(!isEmpty(extent) && !find){
+        this.map.getView().fit(extent, {minResolution: 1});
+        find = true;
+      }
+    })
     this.map.getLayers().getArray().forEach(layer => {
       if(!(layer instanceof TileLayer)){
         layer.get('source').on('addfeature', (event) => this.onAddFeature(event));
@@ -169,6 +182,7 @@ export class MapComponent implements OnInit {
 
   checkInitFeatures(){
     if(this.options.features.length > 0){
+      let extents = [];
       let format = new WKT()
       this.options.features.forEach(init_feature => {
         let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == init_feature.type);
@@ -178,7 +192,11 @@ export class MapComponent implements OnInit {
           new_feature.setProperties({'target': init_feature.type})
           source.addFeature(new_feature);
         });
+        extents.push(source.getExtent());
       })
+      return extents;
+    } else {
+      return [];
     }
   }
 
@@ -331,6 +349,22 @@ export class MapComponent implements OnInit {
   }
 
   onDrawStart(event){
+      let sketch = event.feature;
+      var tooltipCoord = event.coordinate;
+      this.createMeasureTooltip();
+      let listener = sketch.getGeometry().on('change', (evt) => {
+        
+        
+        
+        var geom: Polygon = evt.target;
+        console.log("draw event",geom);
+        var output;
+        output = this.formatLength(geom);
+        tooltipCoord = geom.getInteriorPoint().getCoordinates();
+        
+        this.measureTooltipElement.innerHTML = output;
+        this.measureTooltip.setPosition(tooltipCoord);
+      });
     this.select.setActive(false);
   }
 
@@ -355,6 +389,20 @@ export class MapComponent implements OnInit {
   printInfo(event){
     let features: Feature[] = event.selected;
     console.log(features);
+  }
+
+  createMeasureTooltip() {
+    if (this.measureTooltipElement) {
+      this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
+    }
+    this.measureTooltipElement = document.createElement('div');
+    this.measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure';
+    this.measureTooltip = new Overlay({
+      element: this.measureTooltipElement,
+      offset: [0, -15],
+      positioning: OverlayPositioning.BOTTOM_CENTER
+    });
+    this.map.addOverlay(this.measureTooltip);
   }
 
   formatLength(line){
@@ -384,6 +432,7 @@ export class MapComponent implements OnInit {
 
   close(){
     let result = [];
+    let total_area = 0;
     let new_features = this.options.features;
     let format = new WKT();
     let layers = this.map.getLayers().getArray().filter(layer => this.options.layers.find(mylayer => mylayer.id == layer.get('id')));
@@ -391,13 +440,16 @@ export class MapComponent implements OnInit {
         let features: Feature[] = layer.get('source').getFeatures();
         features.forEach(feature => {
           result.push(format.writeFeature(feature));
+          let area = getArea(feature.getGeometry());
+          total_area += Math.round((area + Number.EPSILON) * 100) / 100
         })
         let dest = new_features.find(opt_feature => opt_feature.type == layer.get('id'));
         dest.features = [];
+        dest.area = total_area;
         dest.features.push(...result);
         result = []
+        total_area = 0;
     })
-    console.log(new_features);
     this.dialogRef.close(new_features);
   }
 
