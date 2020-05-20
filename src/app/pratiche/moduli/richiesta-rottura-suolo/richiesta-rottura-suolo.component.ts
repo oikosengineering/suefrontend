@@ -8,6 +8,7 @@ import { MatRadioChange } from '@angular/material/radio';
 import { BrowserStack } from 'protractor/built/driverProviders';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
+import CodiceFiscale  from 'codice-fiscale-js';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -293,6 +294,33 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     return this.validationService.getErrorMessage(control);
   }
 
+  calculateFiscalCode(form: AbstractControl){
+    let dati = {
+      name: form.get('first_name').value,
+      surname: form.get('last_name').value,
+      gender: form.get('gender').value,
+      day: new Date(form.get('birthday').value).getDate(),
+      month: new Date(form.get('birthday').value).getMonth() + 1,
+      year: new Date(form.get('birthday').value).getFullYear(),
+      birthplace: form.get('birthplace').value, 
+      birthplaceProvincia: form.get('county_of_birth').value
+    }
+    console.log(dati);
+    const cf = new CodiceFiscale(dati);
+    console.log(cf);
+    form.get('fiscal_code').patchValue(cf);
+  }
+
+  calculateValueFromFiscalCode(form: AbstractControl){
+    event.preventDefault();
+    event.stopPropagation();
+    const cf = new CodiceFiscale(form.get('fiscal_code').value).toJSON();
+    form.get('gender').patchValue(cf.gender);
+    form.get('birthday').patchValue(new Date(cf.year, cf.month-1, cf.day));
+    form.get('birthplace').patchValue(cf.birthplace);
+    form.get('county_of_birth').patchValue(cf.birthplaceProvincia);
+  }
+
   changedTipologiaPersona(form: AbstractControl, event: MatSelectChange) {
     switch (event.value) {
       case 'person':
@@ -306,10 +334,12 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('document_type').enable();
         form.get('document_number').enable();
         form.get('contacts').disable();
-        form.get('name').clearValidators();
-        form.get('name').updateValueAndValidity();
-        form.get('vat').clearValidators();
-        form.get('vat').updateValueAndValidity();
+        form.get('name').disable();
+        form.get('vat').disable();
+        // form.get('name').clearValidators()
+        // form.get('name').updateValueAndValidity();
+        // form.get('vat').clearValidators()
+        // form.get('vat').updateValueAndValidity();
         break;
       case 'business':
         form.get('first_name').disable()
@@ -323,11 +353,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('document_number').disable();
         form.get('name').enable();
         form.get('contacts').enable();
-        form.get('name').setValidators([Validators.required]);
-        form.get('name').updateValueAndValidity();
         form.get('vat').enable();
-        form.get('vat').setValidators([Validators.required]);
-        form.get('vat').updateValueAndValidity();
+        // form.get('name').setValidators([Validators.required]);
+        // form.get('name').updateValueAndValidity();
+        // form.get('vat').setValidators([Validators.required]);
+        // form.get('vat').updateValueAndValidity();
         break;
     }
   }
