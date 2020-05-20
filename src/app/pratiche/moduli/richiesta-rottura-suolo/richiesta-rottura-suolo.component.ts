@@ -209,6 +209,18 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     return <FormArray>this.form.get(value.split("/"));
   }
 
+  subscriptionForChange(list: string[], target: string[]){
+    list.forEach(element => {
+      this.form.get(element.split("/")).valueChanges.subscribe(()=>this.forceValidControl(target));
+    });
+  }
+
+  forceValidControl(list: string[]){
+    list.forEach(element => {
+      this.form.get(element.split("/")).updateValueAndValidity();
+    });
+  }
+
   addContatto(array: AbstractControl): void {
     event.preventDefault();
     event.stopPropagation();
@@ -243,6 +255,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       this.form.get('supplier_business').disable();
       this.form.get('supplier_business').updateValueAndValidity();
     }
+    this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth'], ['owner/fiscal_code']);
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {

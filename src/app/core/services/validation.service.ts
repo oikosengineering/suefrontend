@@ -84,19 +84,23 @@ export function fiscalCodeValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: boolean } | null => {
     if (control.value !== undefined && (isNaN(control.value))){
       let form = control.parent;
-      let dati = {
-        name: form.get('first_name').value,
-        surname: form.get('last_name').value,
-        gender: form.get('gender').value,
-        day: new Date(form.get('birthday').value).getDate() || new Date().getDate(),
-        month: new Date(form.get('birthday').value).getMonth() + 1 || new Date().getMonth() + 1,
-        year: new Date(form.get('birthday').value).getFullYear() || new Date().getFullYear(),
-        birthplace: form.get('birthplace').value, 
-        birthplaceProvincia: form.get('county_of_birth').value
-      }
-      const cf = new CodiceFiscale(dati);
-      if (control.value != cf.code) {
-          return { 'fiscalCode': true };
+      if(form.get('first_name').value && form.get('last_name').value
+      && form.get('birthday').value && form.get('birthplace').value
+      && form.get('gender').value && form.get('county_of_birth').value){
+        let dati = {
+          name: form.get('first_name').value,
+          surname: form.get('last_name').value,
+          gender: form.get('gender').value,
+          day: new Date(form.get('birthday').value).getDate() || new Date().getDate(),
+          month: new Date(form.get('birthday').value).getMonth() + 1 || new Date().getMonth() + 1,
+          year: new Date(form.get('birthday').value).getFullYear() || new Date().getFullYear(),
+          birthplace: form.get('birthplace').value, 
+          birthplaceProvincia: form.get('county_of_birth').value
+        }
+        const cf = new CodiceFiscale(dati);
+        if (control.value != cf.code) {
+            return { 'fiscalCode': true };
+        }
       }
       return null;
     } else {
