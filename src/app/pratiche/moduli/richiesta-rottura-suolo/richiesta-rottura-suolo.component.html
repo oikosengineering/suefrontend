@@ -567,10 +567,10 @@
         <mat-expansion-panel [disabled]="!form.get('supplier_business').enabled" formGroupName="supplier_business" class="referente-group" [expanded]="form.get('supplier_business').enabled">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Ditta
+                  Impresa
                 </mat-panel-title>
                 <mat-panel-description>
-                  Informazioni della ditta adetta ai lavori
+                  Informazioni dell'impresa adetta ai lavori
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <mat-form-field class="div-half" appearance="outline">
@@ -778,7 +778,7 @@
             </mat-form-field>
             <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Apri mappa</button>
         </mat-expansion-panel>
-        <mat-expansion-panel formGroupName="allegati_pratica" expanded>
+        <!-- <mat-expansion-panel formGroupName="allegati_pratica" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                 Allegati pratica
@@ -888,7 +888,7 @@
                 </mat-nav-list>
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('polizza_fidejussoria'))}}</mat-error>
             </mat-card>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
         <button class="button-login" mat-raised-button color="primary" (click)="save($event)">Salva</button>
         <button class="button-login" mat-raised-button color="primary" (click)="submit()">Convalida</button>
     </form>

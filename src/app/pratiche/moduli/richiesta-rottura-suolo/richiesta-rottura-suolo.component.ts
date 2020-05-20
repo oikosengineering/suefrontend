@@ -30,7 +30,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   ];
   esecutori = [
     {name: "In proprio", value: 'self'},
-    {name: "Ditta", value: 'business'}
+    {name: "Affidati all'impresa", value: 'business'}
   ]
   tipologie_contatto = [
     {name: "Amministrativo", value: "administrative"},
@@ -167,31 +167,31 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         Validators.required
       ])),
       business_administrator: this.formService.createExpert(),
-      allegati_pratica: this.fb.group({
-        marca_bollo: this.fb.group({
-          codice_bollo: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-        planimetria1: this.fb.group({
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-        planimetria2: this.fb.group({
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-        polizza_fidejussoria: this.fb.group({
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-      })
+      // allegati_pratica: this.fb.group({
+      //   marca_bollo: this.fb.group({
+      //     codice_bollo: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      //   planimetria1: this.fb.group({
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      //   planimetria2: this.fb.group({
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      //   polizza_fidejussoria: this.fb.group({
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      // })
     });
   }
 
