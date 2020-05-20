@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { fiscalCodeValidator } from './validation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -102,7 +103,8 @@ export class FormUtilService {
       last_name: new FormControl('', Validators.compose([Validators.required])),
       fiscal_code: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
+        Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$'),
+        fiscalCodeValidator()
       ])),
       document_type: new FormControl('', Validators.compose([
         Validators.required,
