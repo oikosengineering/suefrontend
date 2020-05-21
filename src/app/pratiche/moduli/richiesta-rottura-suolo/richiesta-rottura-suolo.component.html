@@ -389,11 +389,21 @@
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('fiscal_code'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Titolo professionale</mat-label>
+                    <mat-select formControlName="professional_title">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let titolo of titoli_professionali" [value]="titolo">
+                            {{titolo | titlecase}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{getErrorMessage(formExperts.controls[j].get('professional_title'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Partita IVA</mat-label>
                     <input formControlName="vat" matInput type="text">
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('vat'))}}</mat-error>
                 </mat-form-field>
-                <mat-form-field class="div-full" appearance="outline">
+                <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Ragione sociale</mat-label>
                     <input matInput type="text" formControlName="name" >
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('name'))}}</mat-error>
@@ -835,6 +845,20 @@
             </mat-form-field>
             <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Apri mappa</button>
         </mat-expansion-panel>
+        <mat-card>
+            <mat-card-subtitle>
+                <mat-icon color="warn" style="vertical-align: bottom;">info</mat-icon>
+                E’ necessario conservare la marca da bollo per poi apporla all’eventuale autorizzazione. L’autorizzazione si intendera’ automaticamente revocata nel caso in cui il numero della marca da bollo inserita non corrispondera’ al numero della marca da bolla apposta all’eventuale autorizzazione. La mancata apposizione della marca da bollo rendera’ inefficace l’eventuale autorizzazione.
+            </mat-card-subtitle>
+            <mat-card-content>
+                <mat-form-field class="div-full" appearance="outline">
+                    <mat-label>Marca da bollo:</mat-label>
+                    <input formControlName="stamp_number" matInput type="email">
+                    <mat-hint>Inserire il codice della marca da bollo</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get('stamp_number'))}}</mat-error>
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
         <!-- <mat-expansion-panel formGroupName="allegati_pratica" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>

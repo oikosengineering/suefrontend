@@ -164,6 +164,9 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         Validators.required
       ])),
       business_administrator: this.formService.createExpert(),
+      stamp_number: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       // allegati_pratica: this.fb.group({
       //   marca_bollo: this.fb.group({
       //     codice_bollo: new FormControl('', Validators.compose([
