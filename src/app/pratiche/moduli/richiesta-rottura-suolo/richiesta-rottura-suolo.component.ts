@@ -571,6 +571,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     let selectProvince = this.form.get(value.split("/")).value;
     if(selectProvince != 'EE'){
       this.apiservice.getComuni(selectProvince).subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
         let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
         this.form.get(target.split("/")).patchValue(result.name);
       });
