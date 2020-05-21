@@ -257,17 +257,14 @@ export class FormUtilService {
   createContact(): FormGroup{
     return this.fb.group({
       type: new FormControl('', Validators.compose([
-        Validators.required,
       ])),
       name: new FormControl('', Validators.compose([
         Validators.required,
       ])),
       email: new FormControl('', Validators.compose([
-        Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
       ])),
       phone: new FormControl('', Validators.compose([
-        Validators.required,
       ])),
     })
   }
