@@ -75,14 +75,26 @@
                 <mat-error>{{getErrorMessage(form.get('owner').get('document_number'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Comune di nascita (o Stato estero)</mat-label>
-                <input formControlName="birthplace" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('owner').get('birthplace'))}}</mat-error>
+                <mat-label>Provincia di nascita (o Estero)</mat-label>
+                <mat-select formControlName="county_of_birth" (selectionChange)="onChangeProvince('owner/county_of_birth', 'owner/birthplace')">
+                    <mat-option>----</mat-option>
+                    <mat-option value="EE">(Stato estero)</mat-option>
+                    <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                        {{provincia.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(form.get('owner').get('county_of_birth'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Provincia di nascita</mat-label>
-                <input formControlName="county_of_birth" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('owner').get('county_of_birth'))}}</mat-error>
+                <mat-label>Comune di nascita (o Stato estero)</mat-label>
+                <!-- <mat-select formControlName="birthplace" (focus)="getComuni('owner/county_of_birth', 'owner/birthplace')"> -->
+                <mat-select formControlName="birthplace">
+                    <mat-option>----</mat-option>
+                    <mat-option *ngFor="let comune of comuni[toCamelCase('owner/birthplace')] || []" [value]="comune.name">
+                        {{comune.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(form.get('owner').get('birthplace'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Data di nascita</mat-label>
@@ -104,7 +116,7 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Provincia</mat-label>
-                    <mat-select formControlName="county" (selectionChange)="changedOwnerAddressProvince(form.get('owner').get('address'), $event)" selected="selectedOwnerAddressProvincia">
+                    <mat-select formControlName="county" (selectionChange)="onChangeProvince('owner/address/county', 'owner/address/city')">
                         <mat-option>----</mat-option>
                         <mat-option *ngFor="let provincia of province" [value]="provincia.code">
                             {{provincia.name}}
@@ -114,9 +126,9 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <mat-select formControlName="city" (selectionChange)="changedOwnerAddressComune(form.get('owner').get('address'), $event)" selected="selectedOwnerAddressComune">
+                    <mat-select formControlName="city">
                         <mat-option>----</mat-option>
-                        <mat-option *ngFor="let comune of comuni" [value]="comune.code">
+                        <mat-option *ngFor="let comune of comuni[toCamelCase('owner/address/city')] || []" [value]="comune.code">
                             {{comune.name}}
                         </mat-option>
                     </mat-select>
@@ -399,12 +411,22 @@
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Provincia</mat-label>
-                        <input formControlName="county" matInput type="text">
+                        <mat-select formControlName="county" (selectionChange)="onChangeProvince('experts/'+j+'/address/county', 'experts/'+j+'/address/city')">
+                            <mat-option>----</mat-option>
+                            <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                                {{provincia.name}}
+                            </mat-option>
+                        </mat-select>
                         <mat-error>{{getErrorMessage(formExperts.controls[j].get('address').get('county'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Comune</mat-label>
-                        <input formControlName="city" matInput type="text">
+                        <mat-select formControlName="city">
+                            <mat-option>----</mat-option>
+                            <mat-option *ngFor="let comune of comuni[toCamelCase('experts/'+j+'/address/city')] || []" [value]="comune.code">
+                                {{comune.name}}
+                            </mat-option>
+                        </mat-select>
                         <mat-error>{{getErrorMessage(formExperts.controls[j].get('address').get('city'))}}</mat-error>
                     </mat-form-field>
                 </ng-container>
@@ -548,12 +570,22 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Provincia</mat-label>
-                    <input formControlName="county" matInput type="text">
+                    <mat-select formControlName="county" (selectionChange)="onChangeProvince('business_administrator/address/county', 'business_administrator/address/city')">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                            {{provincia.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('business_administrator').get('address').get('county'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <input formControlName="city" matInput type="text">
+                    <mat-select formControlName="city">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let comune of comuni[toCamelCase('business_administrator/address/city')] || []" [value]="comune.code">
+                            {{comune.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('business_administrator').get('address').get('city'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
@@ -611,12 +643,22 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Provincia</mat-label>
-                    <input formControlName="county" matInput type="text">
+                    <mat-select formControlName="county" (selectionChange)="onChangeProvince('supplier_business/address/county', 'supplier_business/address/city')">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                            {{provincia.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('supplier_business').get('address').get('county'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <input formControlName="city" matInput type="text">
+                    <mat-select formControlName="city">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let comune of comuni[toCamelCase('supplier_business/address/city')] || []" [value]="comune.code">
+                            {{comune.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('supplier_business').get('address').get('city'))}}</mat-error>
                 </mat-form-field>
             </ng-container>

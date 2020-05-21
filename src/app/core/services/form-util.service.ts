@@ -113,7 +113,7 @@ export class FormUtilService {
         Validators.required,
       ])),
       name: new FormControl(''),
-      birthplace: new FormControl('', Validators.compose([
+      birthplace: new FormControl({value: '', disabled: true}, Validators.compose([
         Validators.required,
       ])),
       county_of_birth: new FormControl('', Validators.compose([
@@ -237,7 +237,7 @@ export class FormUtilService {
 
   createAddress(): FormGroup{
     return this.fb.group({
-      city: new FormControl('', Validators.compose([
+      city: new FormControl({value: '', disabled: true}, Validators.compose([
         Validators.required,
       ])),
       county: new FormControl('', Validators.compose([

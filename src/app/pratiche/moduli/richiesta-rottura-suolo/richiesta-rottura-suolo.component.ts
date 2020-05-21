@@ -106,9 +106,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   selectedOwnerProvincia: Province;
   selectedOwnerAddressProvincia: Province;
   province: Province[] = [];
-  comuni: City[] = [];
-  selectedOwnerComune: City;
-  selectedOwnerAddressComune: City;
+  comuni = {};
   titoli_professionali = [];
 
   constructor(
@@ -328,8 +326,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     const cf = new CodiceFiscale(form.get('fiscal_code').value).toJSON();
     form.get('gender').patchValue(cf.gender);
     form.get('birthday').patchValue(new Date(cf.year, cf.month-1, cf.day));
-    form.get('birthplace').patchValue(cf.birthplace);
     form.get('county_of_birth').patchValue(cf.birthplaceProvincia);
+    this.onChangeProvinceFiscalCode('owner/county_of_birth', 'owner/birthplace', cf.birthplace);
+    console.log(this.comuni[this.toCamelCase('owner/birthplace')]);
+    console.log(cf.birthplace);
+    form.get('birthplace').patchValue(cf.birthplace);
   }
 
   changedTipologiaPersona(form: AbstractControl, event: MatSelectChange) {
@@ -520,36 +521,103 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     }
   }
 
-  changedOwnerProvince(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerComune = null;
-    this.selectedOwnerProvincia = this.province.find(prov => prov.code === event.value);
-    if (this.selectedOwnerProvincia) {
-      this.apiservice.getComuni(this.selectedOwnerProvincia.code).subscribe((data) => {
-        if (data != null) {
-          this.comuni = data['data'];
-        }
+  checkValidationElseDisable(value: string, target: string){
+    if(this.form.get(value.split("/")).invalid){
+      this.form.get(target.split("/")).disable();
+      this.form.get(target.split("/")).reset();
+    } else {
+      this.form.get(target.split("/")).enable();
+      this.form.get(target.split("/")).reset();
+    }
+  }
+
+  onChangeProvince(value: string, target: string){
+    this.checkValidationElseDisable(value, target);
+    this.getComuni(value, target);
+  }
+
+  onChangeProvinceFiscalCode(value: string, target: string, data: string){
+    this.checkValidationElseDisable(value, target);
+    this.getComuniAndPatch(value, target, data);
+  }
+
+  checkValidation(targets: string[]){
+    let check = false;
+    targets.forEach(target => {
+      if(this.form.get(target.split("/")).invalid){
+        check = true;
+      }
+    });
+    return check;
+  }
+
+  getComuni(value: string, target: string){
+    let selectProvince = this.form.get(value.split("/")).value;
+    if(selectProvince != 'EE'){
+      this.apiservice.getComuni(selectProvince).subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
+      });
+    } else {
+      this.apiservice.getNazioni().subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
       });
     }
   }
 
-  changedOwnerComune(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerComune = this.comuni.find(com => com.code === event.value);
-  }
-
-  changedOwnerAddressProvince(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerAddressComune = null;
-    this.selectedOwnerAddressProvincia = this.province.find(prov => prov.code === event.value);
-    if (this.selectedOwnerAddressProvincia) {
-      this.apiservice.getComuni(this.selectedOwnerAddressProvincia.code).subscribe((data) => {
-        if (data != null) {
-          this.comuni = data['data'];
-        }
+  getComuniAndPatch(value: string, target: string, data: string){
+    let selectProvince = this.form.get(value.split("/")).value;
+    if(selectProvince != 'EE'){
+      this.apiservice.getComuni(selectProvince).subscribe(value => {
+        let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
+        this.form.get(target.split("/")).patchValue(result.name);
+      });
+    } else {
+      this.apiservice.getNazioni().subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
+        let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
+        this.form.get(target.split("/")).patchValue(result.name);
       });
     }
   }
 
-  changedOwnerAddressComune(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerAddressComune = this.comuni.find(com => com.code === event.value);
+  toCamelCase(sentenceCase) {
+    var out = "";
+    sentenceCase.split("/").forEach((element, index) => {
+        var add = element.toLowerCase();
+        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+    });
+    return out;
   }
+  // changedOwnerProvince(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerComune = null;
+  //   this.selectedOwnerProvincia = this.province.find(prov => prov.code === event.value);
+  //   if (this.selectedOwnerProvincia) {
+  //     this.apiservice.getComuni(this.selectedOwnerProvincia.code).subscribe((data) => {
+  //       if (data != null) {
+  //         this.comuni = data['data'];
+  //       }
+  //     });
+  //   }
+  // }
+
+  // changedOwnerComune(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerComune = this.comuni.find(com => com.code === event.value);
+  // }
+
+  // changedOwnerAddressProvince(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerAddressComune = null;
+  //   this.selectedOwnerAddressProvincia = this.province.find(prov => prov.code === event.value);
+  //   if (this.selectedOwnerAddressProvincia) {
+  //     this.apiservice.getComuni(this.selectedOwnerAddressProvincia.code).subscribe((data) => {
+  //       if (data != null) {
+  //         this.comuni = data['data'];
+  //       }
+  //     });
+  //   }
+  // }
+
+  // changedOwnerAddressComune(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerAddressComune = this.comuni.find(com => com.code === event.value);
+  // }
 
 }
