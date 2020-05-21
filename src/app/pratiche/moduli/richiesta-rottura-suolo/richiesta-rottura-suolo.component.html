@@ -20,9 +20,9 @@
                 <mat-error>{{getErrorMessage(form.get('owner').get('type'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Sesso</mat-label>
+                <mat-label>Genere</mat-label>
                 <mat-select formControlName="gender">
-                    <mat-option>Nessuna</mat-option>
+                    <mat-option>----</mat-option>
                     <mat-option *ngFor="let gender of generi" [value]="gender.value">
                         {{gender.name}}
                     </mat-option>
@@ -71,12 +71,22 @@
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Provincia di nascita (o Stato estero)</mat-label>
-                <input formControlName="county_of_birth" matInput type="text">
+                <mat-select formControlName="county" (selectionChange)="changedOwnerProvince(form.get('owner'), $event)" selected="selectedOwnerProvincia">
+                    <mat-option>----</mat-option>
+                    <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                        {{provincia.name}}
+                    </mat-option>
+                </mat-select>
                 <mat-error>{{getErrorMessage(form.get('owner').get('county_of_birth'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Comune di nascita</mat-label>
-                <input formControlName="birthplace" matInput type="text">
+                <mat-select formControlName="birthplace" (selectionChange)="changedOwnerComune(form.get('owner'), $event)" selected="selectedOwnerComune">
+                    <mat-option>----</mat-option>
+                    <mat-option *ngFor="let comune of comuni" [value]="comune.code">
+                        {{comune.name}}
+                    </mat-option>
+                </mat-select>
                 <mat-error>{{getErrorMessage(form.get('owner').get('birthplace'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-a-third" appearance="outline">
@@ -99,12 +109,22 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Provincia</mat-label>
-                    <input formControlName="county" matInput type="text">
+                    <mat-select formControlName="county" (selectionChange)="changedOwnerAddressProvince(form.get('owner').get('address'), $event)" selected="selectedOwnerAddressProvincia">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                            {{provincia.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('owner').get('address').get('county'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <input formControlName="city" matInput type="text">
+                    <mat-select formControlName="city" (selectionChange)="changedOwnerAddressComune(form.get('owner').get('address'), $event)" selected="selectedOwnerAddressComune">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let comune of comuni" [value]="comune.code">
+                            {{comune.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('owner').get('address').get('city'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
@@ -337,9 +357,9 @@
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('type'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
-                    <mat-label>Sesso</mat-label>
+                    <mat-label>Genere</mat-label>
                     <mat-select formControlName="gender">
-                        <mat-option>Nessuna</mat-option>
+                        <mat-option>----</mat-option>
                         <mat-option *ngFor="let gender of generi" [value]="gender.value">
                             {{gender.name}}
                         </mat-option>
@@ -503,7 +523,7 @@
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Titolo professionale</mat-label>
                 <mat-select formControlName="professional_title">
-                    <mat-option>Nessuna</mat-option>
+                    <mat-option>----</mat-option>
                     <mat-option *ngFor="let titolo of titoli_professionali" [value]="titolo">
                         {{titolo | titlecase}}
                     </mat-option>
@@ -511,9 +531,9 @@
                 <mat-error>{{getErrorMessage(form.get('business_administrator').get('professional_title'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Sesso</mat-label>
+                <mat-label>Genere</mat-label>
                 <mat-select formControlName="gender">
-                    <mat-option>Nessuna</mat-option>
+                    <mat-option>----</mat-option>
                     <mat-option *ngFor="let gender of generi" [value]="gender.value">
                         {{gender.name}}
                     </mat-option>

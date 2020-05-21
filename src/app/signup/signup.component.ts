@@ -111,9 +111,4 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  loginIdm() {
-    const url = environment.authEndPoint.idmUrl;
-    window.location.href = url;
-  }
-
 }

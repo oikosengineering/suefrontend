@@ -21,28 +21,28 @@ export class AppApiService {
   */
 
   getNazioni() {
-    return this.httpClient.get(environment.api_url + '/countries', this.header).pipe(map((response)  => response));
+    return this.httpClient.get(environment.api_url + '/getListaNazioni', this.header).pipe(map((response)  => response));
   }
 
-  getProvince(): Observable<Province> {
-    return this.httpClient.get(environment.api_url + '/province', this.header).pipe(map(response => response));
+  getProvince(): Observable<Province[]> {
+    return this.httpClient.get(environment.api_url + '/getListaProvince', this.header).pipe(map((response: Province[]) => response));
   }
 
-  getComuni(code: string): Observable<City> {
-    return this.httpClient.get(environment.api_url + '/province/' + code + '/cities', this.header).pipe(map(response => response));
+  getComuni(code: string): Observable<City[]> {
+    return this.httpClient.get(environment.api_url + '/getListaComuni?id=' + code, this.header).pipe(map((response: City[]) => response));
   }
 
   getTitoliProfessionali() {
-    return this.httpClient.get(environment.api_url + '/professional_titles', this.header).pipe(map(response => response));
+    return this.httpClient.get(environment.api_url + '/getListaTitoliProfessionali', this.header).pipe(map(response => response));
   }
 
   /*
   GET PRATICA
   */
 
-  creaRotturaSuolo(json: string): Observable<Procedure> {
+  creaPratica(department: string, body: any): Observable<Procedure> {
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
-    return this.httpClient.post(environment.api_url + '/building/procedures', json, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/creaPratica?department=' + department, body, header).pipe(map(response => response));
   }
 
   getDettaglioPratica(id: string): Observable<Procedure> {
@@ -59,8 +59,8 @@ export class AppApiService {
     return this.httpClient.get<Document[]>(environment.api_url + '/procedures/' + idpratica + '/documents', this.header).pipe(map(response => response));
   }
 
-  getListaPratiche(): Observable<ListaPratiche> {
-    return this.httpClient.get(environment.api_url + '/procedures', this.header).pipe(map(response => response));
+  getListaPratiche(): Observable<Procedure[]> {
+    return this.httpClient.get(environment.api_url + '/procedures', this.header).pipe(map((response: Procedure[]) => response));
   }
 
   updDocumentoPratica(idpratica: string, file: File) {

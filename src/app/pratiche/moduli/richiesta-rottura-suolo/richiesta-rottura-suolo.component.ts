@@ -7,6 +7,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { MatRadioChange } from '@angular/material/radio';
 import { BrowserStack } from 'protractor/built/driverProviders';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Province, City, Professional_Title} from 'src/app/core/models/models';
+import { AppApiService } from 'src/app/core/services/app-api.service';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -30,43 +32,23 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   esecutori = [
     {name: "In proprio", value: 'self'},
     {name: "Ditta", value: 'business'}
-  ]
+  ];
   tipologie_contatto = [
     {name: "Amministrativo", value: "administrative"},
     {name: "Tecnico", value: "technical"},
     {name: "Contabilità", value: "accounting"},
     {name: "Altro", value: "other"}
-  ]
+  ];
   qualifiche = [
     {name: "Proprietario", value:"owner"},
     {name: "Rappresentante della compagnia", value:"company_representative"},
     {name: "Amministratore", value:"property_manager"}
-  ]
+  ];
   tipi_documento = [
     {name: "Carta d'identità", value: "d_card"},
     {name: "Passaporto", value: "passport"},
     {name: "Patente", value: "driving_license"}
-  ]
-  titoli_professionali = [
-    "architetto",
-    "avvocato",
-    "cavaliere",
-    "commendatore",
-    "dottore",
-    "dottoressa",
-    "generale",
-    "geometra",
-    "ingegnere",
-    "monsignore",
-    "onorevole",
-    "professore",
-    "professoressa",
-    "ragioniere",
-    "reverendo",
-    "senatore",
-    "tenente",
-    "ufficiale"
-  ]
+  ];
 
   map_cfg = {
     buttons: [
@@ -119,15 +101,31 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   polizza_fidejussoria = [];
 
   isUserLoggedIn = false;
+  selectedOwnerProvincia: Province;
+  selectedOwnerAddressProvincia: Province;
+  province: Province[] = [];
+  comuni: City[] = [];
+  selectedOwnerComune: City;
+  selectedOwnerAddressComune: City;
+  titoli_professionali = [];
 
   constructor(
     private fb: FormBuilder,
     private validationService: ValidationService,
     private dialog: DialogMessageService,
-    private router: Router
+    private router: Router,
+    private apiservice: AppApiService
   ) { }
 
   ngOnInit(): void {
+    this.apiservice.getProvince().subscribe(data => {
+      this.province.push(...data['data']);
+    });
+
+    this.apiservice.getTitoliProfessionali().subscribe(data => {
+      this.titoli_professionali.push(...data['data']);
+    });
+
     this.createForm();
     this.checkState();
     this.form.valueChanges.subscribe(value => {
@@ -426,7 +424,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(5)
       ])),
-    })
+    });
   }
 
   createContatto(): FormGroup{
@@ -444,7 +442,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       phone: new FormControl('', Validators.compose([
         Validators.required,
       ])),
-    })
+    });
   }
 
   addContatto(array: AbstractControl): void {
@@ -698,18 +696,56 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       }
       console.log('Mappa chiusa', value);
     }, error => {
-      console.log('errore mappa')
+      console.log('errore mappa');
     });
   }
 
   submit() {
     event.preventDefault();
     event.stopPropagation();
-    if (this.form.valid) {
+    if (true) {
       console.log(this.form.getRawValue());
+      const body = JSON.stringify(this.form.getRawValue());
+      this.apiservice.creaPratica('building', body).subscribe((response) => {
+        console.log(response);
+      });
+
     } else {
       this.validationService.validateAllFormFields(this.form);
       console.log(this.form.getRawValue());
     }
   }
+
+  changedOwnerProvince(form: AbstractControl, event: MatSelectChange) {
+    this.selectedOwnerComune = null;
+    this.selectedOwnerProvincia = this.province.find(prov => prov.code === event.value);
+    if (this.selectedOwnerProvincia) {
+      this.apiservice.getComuni(this.selectedOwnerProvincia.code).subscribe((data) => {
+        if (data != null) {
+          this.comuni = data['data'];
+        }
+      });
+    }
+  }
+
+  changedOwnerComune(form: AbstractControl, event: MatSelectChange) {
+    this.selectedOwnerComune = this.comuni.find(com => com.code === event.value);
+  }
+
+  changedOwnerAddressProvince(form: AbstractControl, event: MatSelectChange) {
+    this.selectedOwnerAddressComune = null;
+    this.selectedOwnerAddressProvincia = this.province.find(prov => prov.code === event.value);
+    if (this.selectedOwnerAddressProvincia) {
+      this.apiservice.getComuni(this.selectedOwnerAddressProvincia.code).subscribe((data) => {
+        if (data != null) {
+          this.comuni = data['data'];
+        }
+      });
+    }
+  }
+
+  changedOwnerAddressComune(form: AbstractControl, event: MatSelectChange) {
+    this.selectedOwnerAddressComune = this.comuni.find(com => com.code === event.value);
+  }
+
 }
