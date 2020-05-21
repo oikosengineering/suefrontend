@@ -158,17 +158,17 @@
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Nome referente</mat-label>
                         <input formControlName="name" matInput type="text">
-                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('name'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Telefono</mat-label>
                         <input formControlName="phone" matInput type="number">
-                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('phone'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Email</mat-label>
                         <input formControlName="email" matInput type="email">
-                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('email'))}}</mat-error>
                     </mat-form-field>
                     <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContactsOwner, i);"><mat-icon>close</mat-icon></button>
                 </mat-card>
@@ -302,17 +302,17 @@
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Nome referente</mat-label>
                         <input formControlName="name" matInput type="text">
-                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('name'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Telefono</mat-label>
                         <input formControlName="phone" matInput type="number">
-                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('phone'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Email</mat-label>
                         <input formControlName="email" matInput type="email">
-                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('email'))}}</mat-error>
                     </mat-form-field>
                     <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContactsExpert, i);"><mat-icon>close</mat-icon></button>
                 </mat-card>
@@ -463,17 +463,17 @@
                         <mat-form-field class="div-half" appearance="outline">
                             <mat-label>Nome referente</mat-label>
                             <input formControlName="name" matInput type="text">
-                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('type'))}}</mat-error>
+                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('name'))}}</mat-error>
                         </mat-form-field>
                         <mat-form-field class="div-half" appearance="outline">
                             <mat-label>Telefono</mat-label>
                             <input formControlName="phone" matInput type="number">
-                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('type'))}}</mat-error>
+                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('phone'))}}</mat-error>
                         </mat-form-field>
                         <mat-form-field class="div-half" appearance="outline">
                             <mat-label>Email</mat-label>
                             <input formControlName="email" matInput type="email">
-                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('type'))}}</mat-error>
+                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('email'))}}</mat-error>
                         </mat-form-field>
                         <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(getArray('experts/'+j+'/contacts'), i);"><mat-icon>close</mat-icon></button>
                     </mat-card>
@@ -695,17 +695,17 @@
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Nome referente</mat-label>
                         <input formControlName="name" matInput type="text">
-                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('name'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Telefono</mat-label>
                         <input formControlName="phone" matInput type="number">
-                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('phone'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Email</mat-label>
                         <input formControlName="email" matInput type="email">
-                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('email'))}}</mat-error>
                     </mat-form-field>
                     <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContactsDitta, i);"><mat-icon>close</mat-icon></button>
                 </mat-card>
