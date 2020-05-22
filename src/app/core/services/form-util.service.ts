@@ -34,15 +34,12 @@ export class FormUtilService {
         Validators.required
       ])),
       insurance: this.createInsurance(),
-      valore_polizza: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      foglio_catasto: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      particella_catasto: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
+      // foglio_catasto: new FormControl('', Validators.compose([
+      //   Validators.required
+      // ])),
+      // particella_catasto: new FormControl('', Validators.compose([
+      //   Validators.required
+      // ])),
     })
   }
 
@@ -123,7 +120,7 @@ export class FormUtilService {
         Validators.required,
       ])),
       vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
+        Validators.maxLength(11)
       ])),
       address: this.createAddress(),
       contacts: this.fb.array([]),
@@ -163,7 +160,7 @@ export class FormUtilService {
         Validators.required,
       ])),
       vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
+        Validators.maxLength(11)
       ])),
       name: new FormControl(''),
       contacts: this.fb.array([]),
@@ -201,7 +198,7 @@ export class FormUtilService {
         Validators.required,
       ])),
       vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
+        Validators.maxLength(11)
       ])),
       address: this.createAddress(),
       phone: new FormControl('', Validators.compose([
@@ -221,7 +218,7 @@ export class FormUtilService {
     return this.fb.group({
       name: new FormControl(''),
       vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
+        Validators.maxLength(11)
       ])),
       address: this.createAddress(),
       contacts: this.fb.array([]),

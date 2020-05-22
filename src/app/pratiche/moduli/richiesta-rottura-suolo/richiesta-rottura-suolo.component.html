@@ -42,7 +42,7 @@
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Codice fiscale</mat-label>
                 <input formControlName="fiscal_code" matInput type="text">
-                <button [disabled]="form.get(['owner', 'fiscal_code']).invalid" mat-icon-button matSuffix
+                <button [disabled]="form.get(['owner', 'fiscal_code']).invalid || form.get(['owner', 'fiscal_code']).value == ''" mat-icon-button matSuffix
                 (click)="calculateValueFromFiscalCode(form.get('owner'))"
                 matTooltip="Autocompila i campi">
                     <mat-icon>post_add</mat-icon>
@@ -431,7 +431,7 @@
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Comune</mat-label>
-                        <mat-select formControlName="city">
+                        <mat-select formControlName="city" [disabled]="checkValidation(['experts/'+j+'/address/county'])">
                             <mat-option>----</mat-option>
                             <mat-option *ngFor="let comune of comuni[toCamelCase('experts/'+j+'/address/city')] || []" [value]="comune.code">
                                 {{comune.name}}
@@ -590,7 +590,7 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <mat-select formControlName="city">
+                    <mat-select formControlName="city" [disabled]="checkValidation(['business_administrator/address/county'])">
                         <mat-option>----</mat-option>
                         <mat-option *ngFor="let comune of comuni[toCamelCase('business_administrator/address/city')] || []" [value]="comune.code">
                             {{comune.name}}
@@ -663,7 +663,7 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <mat-select formControlName="city">
+                    <mat-select formControlName="city" [disabled]="checkValidation(['supplier_business/address/county'])">
                         <mat-option>----</mat-option>
                         <mat-option *ngFor="let comune of comuni[toCamelCase('supplier_business/address/city')] || []" [value]="comune.code">
                             {{comune.name}}
@@ -832,7 +832,7 @@
                     <mat-error>{{getErrorMessage(form.get('details').get('insurance').get('amount'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
-            <div class="div-a-third padding-div">Informazioni catastali:</div>
+            <!-- <div class="div-a-third padding-div">Informazioni catastali:</div>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Foglio</mat-label>
                 <input matInput formControlName="foglio_catasto" type="number">
@@ -842,7 +842,7 @@
                 <mat-label>Particella</mat-label>
                 <input matInput formControlName="particella_catasto" type="number">
                 <mat-error>{{getErrorMessage(form.get('details').get('particella_catasto'))}}</mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
             <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Apri mappa</button>
         </mat-expansion-panel>
         <mat-card>

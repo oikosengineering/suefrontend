@@ -384,6 +384,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('last_name').enable();
         form.get('fiscal_code').enable();
         form.get('gender').enable();
+        form.get('professional_title').enable();
         form.get('contacts').disable();
         form.get('name').clearValidators();
         form.get('name').updateValueAndValidity();
@@ -395,6 +396,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('last_name').disable();
         form.get('fiscal_code').disable();
         form.get('gender').disable();
+        form.get('professional_title').disable();
         form.get('name').enable();
         form.get('contacts').enable();
         form.get('name').setValidators([Validators.required]);
@@ -511,6 +513,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   submit() {
     event.preventDefault();
     event.stopPropagation();
+    // if (this.form.valid) {
     if (true) {
       console.log(this.form.getRawValue());
       const body = JSON.stringify(this.form.getRawValue());
