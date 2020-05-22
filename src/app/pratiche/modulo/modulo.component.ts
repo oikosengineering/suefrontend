@@ -34,7 +34,6 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
   }
 
   saveEvent(event){
-    console.log(event);
     this.saved_form = event;
   }
 

@@ -88,9 +88,9 @@ export class FormUtilService {
 
   createOwner(): FormGroup {
     return this.fb.group({
-      type: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
+      // type: new FormControl(null, Validators.compose([
+      //   Validators.required
+      // ])),
       gender: new FormControl(null, Validators.compose([
         Validators.required
       ])),

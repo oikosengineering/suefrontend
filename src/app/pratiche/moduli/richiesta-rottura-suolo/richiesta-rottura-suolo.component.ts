@@ -151,7 +151,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
+      category: new FormControl('rottura_suolo'),
       delegated: new FormControl(false),
+      owner_type: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       owner: this.formService.createOwner(),
       // expert: this.createExpertBusiness(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
@@ -242,10 +246,10 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   }
 
   checkState(){
-    if(!this.form.get('delegated').value){
-      this.form.get('experts').disable();
-      this.form.get('experts').updateValueAndValidity();
-    }
+    // if(!this.form.get('delegated').value){
+    //   this.form.get('experts').disable();
+    //   this.form.get('experts').updateValueAndValidity();
+    // }
     if(this.form.get('qualification').value == 'owner'){
       this.form.get('business_administrator').disable();
       this.form.get('business_administrator').updateValueAndValidity();
