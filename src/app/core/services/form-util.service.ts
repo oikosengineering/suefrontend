@@ -127,17 +127,17 @@ export class FormUtilService {
       phone: new FormControl('', Validators.compose([
         Validators.required,
       ])),
-      cellular: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
+      // cellular: new FormControl('', Validators.compose([
+      //   Validators.required,
+      // ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
       ])),
-      pec: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ]))
+      // pec: new FormControl('', Validators.compose([
+      //   Validators.required,
+      //   Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+      // ]))
     });
   }
   createExpertBusiness(): FormGroup{
@@ -165,16 +165,16 @@ export class FormUtilService {
       name: new FormControl(''),
       contacts: this.fb.array([]),
       address: this.createAddress(),
-      cellular: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
+      // cellular: new FormControl('', Validators.compose([
+      //   Validators.required,
+      // ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
       ])),
-      pec: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ])),
+      // pec: new FormControl('', Validators.compose([
+      //   Validators.required,
+      //   Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+      // ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),

@@ -11,6 +11,7 @@ import { FormUtilService } from 'src/app/core/services/form-util.service';
 import CodiceFiscale  from 'codice-fiscale-js';
 import { Province, City, Professional_Title} from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -517,17 +518,32 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   submit() {
     event.preventDefault();
     event.stopPropagation();
-    // if (this.form.valid) {
-    if (true) {
+    if (this.form.valid) {
+    // if (true) {
       console.log(this.form.getRawValue());
-      const body = JSON.stringify(this.form.getRawValue());
+      let raw_form = this.form.getRawValue();
+      this.parseDate(raw_form);
+      const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
         console.log(response);
       });
 
     } else {
       this.validationService.validateAllFormFields(this.form);
-      console.log(this.form.getRawValue());
+      const body = this.form.getRawValue();
+      this.parseDate(body);
+    }
+  }
+
+  parseDate(body){
+    if(body.owner.birthday){
+      body.owner.birthday = formatDate(body.owner.birthday, "yyyy-MM-d", "en");
+    }
+    if(body.details.end_date){
+      body.details.end_date = formatDate(body.details.end_date, "yyyy-MM-d", "en");
+    }
+    if(body.details.start_date){
+      body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-d", "en");
     }
   }
 
