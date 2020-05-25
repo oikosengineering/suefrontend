@@ -36,6 +36,10 @@ export class AppApiService {
     return this.httpClient.get(environment.api_url + '/getListaTitoliProfessionali', this.header).pipe(map(response => response));
   }
 
+  getDizionario(cat: string) {
+    return this.httpClient.get(environment.api_url + '/getDizionario?cat=' + cat, this.header).pipe(map(response => response));
+  }
+
   /*
   GET PRATICA
   */

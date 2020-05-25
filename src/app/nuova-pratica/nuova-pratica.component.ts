@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidationService } from '../core/services/validation.service';
+import { AppApiService } from '../core/services/app-api.service';
 
 @Component({
   selector: 'app-nuova-pratica',
@@ -10,19 +11,24 @@ import { ValidationService } from '../core/services/validation.service';
 })
 export class NuovaPraticaComponent implements OnInit {
 
-  options = [
-    {value: 'rottura_suolo', name: "Richiesta rottura suolo pubblico"}
-  ]
+  options = [];
+  
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private validationService: ValidationService
+    private validationService: ValidationService,
+    private apiservice: AppApiService
   ) {}
 
   ngOnInit() {
+
+    this.apiservice.getDizionario('procedure.category').subscribe(data => {
+      this.options.push(...data['data']);
+    });
+
     this.firstFormGroup = this.formBuilder.group({
       tipo_pratica: [null, Validators.required]
     });

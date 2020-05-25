@@ -20,38 +20,13 @@ import { formatDate } from '@angular/common';
 })
 export class RichiestaRotturaSuoloComponent implements OnInit {
   form: FormGroup;
-  tipologie = [
-    { name: "Persona fisica", value: 'person' },
-    { name: "Persona giuridica", value: 'business' }
-  ];
-  generi = [
-    { name: "Maschio", value: 'M' },
-    { name: "Femmina", value: 'F' }
-  ];
-  pavimentazioni = [
-    { name: "Stradale", value: 'standard', price: 200, min: 2500 },
-    { name: "Pavimentazione di pregio", value: 'high-quality', price: 250, min: 5000 }
-  ];
-  esecutori = [
-    {name: "In proprio", value: 'self'},
-    {name: "Affidati all'impresa", value: 'business'}
-  ]
-  tipologie_contatto = [
-    {name: "Amministrativo", value: "administrative"},
-    {name: "Tecnico", value: "technical"},
-    {name: "Contabilità", value: "accounting"},
-    {name: "Altro", value: "other"}
-  ];
-  qualifiche = [
-    {name: "Proprietario", value:"owner"},
-    {name: "Rappresentante della compagnia", value:"company_representative"},
-    {name: "Amministratore", value:"property_manager"}
-  ];
-  tipi_documento = [
-    {name: "Carta d'identità", value: "d_card"},
-    {name: "Passaporto", value: "passport"},
-    {name: "Patente", value: "driving_license"}
-  ];
+  tipologie = [];
+  generi = [];
+  pavimentazioni = [];
+  esecutori = [];
+  tipologie_contatto = [];
+  qualifiche = [];
+  tipi_documento = [];
 
   map_cfg = {
     buttons: [
@@ -126,6 +101,34 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
     this.apiservice.getTitoliProfessionali().subscribe(data => {
       this.titoli_professionali.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('owner.type').subscribe(data => {
+      this.tipologie.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('gender').subscribe(data => {
+      this.generi.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('building.details.flooring_type').subscribe(data => {
+      this.pavimentazioni.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('experts.work_supplier').subscribe(data => {
+      this.esecutori.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('contacs.type').subscribe(data => {
+      this.tipologie_contatto.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('experts.qualification').subscribe(data => {
+      this.qualifiche.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('owner.person.document_type').subscribe(data => {
+      this.tipi_documento.push(...data['data']);
     });
 
     this.createForm();
