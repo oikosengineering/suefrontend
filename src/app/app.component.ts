@@ -3,6 +3,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './core/services/auth.service';
 import { EvtSignIn} from './core/models/models';
 import { NavigationEnd, Router } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,6 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class AppComponent {
   open = true;
-  richieste = [
-    { name: "Richiesta rottura suolo", link: "pratiche/richiesta-rottura-suolo" }
-  ];
   title = 'Comune di Chiavari';
   mobileQuery: MediaQueryList;
   username: string;
@@ -48,5 +46,10 @@ export class AppComponent {
         this.isUserLoggedIn = true;
       }
     );
+  }
+
+  login() {
+    const url = environment.auth_url;
+    window.location.href = url;
   }
 }

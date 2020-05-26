@@ -9,7 +9,7 @@
     </span>
     
     <span class="example-fill-remaining-space"></span>
-    <button mat-button *ngIf="!isUserLoggedIn" routerLink="/login">
+    <button mat-button (click)="login()">
       <mat-icon>account_circle</mat-icon>
       Log in
     </button>
