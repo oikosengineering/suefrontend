@@ -120,7 +120,8 @@ export class FormUtilService {
         Validators.required,
       ])),
       vat: new FormControl('', Validators.compose([
-        Validators.maxLength(11)
+        Validators.maxLength(11),
+        Validators.minLength(11),
       ])),
       address: this.createAddress(),
       contacts: this.fb.array([]),
@@ -160,7 +161,9 @@ export class FormUtilService {
         Validators.required,
       ])),
       vat: new FormControl('', Validators.compose([
-        Validators.maxLength(11)
+        Validators.required,
+        Validators.maxLength(11),
+        Validators.minLength(11),
       ])),
       name: new FormControl(''),
       contacts: this.fb.array([]),
@@ -198,7 +201,9 @@ export class FormUtilService {
         Validators.required,
       ])),
       vat: new FormControl('', Validators.compose([
-        Validators.maxLength(11)
+        Validators.required,
+        Validators.maxLength(11),
+        Validators.minLength(11),
       ])),
       address: this.createAddress(),
       phone: new FormControl('', Validators.compose([
@@ -218,7 +223,9 @@ export class FormUtilService {
     return this.fb.group({
       name: new FormControl(''),
       vat: new FormControl('', Validators.compose([
-        Validators.maxLength(11)
+        Validators.required,
+        Validators.maxLength(11),
+        Validators.minLength(11),
       ])),
       address: this.createAddress(),
       contacts: this.fb.array([]),

@@ -396,8 +396,6 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('contacts').disable();
         form.get('name').clearValidators();
         form.get('name').updateValueAndValidity();
-        form.get('vat').clearValidators();
-        form.get('vat').updateValueAndValidity();
         break;
       case 'business':
         form.get('first_name').disable()
@@ -409,9 +407,6 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('contacts').enable();
         form.get('name').setValidators([Validators.required]);
         form.get('name').updateValueAndValidity();
-        form.get('vat').enable();
-        form.get('vat').setValidators([Validators.required]);
-        form.get('vat').updateValueAndValidity();
         break;
     }
   }
