@@ -535,13 +535,13 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   parseDate(body){
     if(body.owner.birthday){
-      body.owner.birthday = formatDate(body.owner.birthday, "yyyy-MM-d", "en");
+      body.owner.birthday = formatDate(body.owner.birthday, "yyyy-MM-dd", "en");
     }
     if(body.details.end_date){
-      body.details.end_date = formatDate(body.details.end_date, "yyyy-MM-d", "en");
+      body.details.end_date = formatDate(body.details.end_date, "yyyy-MM-dd", "en");
     }
     if(body.details.start_date){
-      body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-d", "en");
+      body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-dd", "en");
     }
   }
 
