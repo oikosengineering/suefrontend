@@ -519,7 +519,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     if (this.form.valid) {
     // if (true) {
       console.log(this.form.getRawValue());
-      let raw_form = this.form.getRawValue();
+      let raw_form = this.form.value;
       this.parseDate(raw_form);
       const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {

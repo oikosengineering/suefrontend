@@ -69,9 +69,7 @@ export class FormUtilService {
         Validators.required,
         Validators.maxLength(80)
       ])),
-      notes: new FormControl('', Validators.compose([
-        Validators.maxLength(1000)
-      ])),
+      notes: new FormControl(''),
     })
   }
 
