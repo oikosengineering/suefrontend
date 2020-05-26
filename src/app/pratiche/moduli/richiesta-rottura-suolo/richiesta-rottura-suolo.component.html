@@ -1,201 +1,205 @@
 
     <form [formGroup]="form">
-        <mat-expansion-panel formGroupName="owner" class="referente-group" expanded>
+        <mat-expansion-panel  class="referente-group" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Referente 
+                  Proprietario 
                 </mat-panel-title>
                 <mat-panel-description>
-                  Compilare con i dati anagrafici del referente
+                  Compilare con i dati anagrafici del proprietario
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Tipologia</mat-label>
-                <mat-select formControlName="type" (selectionChange)="changedTipologiaPersona(form.get('owner'), $event)">
+                <mat-select formControlName="owner_type" (selectionChange)="changedTipologiaPersona(form.get('owner'), $event)">
                     <mat-option>Nessuna</mat-option>
                     <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
                         {{tipologia.name}}
                     </mat-option>
                 </mat-select>
-                <mat-error>{{getErrorMessage(form.get('owner').get('type'))}}</mat-error>
+                <mat-error>{{getErrorMessage(form.get('owner_type'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Genere</mat-label>
-                <mat-select formControlName="gender">
-                    <mat-option>----</mat-option>
-                    <mat-option *ngFor="let gender of generi" [value]="gender.value">
-                        {{gender.name}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>{{getErrorMessage(form.get('owner').get('gender'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Cognome</mat-label>
-                <input formControlName="last_name" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('owner').get('last_name'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Nome</mat-label>
-                <input formControlName="first_name" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('owner').get('first_name'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Codice fiscale</mat-label>
-                <input formControlName="fiscal_code" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('owner').get('fiscal_code'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Partita IVA</mat-label>
-                <input formControlName="vat" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('owner').get('vat'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-full" appearance="outline">
-                <mat-label>Ragione sociale</mat-label>
-                <input matInput type="text" formControlName="name" >
-                <mat-error>{{getErrorMessage(form.get('owner').get('name'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Tipo documento</mat-label>
-                <mat-select formControlName="document_type">
-                    <mat-option>Nessuna</mat-option>
-                    <mat-option *ngFor="let documento of tipi_documento" [value]="documento.value">
-                        {{documento.name}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>{{getErrorMessage(form.get('owner').get('document_type'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Numero documento</mat-label>
-                <input formControlName="document_number" matInput type="text">
-                <mat-error>{{getErrorMessage(form.get('owner').get('document_number'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Provincia di nascita (o Stato estero)</mat-label>
-                <mat-select formControlName="county" (selectionChange)="changedOwnerProvince(form.get('owner'), $event)" selected="selectedOwnerProvincia">
-                    <mat-option>----</mat-option>
-                    <mat-option *ngFor="let provincia of province" [value]="provincia.code">
-                        {{provincia.name}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>{{getErrorMessage(form.get('owner').get('county_of_birth'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Comune di nascita</mat-label>
-                <mat-select formControlName="birthplace" (selectionChange)="changedOwnerComune(form.get('owner'), $event)" selected="selectedOwnerComune">
-                    <mat-option>----</mat-option>
-                    <mat-option *ngFor="let comune of comuni" [value]="comune.code">
-                        {{comune.name}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>{{getErrorMessage(form.get('owner').get('birthplace'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Data di nascita</mat-label>
-                <input formControlName="birthday" matInput [matDatepicker]="picker_owner">
-                <mat-datepicker-toggle matSuffix [for]="picker_owner"></mat-datepicker-toggle>
-                <mat-datepicker #picker_owner></mat-datepicker>
-                <mat-error>{{getErrorMessage(form.get('owner').get('birthday'))}}</mat-error>
-            </mat-form-field>
-            <ng-container formGroupName="address">
-                <mat-form-field class="div-two-thirds" appearance="outline">
-                    <mat-label>Indirizzo</mat-label>
-                    <input formControlName="street_name" matInput type="text">
-                    <mat-error>{{getErrorMessage(form.get('owner').get('address').get('street_name'))}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="div-a-third" appearance="outline">
-                    <mat-label>Cap</mat-label>
-                    <input formControlName="postcode" matInput type="number">
-                    <mat-error>{{getErrorMessage(form.get('owner').get('address').get('postcode'))}}</mat-error>
+            <ng-container formGroupName="owner">
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Genere</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let gender of generi" [value]="gender.value">
+                            {{gender.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{getErrorMessage(form.get('owner').get('gender'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
-                    <mat-label>Provincia</mat-label>
-                    <mat-select formControlName="county" (selectionChange)="changedOwnerAddressProvince(form.get('owner').get('address'), $event)" selected="selectedOwnerAddressProvincia">
+                    <mat-label>Cognome</mat-label>
+                    <input formControlName="last_name" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('last_name'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Nome</mat-label>
+                    <input formControlName="first_name" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('first_name'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Codice fiscale</mat-label>
+                    <input formControlName="fiscal_code" matInput type="text">
+                    <button [disabled]="form.get(['owner', 'fiscal_code']).invalid || form.get(['owner', 'fiscal_code']).value == ''" mat-icon-button matSuffix
+                    (click)="calculateValueFromFiscalCode(form.get('owner'))"
+                    matTooltip="Autocompila i campi">
+                        <mat-icon>post_add</mat-icon>
+                    </button>
+                    <mat-error>{{getErrorMessage(form.get('owner').get('fiscal_code'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Partita IVA</mat-label>
+                    <input formControlName="vat" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('vat'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-full" appearance="outline">
+                    <mat-label>Ragione sociale</mat-label>
+                    <input matInput type="text" formControlName="name" >
+                    <mat-error>{{getErrorMessage(form.get('owner').get('name'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Tipo documento</mat-label>
+                    <mat-select formControlName="document_type">
+                        <mat-option>Nessuna</mat-option>
+                        <mat-option *ngFor="let documento of tipi_documento" [value]="documento.value">
+                            {{documento.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{getErrorMessage(form.get('owner').get('document_type'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Numero documento</mat-label>
+                    <input formControlName="document_number" matInput type="text">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('document_number'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Provincia di nascita (o Estero)</mat-label>
+                    <mat-select formControlName="county_of_birth" (selectionChange)="onChangeProvince('owner/county_of_birth', 'owner/birthplace')">
                         <mat-option>----</mat-option>
+                        <mat-option value="EE">(Stato estero)</mat-option>
                         <mat-option *ngFor="let provincia of province" [value]="provincia.code">
                             {{provincia.name}}
                         </mat-option>
                     </mat-select>
-                    <mat-error>{{getErrorMessage(form.get('owner').get('address').get('county'))}}</mat-error>
+                    <mat-error>{{getErrorMessage(form.get('owner').get('county_of_birth'))}}</mat-error>
                 </mat-form-field>
-                <mat-form-field class="div-half" appearance="outline">
-                    <mat-label>Comune</mat-label>
-                    <mat-select formControlName="city" (selectionChange)="changedOwnerAddressComune(form.get('owner').get('address'), $event)" selected="selectedOwnerAddressComune">
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Comune di nascita (o Stato estero)</mat-label>
+                    <!-- <mat-select formControlName="birthplace" (focus)="getComuni('owner/county_of_birth', 'owner/birthplace')"> -->
+                    <mat-select formControlName="birthplace">
                         <mat-option>----</mat-option>
-                        <mat-option *ngFor="let comune of comuni" [value]="comune.code">
+                        <mat-option *ngFor="let comune of comuni[toCamelCase('owner/birthplace')] || []" [value]="comune.name">
                             {{comune.name}}
                         </mat-option>
                     </mat-select>
-                    <mat-error>{{getErrorMessage(form.get('owner').get('address').get('city'))}}</mat-error>
+                    <mat-error>{{getErrorMessage(form.get('owner').get('birthplace'))}}</mat-error>
                 </mat-form-field>
-            </ng-container>
-            <mat-expansion-panel [disabled]="!formContactsOwner.enabled" formArrayName="contacts" [expanded]="formContactsOwner.enabled && formContactsOwner.controls.length > 0">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Contatti 
-                    </mat-panel-title>
-                    <mat-panel-description>
-                      Lista contatti
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-card class="array-list" *ngFor="let contatto of formContactsOwner.controls; let i = index;" [formGroupName]="i">
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Data di nascita</mat-label>
+                    <input formControlName="birthday" matInput [matDatepicker]="picker_owner">
+                    <mat-datepicker-toggle matSuffix [for]="picker_owner"></mat-datepicker-toggle>
+                    <mat-datepicker #picker_owner></mat-datepicker>
+                    <mat-error>{{getErrorMessage(form.get('owner').get('birthday'))}}</mat-error>
+                </mat-form-field>
+                <ng-container formGroupName="address">
+                    <mat-form-field class="div-two-thirds" appearance="outline">
+                        <mat-label>Indirizzo</mat-label>
+                        <input formControlName="street_name" matInput type="text">
+                        <mat-error>{{getErrorMessage(form.get('owner').get('address').get('street_name'))}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="div-a-third" appearance="outline">
+                        <mat-label>Cap</mat-label>
+                        <input formControlName="postcode" matInput type="number">
+                        <mat-error>{{getErrorMessage(form.get('owner').get('address').get('postcode'))}}</mat-error>
+                    </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
-                        <mat-label>Tipo</mat-label>
-                        <mat-select formControlName="type">
-                            <mat-option>Nessuna</mat-option>
-                            <mat-option *ngFor="let type of tipologie_contatto" [value]="type.value">
-                                {{type.name}}
+                        <mat-label>Provincia</mat-label>
+                        <mat-select formControlName="county" (selectionChange)="onChangeProvince('owner/address/county', 'owner/address/city')">
+                            <mat-option>----</mat-option>
+                            <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                                {{provincia.name}}
                             </mat-option>
                         </mat-select>
-                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(form.get('owner').get('address').get('county'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
-                        <mat-label>Nome referente</mat-label>
-                        <input formControlName="name" matInput type="text">
-                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
+                        <mat-label>Comune</mat-label>
+                        <mat-select formControlName="city">
+                            <mat-option>----</mat-option>
+                            <mat-option *ngFor="let comune of comuni[toCamelCase('owner/address/city')] || []" [value]="comune.code">
+                                {{comune.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{getErrorMessage(form.get('owner').get('address').get('city'))}}</mat-error>
                     </mat-form-field>
-                    <mat-form-field class="div-half" appearance="outline">
-                        <mat-label>Telefono</mat-label>
-                        <input formControlName="phone" matInput type="number">
-                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="div-half" appearance="outline">
-                        <mat-label>Email</mat-label>
-                        <input formControlName="email" matInput type="email">
-                        <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
-                    </mat-form-field>
-                    <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContactsOwner, i);"><mat-icon>close</mat-icon></button>
-                </mat-card>
-                <div class="div-full">
-                    <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('owner').get('contacts'));">Aggiungi</button>
-                </div>
-            </mat-expansion-panel>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Telefono</mat-label>
-                <input formControlName="phone" matInput type="number" (change)="check(form.get('owner'), 'phone','cellular')">
-                <mat-error>{{getErrorMessage(form.get('owner').get('phone'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Cellulare</mat-label>
-                <input formControlName="cellular" matInput type="number" (change)="check(form.get('owner'), 'cellular','phone')">
-                <mat-error>{{getErrorMessage(form.get('owner').get('cellular'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>Email</mat-label>
-                <input formControlName="email" matInput type="email">
-                <mat-error>{{getErrorMessage(form.get('owner').get('email'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-half" appearance="outline">
-                <mat-label>PEC</mat-label>
-                <input formControlName="pec" matInput type="email">
-                <mat-error>{{getErrorMessage(form.get('owner').get('pec'))}}</mat-error>
-            </mat-form-field>
-            <mat-error>{{getErrorMessage(form.get('owner'))}}</mat-error>
+                </ng-container>
+                <mat-expansion-panel [disabled]="!formContactsOwner.enabled" formArrayName="contacts" [expanded]="formContactsOwner.enabled && formContactsOwner.controls.length > 0">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Contatti 
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          Lista contatti
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-card class="array-list" *ngFor="let contatto of formContactsOwner.controls; let i = index;" [formGroupName]="i">
+                        <mat-form-field class="div-half" appearance="outline">
+                            <mat-label>Tipo</mat-label>
+                            <mat-select formControlName="type">
+                                <mat-option>Nessuna</mat-option>
+                                <mat-option *ngFor="let type of tipologie_contatto" [value]="type.value">
+                                    {{type.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('type'))}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="div-half" appearance="outline">
+                            <mat-label>Nome referente</mat-label>
+                            <input formControlName="name" matInput type="text">
+                            <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('name'))}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="div-half" appearance="outline">
+                            <mat-label>Telefono</mat-label>
+                            <input formControlName="phone" matInput type="text">
+                            <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('phone'))}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="div-half" appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input formControlName="email" matInput type="email">
+                            <mat-error>{{getErrorMessage(formContactsOwner.controls[i].get('email'))}}</mat-error>
+                        </mat-form-field>
+                        <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContactsOwner, i);"><mat-icon>close</mat-icon></button>
+                    </mat-card>
+                    <div class="div-full">
+                        <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('owner').get('contacts'));">Aggiungi</button>
+                    </div>
+                </mat-expansion-panel>
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Telefono</mat-label>
+                    <input formControlName="phone" matInput type="text" (change)="check(form.get('owner'), 'phone','cellular')">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('phone'))}}</mat-error>
+                </mat-form-field>
+                <!-- <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Cellulare</mat-label>
+                    <input formControlName="cellular" matInput type="number" (change)="check(form.get('owner'), 'cellular','phone')">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('cellular'))}}</mat-error>
+                </mat-form-field> -->
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="email" matInput type="email">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('email'))}}</mat-error>
+                </mat-form-field>
+                <!-- <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>PEC</mat-label>
+                    <input formControlName="pec" matInput type="email">
+                    <mat-error>{{getErrorMessage(form.get('owner').get('pec'))}}</mat-error>
+                </mat-form-field> -->
+                <mat-error>{{getErrorMessage(form.get('owner'))}}</mat-error>
+            </ng-container>
         </mat-expansion-panel>
-        <div class="div-checkbox">
-            <mat-checkbox formControlName="delegated"
-            (change)="changeDelegated($event, form.get('experts'))" >Sottomissione per conto terzi</mat-checkbox>
-            <mat-error>{{getErrorMessage(form.get('delegated'))}}</mat-error>
-        </div>
         <!-- <mat-expansion-panel [disabled]="!form.get('expert').enabled" formGroupName="expert" class="referente-group" [expanded]="form.get('expert').enabled">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -295,17 +299,17 @@
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Nome referente</mat-label>
                         <input formControlName="name" matInput type="text">
-                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('name'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Telefono</mat-label>
-                        <input formControlName="phone" matInput type="number">
-                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('type'))}}</mat-error>
+                        <input formControlName="phone" matInput type="text">
+                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('phone'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Email</mat-label>
                         <input formControlName="email" matInput type="email">
-                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsExpert.controls[i].get('email'))}}</mat-error>
                     </mat-form-field>
                     <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContactsExpert, i);"><mat-icon>close</mat-icon></button>
                 </mat-card>
@@ -315,7 +319,7 @@
             </mat-expansion-panel>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Telefono</mat-label>
-                <input formControlName="phone" matInput type="number" (change)="check(form.get('expert'), 'phone','cellular')">
+                <input formControlName="phone" matInput type="text" (change)="check(form.get('expert'), 'phone','cellular')">
                 <mat-error>{{getErrorMessage(form.get('expert').get('phone'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
@@ -382,11 +386,21 @@
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('fiscal_code'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Titolo professionale</mat-label>
+                    <mat-select formControlName="professional_title">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let titolo of titoli_professionali" [value]="titolo">
+                            {{titolo | titlecase}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{getErrorMessage(formExperts.controls[j].get('professional_title'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Partita IVA</mat-label>
                     <input formControlName="vat" matInput type="text">
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('vat'))}}</mat-error>
                 </mat-form-field>
-                <mat-form-field class="div-full" appearance="outline">
+                <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Ragione sociale</mat-label>
                     <input matInput type="text" formControlName="name" >
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('name'))}}</mat-error>
@@ -404,12 +418,22 @@
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Provincia</mat-label>
-                        <input formControlName="county" matInput type="text">
+                        <mat-select formControlName="county" (selectionChange)="onChangeProvince('experts/'+j+'/address/county', 'experts/'+j+'/address/city')">
+                            <mat-option>----</mat-option>
+                            <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                                {{provincia.name}}
+                            </mat-option>
+                        </mat-select>
                         <mat-error>{{getErrorMessage(formExperts.controls[j].get('address').get('county'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Comune</mat-label>
-                        <input formControlName="city" matInput type="text">
+                        <mat-select formControlName="city" [disabled]="checkValidation(['experts/'+j+'/address/county'])">
+                            <mat-option>----</mat-option>
+                            <mat-option *ngFor="let comune of comuni[toCamelCase('experts/'+j+'/address/city')] || []" [value]="comune.code">
+                                {{comune.name}}
+                            </mat-option>
+                        </mat-select>
                         <mat-error>{{getErrorMessage(formExperts.controls[j].get('address').get('city'))}}</mat-error>
                     </mat-form-field>
                 </ng-container>
@@ -436,17 +460,17 @@
                         <mat-form-field class="div-half" appearance="outline">
                             <mat-label>Nome referente</mat-label>
                             <input formControlName="name" matInput type="text">
-                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('type'))}}</mat-error>
+                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('name'))}}</mat-error>
                         </mat-form-field>
                         <mat-form-field class="div-half" appearance="outline">
                             <mat-label>Telefono</mat-label>
-                            <input formControlName="phone" matInput type="number">
-                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('type'))}}</mat-error>
+                            <input formControlName="phone" matInput type="text">
+                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('phone'))}}</mat-error>
                         </mat-form-field>
                         <mat-form-field class="div-half" appearance="outline">
                             <mat-label>Email</mat-label>
                             <input formControlName="email" matInput type="email">
-                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('type'))}}</mat-error>
+                            <mat-error>{{getErrorMessage(getArray('experts/'+j+'/contacts').controls[i].get('email'))}}</mat-error>
                         </mat-form-field>
                         <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(getArray('experts/'+j+'/contacts'), i);"><mat-icon>close</mat-icon></button>
                     </mat-card>
@@ -456,24 +480,24 @@
                 </mat-expansion-panel>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Telefono</mat-label>
-                    <input formControlName="phone" matInput type="number" (change)="check(formExperts.controls[j], 'phone','cellular')">
+                    <input formControlName="phone" matInput type="text" (change)="check(formExperts.controls[j], 'phone','cellular')">
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('phone'))}}</mat-error>
                 </mat-form-field>
-                <mat-form-field class="div-half" appearance="outline">
+                <!-- <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Cellulare</mat-label>
                     <input formControlName="cellular" matInput type="number" (change)="check(formExperts.controls[j], 'cellular','phone')">
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('cellular'))}}</mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Email</mat-label>
                     <input formControlName="email" matInput type="email">
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('email'))}}</mat-error>
                 </mat-form-field>
-                <mat-form-field class="div-half" appearance="outline">
+                <!-- <mat-form-field class="div-half" appearance="outline">
                     <mat-label>PEC</mat-label>
                     <input formControlName="pec" matInput type="email">
                     <mat-error>{{getErrorMessage(formExperts.controls[j].get('pec'))}}</mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-error>{{getErrorMessage(formExperts.controls[j])}}</mat-error>
                 <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formExperts, j);"><mat-icon>close</mat-icon></button>
             </mat-card>
@@ -481,6 +505,10 @@
                 <button class="button-add" mat-raised-button color="primary" (click)="addExpert(formExperts);">Aggiungi</button>
             </div>
         </mat-expansion-panel>
+        <div class="div-checkbox">
+            <mat-checkbox formControlName="delegated">Sottomissione per conto terzi</mat-checkbox>
+            <mat-error>{{getErrorMessage(form.get('delegated'))}}</mat-error>
+        </div>
         <div class="div-radio-group">
             <mat-label>In qualità di:</mat-label>
             <mat-radio-group formControlName="qualification" class="vartical-radiobutton"
@@ -553,18 +581,28 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Provincia</mat-label>
-                    <input formControlName="county" matInput type="text">
+                    <mat-select formControlName="county" (selectionChange)="onChangeProvince('business_administrator/address/county', 'business_administrator/address/city')">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                            {{provincia.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('business_administrator').get('address').get('county'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <input formControlName="city" matInput type="text">
+                    <mat-select formControlName="city" [disabled]="checkValidation(['business_administrator/address/county'])">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let comune of comuni[toCamelCase('business_administrator/address/city')] || []" [value]="comune.code">
+                            {{comune.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('business_administrator').get('address').get('city'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Telefono</mat-label>
-                <input formControlName="phone" matInput type="number">
+                <input formControlName="phone" matInput type="text">
                 <mat-error>{{getErrorMessage(form.get('business_administrator').get('phone'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
@@ -575,7 +613,7 @@
             <mat-error>{{getErrorMessage(form.get('business_administrator'))}}</mat-error>
         </mat-expansion-panel>
         <div class="div-radio-group">
-            <mat-label>Esecutore dei lavori:</mat-label>
+            <mat-label>Esecuzione dei lavori:</mat-label>
             <mat-radio-group formControlName="work_supplier" class="vartical-radiobutton"
             (change)="changeEsecutore($event, form.get('supplier_business'))">
               <ng-container *ngFor="let esecutore of esecutori">
@@ -587,10 +625,10 @@
         <mat-expansion-panel [disabled]="!form.get('supplier_business').enabled" formGroupName="supplier_business" class="referente-group" [expanded]="form.get('supplier_business').enabled">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Ditta
+                  Impresa
                 </mat-panel-title>
                 <mat-panel-description>
-                  Informazioni della ditta adetta ai lavori
+                  Informazioni dell'impresa adetta ai lavori
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <mat-form-field class="div-half" appearance="outline">
@@ -616,12 +654,22 @@
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Provincia</mat-label>
-                    <input formControlName="county" matInput type="text">
+                    <mat-select formControlName="county" (selectionChange)="onChangeProvince('supplier_business/address/county', 'supplier_business/address/city')">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                            {{provincia.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('supplier_business').get('address').get('county'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-half" appearance="outline">
                     <mat-label>Comune</mat-label>
-                    <input formControlName="city" matInput type="text">
+                    <mat-select formControlName="city" [disabled]="checkValidation(['supplier_business/address/county'])">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let comune of comuni[toCamelCase('supplier_business/address/city')] || []" [value]="comune.code">
+                            {{comune.name}}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>{{getErrorMessage(form.get('supplier_business').get('address').get('city'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
@@ -648,17 +696,17 @@
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Nome referente</mat-label>
                         <input formControlName="name" matInput type="text">
-                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('name'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Telefono</mat-label>
-                        <input formControlName="phone" matInput type="number">
-                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('type'))}}</mat-error>
+                        <input formControlName="phone" matInput type="text">
+                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('phone'))}}</mat-error>
                     </mat-form-field>
                     <mat-form-field class="div-half" appearance="outline">
                         <mat-label>Email</mat-label>
                         <input formControlName="email" matInput type="email">
-                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('type'))}}</mat-error>
+                        <mat-error>{{getErrorMessage(formContactsDitta.controls[i].get('email'))}}</mat-error>
                     </mat-form-field>
                     <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContactsDitta, i);"><mat-icon>close</mat-icon></button>
                 </mat-card>
@@ -668,7 +716,7 @@
             </mat-expansion-panel>
             <mat-form-field class="div-half" appearance="outline">
                 <mat-label>Telefono</mat-label>
-                <input formControlName="phone" matInput type="number" (change)="check(form.get('supplier_business'), 'phone','cellular')">
+                <input formControlName="phone" matInput type="text" (change)="check(form.get('supplier_business'), 'phone','cellular')">
                 <mat-error>{{getErrorMessage(form.get('supplier_business').get('phone'))}}</mat-error>
             </mat-form-field>
             <mat-form-field class="div-half" appearance="outline">
@@ -693,11 +741,39 @@
                 <input matInput formControlName="reason" type="text">
                 <mat-error>{{getErrorMessage(form.get('details').get('reason'))}}</mat-error>
             </mat-form-field>
-            <mat-form-field class="div-full" appearance="outline">
-                <mat-label>Descrizione lavori</mat-label>
-                <textarea matInput formControlName="description" type="text"></textarea>
-                <mat-error>{{getErrorMessage(form.get('details').get('description'))}}</mat-error>
-            </mat-form-field>
+            <ng-container formGroupName="description">
+                <mat-form-field class="div-full" appearance="outline">
+                    <mat-label>Causale</mat-label>
+                    <input matInput formControlName="motive" type="text">
+                    <mat-error>{{getErrorMessage(form.get(['details','description','motive']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third" appearance="outline">
+                    <mat-label>Tipo di posa</mat-label>
+                    <input matInput formControlName="laying_type" type="text">
+                    <mat-hint>Tubazioni, polifore, etc.</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','laying_type']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third text-right" appearance="outline">
+                    <mat-label>Diametro</mat-label>
+                    <input matInput formControlName="diameter" type="number">
+                    <span matSuffix>cm</span>
+                    <mat-hint>Diametro espresso in cm</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','diameter']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-third text-right" appearance="outline">
+                    <mat-label>Lunghezza</mat-label>
+                    <input matInput formControlName="length" type="number">
+                    <span matSuffix>m</span>
+                    <mat-hint>Lunghezza espressa in metri</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','length']))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-full" appearance="outline">
+                    <mat-label>Note</mat-label>
+                    <textarea matInput formControlName="notes" type="text"></textarea>
+                    <mat-hint>Note aggiuntive opzionali</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get(['details','description','notes']))}}</mat-error>
+                </mat-form-field>
+            </ng-container>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Inizio lavori</mat-label>
                 <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form.get('details'), 'end_date', 'start_date', 'duration')">
@@ -744,7 +820,7 @@
                     <mat-error>{{getErrorMessage(form.get('details').get('building_site').get('area_number'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
-            <div class="div-full padding-div">Il richiedente si impegna a costituire, a titolo di cauzione</div>
+            <div class="div-full padding-div">Il richiedente si impegna a costituire, a titolo di cauzione, una polizza fidejussoria</div>
             <ng-container formGroupName="insurance">
                 <div class="div-checkbox div-half">
                     <mat-checkbox formControlName="surety">Conferma la sottoscrizione della poliza</mat-checkbox>
@@ -757,7 +833,7 @@
                     <mat-error>{{getErrorMessage(form.get('details').get('insurance').get('amount'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
-            <div class="div-a-third padding-div">Informazioni catastali:</div>
+            <!-- <div class="div-a-third padding-div">Informazioni catastali:</div>
             <mat-form-field class="div-a-third" appearance="outline">
                 <mat-label>Foglio</mat-label>
                 <input matInput formControlName="foglio_catasto" type="number">
@@ -767,10 +843,24 @@
                 <mat-label>Particella</mat-label>
                 <input matInput formControlName="particella_catasto" type="number">
                 <mat-error>{{getErrorMessage(form.get('details').get('particella_catasto'))}}</mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
             <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Apri mappa</button>
         </mat-expansion-panel>
-        <mat-expansion-panel formGroupName="allegati_pratica" expanded>
+        <mat-card>
+            <mat-card-subtitle>
+                <mat-icon color="warn" style="vertical-align: bottom;">info</mat-icon>
+                E’ necessario conservare la marca da bollo per poi apporla all’eventuale autorizzazione. L’autorizzazione si intendera’ automaticamente revocata nel caso in cui il numero della marca da bollo inserita non corrispondera’ al numero della marca da bolla apposta all’eventuale autorizzazione. La mancata apposizione della marca da bollo rendera’ inefficace l’eventuale autorizzazione.
+            </mat-card-subtitle>
+            <mat-card-content>
+                <mat-form-field class="div-full" appearance="outline">
+                    <mat-label>Marca da bollo</mat-label>
+                    <input formControlName="stamp_number" matInput type="text">
+                    <mat-hint>Inserire il codice della marca da bollo</mat-hint>
+                    <mat-error>{{getErrorMessage(form.get('stamp_number'))}}</mat-error>
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+        <!-- <mat-expansion-panel formGroupName="allegati_pratica" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                 Allegati pratica
@@ -880,7 +970,7 @@
                 </mat-nav-list>
                 <mat-error>{{getErrorMessage(form.get('allegati_pratica').get('polizza_fidejussoria'))}}</mat-error>
             </mat-card>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
         <button class="button-login" mat-raised-button color="primary" (click)="save($event)">Salva</button>
         <button class="button-login" mat-raised-button color="primary" (click)="submit()">Convalida</button>
     </form>

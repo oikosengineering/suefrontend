@@ -20,12 +20,23 @@ import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
 import { ComponentsModule } from './core/components/components.module';
 import { MaterialModule } from './core/module/material/material.module';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: ['l', 'LL'],
+  },
+  display: {
+    dateInput: 'L',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +64,7 @@ import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.co
   providers: [
     CanDeactivateGuard,
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

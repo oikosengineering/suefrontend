@@ -24,16 +24,20 @@ export class AppApiService {
     return this.httpClient.get(environment.api_url + '/getListaNazioni', this.header).pipe(map((response)  => response));
   }
 
-  getProvince(): Observable<Province[]> {
-    return this.httpClient.get(environment.api_url + '/getListaProvince', this.header).pipe(map((response: Province[]) => response));
+  getProvince(){
+    return this.httpClient.get(environment.api_url + '/getListaProvince', this.header).pipe(map((response) => response));
   }
 
-  getComuni(code: string): Observable<City[]> {
-    return this.httpClient.get(environment.api_url + '/getListaComuni?id=' + code, this.header).pipe(map((response: City[]) => response));
+  getComuni(code: string){
+    return this.httpClient.get(environment.api_url + '/getListaComuni?id=' + code, this.header).pipe(map((response) => response));
   }
 
   getTitoliProfessionali() {
     return this.httpClient.get(environment.api_url + '/getListaTitoliProfessionali', this.header).pipe(map(response => response));
+  }
+
+  getDizionario(cat: string) {
+    return this.httpClient.get(environment.api_url + '/getDizionario?cat=' + cat, this.header).pipe(map(response => response));
   }
 
   /*

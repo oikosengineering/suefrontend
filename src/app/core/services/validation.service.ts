@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn, FormGroup, ValidationErrors } from '@angular/forms';
+import CodiceFiscale  from 'codice-fiscale-js';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class ValidationService {
       'atLeastOnecfpiva': "Uno dei due campi 'Codice fiscale' o 'Partita IVA' deve essere compilato.",
       'mismatchPsw': "Le password non sono uguali.",
       'min': `Il valore minimo è ${validatorValue.min}`,
-      'atLeastOnetelcel': "Uno dei due campi 'Telefono' o 'Cellulare' deve essere compilato."
+      'atLeastOnetelcel': "Uno dei due campi 'Telefono' o 'Cellulare' deve essere compilato.",
+      'fiscalCode': "Il codice fiscale non combacia con i dati inseriti"
     };
     return validation_messages[validatorName];
   }
@@ -76,4 +78,33 @@ export const atLeastOne = (validator: ValidatorFn, controls:string[] = null) => 
 
 export const passwordMatch = (control: string) => (self: AbstractControl) =>{
   return self.parent.controls[control].value === self.value ? null : {'mismatchPsw': true};
+}
+
+export function fiscalCodeValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: boolean } | null => {
+    if (control.value !== undefined && (isNaN(control.value))){
+      let form = control.parent;
+      if(form.get('first_name').value && form.get('last_name').value
+      && form.get('birthday').value && form.get('birthplace').value
+      && form.get('gender').value && form.get('county_of_birth').value){
+        let dati = {
+          name: form.get('first_name').value,
+          surname: form.get('last_name').value,
+          gender: form.get('gender').value,
+          day: new Date(form.get('birthday').value).getDate() || new Date().getDate(),
+          month: new Date(form.get('birthday').value).getMonth() + 1 || new Date().getMonth() + 1,
+          year: new Date(form.get('birthday').value).getFullYear() || new Date().getFullYear(),
+          birthplace: form.get('birthplace').value, 
+          birthplaceProvincia: form.get('county_of_birth').value
+        }
+        const cf = new CodiceFiscale(dati);
+        if (control.value != cf.code) {
+            return { 'fiscalCode': true };
+        }
+      }
+      return null;
+    } else {
+      return null;
+    }
+  };
 }

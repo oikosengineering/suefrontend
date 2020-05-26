@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidationService } from '../core/services/validation.service';
-import { AuthService } from '../core/services/auth.service';
-import { EvtSignIn} from '../core/models/models';
+import { AppApiService } from '../core/services/app-api.service';
 
 @Component({
   selector: 'app-nuova-pratica',
@@ -12,52 +11,58 @@ import { EvtSignIn} from '../core/models/models';
 })
 export class NuovaPraticaComponent implements OnInit {
 
-  options = [
-    { value: 0, name: "Richiesta Autorizzazione per la rottura di suolo pubblico" },
-    { value: 1, name: "Richiesta Occupazione suolo a fini edili" },
-    { value: 2, name: "Richiesta Rottura suolo ordinaria" },
-    { value: 2, name: "Richiesta Rottura suolo urgente" },
-  ];
-
+  options = [];
+  
   firstFormGroup: FormGroup;
-  isUserLoggedIn = false;
+  secondFormGroup: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private validationService: ValidationService,
-    private auth: AuthService,
-  ) {
-    this.isUserLoggedIn = this.auth.isUserLoggedIn();
-
-    auth.userislogin.subscribe(
-      (data: EvtSignIn) => {
-        this.isUserLoggedIn = true;
-      }
-    );
-  }
+    private apiservice: AppApiService
+  ) {}
 
   ngOnInit() {
+
+    this.apiservice.getDizionario('procedure.category').subscribe(data => {
+      this.options.push(...data['data']);
+    });
+
     this.firstFormGroup = this.formBuilder.group({
       tipo_pratica: [null, Validators.required]
     });
+    this.secondFormGroup = this.formBuilder.group({
+      oggetto: ['', Validators.compose(
+        [
+          Validators.required,
+          Validators.maxLength(80)
+        ]
+      )],
+      descrizione: ['', Validators.compose(
+        [
+          Validators.maxLength(255)
+        ]
+      )]
+    });
   }
 
-  getErrorMessage(control: AbstractControl) {
+  getErrorMessage(control: AbstractControl){
     return this.validationService.getErrorMessage(control);
   }
 
-  getPratica() {
+  getPratica(){
     let value = this.options.find(option => option.value == this.firstFormGroup.value.tipo_pratica);
-    if (value) {
+    if(value){
       return value.name;
     } else {
       return '';
     }
   }
 
-  submit() {
+  submit(){
     console.log("Tipo: ", this.firstFormGroup.value);
+    console.log("Info: ", this.secondFormGroup.value);
     this.router.navigate(['/pratiche', this.firstFormGroup.value.tipo_pratica, "test-pratica"]);
   }
 

@@ -7,8 +7,11 @@ import { NavigationEnd, Router } from '@angular/router';
 import { MatRadioChange } from '@angular/material/radio';
 import { BrowserStack } from 'protractor/built/driverProviders';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormUtilService } from 'src/app/core/services/form-util.service';
+import CodiceFiscale  from 'codice-fiscale-js';
 import { Province, City, Professional_Title} from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -17,38 +20,13 @@ import { AppApiService } from 'src/app/core/services/app-api.service';
 })
 export class RichiestaRotturaSuoloComponent implements OnInit {
   form: FormGroup;
-  tipologie = [
-    { name: "Persona fisica", value: 'person' },
-    { name: "Persona giuridica", value: 'business' }
-  ];
-  generi = [
-    { name: "Maschio", value: 'M' },
-    { name: "Femmina", value: 'F' }
-  ];
-  pavimentazioni = [
-    { name: "Stradale", value: 'standard', price: 200, min: 2500 },
-    { name: "Pavimentazione di pregio", value: 'high-quality', price: 250, min: 5000 }
-  ];
-  esecutori = [
-    {name: "In proprio", value: 'self'},
-    {name: "Ditta", value: 'business'}
-  ];
-  tipologie_contatto = [
-    {name: "Amministrativo", value: "administrative"},
-    {name: "Tecnico", value: "technical"},
-    {name: "Contabilità", value: "accounting"},
-    {name: "Altro", value: "other"}
-  ];
-  qualifiche = [
-    {name: "Proprietario", value:"owner"},
-    {name: "Rappresentante della compagnia", value:"company_representative"},
-    {name: "Amministratore", value:"property_manager"}
-  ];
-  tipi_documento = [
-    {name: "Carta d'identità", value: "d_card"},
-    {name: "Passaporto", value: "passport"},
-    {name: "Patente", value: "driving_license"}
-  ];
+  tipologie = [];
+  generi = [];
+  pavimentazioni = [];
+  esecutori = [];
+  tipologie_contatto = [];
+  qualifiche = [];
+  tipi_documento = [];
 
   map_cfg = {
     buttons: [
@@ -104,9 +82,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   selectedOwnerProvincia: Province;
   selectedOwnerAddressProvincia: Province;
   province: Province[] = [];
-  comuni: City[] = [];
-  selectedOwnerComune: City;
-  selectedOwnerAddressComune: City;
+  comuni = {};
   titoli_professionali = [];
 
   constructor(
@@ -114,6 +90,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     private validationService: ValidationService,
     private dialog: DialogMessageService,
     private router: Router,
+    private formService: FormUtilService,
     private apiservice: AppApiService
   ) { }
 
@@ -124,6 +101,34 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
     this.apiservice.getTitoliProfessionali().subscribe(data => {
       this.titoli_professionali.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('owner.type').subscribe(data => {
+      this.tipologie.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('gender').subscribe(data => {
+      this.generi.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('building.details.flooring_type').subscribe(data => {
+      this.pavimentazioni.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('experts.work_supplier').subscribe(data => {
+      this.esecutori.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('contacs.type').subscribe(data => {
+      this.tipologie_contatto.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('experts.qualification').subscribe(data => {
+      this.qualifiche.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('owner.person.document_type').subscribe(data => {
+      this.tipi_documento.push(...data['data']);
     });
 
     this.createForm();
@@ -150,44 +155,51 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
+      category: new FormControl('rottura_suolo'),
       delegated: new FormControl(false),
-      owner: this.createOwner(),
+      owner_type: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      owner: this.formService.createOwner(),
       // expert: this.createExpertBusiness(),
-      experts: this.fb.array([this.createExpertBusiness()]),
-      details: this.createDatiPratica(),
+      experts: this.fb.array([this.formService.createExpertBusiness()]),
+      details: this.formService.createDetailsRotturaSuolo(),
       work_supplier: new FormControl('self', Validators.compose([
         Validators.required
       ])),
-      supplier_business: this.createDitta(),
+      supplier_business: this.formService.createBusiness(),
       qualification: new FormControl('owner', Validators.compose([
         Validators.required
       ])),
-      business_administrator: this.createEsperto(),
-      allegati_pratica: this.fb.group({
-        marca_bollo: this.fb.group({
-          codice_bollo: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-        planimetria1: this.fb.group({
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-        planimetria2: this.fb.group({
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-        polizza_fidejussoria: this.fb.group({
-          file: new FormControl('', Validators.compose([
-            Validators.required
-          ])),
-        }),
-      })
+      business_administrator: this.formService.createExpert(),
+      stamp_number: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      // allegati_pratica: this.fb.group({
+      //   marca_bollo: this.fb.group({
+      //     codice_bollo: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      //   planimetria1: this.fb.group({
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      //   planimetria2: this.fb.group({
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      //   polizza_fidejussoria: this.fb.group({
+      //     file: new FormControl('', Validators.compose([
+      //       Validators.required
+      //     ])),
+      //   }),
+      // })
     });
   }
 
@@ -203,245 +215,16 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   getArray(value: string){
     return <FormArray>this.form.get(value.split("/"));
   }
-  createDatiPratica(): FormGroup {
-    return this.fb.group({
-      reason: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.maxLength(80)
-      ])),
-      description: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.maxLength(1000)
-      ])),
-      excavation_details: this.createGeometryDetails(),
-      building_site: this.createGeometryDetails(),
-      flooring_type: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      duration: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.min(1)
-      ])),
-      start_date: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      end_date: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      insurance: this.createInsurance(),
-      valore_polizza: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      foglio_catasto: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      particella_catasto: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-    })
-  }
 
-  createInsurance(): FormGroup{
-    return this.fb.group({
-      surety: new FormControl(false, Validators.compose([
-        Validators.pattern('true')
-      ])),
-      amount: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-    })
-  }
-
-  createGeometryDetails(): FormGroup{
-    return this.fb.group({
-      area_number: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      geometry: new FormControl([], Validators.compose([
-        Validators.required
-      ])),
-    })
-  }
-
-  createOwner(): FormGroup {
-    return this.fb.group({
-      type: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      gender: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      first_name: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      last_name: new FormControl('', Validators.compose([Validators.required])),
-      fiscal_code: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
-      ])),
-      document_type: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      document_number: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      name: new FormControl(''),
-      birthplace: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      county_of_birth: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      birthday: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
-      ])),
-      address: this.createAddress(),
-      contacts: this.fb.array([]),
-      phone: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      cellular: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ])),
-      pec: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ]))
-    });
-  }
-  createExpertBusiness(): FormGroup{
-    return this.fb.group({
-      type: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      gender: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      first_name: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      last_name: new FormControl('', Validators.compose([Validators.required])),
-      fiscal_code: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
-      ])),
-      professional_title: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
-      ])),
-      name: new FormControl(''),
-      contacts: this.fb.array([]),
-      address: this.createAddress(),
-      cellular: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      phone: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      pec: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ])),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ])),
-    });
-  }
-  createEsperto(): FormGroup {
-    return this.fb.group({
-      gender: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      first_name: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      last_name: new FormControl('', Validators.compose([Validators.required])),
-      fiscal_code: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$')
-      ])),
-      professional_title: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
-      ])),
-      address: this.createAddress(),
-      phone: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      pec: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ])),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ])),
-    });
-  }
-  createDitta(): FormGroup {
-    return this.fb.group({
-      name: new FormControl(''),
-      vat: new FormControl('', Validators.compose([
-        Validators.pattern('/^[0-9]{11}$/')
-      ])),
-      address: this.createAddress(),
-      contacts: this.fb.array([]),
-      phone: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ]))
+  subscriptionForChange(list: string[], target: string[]){
+    list.forEach(element => {
+      this.form.get(element.split("/")).valueChanges.subscribe(()=>this.forceValidControl(target));
     });
   }
 
-  createAddress(): FormGroup{
-    return this.fb.group({
-      city: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      county: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      street_name: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      postcode: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(5)
-      ])),
-    });
-  }
-
-  createContatto(): FormGroup{
-    return this.fb.group({
-      type: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      name: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ])),
-      phone: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
+  forceValidControl(list: string[]){
+    list.forEach(element => {
+      this.form.get(element.split("/")).updateValueAndValidity();
     });
   }
 
@@ -449,7 +232,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     let items = array as FormArray;
-    items.push(this.createContatto());
+    items.push(this.formService.createContact());
   }
 
   removeItem(array: AbstractControl, index: number){
@@ -463,14 +246,14 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     let items = array as FormArray;
-    items.push(this.createExpertBusiness());
+    items.push(this.formService.createExpertBusiness());
   }
 
   checkState(){
-    if(!this.form.get('delegated').value){
-      this.form.get('experts').disable();
-      this.form.get('experts').updateValueAndValidity();
-    }
+    // if(!this.form.get('delegated').value){
+    //   this.form.get('experts').disable();
+    //   this.form.get('experts').updateValueAndValidity();
+    // }
     if(this.form.get('qualification').value == 'owner'){
       this.form.get('business_administrator').disable();
       this.form.get('business_administrator').updateValueAndValidity();
@@ -479,6 +262,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       this.form.get('supplier_business').disable();
       this.form.get('supplier_business').updateValueAndValidity();
     }
+    this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth'], ['owner/fiscal_code']);
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
@@ -530,6 +314,36 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     return this.validationService.getErrorMessage(control);
   }
 
+  calculateFiscalCode(form: AbstractControl){
+    let dati = {
+      name: form.get('first_name').value,
+      surname: form.get('last_name').value,
+      gender: form.get('gender').value,
+      day: new Date(form.get('birthday').value).getDate(),
+      month: new Date(form.get('birthday').value).getMonth() + 1,
+      year: new Date(form.get('birthday').value).getFullYear(),
+      birthplace: form.get('birthplace').value, 
+      birthplaceProvincia: form.get('county_of_birth').value
+    }
+    console.log(dati);
+    const cf = new CodiceFiscale(dati);
+    console.log(cf);
+    form.get('fiscal_code').patchValue(cf);
+  }
+
+  calculateValueFromFiscalCode(form: AbstractControl){
+    event.preventDefault();
+    event.stopPropagation();
+    const cf = new CodiceFiscale(form.get('fiscal_code').value).toJSON();
+    form.get('gender').patchValue(cf.gender);
+    form.get('birthday').patchValue(new Date(cf.year, cf.month-1, cf.day));
+    form.get('county_of_birth').patchValue(cf.birthplaceProvincia);
+    this.onChangeProvinceFiscalCode('owner/county_of_birth', 'owner/birthplace', cf.birthplace);
+    console.log(this.comuni[this.toCamelCase('owner/birthplace')]);
+    console.log(cf.birthplace);
+    form.get('birthplace').patchValue(cf.birthplace);
+  }
+
   changedTipologiaPersona(form: AbstractControl, event: MatSelectChange) {
     switch (event.value) {
       case 'person':
@@ -543,10 +357,12 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('document_type').enable();
         form.get('document_number').enable();
         form.get('contacts').disable();
-        form.get('name').clearValidators();
-        form.get('name').updateValueAndValidity();
-        form.get('vat').clearValidators();
-        form.get('vat').updateValueAndValidity();
+        form.get('name').disable();
+        form.get('vat').disable();
+        // form.get('name').clearValidators()
+        // form.get('name').updateValueAndValidity();
+        // form.get('vat').clearValidators()
+        // form.get('vat').updateValueAndValidity();
         break;
       case 'business':
         form.get('first_name').disable()
@@ -560,11 +376,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('document_number').disable();
         form.get('name').enable();
         form.get('contacts').enable();
-        form.get('name').setValidators([Validators.required]);
-        form.get('name').updateValueAndValidity();
         form.get('vat').enable();
-        form.get('vat').setValidators([Validators.required]);
-        form.get('vat').updateValueAndValidity();
+        // form.get('name').setValidators([Validators.required]);
+        // form.get('name').updateValueAndValidity();
+        // form.get('vat').setValidators([Validators.required]);
+        // form.get('vat').updateValueAndValidity();
         break;
     }
   }
@@ -576,24 +392,21 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('last_name').enable();
         form.get('fiscal_code').enable();
         form.get('gender').enable();
+        form.get('professional_title').enable();
         form.get('contacts').disable();
         form.get('name').clearValidators();
         form.get('name').updateValueAndValidity();
-        form.get('vat').clearValidators();
-        form.get('vat').updateValueAndValidity();
         break;
       case 'business':
         form.get('first_name').disable()
         form.get('last_name').disable();
         form.get('fiscal_code').disable();
         form.get('gender').disable();
+        form.get('professional_title').disable();
         form.get('name').enable();
         form.get('contacts').enable();
         form.get('name').setValidators([Validators.required]);
         form.get('name').updateValueAndValidity();
-        form.get('vat').enable();
-        form.get('vat').setValidators([Validators.required]);
-        form.get('vat').updateValueAndValidity();
         break;
     }
   }
@@ -703,49 +516,133 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   submit() {
     event.preventDefault();
     event.stopPropagation();
-    if (true) {
+    if (this.form.valid) {
+    // if (true) {
       console.log(this.form.getRawValue());
-      const body = JSON.stringify(this.form.getRawValue());
+      let raw_form = this.form.getRawValue();
+      this.parseDate(raw_form);
+      const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
         console.log(response);
       });
 
     } else {
       this.validationService.validateAllFormFields(this.form);
-      console.log(this.form.getRawValue());
+      const body = this.form.getRawValue();
+      this.parseDate(body);
     }
   }
 
-  changedOwnerProvince(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerComune = null;
-    this.selectedOwnerProvincia = this.province.find(prov => prov.code === event.value);
-    if (this.selectedOwnerProvincia) {
-      this.apiservice.getComuni(this.selectedOwnerProvincia.code).subscribe((data) => {
-        if (data != null) {
-          this.comuni = data['data'];
-        }
+  parseDate(body){
+    if(body.owner.birthday){
+      body.owner.birthday = formatDate(body.owner.birthday, "yyyy-MM-d", "en");
+    }
+    if(body.details.end_date){
+      body.details.end_date = formatDate(body.details.end_date, "yyyy-MM-d", "en");
+    }
+    if(body.details.start_date){
+      body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-d", "en");
+    }
+  }
+
+  checkValidationElseDisable(value: string, target: string){
+    if(this.form.get(value.split("/")).invalid){
+      this.form.get(target.split("/")).disable();
+      this.form.get(target.split("/")).reset();
+    } else {
+      this.form.get(target.split("/")).enable();
+      this.form.get(target.split("/")).reset();
+    }
+  }
+
+  onChangeProvince(value: string, target: string){
+    this.checkValidationElseDisable(value, target);
+    this.getComuni(value, target);
+  }
+
+  onChangeProvinceFiscalCode(value: string, target: string, data: string){
+    this.checkValidationElseDisable(value, target);
+    this.getComuniAndPatch(value, target, data);
+  }
+
+  checkValidation(targets: string[]){
+    let check = false;
+    targets.forEach(target => {
+      if(this.form.get(target.split("/")).invalid){
+        check = true;
+      }
+    });
+    return check;
+  }
+
+  getComuni(value: string, target: string){
+    let selectProvince = this.form.get(value.split("/")).value;
+    if(selectProvince != 'EE'){
+      this.apiservice.getComuni(selectProvince).subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
+      });
+    } else {
+      this.apiservice.getNazioni().subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
       });
     }
   }
 
-  changedOwnerComune(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerComune = this.comuni.find(com => com.code === event.value);
-  }
-
-  changedOwnerAddressProvince(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerAddressComune = null;
-    this.selectedOwnerAddressProvincia = this.province.find(prov => prov.code === event.value);
-    if (this.selectedOwnerAddressProvincia) {
-      this.apiservice.getComuni(this.selectedOwnerAddressProvincia.code).subscribe((data) => {
-        if (data != null) {
-          this.comuni = data['data'];
-        }
+  getComuniAndPatch(value: string, target: string, data: string){
+    let selectProvince = this.form.get(value.split("/")).value;
+    if(selectProvince != 'EE'){
+      this.apiservice.getComuni(selectProvince).subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
+        let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
+        this.form.get(target.split("/")).patchValue(result.name);
+      });
+    } else {
+      this.apiservice.getNazioni().subscribe(value => {
+        this.comuni[this.toCamelCase(target)] = value['data'];
+        let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
+        this.form.get(target.split("/")).patchValue(result.name);
       });
     }
   }
 
-  changedOwnerAddressComune(form: AbstractControl, event: MatSelectChange) {
-    this.selectedOwnerAddressComune = this.comuni.find(com => com.code === event.value);
+  toCamelCase(sentenceCase) {
+    var out = "";
+    sentenceCase.split("/").forEach((element, index) => {
+        var add = element.toLowerCase();
+        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+    });
+    return out;
   }
+  // changedOwnerProvince(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerComune = null;
+  //   this.selectedOwnerProvincia = this.province.find(prov => prov.code === event.value);
+  //   if (this.selectedOwnerProvincia) {
+  //     this.apiservice.getComuni(this.selectedOwnerProvincia.code).subscribe((data) => {
+  //       if (data != null) {
+  //         this.comuni = data['data'];
+  //       }
+  //     });
+  //   }
+  // }
+
+  // changedOwnerComune(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerComune = this.comuni.find(com => com.code === event.value);
+  // }
+
+  // changedOwnerAddressProvince(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerAddressComune = null;
+  //   this.selectedOwnerAddressProvincia = this.province.find(prov => prov.code === event.value);
+  //   if (this.selectedOwnerAddressProvincia) {
+  //     this.apiservice.getComuni(this.selectedOwnerAddressProvincia.code).subscribe((data) => {
+  //       if (data != null) {
+  //         this.comuni = data['data'];
+  //       }
+  //     });
+  //   }
+  // }
+
+  // changedOwnerAddressComune(form: AbstractControl, event: MatSelectChange) {
+  //   this.selectedOwnerAddressComune = this.comuni.find(com => com.code === event.value);
+  // }
 
 }
