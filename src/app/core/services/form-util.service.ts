@@ -86,9 +86,9 @@ export class FormUtilService {
 
   createOwner(): FormGroup {
     return this.fb.group({
-      // type: new FormControl(null, Validators.compose([
-      //   Validators.required
-      // ])),
+      type: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
       gender: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -114,6 +114,7 @@ export class FormUtilService {
       county_of_birth: new FormControl('', Validators.compose([
         Validators.required,
       ])),
+      country_of_birth: new FormControl(''),
       birthday: new FormControl('', Validators.compose([
         Validators.required,
       ])),

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn, FormGroup, ValidationErrors } from '@angular/forms';
 import CodiceFiscale  from 'codice-fiscale-js';
+import { AppApiService } from './app-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationService {
 
-  constructor() { }
+  constructor(
+    private apiservice: AppApiService
+  ) { }
 
   getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     let validation_messages = {
@@ -85,18 +88,34 @@ export function fiscalCodeValidator(): ValidatorFn {
     if (control.value !== undefined && (isNaN(control.value))){
       let form = control.parent;
       if(form.get('first_name').value && form.get('last_name').value
-      && form.get('birthday').value && form.get('birthplace').value
-      && form.get('gender').value && form.get('county_of_birth').value){
-        let dati = {
-          name: form.get('first_name').value,
-          surname: form.get('last_name').value,
-          gender: form.get('gender').value,
-          day: new Date(form.get('birthday').value).getDate() || new Date().getDate(),
-          month: new Date(form.get('birthday').value).getMonth() + 1 || new Date().getMonth() + 1,
-          year: new Date(form.get('birthday').value).getFullYear() || new Date().getFullYear(),
-          birthplace: form.get('birthplace').value, 
-          birthplaceProvincia: form.get('county_of_birth').value
+      && form.get('birthday').value && form.get('gender').value
+      && (form.get('country_of_birth').value || (form.get('birthplace').value && form.get('county_of_birth').value))){
+        let nazione = form.get('country_of_birth').value;
+        let dati;
+        if(nazione != '' && nazione != undefined && nazione != null){
+          dati = {
+            name: form.get('first_name').value,
+            surname: form.get('last_name').value,
+            gender: form.get('gender').value,
+            day: new Date(form.get('birthday').value).getDate() || new Date().getDate(),
+            month: new Date(form.get('birthday').value).getMonth() + 1 || new Date().getMonth() + 1,
+            year: new Date(form.get('birthday').value).getFullYear() || new Date().getFullYear(),
+            birthplace: form.get('country_of_birth').value.name, 
+            birthplaceProvincia: 'EE'
+          }
+        } else {
+          dati = {
+            name: form.get('first_name').value,
+            surname: form.get('last_name').value,
+            gender: form.get('gender').value,
+            day: new Date(form.get('birthday').value).getDate() || new Date().getDate(),
+            month: new Date(form.get('birthday').value).getMonth() + 1 || new Date().getMonth() + 1,
+            year: new Date(form.get('birthday').value).getFullYear() || new Date().getFullYear(),
+            birthplace: form.get('birthplace').value.name, 
+            birthplaceProvincia: form.get('county_of_birth').value.code
+          }
         }
+        
         const cf = new CodiceFiscale(dati);
         if (control.value != cf.code) {
             return { 'fiscalCode': true };
@@ -108,3 +127,4 @@ export function fiscalCodeValidator(): ValidatorFn {
     }
   };
 }
+

@@ -82,6 +82,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   selectedOwnerProvincia: Province;
   selectedOwnerAddressProvincia: Province;
   province: Province[] = [];
+  nazioni = [];
   comuni = {};
   titoli_professionali = [];
 
@@ -101,6 +102,10 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
     this.apiservice.getTitoliProfessionali().subscribe(data => {
       this.titoli_professionali.push(...data['data']);
+    });
+
+    this.apiservice.getNazioni().subscribe(data => {
+      this.nazioni.push(...data['data'])
     });
 
     this.apiservice.getDizionario('owner.type').subscribe(data => {
@@ -157,9 +162,6 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     this.form = this.fb.group({
       category: new FormControl('rottura_suolo'),
       delegated: new FormControl(false),
-      owner_type: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
       owner: this.formService.createOwner(),
       // expert: this.createExpertBusiness(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
@@ -262,7 +264,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       this.form.get('supplier_business').disable();
       this.form.get('supplier_business').updateValueAndValidity();
     }
-    this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth'], ['owner/fiscal_code']);
+    this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth', 'owner/country_of_birth'], ['owner/fiscal_code']);
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
@@ -351,8 +353,8 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('last_name').enable();
         form.get('fiscal_code').enable();
         form.get('gender').enable();
-        form.get('birthplace').enable();
         form.get('county_of_birth').enable();
+        form.get('country_of_birth').enable();
         form.get('birthday').enable();
         form.get('document_type').enable();
         form.get('document_number').enable();
@@ -370,7 +372,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
         form.get('fiscal_code').disable();
         form.get('gender').disable();
         form.get('birthplace').disable();
+        form.get('birthplace').reset();
         form.get('county_of_birth').disable();
+        form.get('county_of_birth').reset();
+        form.get('country_of_birth').disable();
+        form.get('country_of_birth').reset();
         form.get('birthday').disable();
         form.get('document_type').disable();
         form.get('document_number').disable();
@@ -520,7 +526,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     // if (true) {
       console.log(this.form.getRawValue());
       let raw_form = this.form.value;
-      this.parseDate(raw_form);
+      this.parseData(raw_form);
       const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
         console.log(response);
@@ -529,11 +535,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     } else {
       this.validationService.validateAllFormFields(this.form);
       const body = this.form.getRawValue();
-      this.parseDate(body);
+      this.parseData(body);
     }
   }
 
-  parseDate(body){
+  parseData(body){
     if(body.owner.birthday){
       body.owner.birthday = formatDate(body.owner.birthday, "yyyy-MM-dd", "en");
     }
@@ -542,6 +548,23 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     }
     if(body.details.start_date){
       body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-dd", "en");
+    }
+    if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
+      delete body.details.description.notes;
+    }
+
+    let birthplace = body.owner.birthplace;
+    let county_of_birth = body.owner.county_of_birth;
+    let country_of_birth = body.owner.country_of_birth;
+
+    if(birthplace != null && birthplace != undefined && birthplace != ''){
+      body.owner.birthplace = body.owner.birthplace.code;
+    }
+    if(county_of_birth != null && county_of_birth != undefined && county_of_birth != ''){
+      body.owner.county_of_birth = body.owner.county_of_birth.code;
+    }
+    if(country_of_birth != null && country_of_birth != undefined && country_of_birth != ''){
+      body.owner.country_of_birth = body.owner.country_of_birth.code;
     }
   }
 
@@ -553,6 +576,31 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       this.form.get(target.split("/")).enable();
       this.form.get(target.split("/")).reset();
     }
+  }
+
+  checkValidationElseEnable(value: string, target: string){
+    if(this.form.get(value.split("/")).invalid){
+      this.form.get(target.split("/")).enable();
+      this.form.get(target.split("/")).reset();
+    } else {
+      this.form.get(target.split("/")).disable();
+      this.form.get(target.split("/")).reset();
+    }
+  }
+
+  onChangeCountry(value: string, target: string){
+    let value_field = this.form.get(value.split("/")).value;
+    if(value_field != null && value_field != '' && value_field != undefined){
+      this.form.get(target.split("/")).disable();
+    } else {
+      this.form.get(target.split("/")).enable();
+    }
+  }
+
+  onChangeCounty(value: string, target_enable: string, target_disable: string){
+    this.checkValidationElseDisable(value, target_enable);
+    this.checkValidationElseEnable(value, target_disable);
+    this.getComuni(value, target_enable);
   }
 
   onChangeProvince(value: string, target: string){
@@ -590,19 +638,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   getComuniAndPatch(value: string, target: string, data: string){
     let selectProvince = this.form.get(value.split("/")).value;
-    if(selectProvince != 'EE'){
-      this.apiservice.getComuni(selectProvince).subscribe(value => {
-        this.comuni[this.toCamelCase(target)] = value['data'];
-        let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
-        this.form.get(target.split("/")).patchValue(result.name);
-      });
-    } else {
-      this.apiservice.getNazioni().subscribe(value => {
-        this.comuni[this.toCamelCase(target)] = value['data'];
-        let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
-        this.form.get(target.split("/")).patchValue(result.name);
-      });
-    }
+    this.apiservice.getComuni(selectProvince).subscribe(value => {
+      this.comuni[this.toCamelCase(target)] = value['data'];
+      let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
+      this.form.get(target.split("/")).patchValue(result.name);
+    });
   }
 
   toCamelCase(sentenceCase) {
