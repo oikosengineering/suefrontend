@@ -20,13 +20,6 @@ export class MiePraticheComponent implements OnInit {
   }
 }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
 const ELEMENT_DATA = [
   {number: 1, protocol: 'A01', status: 'NEW', category: 'rottura_suolo', referrer: {first_name: 'Mihail', last_name: 'Timofei'}},
   {number: 2, protocol: 'A02', status: 'PROCESSED', category: 'rottura_suolo', referrer: {name:"Gomma S.r.l"}},
