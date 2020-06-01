@@ -32,19 +32,19 @@ export class NuovaPraticaComponent implements OnInit {
     this.firstFormGroup = this.formBuilder.group({
       tipo_pratica: [null, Validators.required]
     });
-    this.secondFormGroup = this.formBuilder.group({
-      oggetto: ['', Validators.compose(
-        [
-          Validators.required,
-          Validators.maxLength(80)
-        ]
-      )],
-      descrizione: ['', Validators.compose(
-        [
-          Validators.maxLength(255)
-        ]
-      )]
-    });
+    // this.secondFormGroup = this.formBuilder.group({
+    //   oggetto: ['', Validators.compose(
+    //     [
+    //       Validators.required,
+    //       Validators.maxLength(80)
+    //     ]
+    //   )],
+    //   descrizione: ['', Validators.compose(
+    //     [
+    //       Validators.maxLength(255)
+    //     ]
+    //   )]
+    // });
   }
 
   getErrorMessage(control: AbstractControl){
@@ -62,7 +62,6 @@ export class NuovaPraticaComponent implements OnInit {
 
   submit(){
     console.log("Tipo: ", this.firstFormGroup.value);
-    console.log("Info: ", this.secondFormGroup.value);
     this.router.navigate(['/pratiche', this.firstFormGroup.value.tipo_pratica, "test-pratica"]);
   }
 
