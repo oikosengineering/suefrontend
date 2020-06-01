@@ -25,6 +25,8 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from './core/models/custom-paginator';
 
 export const MY_FORMATS = {
   parse: {
@@ -64,8 +66,9 @@ export const MY_FORMATS = {
   providers: [
     CanDeactivateGuard,
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MatPaginatorIntl, useClass: CustomPaginator},
   ],
   bootstrap: [AppComponent]
 })
