@@ -24,7 +24,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'pratiche/:idModulo/:idPratica',
+    path: 'pratiche/:idModulo',
     loadChildren: () => import('./pratiche/pratiche.module').then(mod => mod.PraticheModule),
     pathMatch: 'full',
   },

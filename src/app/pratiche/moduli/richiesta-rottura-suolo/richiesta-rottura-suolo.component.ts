@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder, FormArray } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
@@ -12,6 +12,7 @@ import CodiceFiscale  from 'codice-fiscale-js';
 import { Province, City, Professional_Title} from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-richiesta-rottura-suolo',
@@ -19,6 +20,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./richiesta-rottura-suolo.component.scss']
 })
 export class RichiestaRotturaSuoloComponent implements OnInit {
+  @Input() modulo: string;
   form: FormGroup;
   tipologie = [];
   generi = [];
@@ -72,6 +74,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   @Output() saved = new EventEmitter<boolean>();
 
   saved_form = true;
+  valueChange: Subscription;
 
   file_bollo = [];
   planimetria1 = [];
@@ -138,29 +141,32 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
     this.createForm();
     this.checkState();
-    this.form.valueChanges.subscribe(value => {
+    this.subscribeToChanges();
+  }
+
+  subscribeToChanges(){
+    this.valueChange = this.form.valueChanges.subscribe(value => {
       if (this.form.touched) {
-        this.saved_form = false;
-        this.saved.emit(this.saved_form);
+        this.saved.emit(this.form.untouched);
       }
     });
   }
 
-  save(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.isUserLoggedIn) {
-      this.saved_form = true;
-      this.form.markAsUntouched();
-      this.saved.emit(this.saved_form);
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }
+  // save(event) {
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   if (this.isUserLoggedIn) {
+  //     this.saved_form = true;
+  //     this.form.markAsUntouched();
+  //     this.saved.emit(this.saved_form);
+  //   } else {
+  //     this.router.navigate(['/login']);
+  //   }
+  // }
 
   createForm() {
     this.form = this.fb.group({
-      category: new FormControl('rottura_suolo'),
+      category: new FormControl(this.modulo),
       delegated: new FormControl(false),
       owner: this.formService.createOwner(),
       // expert: this.createExpertBusiness(),
@@ -522,6 +528,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   submit() {
     event.preventDefault();
     event.stopPropagation();
+    this.valueChange.unsubscribe();
     if (this.form.valid) {
     // if (true) {
       console.log(this.form.getRawValue());
@@ -530,12 +537,16 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
         console.log(response);
+        this.saved.emit(true);
+      }, error => {
+        this.subscribeToChanges();
       });
 
     } else {
       this.validationService.validateAllFormFields(this.form);
       const body = this.form.getRawValue();
       this.parseData(body);
+      this.subscribeToChanges();
     }
   }
 

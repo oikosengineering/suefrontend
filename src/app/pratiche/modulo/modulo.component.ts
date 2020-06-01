@@ -25,7 +25,6 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
     this.route.params.subscribe(routeParams => {
       console.log(routeParams);
       this.idModulo = routeParams.idModulo;
-      this.idPratica = routeParams.idPratica;
     });
    }
 
@@ -34,12 +33,13 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
   }
 
   saveEvent(event){
+    console.log(event)
     this.saved_form = event;
   }
 
   canDeactivate(): Observable<boolean> | boolean {
     if (!this.saved_form) {
-      return this.dialog.openDialog("Attenzione", "Stai per uscire dalla pratica senza aver salvato, sei sicuro?");
+      return this.dialog.openDialog("Attenzione", "Stai per uscire dalla pratica, sei sicuro?");
     }
     return true;
   }
