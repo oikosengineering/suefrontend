@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'ricerca-pratiche', component: RicercaPraticheComponent },
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
-      { path: 'mie-pratiche', component: MiePraticheComponent, canActivate: [RouteGuard]}
+      { path: 'mie-pratiche', component: MiePraticheComponent,} // canActivate: [RouteGuard]}
     ],
   },
   {

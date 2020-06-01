@@ -1,1 +1,38 @@
-<p>mie-pratiche works!</p>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+  
+      <!-- Position Column -->
+      <ng-container matColumnDef="number">
+        <th mat-header-cell *matHeaderCellDef>N. pratica</th>
+        <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+      </ng-container>
+      <!-- Position Column -->
+      <ng-container matColumnDef="protocol">
+        <th mat-header-cell *matHeaderCellDef>N. protocollo</th>
+        <td mat-cell *matCellDef="let element"> {{element.protocol}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Stato </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Categoria </th>
+        <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="referrer">
+        <th mat-header-cell *matHeaderCellDef> Referente </th>
+        <td mat-cell *matCellDef="let element"> {{element.referrer.name ? element.referrer.name : (element.referrer.first_name + ' '+ element.referrer.last_name) }} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
