@@ -79,7 +79,8 @@ export class FormUtilService {
         Validators.required
       ])),
       geometry: new FormControl([], Validators.compose([
-        Validators.required
+        Validators.required,
+        Validators.maxLength(1)
       ])),
     })
   }

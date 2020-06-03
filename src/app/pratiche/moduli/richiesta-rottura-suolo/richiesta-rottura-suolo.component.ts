@@ -510,11 +510,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
           switch(feature.type){
             case 'scavo':
               this.form.get('details').get('excavation_details').get('geometry').patchValue(feature.features);
-              this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
+              // this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
               break;
             case 'cantiere':
               this.form.get('details').get('building_site').get('geometry').patchValue(feature.features);
-              this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
+              // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
           }
         });
         console.log("Dati pratica",this.form.get('details').value);
@@ -664,36 +664,4 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     });
     return out;
   }
-  // changedOwnerProvince(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerComune = null;
-  //   this.selectedOwnerProvincia = this.province.find(prov => prov.code === event.value);
-  //   if (this.selectedOwnerProvincia) {
-  //     this.apiservice.getComuni(this.selectedOwnerProvincia.code).subscribe((data) => {
-  //       if (data != null) {
-  //         this.comuni = data['data'];
-  //       }
-  //     });
-  //   }
-  // }
-
-  // changedOwnerComune(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerComune = this.comuni.find(com => com.code === event.value);
-  // }
-
-  // changedOwnerAddressProvince(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerAddressComune = null;
-  //   this.selectedOwnerAddressProvincia = this.province.find(prov => prov.code === event.value);
-  //   if (this.selectedOwnerAddressProvincia) {
-  //     this.apiservice.getComuni(this.selectedOwnerAddressProvincia.code).subscribe((data) => {
-  //       if (data != null) {
-  //         this.comuni = data['data'];
-  //       }
-  //     });
-  //   }
-  // }
-
-  // changedOwnerAddressComune(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerAddressComune = this.comuni.find(com => com.code === event.value);
-  // }
-
 }

@@ -432,7 +432,7 @@ export class MapComponent implements OnInit {
 
   close(){
     let result = [];
-    let total_area = 0;
+    // let total_area = 0;
     let new_features = this.options.features;
     let format = new WKT();
     let layers = this.map.getLayers().getArray().filter(layer => this.options.layers.find(mylayer => mylayer.id == layer.get('id')));
@@ -440,15 +440,15 @@ export class MapComponent implements OnInit {
         let features: Feature[] = layer.get('source').getFeatures();
         features.forEach(feature => {
           result.push(format.writeFeature(feature));
-          let area = getArea(feature.getGeometry());
-          total_area += Math.round((area + Number.EPSILON) * 100) / 100
+          // let area = getArea(feature.getGeometry());
+          // total_area += Math.round((area + Number.EPSILON) * 100) / 100
         })
         let dest = new_features.find(opt_feature => opt_feature.type == layer.get('id'));
         dest.features = [];
-        dest.area = total_area;
+        // dest.area = total_area;
         dest.features.push(...result);
         result = []
-        total_area = 0;
+        // total_area = 0;
     })
     this.dialogRef.close(new_features);
   }
