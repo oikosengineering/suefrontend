@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class MiePraticheComponent implements OnInit {
 
   constructor() { }
-  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer'];
+  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer', 'all_mandatory_documents_uploaded'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -21,6 +21,6 @@ export class MiePraticheComponent implements OnInit {
 }
 
 const ELEMENT_DATA = [
-  {number: 1, protocol: 'A01', status: 'NEW', category: 'rottura_suolo', referrer: {first_name: 'Mihail', last_name: 'Timofei'}},
-  {number: 2, protocol: 'A02', status: 'PROCESSED', category: 'rottura_suolo', referrer: {name:"Gomma S.r.l"}},
+  {number: 1, protocol: 'A01', status: 'NEW', category: 'rottura_suolo', referrer: {first_name: 'Mihail', last_name: 'Timofei'}, all_mandatory_documents_uploaded: true},
+  {number: 2, protocol: 'A02', status: 'APPROVED', category: 'rottura_suolo', referrer: {name:"Gomma S.r.l"}, all_mandatory_documents_uploaded: false},
 ];

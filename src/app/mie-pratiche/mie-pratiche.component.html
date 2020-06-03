@@ -15,13 +15,13 @@
       <!-- Name Column -->
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Stato </th>
-        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        <td mat-cell *matCellDef="let element"> <status-procedures [status]="element.status"></status-procedures> </td>
       </ng-container>
   
       <!-- Weight Column -->
       <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef> Categoria </th>
-        <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.category | categoryPipe}} </td>
       </ng-container>
 
       <!-- Symbol Column -->
@@ -29,7 +29,17 @@
         <th mat-header-cell *matHeaderCellDef> Referente </th>
         <td mat-cell *matCellDef="let element"> {{element.referrer.name ? element.referrer.name : (element.referrer.first_name + ' '+ element.referrer.last_name) }} </td>
       </ng-container>
-  
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="all_mandatory_documents_uploaded">
+        <th mat-header-cell *matHeaderCellDef> Documenti </th>
+        <td mat-cell *matCellDef="let element"><documents-uploaded [doucuments_uploaded]="element.all_mandatory_documents_uploaded"></documents-uploaded></td>
+          <!-- <mat-icon [color]="(element.all_mandatory_documents_uploaded | documentsUploaded)['color']" 
+            [matTooltip]="(element.all_mandatory_documents_uploaded | documentsUploaded)['tooltip']">
+            {{(element.all_mandatory_documents_uploaded | documentsUploaded)['icon']}}
+          </mat-icon>  -->
+      </ng-container>
+      
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

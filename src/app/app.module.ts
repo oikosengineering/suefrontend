@@ -27,6 +27,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from './core/models/custom-paginator';
+import { DocumentsUploadedPipe } from './core/pipes/documents-uploaded.pipe';
+import { CategoryPipe } from './core/pipes/category.pipe';
+import { StatusPipe } from './core/pipes/status.pipe';
 
 export const MY_FORMATS = {
   parse: {
@@ -49,7 +52,10 @@ export const MY_FORMATS = {
     SignupComponent,
     UserComponent,
     MiePraticheComponent,
-    RicercaPraticheComponent
+    RicercaPraticheComponent,
+    DocumentsUploadedPipe,
+    CategoryPipe,
+    StatusPipe
   ],
   imports: [
     BrowserModule,
