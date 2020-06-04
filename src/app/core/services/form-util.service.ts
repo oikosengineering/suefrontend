@@ -15,7 +15,6 @@ export class FormUtilService {
     return this.fb.group({
       reason: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.maxLength(80)
       ])),
       description: this.createDescriptionRotturaSuolo(),
       excavation_details: this.createGeometryDetails(),
@@ -39,14 +38,23 @@ export class FormUtilService {
 
   createDetailsOccupazioneSuoloEdilizio(): FormGroup {
     return this.fb.group({
-      address: new FormControl(''),
+      address: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       intersection_address: new FormControl(''),
       scaffolding: this.createBuildingSize(),
       building_site: this.createBuildingSize(),
       other: this.createBuildingSizeDescription(),
-      total_duration: new FormControl(''),
-      start_date: new FormControl(''),
-      end_date: new FormControl('')
+      total_duration: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.min(1)
+      ])),
+      start_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     });
   }
 
@@ -88,19 +96,31 @@ export class FormUtilService {
 
   createBuildingSize(): FormGroup {
     return this.fb.group({
-      length: new FormControl(''),
-      width: new FormControl(''),
-      total_square_meters: new FormControl('')
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     })
   }
 
   createBuildingSizeDescription(): FormGroup {
     return this.fb.group({
-      length: new FormControl(''),
-      width: new FormControl(''),
-      total_square_meters: new FormControl(''),
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       description: new FormControl('')
-    })
+    }, {disabled: true})
   }
 
   createInsurance(): FormGroup{

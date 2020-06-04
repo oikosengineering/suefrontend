@@ -10,10 +10,11 @@ import { MaterialModule } from '../core/module/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EdiliziaComponent } from './moduli/edilizia/edilizia.component';
 import { DetailsPraticheDirective } from './directives/details-pratiche.directive';
+import { OccupazioneEdileComponent } from './moduli/components-edilizia/occupazione-edile/occupazione-edile.component';
 
 
 @NgModule({
-  declarations: [ModuloComponent, DynamicFormDirective, DettagliPraticaComponent, DetailsPraticheDirective],
+  declarations: [ModuloComponent, DynamicFormDirective, DettagliPraticaComponent, DetailsPraticheDirective, OccupazioneEdileComponent],
   entryComponents: [EdiliziaComponent, RotturaSuoloComponent],
   imports: [
     CommonModule,

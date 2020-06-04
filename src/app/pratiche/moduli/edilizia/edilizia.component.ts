@@ -152,26 +152,13 @@ export class EdiliziaComponent implements OnInit {
     });
   }
 
-  // save(event) {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //   if (this.isUserLoggedIn) {
-  //     this.saved_form = true;
-  //     this.form.markAsUntouched();
-  //     this.saved.emit(this.saved_form);
-  //   } else {
-  //     this.router.navigate(['/login']);
-  //   }
-  // }
-
   createForm() {
     this.form = this.fb.group({
       category: new FormControl(this.modulo),
       delegated: new FormControl(false),
       owner: this.formService.createOwner(),
-      // expert: this.createExpertBusiness(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
-      details: this.formService.createDetailsRotturaSuolo(),
+      details: this.getDetailsProcedures(this.modulo),
       work_supplier: new FormControl('self', Validators.compose([
         Validators.required
       ])),
@@ -183,31 +170,6 @@ export class EdiliziaComponent implements OnInit {
       stamp_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      // allegati_pratica: this.fb.group({
-      //   marca_bollo: this.fb.group({
-      //     codice_bollo: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      //   planimetria1: this.fb.group({
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      //   planimetria2: this.fb.group({
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      //   polizza_fidejussoria: this.fb.group({
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      // })
     });
   }
 
@@ -222,6 +184,19 @@ export class EdiliziaComponent implements OnInit {
 
   getArray(value: string){
     return <FormArray>this.form.get(value.split("/"));
+  }
+
+  getDetailsProcedures(value: string): FormGroup{
+    switch(value){
+      case 'rottura_suolo':
+        return this.formService.createDetailsRotturaSuolo();
+      case 'occupazione_edile':
+        return this.formService.createDetailsOccupazioneSuoloEdilizio();
+      case 'occupazione_aree_pubbliche':
+        return this.formService.createDetailsOccupazioneAreePubbliche();
+      case 'ocupazione_suolo_traslochi':
+        return this.formService.createDetailsOccupazioneSuoloPubblicoTraslochiLavori();
+    }
   }
 
   subscriptionForChange(list: string[], target: string[]){
