@@ -34,12 +34,72 @@ export class FormUtilService {
         Validators.required
       ])),
       insurance: this.createInsurance(),
-      // foglio_catasto: new FormControl('', Validators.compose([
-      //   Validators.required
-      // ])),
-      // particella_catasto: new FormControl('', Validators.compose([
-      //   Validators.required
-      // ])),
+    })
+  }
+
+  createDetailsOccupazioneSuoloEdilizio(): FormGroup {
+    return this.fb.group({
+      address: new FormControl(''),
+      intersection_address: new FormControl(''),
+      scaffolding: this.createBuildingSize(),
+      building_site: this.createBuildingSize(),
+      other: this.createBuildingSizeDescription(),
+      total_duration: new FormControl(''),
+      start_date: new FormControl(''),
+      end_date: new FormControl('')
+    });
+  }
+
+  createDetailsOccupazioneAreePubbliche(): FormGroup {
+    return this.fb.group({
+      type: new FormControl(''),
+      address: new FormControl(''),
+      length: new FormControl(''),
+      width: new FormControl(''),
+      total_square_meters: new FormControl(''),
+      tables: new FormControl(false),
+      chairs: new FormControl(false),
+      umbrellas: new FormControl(false),
+      footboard: new FormControl(false),
+      other: new FormControl(false),
+      other_description: new FormControl(''),
+      total_duration: new FormControl(''),
+      start_date: new FormControl(''),
+      end_date: new FormControl('')
+    });
+  }
+
+  createDetailsOccupazioneSuoloPubblicoTraslochiLavori(): FormGroup {
+    return this.fb.group({
+      reason: new FormControl(''),
+      address: new FormControl(''),
+      length: new FormControl(''),
+      width: new FormControl(''),
+      total_square_meters: new FormControl(''),
+      total_duration: new FormControl(''),
+      start_date: new FormControl(''),
+      end_date: new FormControl(''),
+      start_time: new FormControl(''),
+      end_time: new FormControl(''),
+      through: new FormControl(''),
+      through_description: new FormControl(''),
+    });
+  }
+
+  createBuildingSize(): FormGroup {
+    return this.fb.group({
+      length: new FormControl(''),
+      width: new FormControl(''),
+      total_square_meters: new FormControl('')
+    })
+  }
+
+  createBuildingSizeDescription(): FormGroup {
+    return this.fb.group({
+      length: new FormControl(''),
+      width: new FormControl(''),
+      total_square_meters: new FormControl(''),
+      description: new FormControl('')
     })
   }
 

@@ -30,6 +30,7 @@ import { CustomPaginator } from './core/models/custom-paginator';
 import { DocumentsUploadedPipe } from './core/pipes/documents-uploaded.pipe';
 import { CategoryPipe } from './core/pipes/category.pipe';
 import { StatusPipe } from './core/pipes/status.pipe';
+import { RotturaSuoloComponent } from './pratiche/moduli/rottura-suolo/rottura-suolo.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -46,6 +47,7 @@ export const MY_FORMATS = {
   declarations: [
     AppComponent,
     RichiestaRotturaSuoloComponent,
+    RotturaSuoloComponent,
     HomeComponent,
     NuovaPraticaComponent,
     LoginComponent,

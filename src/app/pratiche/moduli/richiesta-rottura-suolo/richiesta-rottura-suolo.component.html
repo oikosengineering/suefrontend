@@ -734,7 +734,8 @@
             </mat-form-field>
             <mat-error>{{getErrorMessage(form.get('supplier_business'))}}</mat-error>
         </mat-expansion-panel>
-        <mat-expansion-panel formGroupName="details" expanded>
+        <rottura-suolo [form]="form.get('details')"></rottura-suolo>
+        <!-- <mat-expansion-panel formGroupName="details" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                 Dati pratica
@@ -841,17 +842,6 @@
                     <mat-error>{{getErrorMessage(form.get('details').get('insurance').get('amount'))}}</mat-error>
                 </mat-form-field>
             </ng-container>
-            <!-- <div class="div-a-third padding-div">Informazioni catastali:</div>
-            <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Foglio</mat-label>
-                <input matInput formControlName="foglio_catasto" type="number">
-                <mat-error>{{getErrorMessage(form.get('details').get('foglio_catasto'))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Particella</mat-label>
-                <input matInput formControlName="particella_catasto" type="number">
-                <mat-error>{{getErrorMessage(form.get('details').get('particella_catasto'))}}</mat-error>
-            </mat-form-field> -->
             <div class="div-a-quarter" appearance="outline">
                 <mat-label>N. geometrie scavo</mat-label>
                 <input matInput readonly="true" type="number" [value]="form.get(['details','excavation_details', 'geometry']).value.length > 0 ? form.get(['details','excavation_details', 'geometry']).value.length : '/'">
@@ -867,7 +857,7 @@
                 <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Disegna aree di occupazione</button>
             </div>
             
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
         <mat-card>
             <mat-card-subtitle>
                 <mat-icon color="warn" style="vertical-align: bottom;">info</mat-icon>
