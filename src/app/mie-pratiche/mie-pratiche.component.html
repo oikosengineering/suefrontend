@@ -30,7 +30,11 @@
         <td mat-cell *matCellDef="let element"> {{element.referrer.name ? element.referrer.name : (element.referrer.first_name + ' '+ element.referrer.last_name) }} </td>
       </ng-container>
 
-      
+      <ng-container matColumnDef="expert">
+        <th mat-header-cell *matHeaderCellDef> Tecnico </th>
+        <td mat-cell *matCellDef="let element"> {{element.experts[0].name ? element.experts[0].name : (element.experts[0].first_name + ' '+ element.experts[0].last_name) }} </td>
+      </ng-container>
+
       <ng-container matColumnDef="all_mandatory_documents_uploaded">
         <th mat-header-cell *matHeaderCellDef> Documenti </th>
         <td mat-cell *matCellDef="let element"><documents-uploaded [doucuments_uploaded]="element.all_mandatory_documents_uploaded"></documents-uploaded></td>

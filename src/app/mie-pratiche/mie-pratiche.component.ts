@@ -11,8 +11,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class MiePraticheComponent implements OnInit {
   data = {
     procedures:[
-      {number: 1, protocol: 'A01', status: 'NEW', category: 'rottura_suolo', referrer: {first_name: 'Mihail', last_name: 'Timofei'}, all_mandatory_documents_uploaded: true},
-      {number: 2, protocol: 'A02', status: 'APPROVED', category: 'rottura_suolo', referrer: {name:"Gomma S.r.l"}, all_mandatory_documents_uploaded: false},
+      {number: 1, protocol: 'A01', status: 'NEW', category: 'rottura_suolo', referrer: {first_name: 'Mihail', last_name: 'Timofei'}, experts:[{name: 'Oikos'}], all_mandatory_documents_uploaded: true},
+      {number: 2, protocol: 'A02', status: 'APPROVED', category: 'rottura_suolo', referrer: {name:"Gomma S.r.l"}, experts:[{first_name: 'Mihail', last_name: 'Timofei'}], all_mandatory_documents_uploaded: false},
     ],
     meta:{
       pagination:{
@@ -26,7 +26,7 @@ export class MiePraticheComponent implements OnInit {
     }
   }
   constructor() { }
-  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer', 'all_mandatory_documents_uploaded', 'actions'];
+  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer', 'expert', 'all_mandatory_documents_uploaded', 'actions'];
   dataSource = new MatTableDataSource(this.data.procedures);
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
