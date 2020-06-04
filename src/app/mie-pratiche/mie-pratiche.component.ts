@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-mie-pratiche',
@@ -25,7 +26,7 @@ export class MiePraticheComponent implements OnInit {
     }
   }
   constructor() { }
-  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer', 'all_mandatory_documents_uploaded'];
+  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer', 'all_mandatory_documents_uploaded', 'actions'];
   dataSource = new MatTableDataSource(this.data.procedures);
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
