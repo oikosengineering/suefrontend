@@ -15,11 +15,11 @@ import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-richiesta-rottura-suolo',
-  templateUrl: './richiesta-rottura-suolo.component.html',
-  styleUrls: ['./richiesta-rottura-suolo.component.scss']
+  selector: 'app-edilizia',
+  templateUrl: './edilizia.component.html',
+  styleUrls: ['./edilizia.component.scss']
 })
-export class RichiestaRotturaSuoloComponent implements OnInit {
+export class EdiliziaComponent implements OnInit {
   @Input() modulo: string;
   form: FormGroup;
   tipologie = [];

@@ -1,9 +1,12 @@
 import { Directive, Input, ComponentFactoryResolver, ViewContainerRef, Output, EventEmitter, HostListener } from '@angular/core';
-import { RichiestaRotturaSuoloComponent } from '../moduli/richiesta-rottura-suolo/richiesta-rottura-suolo.component';
 import { FormGroup } from '@angular/forms';
+import { EdiliziaComponent } from '../moduli/edilizia/edilizia.component';
 
 const componentMapper = {
-  'rottura_suolo': RichiestaRotturaSuoloComponent,
+  'rottura_suolo': EdiliziaComponent,
+  'occupazione_edile': EdiliziaComponent,
+  'occupazione_aree_pubbliche': EdiliziaComponent,
+  'ocupazione_suolo_traslochi': EdiliziaComponent
 };
 
 @Directive({

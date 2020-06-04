@@ -734,7 +734,8 @@
             </mat-form-field>
             <mat-error>{{getErrorMessage(form.get('supplier_business'))}}</mat-error>
         </mat-expansion-panel>
-        <rottura-suolo [form]="form.get('details')"></rottura-suolo>
+        <ng-container detailsPratiche [modulo]="modulo" [form]="form.get('details')"></ng-container>
+        <!-- <rottura-suolo [form]="form.get('details')"></rottura-suolo> -->
         <!-- <mat-expansion-panel formGroupName="details" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>
