@@ -7,27 +7,33 @@ export interface Address {
     street_name?: string;
     postcode?: string;
     city?: string;
-    province?: string;
+    cityc_code?: string;
+    county?: string;
+    county_code?: string;
     country?: string;
 }
 
 export interface Birthplace {
-    city: string;
-    province: string;
+    is_foreign?: boolean;
+    county?: string;
+    county_name?: string;
+    city?: string;
+    city_name?: string;
 }
 
 export interface Profile {
-    id: string;
-    first_name: string;
-    last_name: string;
-    full_name: string;
-    professional_title: Professional_Title;
-    address: Address;
-    gender: string;
-    fiscal_code: string;
-    birth_date: string;
-    birthplace: Birthplace;
-    pec: string;
+    id?: string;
+    first_name?: string;
+    last_name?: string;
+    full_name?: string;
+    professional_title?: string;
+    address?: Address;
+    gender?: string;
+    fiscal_code?: string;
+    birth_date?: string;
+    birthplace?: Birthplace;
+    pec?: string;
+    document?: FiscalDocument;
 }
 
 export interface User {
@@ -36,16 +42,30 @@ export interface User {
     last_name: string;
     email: string;
     profile: Profile;
+    role?: string;
+    department?: string;
+    professional_title?: string;
+    address?: Address;
+    gender?: string;
+    fiscal_code?: string;
+    vat?: string;
+    birth_date?: string;
+    birthplace?: Birthplace;
+    phone?: string;
 }
 
 export interface Jwt {
     iss: string;
-    nbf: string;
-    iat: string;
-    exp: string;
+    nbf: number;
+    iat: number;
+    exp: number;
     sub: string;
     user: User;
     type: string;
+}
+
+export interface Deserializable<T> {
+    deserialize(input: any): T;
 }
 
 export interface EvtSignIn {
@@ -54,7 +74,22 @@ export interface EvtSignIn {
     email: string;
     first_name: string;
     last_name: string;
+    professional_title?: string;
     type: string;
+}
+
+export interface iFakeUser {
+    iss: string;
+    nbf: number;
+    iat: number;
+    exp: number;
+    sub: string;
+    user: User;
+    type: string;
+}
+
+export class FakeUser {
+    constructor(public ifk: iFakeUser) {}
 }
 
 export interface Document {
@@ -72,7 +107,6 @@ export interface Procedure {
     user_id?: string;
     category?: string;
     delegated?: boolean;
-    owner_type?: OwnerType;
     owner?: Owner;
     experts?: Expert[];
     qualification?: string;
@@ -86,6 +120,7 @@ export interface Procedure {
 }
 
 export interface Owner {
+    type?: string;
     name?: string;
     vat?: string;
     address?: Address;
@@ -160,17 +195,6 @@ export interface Expert {
     email?: string;
     phone?: string;
     type?: ExpertType;
-}
-
-export interface OwnerType {
-    name?: string;
-    vat?: string;
-    address?: Address;
-    contacs?: Contact[];
-    email?: string;
-    phone?: string;
-    created_at?: string;
-    updated_at?: string;
 }
 
 export interface Detail {

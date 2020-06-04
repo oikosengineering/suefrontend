@@ -25,7 +25,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
-
+import { CookieInterceptor } from './core/interceptors/cookie.interceptor';
 export const MY_FORMATS = {
   parse: {
     dateInput: ['l', 'LL'],
@@ -64,8 +64,9 @@ export const MY_FORMATS = {
   providers: [
     CanDeactivateGuard,
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
