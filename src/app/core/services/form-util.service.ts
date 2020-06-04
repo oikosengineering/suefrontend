@@ -60,20 +60,35 @@ export class FormUtilService {
 
   createDetailsOccupazioneAreePubbliche(): FormGroup {
     return this.fb.group({
-      type: new FormControl(''),
-      address: new FormControl(''),
-      length: new FormControl(''),
-      width: new FormControl(''),
-      total_square_meters: new FormControl(''),
+      type: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      address: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       tables: new FormControl(false),
       chairs: new FormControl(false),
       umbrellas: new FormControl(false),
       footboard: new FormControl(false),
       other: new FormControl(false),
-      other_description: new FormControl(''),
-      total_duration: new FormControl(''),
-      start_date: new FormControl(''),
-      end_date: new FormControl('')
+      other_description: new FormControl({value: '', disabled: true}),
+      total_duration: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.min(1)
+      ])),
+      start_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_date: new FormControl(''),
     });
   }
 

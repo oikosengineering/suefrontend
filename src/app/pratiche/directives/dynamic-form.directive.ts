@@ -4,9 +4,9 @@ import { EdiliziaComponent } from '../moduli/edilizia/edilizia.component';
 
 const componentMapper = {
   'rottura_suolo': EdiliziaComponent,
-  'occupazione_edile': EdiliziaComponent,
-  'occupazione_aree_pubbliche': EdiliziaComponent,
-  'ocupazione_suolo_traslochi': EdiliziaComponent
+  'occupazione_suolo_edilizio': EdiliziaComponent,
+  'occupazione_suolo_pubblico': EdiliziaComponent,
+  'traslochi_lavori': EdiliziaComponent
 };
 
 @Directive({

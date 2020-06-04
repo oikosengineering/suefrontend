@@ -190,11 +190,11 @@ export class EdiliziaComponent implements OnInit {
     switch(value){
       case 'rottura_suolo':
         return this.formService.createDetailsRotturaSuolo();
-      case 'occupazione_edile':
+      case 'occupazione_suolo_edilizio':
         return this.formService.createDetailsOccupazioneSuoloEdilizio();
-      case 'occupazione_aree_pubbliche':
+      case 'occupazione_suolo_pubblico':
         return this.formService.createDetailsOccupazioneAreePubbliche();
-      case 'ocupazione_suolo_traslochi':
+      case 'traslochi_lavori':
         return this.formService.createDetailsOccupazioneSuoloPubblicoTraslochiLavori();
     }
   }
