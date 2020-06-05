@@ -8,6 +8,7 @@ import { SignupComponent } from './signup/signup.component';
 import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouteGuard } from './core/guards/routeguard.guard';
+import { CookieService } from 'ngx-cookie-service';
 
 const routes: Routes = [
   {
@@ -17,9 +18,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'nuova-pratica', component: NuovaPraticaComponent },
       { path: 'ricerca-pratiche', component: RicercaPraticheComponent },
-      { path: 'login', component: LoginComponent},
-      { path: 'signup', component: SignupComponent},
-      { path: 'mie-pratiche', component: MiePraticheComponent,} // canActivate: [RouteGuard]}
+      { path: 'mie-pratiche', component: MiePraticheComponent, canActivate: [RouteGuard]}
     ],
   },
   {
@@ -32,6 +31,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
   providers: [
+    CookieService,
     PathLocationStrategy,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
