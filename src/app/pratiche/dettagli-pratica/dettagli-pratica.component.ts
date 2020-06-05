@@ -25,7 +25,7 @@ export class DettagliPraticaComponent implements OnInit {
   }
 
   getProcedure(idProcedure: string){
-    this.apiService.getDettaglioPratica(idProcedure).subscribe(result => {
+    this.apiService.getDettagliPratica('building', idProcedure).subscribe(result => {
       console.log(result);
     });
   }
