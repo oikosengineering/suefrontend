@@ -57,7 +57,8 @@ export class AppComponent implements OnInit {
 
     if (basePath !== absolutePathWithParams) {
       if (absolutePathWithParams.lastIndexOf('code=') > 0) {
-        this.auth.sigin();
+        console.log(document.cookie);
+        //this.auth.sigin();
       }
     }
   }
@@ -74,6 +75,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.ctrLogIn();
+    
+    //this.auth.ctrLogIn();
   }
 }
