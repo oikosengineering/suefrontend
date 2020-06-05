@@ -20,11 +20,9 @@ export class CookieInterceptor implements HttpInterceptor {
       tap(evt => {
       
         if (evt instanceof HttpResponse) {
-          console.log("resp");
           console.table(evt.headers);
         }
         if (evt instanceof HttpRequest) {
-          console.log("req");
           console.log(evt.headers.getAll('Set-Cookie'));
         }
       }));

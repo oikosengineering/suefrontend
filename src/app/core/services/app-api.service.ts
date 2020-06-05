@@ -85,7 +85,7 @@ export class AppApiService {
       formData.append('file', file, file.name);
     }
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/procedures/' + idpratica + '/documents', formData, header).pipe(map(response => response))
+    return this.httpClient.post(environment.api_url + '/procedures/' + idpratica + '/documents', formData, header).pipe(map(response => response));
   }
 
   addEspertoPratica(id: string, json: string): Observable<Expert> {
@@ -105,5 +105,8 @@ export class AppApiService {
     return this.httpClient.post(environment.api_url + '/building/procedures/' + id + '/commit', this.header).pipe(map(response => response));
   }
 
+  verificaToken(): Observable<boolean> {
+    return this.httpClient.get<boolean>(environment.api_url + '/validatetoken', this.header).pipe(map(response => response));
+  }
 
 }
