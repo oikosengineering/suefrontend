@@ -541,14 +541,16 @@ export class EdiliziaComponent implements OnInit {
         if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
           delete body.details.description.notes;
         }
+        break;
       case 'occupazione_suolo_edilizio':
         if(body.details.intersection_address == null || body.details.intersection_address == undefined || body.details.intersection_address == ''){
           delete body.details.intersection_address;
         }
+        break;
       case 'occupazione_suolo_pubblico':
-        
+        break;
       case 'traslochi_lavori':
-        
+        break;
     }
 
     let birthplace = body.owner.birthplace;
