@@ -3,12 +3,13 @@ import { RotturaSuoloComponent } from '../moduli/components-edilizia/rottura-suo
 import { FormGroup } from '@angular/forms';
 import { OccupazioneEdileComponent } from '../moduli/components-edilizia/occupazione-edile/occupazione-edile.component';
 import { OccupazioneSuoloPubblicoComponent } from '../moduli/components-edilizia/occupazione-suolo-pubblico/occupazione-suolo-pubblico.component';
+import { OccupazioneTraslochiLavoriComponent } from '../moduli/components-edilizia/occupazione-traslochi-lavori/occupazione-traslochi-lavori.component';
 
 const componentMapper = {
   'rottura_suolo': RotturaSuoloComponent,
   'occupazione_suolo_edilizio': OccupazioneEdileComponent,
   'occupazione_suolo_pubblico': OccupazioneSuoloPubblicoComponent,
-  'traslochi_lavori': ''
+  'traslochi_lavori': OccupazioneTraslochiLavoriComponent
 };
 
 @Directive({
