@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RichiestaRotturaSuoloComponent } from './richiesta-rottura-suolo.component';
+import { EdiliziaComponent } from './edilizia.component';
 
 describe('RichiestaRotturaSuoloComponent', () => {
-  let component: RichiestaRotturaSuoloComponent;
-  let fixture: ComponentFixture<RichiestaRotturaSuoloComponent>;
+  let component: EdiliziaComponent;
+  let fixture: ComponentFixture<EdiliziaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RichiestaRotturaSuoloComponent ]
+      declarations: [ EdiliziaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RichiestaRotturaSuoloComponent);
+    fixture = TestBed.createComponent(EdiliziaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

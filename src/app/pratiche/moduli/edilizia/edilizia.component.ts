@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder, FormArray } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
@@ -12,13 +12,15 @@ import CodiceFiscale  from 'codice-fiscale-js';
 import { Province, City, Professional_Title} from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-richiesta-rottura-suolo',
-  templateUrl: './richiesta-rottura-suolo.component.html',
-  styleUrls: ['./richiesta-rottura-suolo.component.scss']
+  selector: 'app-edilizia',
+  templateUrl: './edilizia.component.html',
+  styleUrls: ['./edilizia.component.scss']
 })
-export class RichiestaRotturaSuoloComponent implements OnInit {
+export class EdiliziaComponent implements OnInit {
+  @Input() modulo: string;
   form: FormGroup;
   tipologie = [];
   generi = [];
@@ -72,6 +74,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   @Output() saved = new EventEmitter<boolean>();
 
   saved_form = true;
+  valueChange: Subscription;
 
   file_bollo = [];
   planimetria1 = [];
@@ -138,34 +141,25 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
     this.createForm();
     this.checkState();
-    this.form.valueChanges.subscribe(value => {
+    this.subscribeToChanges();
+  }
+
+  subscribeToChanges(){
+    this.valueChange = this.form.valueChanges.subscribe(value => {
       if (this.form.touched) {
-        this.saved_form = false;
-        this.saved.emit(this.saved_form);
+        this.saved.emit(this.form.untouched);
       }
     });
   }
 
-  save(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.isUserLoggedIn) {
-      this.saved_form = true;
-      this.form.markAsUntouched();
-      this.saved.emit(this.saved_form);
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }
-
   createForm() {
     this.form = this.fb.group({
-      category: new FormControl('rottura_suolo'),
+      category: new FormControl(this.modulo),
+      user_id: new FormControl('5d4c3a51-a978-4acd-a757-520145b6268f'),
       delegated: new FormControl(false),
       owner: this.formService.createOwner(),
-      // expert: this.createExpertBusiness(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
-      details: this.formService.createDetailsRotturaSuolo(),
+      details: this.getDetailsProcedures(this.modulo),
       work_supplier: new FormControl('self', Validators.compose([
         Validators.required
       ])),
@@ -177,31 +171,6 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       stamp_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      // allegati_pratica: this.fb.group({
-      //   marca_bollo: this.fb.group({
-      //     codice_bollo: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      //   planimetria1: this.fb.group({
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      //   planimetria2: this.fb.group({
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      //   polizza_fidejussoria: this.fb.group({
-      //     file: new FormControl('', Validators.compose([
-      //       Validators.required
-      //     ])),
-      //   }),
-      // })
     });
   }
 
@@ -216,6 +185,19 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
 
   getArray(value: string){
     return <FormArray>this.form.get(value.split("/"));
+  }
+
+  getDetailsProcedures(value: string): FormGroup{
+    switch(value){
+      case 'rottura_suolo':
+        return this.formService.createDetailsRotturaSuolo();
+      case 'occupazione_suolo_edilizio':
+        return this.formService.createDetailsOccupazioneSuoloEdilizio();
+      case 'occupazione_suolo_pubblico':
+        return this.formService.createDetailsOccupazioneAreePubbliche();
+      case 'traslochi_lavori':
+        return this.formService.createDetailsOccupazioneSuoloPubblicoTraslochiLavori();
+    }
   }
 
   subscriptionForChange(list: string[], target: string[]){
@@ -504,11 +486,11 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
           switch(feature.type){
             case 'scavo':
               this.form.get('details').get('excavation_details').get('geometry').patchValue(feature.features);
-              this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
+              // this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
               break;
             case 'cantiere':
               this.form.get('details').get('building_site').get('geometry').patchValue(feature.features);
-              this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
+              // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
           }
         });
         console.log("Dati pratica",this.form.get('details').value);
@@ -522,6 +504,7 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
   submit() {
     event.preventDefault();
     event.stopPropagation();
+    this.valueChange.unsubscribe();
     if (this.form.valid) {
     // if (true) {
       console.log(this.form.getRawValue());
@@ -530,12 +513,16 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
       const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
         console.log(response);
+        this.saved.emit(true);
+      }, error => {
+        this.subscribeToChanges();
       });
 
     } else {
       this.validationService.validateAllFormFields(this.form);
       const body = this.form.getRawValue();
       this.parseData(body);
+      this.subscribeToChanges();
     }
   }
 
@@ -549,8 +536,21 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     if(body.details.start_date){
       body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-dd", "en");
     }
-    if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
-      delete body.details.description.notes;
+    switch(this.modulo){
+      case 'rottura_suolo':
+        if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
+          delete body.details.description.notes;
+        }
+        break;
+      case 'occupazione_suolo_edilizio':
+        if(body.details.intersection_address == null || body.details.intersection_address == undefined || body.details.intersection_address == ''){
+          delete body.details.intersection_address;
+        }
+        break;
+      case 'occupazione_suolo_pubblico':
+        break;
+      case 'traslochi_lavori':
+        break;
     }
 
     let birthplace = body.owner.birthplace;
@@ -653,36 +653,4 @@ export class RichiestaRotturaSuoloComponent implements OnInit {
     });
     return out;
   }
-  // changedOwnerProvince(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerComune = null;
-  //   this.selectedOwnerProvincia = this.province.find(prov => prov.code === event.value);
-  //   if (this.selectedOwnerProvincia) {
-  //     this.apiservice.getComuni(this.selectedOwnerProvincia.code).subscribe((data) => {
-  //       if (data != null) {
-  //         this.comuni = data['data'];
-  //       }
-  //     });
-  //   }
-  // }
-
-  // changedOwnerComune(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerComune = this.comuni.find(com => com.code === event.value);
-  // }
-
-  // changedOwnerAddressProvince(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerAddressComune = null;
-  //   this.selectedOwnerAddressProvincia = this.province.find(prov => prov.code === event.value);
-  //   if (this.selectedOwnerAddressProvincia) {
-  //     this.apiservice.getComuni(this.selectedOwnerAddressProvincia.code).subscribe((data) => {
-  //       if (data != null) {
-  //         this.comuni = data['data'];
-  //       }
-  //     });
-  //   }
-  // }
-
-  // changedOwnerAddressComune(form: AbstractControl, event: MatSelectChange) {
-  //   this.selectedOwnerAddressComune = this.comuni.find(com => com.code === event.value);
-  // }
-
 }

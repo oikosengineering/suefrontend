@@ -15,7 +15,6 @@ export class FormUtilService {
     return this.fb.group({
       reason: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.maxLength(80)
       ])),
       description: this.createDescriptionRotturaSuolo(),
       excavation_details: this.createGeometryDetails(),
@@ -34,13 +33,135 @@ export class FormUtilService {
         Validators.required
       ])),
       insurance: this.createInsurance(),
-      // foglio_catasto: new FormControl('', Validators.compose([
-      //   Validators.required
-      // ])),
-      // particella_catasto: new FormControl('', Validators.compose([
-      //   Validators.required
-      // ])),
     })
+  }
+
+  createDetailsOccupazioneSuoloEdilizio(): FormGroup {
+    return this.fb.group({
+      address: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      intersection_address: new FormControl(''),
+      scaffolding: this.createBuildingSize(),
+      building_site: this.createBuildingSize(),
+      other: this.createBuildingSizeDescription(),
+      total_duration: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.min(1)
+      ])),
+      start_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+    });
+  }
+
+  createDetailsOccupazioneAreePubbliche(): FormGroup {
+    return this.fb.group({
+      type: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      address: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      tables: new FormControl(false),
+      chairs: new FormControl(false),
+      umbrellas: new FormControl(false),
+      footboard: new FormControl(false),
+      other: new FormControl(false),
+      other_description: new FormControl({value: '', disabled: true}),
+      total_duration: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.min(1)
+      ])),
+      start_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+    });
+  }
+
+  createDetailsOccupazioneSuoloPubblicoTraslochiLavori(): FormGroup {
+    return this.fb.group({
+      reason: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      address: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_duration: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      start_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      start_time: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_time: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      through: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      through_details: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+    });
+  }
+
+  createBuildingSize(): FormGroup {
+    return this.fb.group({
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+    })
+  }
+
+  createBuildingSizeDescription(): FormGroup {
+    return this.fb.group({
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl('')
+    }, {disabled: true})
   }
 
   createInsurance(): FormGroup{
@@ -79,7 +200,8 @@ export class FormUtilService {
         Validators.required
       ])),
       geometry: new FormControl([], Validators.compose([
-        Validators.required
+        Validators.required,
+        Validators.maxLength(1)
       ])),
     })
   }

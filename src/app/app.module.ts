@@ -6,7 +6,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RichiestaRotturaSuoloComponent } from './pratiche/moduli/richiesta-rottura-suolo/richiesta-rottura-suolo.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
@@ -25,6 +24,16 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from './core/models/custom-paginator';
+import { DocumentsUploadedPipe } from './core/pipes/documents-uploaded.pipe';
+import { CategoryPipe } from './core/pipes/category.pipe';
+import { StatusPipe } from './core/pipes/status.pipe';
+import { RotturaSuoloComponent } from './pratiche/moduli/components-edilizia/rottura-suolo/rottura-suolo.component';
+import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component';
+import { PraticheModule } from './pratiche/pratiche.module';
+import { CookieInterceptor } from './core/interceptors/cookie.interceptor';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: ['l', 'LL'],
@@ -39,14 +48,18 @@ export const MY_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
-    RichiestaRotturaSuoloComponent,
+    EdiliziaComponent,
+    RotturaSuoloComponent,
     HomeComponent,
     NuovaPraticaComponent,
     LoginComponent,
     SignupComponent,
     UserComponent,
     MiePraticheComponent,
-    RicercaPraticheComponent
+    RicercaPraticheComponent,
+    DocumentsUploadedPipe,
+    CategoryPipe,
+    StatusPipe
   ],
   imports: [
     BrowserModule,
@@ -59,11 +72,13 @@ export const MY_FORMATS = {
     ComponentsModule,
     FontAwesomeModule,
     HttpClientModule,
+    PraticheModule
   ],
   providers: [
     CanDeactivateGuard,
+    { provide: MatPaginatorIntl, useClass: CustomPaginator},
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

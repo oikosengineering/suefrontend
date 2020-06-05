@@ -62,7 +62,7 @@ export class NuovaPraticaComponent implements OnInit {
 
   submit(){
     console.log("Tipo: ", this.firstFormGroup.value);
-    this.router.navigate(['/pratiche', this.firstFormGroup.value.tipo_pratica, "test-pratica"]);
+    this.router.navigate(['/pratiche', this.firstFormGroup.value.tipo_pratica]);
   }
 
 }

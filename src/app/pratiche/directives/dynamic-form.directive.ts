@@ -1,9 +1,12 @@
 import { Directive, Input, ComponentFactoryResolver, ViewContainerRef, Output, EventEmitter, HostListener } from '@angular/core';
-import { RichiestaRotturaSuoloComponent } from '../moduli/richiesta-rottura-suolo/richiesta-rottura-suolo.component';
 import { FormGroup } from '@angular/forms';
+import { EdiliziaComponent } from '../moduli/edilizia/edilizia.component';
 
 const componentMapper = {
-  'rottura_suolo': RichiestaRotturaSuoloComponent,
+  'rottura_suolo': EdiliziaComponent,
+  'occupazione_suolo_edilizio': EdiliziaComponent,
+  'occupazione_suolo_pubblico': EdiliziaComponent,
+  'traslochi_lavori': EdiliziaComponent
 };
 
 @Directive({
@@ -11,7 +14,6 @@ const componentMapper = {
 })
 export class DynamicFormDirective {
   @Input() modulo: string;
-  @Input() idPratica: string;
   @Output() saved = new EventEmitter<boolean>();
   componentRef: any;
   
@@ -26,7 +28,6 @@ export class DynamicFormDirective {
     );
     this.componentRef = this.container.createComponent(factory);
     this.componentRef.instance.modulo = this.modulo;
-    this.componentRef.instance.idPratica = this.idPratica;
     this.componentRef.instance.saved.subscribe(value => {
       this.saved.emit(value);
     })

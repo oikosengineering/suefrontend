@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { AppApiService } from '../core/services/app-api.service';
 
 @Component({
   selector: 'app-mie-pratiche',
@@ -6,10 +10,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mie-pratiche.component.scss']
 })
 export class MiePraticheComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
+  data = {
+    procedures:[
+      {number: 1, protocol: 'A01', status: 'NEW', category: 'rottura_suolo', referrer: {first_name: 'Mihail', last_name: 'Timofei'}, experts:[{name: 'Oikos'}], all_mandatory_documents_uploaded: true},
+      {number: 2, protocol: 'A02', status: 'APPROVED', category: 'rottura_suolo', referrer: {name:"Gomma S.r.l"}, experts:[{first_name: 'Mihail', last_name: 'Timofei'}], all_mandatory_documents_uploaded: false},
+    ],
+    meta:{
+      pagination:{
+        total: 10,
+        count: 2,
+        per_page: 5,
+        current_page: 2,
+        total_pages: 1,
+        links: ''
+      }
+    }
   }
+  constructor(
+    private apiService: AppApiService
+  ) { }
+  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer', 'expert', 'all_mandatory_documents_uploaded', 'actions'];
+  dataSource = new MatTableDataSource(this.data.procedures);
 
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  ngOnInit() {
+    this.apiService.getListaPratiche().subscribe(result => {
+      console.log(result);
+    })
+    // this.dataSource.paginator = this.paginator;
+  }
 }
