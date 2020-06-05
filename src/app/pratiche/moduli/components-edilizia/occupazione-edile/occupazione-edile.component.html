@@ -24,21 +24,21 @@
             <mat-label>Lunghezza</mat-label>
             <input matInput formControlName="length" type="number">
             <span matSuffix>m</span>
-            <mat-hint>Lunghezza dell'impalcatura espressa in metri</mat-hint>
+            <mat-hint>Lunghezza dell'impalcatura</mat-hint>
             <mat-error>{{getErrorMessage(form.get(['scaffolding','length']))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Larghezza</mat-label>
             <input matInput formControlName="width" type="number">
             <span matSuffix>m</span>
-            <mat-hint>Larghezza dell'impalcatura espressa in metri</mat-hint>
+            <mat-hint>Larghezza dell'impalcatura</mat-hint>
             <mat-error>{{getErrorMessage(form.get(['scaffolding','width']))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Area</mat-label>
             <input matInput formControlName="total_square_meters" type="number">
             <span matSuffix>m<sup>2</sup></span>
-            <mat-hint>Area dell'impalcatura espressa in metri quadrati</mat-hint>
+            <mat-hint>Area dell'impalcatura</mat-hint>
             <mat-error>{{getErrorMessage(form.get(['scaffolding','total_square_meters']))}}</mat-error>
         </mat-form-field>
     </ng-container>
@@ -48,26 +48,28 @@
             <mat-label>Lunghezza</mat-label>
             <input matInput formControlName="length" type="number">
             <span matSuffix>m</span>
-            <mat-hint>Lunghezza del cantiere espressa in metri</mat-hint>
+            <mat-hint>Lunghezza del cantiere</mat-hint>
             <mat-error>{{getErrorMessage(form.get(['building_site','length']))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Larghezza</mat-label>
             <input matInput formControlName="width" type="number">
             <span matSuffix>m</span>
-            <mat-hint>Larghezza del cantiere espressa in metri</mat-hint>
+            <mat-hint>Larghezza del cantiere</mat-hint>
             <mat-error>{{getErrorMessage(form.get(['building_site','width']))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Area</mat-label>
             <input matInput formControlName="total_square_meters" type="number">
             <span matSuffix>m<sup>2</sup></span>
-            <mat-hint>Area del cantiere espressa in metri quadrati</mat-hint>
+            <mat-hint>Area del cantiere</mat-hint>
             <mat-error>{{getErrorMessage(form.get(['building_site','total_square_meters']))}}</mat-error>
         </mat-form-field>
     </ng-container>
     <ng-container formGroupName="other">
-        <mat-checkbox class="div-full padding-div" (change)="changeOther($event, form.get('other'))">Dichiara Altro</mat-checkbox>
+        <div class="div-checkbox">
+            <mat-checkbox class="checkbox-margin" (change)="changeOther($event, form.get('other'))">Dichiara Altro</mat-checkbox>
+        </div>
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Lunghezza</mat-label>
             <input matInput formControlName="length" type="number">

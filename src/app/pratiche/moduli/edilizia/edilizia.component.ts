@@ -542,7 +542,9 @@ export class EdiliziaComponent implements OnInit {
           delete body.details.description.notes;
         }
       case 'occupazione_suolo_edilizio':
-        
+        if(body.details.intersection_address == null || body.details.intersection_address == undefined || body.details.intersection_address == ''){
+          delete body.details.intersection_address;
+        }
       case 'occupazione_suolo_pubblico':
         
       case 'traslochi_lavori':

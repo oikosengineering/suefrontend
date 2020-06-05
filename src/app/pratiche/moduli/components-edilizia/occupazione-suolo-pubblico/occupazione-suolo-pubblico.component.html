@@ -8,7 +8,7 @@
         </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-form-field class="div-half" appearance="outline">
-        <mat-label>Tipologia occupazione</mat-label>
+        <mat-label>Periodo di occupazione</mat-label>
         <mat-select formControlName="type" (selectionChange)="changeTipologia($event, ['end_date', 'total_duration'])">
             <mat-option>---</mat-option>
             <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
@@ -27,21 +27,21 @@
         <mat-label>Lunghezza</mat-label>
         <input matInput formControlName="length" type="number">
         <span matSuffix>m</span>
-        <mat-hint>Lunghezza dell'occupazione espressa in metri</mat-hint>
+        <mat-hint>Lunghezza dell'occupazione</mat-hint>
         <mat-error>{{getErrorMessage(form.get('length'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third text-right" appearance="outline">
         <mat-label>Larghezza</mat-label>
         <input matInput formControlName="width" type="number">
         <span matSuffix>m</span>
-        <mat-hint>Larghezza dell'occupazione espressa in metri</mat-hint>
+        <mat-hint>Larghezza dell'occupazione</mat-hint>
         <mat-error>{{getErrorMessage(form.get('width'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third text-right" appearance="outline">
         <mat-label>Area</mat-label>
         <input matInput formControlName="total_square_meters" type="number">
         <span matSuffix>m<sup>2</sup></span>
-        <mat-hint>Area dell'occupazione espressa in metri quadrati</mat-hint>
+        <mat-hint>Area dell'occupazione</mat-hint>
         <mat-error>{{getErrorMessage(form.get('total_square_meters'))}}</mat-error>
     </mat-form-field>
     <p class="padding-div">Occupazione per mezzo di:</p>
