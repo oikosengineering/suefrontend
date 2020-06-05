@@ -1,10 +1,11 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './core/services/auth.service';
-import { EvtSignIn} from './core/models/models';
+import { EvtSignIn } from './core/models/models';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { Location, PathLocationStrategy } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
     media: MediaMatcher,
     private auth: AuthService,
     public router: Router,
+    private cookieservice: CookieService,
     private pathLocationStrategy: PathLocationStrategy) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -57,8 +59,11 @@ export class AppComponent implements OnInit {
 
     if (basePath !== absolutePathWithParams) {
       if (absolutePathWithParams.lastIndexOf('code=') > 0) {
-        console.log(document.cookie);
-        //this.auth.sigin();
+        if (location.hostname === 'localhost') {
+          this.auth.fackesigin();
+        } else {
+          this.auth.signin();
+        }
       }
     }
   }
@@ -75,7 +80,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     //this.auth.ctrLogIn();
   }
 }

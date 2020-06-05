@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "http://json-schema.org/draft-07/schema#",
-  "title": "Rottura_Suolo",
+  "title": "Pratica edilizia",
   "type": "object",
   "properties": {
     "user_id": {
@@ -10,7 +10,7 @@
     "category": {
       "type": "string",
       "enum": [
-        "rottura_suolo"
+        "rottura_suolo", "occupazione_suolo_edilizio", "occupazione_suolo_pubblico","traslochi_lavori"
       ]
     },
     "delegated": {

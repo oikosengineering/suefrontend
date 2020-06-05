@@ -9,6 +9,7 @@ import { SignupComponent } from './signup/signup.component';
 import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouteGuard } from './core/guards/routeguard.guard';
+import { CookieService } from 'ngx-cookie-service';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
   providers: [
+    CookieService,
     PathLocationStrategy,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],

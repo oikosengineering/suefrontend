@@ -5,6 +5,8 @@ import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { User, Professional_Title, Jwt, Address, Birthplace, EvtSignIn, Profile, FakeUser, iFakeUser } from '../models/models';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import * as jwt_decode from 'jwt-decode';
 
 declare var window;
 
@@ -18,6 +20,7 @@ export class AuthService {
     private router: Router,
     private zone: NgZone,
     private activateRoute: ActivatedRoute,
+    private cookieservice: CookieService
   ) {
   }
   private isUserLogged = false;
@@ -41,6 +44,9 @@ export class AuthService {
    * si va a svuotare il local storage di tutti i suoi elementi e si fa un logout
    */
   logout() {
+    if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken')) {
+      this.cookieservice.delete('staging_comune_chiavari_ge_it_idtoken');
+    }
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('first_name');
@@ -82,7 +88,7 @@ export class AuthService {
     return this.iduser;
   }
 
-  sigin() {
+  fackesigin() {
     let fkjson = {
       "iss": "comune.chiavari.ge.it",
       "nbf": 1591272354,
@@ -140,7 +146,41 @@ export class AuthService {
     localStorage.setItem('email', fkuser.ifk.user.email);
     localStorage.setItem('last_name', fkuser.ifk.user.last_name);
     localStorage.setItem('id', fkuser.ifk.user.id);
-    localStorage.setItem('professional_title', fkuser.ifk.user.profile.professional_title);
+    localStorage.setItem('professional_title', 'fakeuser');
     localStorage.setItem('type', fkuser.ifk.type);
+  }
+
+  signin() {
+    if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken')) {
+      const fkjson = jwt_decode(this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'));
+      const fkuser: FakeUser = new FakeUser(fkjson as iFakeUser);
+      localStorage.setItem('token', this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'));
+      localStorage.setItem('first_name', fkuser.ifk.user.first_name);
+      localStorage.setItem('last_name', fkuser.ifk.user.last_name);
+      localStorage.setItem('email', fkuser.ifk.user.email);
+      localStorage.setItem('last_name', fkuser.ifk.user.last_name);
+      localStorage.setItem('id', fkuser.ifk.user.id);
+      localStorage.setItem('professional_title', fkuser.ifk.user.profile.professional_title);
+      localStorage.setItem('type', fkuser.ifk.type);
+    }
+  }
+
+  getTokenExpirationDate(token: string): Date {
+    const decoded = jwt_decode(token);
+
+    if (decoded.exp === undefined) return null;
+
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp);
+    return date;
+  }
+
+  isTokenExpired(token?: string): boolean {
+    if (!token) { token = this.getToken(); }
+    if (!token) { return true; }
+
+    const date = this.getTokenExpirationDate(token);
+    if (date === undefined) { return false; }
+    return !(date.valueOf() > new Date().valueOf());
   }
 }
