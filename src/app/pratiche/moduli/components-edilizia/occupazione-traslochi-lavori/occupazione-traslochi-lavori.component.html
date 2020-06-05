@@ -29,10 +29,10 @@
     </mat-form-field>
     <mat-form-field class="div-a-third text-right" appearance="outline">
         <mat-label>Area</mat-label>
-        <input matInput formControlName="total_square_meters" type="number">
+        <input matInput formControlName="square_meters" type="number">
         <span matSuffix>m<sup>2</sup></span>
         <mat-hint>Area dell'occupazione espressa in metri quadrati</mat-hint>
-        <mat-error>{{getErrorMessage(form.get('total_square_meters'))}}</mat-error>
+        <mat-error>{{getErrorMessage(form.get('square_meters'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Inizio occupazione</mat-label>
@@ -71,7 +71,7 @@
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Mediante</mat-label>
-        <mat-select formControlName="through" (selectionChange)="changeTipologia($event, ['through_description'])">
+        <mat-select formControlName="through" (selectionChange)="changeTipologia($event, ['through_details'])">
             <mat-option>---</mat-option>
             <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
                 {{tipologia.name}}
@@ -81,8 +81,8 @@
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Descrizione</mat-label>
-        <input matInput formControlName="through_description" type="text"/>
+        <input matInput formControlName="through_details" type="text"/>
         <mat-hint>Informazioni aggiuntive ad es. targa veicolo</mat-hint>
-        <mat-error>{{getErrorMessage(form.get('through_description'))}}</mat-error>
+        <mat-error>{{getErrorMessage(form.get('through_details'))}}</mat-error>
     </mat-form-field>
 </mat-expansion-panel>

@@ -155,6 +155,7 @@ export class EdiliziaComponent implements OnInit {
   createForm() {
     this.form = this.fb.group({
       category: new FormControl(this.modulo),
+      user_id: new FormControl('5d4c3a51-a978-4acd-a757-520145b6268f'),
       delegated: new FormControl(false),
       owner: this.formService.createOwner(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
@@ -535,8 +536,17 @@ export class EdiliziaComponent implements OnInit {
     if(body.details.start_date){
       body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-dd", "en");
     }
-    if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
-      delete body.details.description.notes;
+    switch(this.modulo){
+      case 'rottura_suolo':
+        if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
+          delete body.details.description.notes;
+        }
+      case 'occupazione_suolo_edilizio':
+        
+      case 'occupazione_suolo_pubblico':
+        
+      case 'traslochi_lavori':
+        
     }
 
     let birthplace = body.owner.birthplace;

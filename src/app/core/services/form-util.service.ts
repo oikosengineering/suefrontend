@@ -88,24 +88,50 @@ export class FormUtilService {
       start_date: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      end_date: new FormControl(''),
+      end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     });
   }
 
   createDetailsOccupazioneSuoloPubblicoTraslochiLavori(): FormGroup {
     return this.fb.group({
-      reason: new FormControl(''),
-      address: new FormControl(''),
-      length: new FormControl(''),
-      width: new FormControl(''),
-      total_square_meters: new FormControl(''),
-      total_duration: new FormControl(''),
-      start_date: new FormControl(''),
-      end_date: new FormControl(''),
-      start_time: new FormControl(''),
-      end_time: new FormControl(''),
-      through: new FormControl(''),
-      through_description: new FormControl(''),
+      reason: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      address: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      length: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      width: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      total_duration: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      start_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      start_time: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      end_time: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      through: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      through_details: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     });
   }
 
