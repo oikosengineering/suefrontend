@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { AppApiService } from '../core/services/app-api.service';
 
 @Component({
   selector: 'app-mie-pratiche',
@@ -25,13 +26,18 @@ export class MiePraticheComponent implements OnInit {
       }
     }
   }
-  constructor() { }
+  constructor(
+    private apiService: AppApiService
+  ) { }
   displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'referrer', 'expert', 'all_mandatory_documents_uploaded', 'actions'];
   dataSource = new MatTableDataSource(this.data.procedures);
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
+    this.apiService.getListaPratiche().subscribe(result => {
+      console.log(result);
+    })
     // this.dataSource.paginator = this.paginator;
   }
 }
