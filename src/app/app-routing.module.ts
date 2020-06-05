@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'nuova-pratica', component: NuovaPraticaComponent },
       { path: 'ricerca-pratiche', component: RicercaPraticheComponent },
-      { path: 'mie-pratiche', component: MiePraticheComponent, canActivate: [RouteGuard]}
+      { path: 'mie-pratiche', component: MiePraticheComponent,} //canActivate: [RouteGuard]}
     ],
   },
   {

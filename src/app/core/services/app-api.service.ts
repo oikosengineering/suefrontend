@@ -69,8 +69,8 @@ export class AppApiService {
     return this.httpClient.get<Document[]>(environment.api_url + '/procedures/' + idpratica + '/documents', this.header).pipe(map(response => response));
   }
 
-  getListaPratiche(department: string, uuid: string): Observable<Procedure[]> {
-    return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&uuid=' + uuid, this.header).pipe(map((response: Procedure[]) => response));
+  getListaPratiche(department: string, uuid: string) {
+    return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&uuid=' + uuid, this.header).pipe(map((response) => response));
   }
 
   updDocumentoPratica(idpratica: string, file: File) {
