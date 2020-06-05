@@ -35,7 +35,7 @@ export class MiePraticheComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
-    this.apiService.getListaPratiche().subscribe(result => {
+    this.apiService.getListaPratiche('building', '5d4c3a51-a978-4acd-a757-520145b6268f').subscribe(result => {
       console.log(result);
     })
     // this.dataSource.paginator = this.paginator;

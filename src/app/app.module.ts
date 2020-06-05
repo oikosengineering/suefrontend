@@ -32,7 +32,6 @@ import { StatusPipe } from './core/pipes/status.pipe';
 import { RotturaSuoloComponent } from './pratiche/moduli/components-edilizia/rottura-suolo/rottura-suolo.component';
 import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component';
 import { PraticheModule } from './pratiche/pratiche.module';
-import { CookieInterceptor } from './core/interceptors/cookie.interceptor';
 
 export const MY_FORMATS = {
   parse: {
@@ -80,7 +79,6 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
