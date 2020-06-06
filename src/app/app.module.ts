@@ -32,7 +32,6 @@ import { StatusPipe } from './core/pipes/status.pipe';
 import { RotturaSuoloComponent } from './pratiche/moduli/components-edilizia/rottura-suolo/rottura-suolo.component';
 import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component';
 import { PraticheModule } from './pratiche/pratiche.module';
-import { CookieInterceptor } from './core/interceptors/cookie.interceptor';
 
 export const MY_FORMATS = {
   parse: {

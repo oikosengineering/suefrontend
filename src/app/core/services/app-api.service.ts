@@ -11,7 +11,7 @@ import {Observable, throwError} from 'rxjs';
   providedIn: 'root'
 })
 export class AppApiService {
-  header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
+  header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'} };
   constructor(
     private httpClient: HttpClient,
   ) { }
@@ -51,7 +51,7 @@ export class AppApiService {
 
   getDettagliPratica(department: string, id: string): Observable<Procedure> {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.get(environment.api_url + '/getDettagliPratica?deparment=' + department + '&id=' + id, this.header).pipe(map(response => response));
+    return this.httpClient.get(environment.api_url + '/getDettagliPratica?department=' + department + '&id=' + id, this.header).pipe(map(response => response));
   }
 
   updDettaglioPratica(id: string, json: string): Observable<Procedure> {
@@ -61,7 +61,7 @@ export class AppApiService {
 
   getDocumentiPratica(department: string, id: string): Observable<Document[]> {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.get<Document[]>(environment.api_url + '/getDocumentiPratica?departement=' + department + '&id=' + id, this.header).pipe(map(response => response));
+    return this.httpClient.get<Document[]>(environment.api_url + '/getDocumentiPratica?department=' + department + '&id=' + id, this.header).pipe(map(response => response));
   }
 
   getListaDocumentiObbligatoriPratica(idpratica: string): Observable<Document[]> {
@@ -69,8 +69,8 @@ export class AppApiService {
     return this.httpClient.get<Document[]>(environment.api_url + '/procedures/' + idpratica + '/documents', this.header).pipe(map(response => response));
   }
 
-  getListaPratiche(): Observable<Procedure[]> {
-    return this.httpClient.get(environment.api_url + '/procedures', this.header).pipe(map((response: Procedure[]) => response));
+  getListaPratiche(department: string, uuid: string) {
+    return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&uuid=' + uuid, this.header).pipe(map((response) => response));
   }
 
   updDocumentoPratica(idpratica: string, file: File) {
