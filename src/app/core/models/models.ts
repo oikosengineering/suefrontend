@@ -97,6 +97,8 @@ export interface Document {
     name?: string;
     extension?: string;
     date?: string;
+    description?: string;
+    type?: string;
 }
 
 export interface Procedure {
@@ -117,6 +119,14 @@ export interface Procedure {
     referrer?: Referrer;
     referrer_type?: ReferrerType;
     supplier?: Business;
+}
+
+export interface Extension {
+    id?: number;
+    status?: string;
+    expires_on?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Owner {

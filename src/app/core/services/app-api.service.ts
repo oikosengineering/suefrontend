@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { createTransformFromCoordinateTransform } from 'ol/proj';
-import { Country, Province, City, Document, Procedure, ListaPratiche, Expert } from '../models/models';
+import { Country, Province, City, Document, Procedure, ListaPratiche, Expert, Extension } from '../models/models';
 import {Observable, throwError} from 'rxjs';
 
 @Injectable({
@@ -24,11 +24,11 @@ export class AppApiService {
     return this.httpClient.get(environment.api_url + '/getListaNazioni', this.header).pipe(map((response)  => response));
   }
 
-  getProvince(){
+  getProvince() {
     return this.httpClient.get(environment.api_url + '/getListaProvince', this.header).pipe(map((response) => response));
   }
 
-  getComuni(code: string){
+  getComuni(code: string) {
     return this.httpClient.get(environment.api_url + '/getListaComuni?id=' + code, this.header).pipe(map((response) => response));
   }
 
@@ -46,7 +46,14 @@ export class AppApiService {
 
   creaPratica(department: string, body: any): Observable<Procedure> {
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
+    // tslint:disable-next-line: max-line-length
     return this.httpClient.post(environment.api_url + '/creaPratica?department=' + department, body, header).pipe(map(response => response));
+  }
+
+  creaProroga(department: string, id: string, body: any): Observable<Procedure> {
+    const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.post(environment.api_url + '/creaProroga?department=' + department + '&id=' + id, body, header).pipe(map(response => response));
   }
 
   getDettagliPratica(department: string, id: string): Observable<Procedure> {
@@ -54,9 +61,15 @@ export class AppApiService {
     return this.httpClient.get(environment.api_url + '/getDettagliPratica?department=' + department + '&id=' + id, this.header).pipe(map(response => response));
   }
 
-  updDettaglioPratica(id: string, json: string): Observable<Procedure> {
-    const body = JSON.stringify(json);
-    return this.httpClient.patch(environment.api_url + '/builing/procedures/' + id, body, this.header).pipe(map(response => response));
+  getDettagliProroga(department: string, id: string, relatedid: string): Observable<Extension> {
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.get<Extension>(environment.api_url + '/getDettagliProroga?department=' + department + '&id=' + id + '&relatedid=' + relatedid, this.header).pipe(map(response => response));
+  }
+
+  modificaDettaglioPratica(department: string, id: string, body: any): Observable<Procedure> {
+    const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.patch(environment.api_url + '/modificaDettaglioPratica/department=' + department + '&id=' + id, body, header).pipe(map(response => response));
   }
 
   getDocumentiPratica(department: string, id: string): Observable<Document[]> {
@@ -64,16 +77,16 @@ export class AppApiService {
     return this.httpClient.get<Document[]>(environment.api_url + '/getDocumentiPratica?department=' + department + '&id=' + id, this.header).pipe(map(response => response));
   }
 
-  getListaDocumentiObbligatoriPratica(idpratica: string): Observable<Document[]> {
+  getListaDocumentiObbligatoriPratica(department: string, category: string): Observable<Document[]> {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.get<Document[]>(environment.api_url + '/procedures/' + idpratica + '/documents', this.header).pipe(map(response => response));
+    return this.httpClient.get<Document[]>(environment.api_url + '/getListaDocumentiObbligatoriPratica?department=' + department + '&category=' + category, this.header).pipe(map(response => response));
   }
 
   getListaPratiche(department: string, uuid: string) {
     return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&uuid=' + uuid, this.header).pipe(map((response) => response));
   }
 
-  updDocumentoPratica(idpratica: string, file: File) {
+  updDocumentoPratica(department: string, id: string, file: File) {
     const header = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -85,24 +98,28 @@ export class AppApiService {
       formData.append('file', file, file.name);
     }
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/procedures/' + idpratica + '/documents', formData, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/uploadDocumentoPratica?department=' + department + '&procedureid=' + id , formData, header).pipe(map(response => response));
   }
 
-  addEspertoPratica(id: string, json: string): Observable<Expert> {
-    const body = JSON.stringify(json);
+  getListaEspertiPratica(department: string, id: string): Observable<Expert[]> {
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.get<Expert[]>(environment.api_url + '/getListaEspertiPratica?department=' + department + '&id=' + id, this.header).pipe(map((response) => response));
+  }
+
+  addEspertoPratica(department: string, id: string, body: any): Observable<Expert> {
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/building/procedures/' + id + '/experts', body, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/addEspertoPratica?deparment=' + department + '&id=' + id, body, header).pipe(map(response => response));
   }
 
-  delEspertoPratica(id: string, expertid: string) {
+  delEspertoPratica(deparment: string, id: string, deleteid: string) {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.delete(environment.api_url + '/building/procedures/' + id + '/experts/' + expertid, this.header).pipe(map(response => response));
+    return this.httpClient.delete(environment.api_url + '/delEspertoPratica?deparment=' + deparment + '&id=' + id + '&deleteid=' + deleteid, this.header).pipe(map(response => response));
   }
 
-  endEditPratica(id: string) {
+  commitPratica(department: string, id: string) {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/building/procedures/' + id + '/commit', this.header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/commitPratica/department=' + department + '&id='  + id, this.header).pipe(map(response => response));
   }
 
   verificaToken(): Observable<boolean> {
