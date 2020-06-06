@@ -54,7 +54,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return request;
     }
     return request.clone({
-      headers: request.headers.set(this.AUTH_HEADER, 'Bearer ' + localStorage.getItem('token'))
+      headers: request.headers.set(this.AUTH_HEADER, 'Basic ' + localStorage.getItem('token'))
     });
   }
   /**
