@@ -31,4 +31,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 http://192.168.1.26/qgis/qgis_mapserv.fcgi?map=/var/www/html/wms/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1522671,4906505,1527936,4909890&SRS=EPSG:4326&WIDTH=665&HEIGHT=551&LAYERS=PRATICHE&FORMAT=image/png&TRANSPARENT=TRUE
 
+https://frontoffice-staging.digitale.comune.chiavari.ge.it/qgis/qgis_mapserv.fcgi?map=/var/www/html/wms/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1522671,4906505,1527936,4909890&SRS=EPSG:4326&WIDTH=665&HEIGHT=551&LAYERS=PRATICHE&FORMAT=image/png&TRANSPARENT=TRUE
+
 http://192.168.1.26/qgis/qgis_mapserv.fcgi?map=/var/www/html/wms/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
+
+https://frontoffice-staging.digitale.comune.chiavari.ge.it/qgis/qgis_mapserv.fcgi?map=/var/www/html/wms/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities

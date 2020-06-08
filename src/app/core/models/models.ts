@@ -1,3 +1,5 @@
+
+// tslint:disable-next-line: class-name
 export interface Professional_Title {
     long: string;
     short: string;
@@ -78,6 +80,7 @@ export interface EvtSignIn {
     type: string;
 }
 
+// tslint:disable-next-line: class-name
 export interface iFakeUser {
     iss: string;
     nbf: number;
@@ -113,7 +116,7 @@ export interface Procedure {
     experts?: Expert[];
     qualification?: string;
     work_supplier?: WorkSupplier;
-    details?: Detail;
+    details?: Details;
     business_administrator?: Expert;
     supplier_business?: Business;
     referrer?: Referrer;
@@ -194,6 +197,18 @@ export enum ReferrerType {
     business
 }
 
+export enum Through {
+    vehicle,
+    other,
+    stopover
+}
+
+export enum Type {
+    less_than_year,
+    more_than_year,
+    permanent
+}
+
 export interface Expert {
     first_name?: string;
     last_name?: string;
@@ -207,9 +222,9 @@ export interface Expert {
     type?: ExpertType;
 }
 
-export interface Detail {
+export interface Details {
     reason?: string;
-    description?: string;
+    description?: Description;
     excataion_details?: ExcavationDetail;
     flooring_type?: FlooringType;
     building_site?: BuildingSite;
@@ -217,6 +232,66 @@ export interface Detail {
     start_date?: string;
     end_date?: string;
     insurance?: Insurance;
+
+    address?: string;
+    intersection_address?: string;
+    scaffolding?: Scaffolding;
+    //building_site?: BuildingSite;
+    other?: any;// Other
+    total_duration?: number;
+    // start_date?: string;
+    // end_date?: string;
+
+    type?: Type;
+    // address?: string;
+    length?: string;
+    width?: string;
+    total_square_meters?: number;
+    tables?: boolean;
+    chairs?: boolean;
+    umbrellas?: boolean;
+    footboard?: boolean;
+    // other: boolean;
+    other_description?: string;
+    // total_duration?: number;
+    // start_date?: string;
+    // end_date?: string;
+
+    // reason?: string;
+    // address?: string;
+    // length?: string;
+    // width?: string;
+    square_meters?: number;
+    // total_duration?: number;
+    // start_date?: string;
+    // end_date?: string;
+    through: Through;
+    through_description?: string;
+
+    created_at?: string;
+    updated_at?: string;
+    all_mandatory_documents_uploaded?: boolean;
+}
+
+export interface Scaffolding {
+    length?: string;
+    width?: string;
+    total_square_meters?: number;
+}
+
+export interface Other {
+    length?: string;
+    width?: string;
+    total_square_meters?: number;
+    description?: string;
+}
+
+export interface Description {
+    laying_type?: string;
+    diameter?: number;
+    length?: string;
+    motive?: string;
+    notes?: string;
 }
 
 export interface ExcavationDetail {
@@ -295,6 +370,7 @@ export interface ListaPratiche {
     meta?: pagination;
 }
 
+// tslint:disable-next-line: class-name
 export interface pagination {
     total?: number;
     count?: number;
