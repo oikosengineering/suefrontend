@@ -8,8 +8,8 @@
         </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-card class="array-list" *ngFor="let expert of formExperts.controls; let j = index;" [formGroupName]="j">
-        <!-- <mat-card-title>Tecnico {{j+1}}</mat-card-title>
-        <mat-form-field class="div-half" appearance="outline">
+        <mat-card-title>Tecnico {{j+1}}</mat-card-title>
+        <!-- <mat-form-field class="div-half" appearance="outline">
             <mat-label>Tipologia</mat-label>
             <mat-select formControlName="type" (selectionChange)="changedTipologiaEsperto(formExperts.controls[j], $event)">
                 <mat-option>Nessuna</mat-option>
@@ -156,7 +156,7 @@
             [titoli_professionali]="titoli_professionali"
             [province]="province">
         </expert>
-        <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formExperts, j);"><mat-icon>close</mat-icon></button>
+        <button *ngIf="formExperts.controls.length > 1" class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formExperts, j);"><mat-icon>close</mat-icon></button>
     </mat-card>
     <div class="div-full">
         <button class="button-add" mat-raised-button color="primary" (click)="addExpert(formExperts);">Aggiungi</button>
