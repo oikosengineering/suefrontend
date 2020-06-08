@@ -1,18 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, AbstractControl, FormArray } from '@angular/forms';
-import { ValidationService } from 'src/app/core/services/validation.service';
-import { FormUtilService } from 'src/app/core/services/form-util.service';
-import { AppApiService } from 'src/app/core/services/app-api.service';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
+import { AppApiService } from 'src/app/core/services/app-api.service';
+import { FormUtilService } from 'src/app/core/services/form-util.service';
+import { ValidationService } from 'src/app/core/services/validation.service';
+import { element } from 'protractor';
 
 @Component({
-  selector: 'owner',
-  templateUrl: './owner.component.html',
-  styleUrls: ['./owner.component.scss']
+  selector: 'view-owner',
+  templateUrl: './view-owner.component.html',
+  styleUrls: ['./view-owner.component.scss']
 })
-export class OwnerComponent implements OnInit {
+export class ViewOwnerComponent implements OnInit {
 
-  @Input() form: FormGroup;
+  form: FormGroup;
+  @Input() data: any;
   @Input() tipologie: any[];
   @Input() generi: any[];
   @Input() tipi_documento: any[];
@@ -20,19 +22,27 @@ export class OwnerComponent implements OnInit {
   @Input() province: any[];
   @Input() nazioni: any[];
   comuni = {};
+  can_modify = false;
   
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
     private apiservice: AppApiService
-  ) { }
+  ) {
+    
+   }
 
   ngOnInit(): void {
+    this.form = this.formService.createOwner();
+    this.form.patchValue(this.data);
+    this.changedTipologiaPersona(this.form, {value: this.form.get('type').value});
+    this.patchParsedData(this.form.get('type').value);
+    this.form.disable();
   }
 
   get formContacts() { return <FormArray>this.form.get('contacts'); }
 
-  changedTipologiaPersona(form: AbstractControl, event: MatSelectChange) {
+  changedTipologiaPersona(form: AbstractControl, event: any) {
     switch (event.value) {
       case 'person':
         form.get('first_name').enable()
@@ -69,6 +79,66 @@ export class OwnerComponent implements OnInit {
     }
   }
 
+  patchParsedData(value){
+    switch (value) {
+      case 'person':
+        this.patchAddress('address/county', 'address/city');
+        this.patchBirthPlace();
+        this.patchDocument();
+        this.patchBirthday();
+        break;
+      case 'business':
+        this.patchAddress('address/county', 'address/city');
+        break;
+    }
+  }
+
+  patchAddress(value: string, target: string){
+    this.form.get(value.split("/")).patchValue(this.data.address.county_code);
+    this.checkValidationElseDisable(value, target);
+    this.getComuniForPatch(value, target, this.data.address.city_code);
+  }
+
+  patchCounty(value: string, target_enable: string, target_disable: string){
+    let selected_county = this.province.find(element => element.code == this.data.birthplace.county)
+    this.form.get(value.split("/")).patchValue(selected_county);
+    this.checkValidationElseDisable(value, target_enable);
+    this.checkValidationElseEnable(value, target_disable);
+    this.getComuniBirthPlaceForPatch(value, target_enable, this.data.birthplace.city);
+  }
+
+  patchCountry(value: string, target: string){
+    let selected_country = this.nazioni.find(element => element.code == this.data.birthplace.county)
+    this.form.get(value.split("/")).patchValue(selected_country);
+    let value_field = this.form.get(value.split("/")).value;
+    if(value_field != null && value_field != '' && value_field != undefined){
+      this.form.get(target.split("/")).disable();
+    } else {
+      this.form.get(target.split("/")).enable();
+    }
+  }
+
+  patchDocument(){
+    this.form.get(['document_type']).patchValue(this.data.document.type);
+    this.form.get(['document_number']).patchValue(this.data.document.number);
+  }
+
+  patchBirthPlace(){
+    if(this.data.birthplace.is_foreign){
+      this.patchCountry('country_of_birth', 'county_of_birth')
+    } else {
+      this.patchCounty('county_of_birth', 'birthplace', 'country_of_birth');
+    }
+  }
+
+  patchBirthday(){
+    let date = this.data.birth_date.split("/");
+    let year = date[2];
+    let month = date[1];
+    let day = date[0];
+    this.form.get(['birthday']).patchValue(new Date(year, month-1, day));
+  }
+
   addContatto(array: AbstractControl): void {
     event.preventDefault();
     event.stopPropagation();
@@ -91,7 +161,7 @@ export class OwnerComponent implements OnInit {
   onChangeCounty(value: string, target_enable: string, target_disable: string){
     this.checkValidationElseDisable(value, target_enable);
     this.checkValidationElseEnable(value, target_disable);
-    this.getComuniBirthPlace(value, target_enable);
+    this.getComuniBirtPlace(value, target_enable);
   }
 
   onChangeCountry(value: string, target: string){
@@ -110,10 +180,27 @@ export class OwnerComponent implements OnInit {
     });
   }
 
-  getComuniBirthPlace(value: string, target: string){
+  getComuniBirtPlace(value: string, target: string){
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince.code).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
+    });
+  }
+
+  getComuniForPatch(value: string, target: string, patchValue: any){
+    let selectProvince = this.form.get(value.split("/")).value;
+    this.apiservice.getComuni(selectProvince).subscribe(value => {
+      this.comuni[this.toCamelCase(target)] = value['data'];
+      this.form.get(target.split("/")).patchValue(patchValue);
+    });
+  }
+
+  getComuniBirthPlaceForPatch(value: string, target: string, patchValue: any){
+    let selectProvince = this.form.get(value.split("/")).value;
+    this.apiservice.getComuni(selectProvince.code).subscribe(value => {
+      this.comuni[this.toCamelCase(target)] = value['data'];
+      let selected_city = this.comuni[this.toCamelCase(target)].find(element => element.code == patchValue)
+      this.form.get(target.split("/")).patchValue(selected_city);
     });
   }
 

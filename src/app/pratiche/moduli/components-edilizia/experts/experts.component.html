@@ -8,7 +8,7 @@
         </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-card class="array-list" *ngFor="let expert of formExperts.controls; let j = index;" [formGroupName]="j">
-        <mat-card-title>Tecnico {{j+1}}</mat-card-title>
+        <!-- <mat-card-title>Tecnico {{j+1}}</mat-card-title>
         <mat-form-field class="div-half" appearance="outline">
             <mat-label>Tipologia</mat-label>
             <mat-select formControlName="type" (selectionChange)="changedTipologiaEsperto(formExperts.controls[j], $event)">
@@ -142,22 +142,20 @@
             <input formControlName="phone" matInput type="text">
             <mat-error>{{getErrorMessage(formExperts.controls[j].get('phone'))}}</mat-error>
         </mat-form-field>
-        <!-- <mat-form-field class="div-half" appearance="outline">
-            <mat-label>Cellulare</mat-label>
-            <input formControlName="cellular" matInput type="number" (change)="check(formExperts.controls[j], 'cellular','phone')">
-            <mat-error>{{getErrorMessage(formExperts.controls[j].get('cellular'))}}</mat-error>
-        </mat-form-field> -->
         <mat-form-field class="div-half" appearance="outline">
             <mat-label>Email</mat-label>
             <input formControlName="email" matInput type="email">
             <mat-error>{{getErrorMessage(formExperts.controls[j].get('email'))}}</mat-error>
         </mat-form-field>
-        <!-- <mat-form-field class="div-half" appearance="outline">
-            <mat-label>PEC</mat-label>
-            <input formControlName="pec" matInput type="email">
-            <mat-error>{{getErrorMessage(formExperts.controls[j].get('pec'))}}</mat-error>
-        </mat-form-field> -->
-        <mat-error>{{getErrorMessage(formExperts.controls[j])}}</mat-error>
+        <mat-error>{{getErrorMessage(formExperts.controls[j])}}</mat-error> -->
+        <expert
+            [form]="expert"
+            [tipologie]="tipologie"
+            [generi]="generi"
+            [tipologie_contatto]="tipologie_contatto"
+            [titoli_professionali]="titoli_professionali"
+            [province]="province">
+        </expert>
         <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formExperts, j);"><mat-icon>close</mat-icon></button>
     </mat-card>
     <div class="div-full">

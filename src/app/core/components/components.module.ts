@@ -9,17 +9,33 @@ import { DocumentsUploadedComponent } from './shared/documents-uploaded/document
 import { DocumentsUploadedPipe } from '../pipes/documents-uploaded.pipe';
 import { StatusProceduresComponent } from './shared/status-procedures/status-procedures.component';
 import { StatusPipe } from '../pipes/status.pipe';
+import { ViewOwnerComponent } from './shared/view-owner/view-owner.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ViewExpertsComponent } from './shared/view-experts/view-experts.component';
 
 
 @NgModule({
-  declarations: [MyDialogComponent, MapComponent, DocumentsUploadedComponent, StatusProceduresComponent],
+  declarations: [
+    MyDialogComponent, 
+    MapComponent, 
+    DocumentsUploadedComponent, 
+    StatusProceduresComponent, 
+    ViewOwnerComponent, ViewExpertsComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule
   ],
   entryComponents: [MyDialogComponent, MapComponent],
-  exports: [MyDialogComponent, MapComponent, DocumentsUploadedComponent, StatusProceduresComponent],
+  exports: [
+    MyDialogComponent, 
+    MapComponent, 
+    DocumentsUploadedComponent, 
+    StatusProceduresComponent,
+    ViewOwnerComponent
+  ],
   providers: [DocumentsUploadedPipe, StatusPipe]
 })
 export class ComponentsModule {
