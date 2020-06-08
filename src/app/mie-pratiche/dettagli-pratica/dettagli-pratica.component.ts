@@ -11,12 +11,14 @@ export class DettagliPraticaComponent implements OnInit {
 
   idProcedure;
 
+  data_procedure;
+
   constructor(
     private route: ActivatedRoute,
     private apiService: AppApiService
   ) {
     this.route.params.subscribe(routeParams => {
-      this.idProcedure = routeParams.idPratica;
+      this.idProcedure = routeParams.idProcedure;
       this.getProcedure(this.idProcedure);
     });
   }
@@ -27,6 +29,7 @@ export class DettagliPraticaComponent implements OnInit {
   getProcedure(idProcedure: string){
     this.apiService.getDettagliPratica('building', idProcedure).subscribe(result => {
       console.log(result);
+      this.data_procedure = result['data'];
     });
   }
 

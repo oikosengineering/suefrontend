@@ -5,7 +5,6 @@ import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouteGuard } from './core/guards/routeguard.guard';
 import { CookieService } from 'ngx-cookie-service';
@@ -18,8 +17,12 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'nuova-pratica', component: NuovaPraticaComponent },
       { path: 'ricerca-pratiche', component: RicercaPraticheComponent },
-      { path: 'mie-pratiche', component: MiePraticheComponent,} //canActivate: [RouteGuard]}
-    ],
+    ]
+  },
+  {
+    path: 'mie-pratiche', 
+    loadChildren: () => import('./mie-pratiche/mie-pratiche.module').then(mod => mod.MiePraticheModule),
+    //canActivate: [RouteGuard]
   },
   {
     path: 'pratiche',

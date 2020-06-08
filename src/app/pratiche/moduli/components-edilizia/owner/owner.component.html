@@ -1,0 +1,203 @@
+<mat-expansion-panel [formGroup]="form" class="referente-group" expanded>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          Proprietario 
+        </mat-panel-title>
+        <mat-panel-description>
+          Compilare con i dati anagrafici del proprietario
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Tipologia</mat-label>
+        <mat-select formControlName="type" (selectionChange)="changedTipologiaPersona(form, $event)">
+            <mat-option>Nessuna</mat-option>
+            <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
+                {{tipologia.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('type'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Genere</mat-label>
+        <mat-select formControlName="gender">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let gender of generi" [value]="gender.value">
+                {{gender.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('gender'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Cognome</mat-label>
+        <input formControlName="last_name" matInput type="text">
+        <mat-error>{{getErrorMessage(form.get('last_name'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input formControlName="first_name" matInput type="text">
+        <mat-error>{{getErrorMessage(form.get('first_name'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Codice fiscale</mat-label>
+        <input formControlName="fiscal_code" matInput type="text">
+        <mat-error>{{getErrorMessage(form.get('fiscal_code'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Partita IVA</mat-label>
+        <input formControlName="vat" matInput type="text">
+        <mat-error>{{getErrorMessage(form.get('vat'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-full" appearance="outline">
+        <mat-label>Ragione sociale</mat-label>
+        <input matInput type="text" formControlName="name" >
+        <mat-error>{{getErrorMessage(form.get('name'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Tipo documento</mat-label>
+        <mat-select formControlName="document_type">
+            <mat-option>Nessuna</mat-option>
+            <mat-option *ngFor="let documento of tipi_documento" [value]="documento.value">
+                {{documento.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('document_type'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Numero documento</mat-label>
+        <input formControlName="document_number" matInput type="text">
+        <mat-error>{{getErrorMessage(form.get('document_number'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Stato di nascita</mat-label>
+        <mat-select formControlName="country_of_birth" (selectionChange)="onChangeCountry('country_of_birth', 'county_of_birth')">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let nazione of nazioni" [value]="nazione">
+                {{nazione.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('country_of_birth'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Provincia di nascita</mat-label>
+        <mat-select formControlName="county_of_birth" (selectionChange)="onChangeCounty('county_of_birth', 'birthplace', 'country_of_birth')">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let provincia of province" [value]="provincia">
+                {{provincia.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('county_of_birth'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Comune di nascita</mat-label>
+        <!-- <mat-select formControlName="birthplace" (focus)="getComuni('county_of_birth', 'birthplace')"> -->
+        <mat-select formControlName="birthplace">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let comune of comuni[toCamelCase('birthplace')] || []" [value]="comune">
+                {{comune.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('birthplace'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Data di nascita</mat-label>
+        <input formControlName="birthday" matInput [matDatepicker]="picker_owner">
+        <mat-datepicker-toggle matSuffix [for]="picker_owner"></mat-datepicker-toggle>
+        <mat-datepicker #picker_owner></mat-datepicker>
+        <mat-error>{{getErrorMessage(form.get('birthday'))}}</mat-error>
+    </mat-form-field>
+    <ng-container formGroupName="address">
+        <mat-form-field class="div-two-thirds" appearance="outline">
+            <mat-label>Indirizzo</mat-label>
+            <input formControlName="street_name" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('address').get('street_name'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Cap</mat-label>
+            <input formControlName="postcode" matInput type="number">
+            <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Provincia</mat-label>
+            <mat-select formControlName="county" (selectionChange)="onChangeProvince('address/county', 'address/city')">
+                <mat-option>----</mat-option>
+                <mat-option *ngFor="let provincia of province" [value]="provincia.code">
+                    {{provincia.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error>{{getErrorMessage(form.get('address').get('county'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Comune</mat-label>
+            <mat-select formControlName="city">
+                <mat-option>----</mat-option>
+                <mat-option *ngFor="let comune of comuni[toCamelCase('address/city')] || []" [value]="comune.code">
+                    {{comune.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error>{{getErrorMessage(form.get('address').get('city'))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <mat-expansion-panel [disabled]="!formContacts.enabled" formArrayName="contacts" [expanded]="formContacts.enabled && formContacts.controls.length > 0">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Contatti 
+            </mat-panel-title>
+            <mat-panel-description>
+                Lista contatti
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-card class="array-list" *ngFor="let contatto of formContacts.controls; let i = index;" [formGroupName]="i">
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="type">
+                    <mat-option>Nessuna</mat-option>
+                    <mat-option *ngFor="let type of tipologie_contatto" [value]="type.value">
+                        {{type.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>{{getErrorMessage(formContacts.controls[i].get('type'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Nome referente</mat-label>
+                <input formControlName="name" matInput type="text">
+                <mat-error>{{getErrorMessage(formContacts.controls[i].get('name'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Telefono</mat-label>
+                <input formControlName="phone" matInput type="text">
+                <mat-error>{{getErrorMessage(formContacts.controls[i].get('phone'))}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="div-half" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput type="email">
+                <mat-error>{{getErrorMessage(formContacts.controls[i].get('email'))}}</mat-error>
+            </mat-form-field>
+            <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContacts, i);"><mat-icon>close</mat-icon></button>
+        </mat-card>
+        <div class="div-full">
+            <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('contacts'));">Aggiungi</button>
+        </div>
+    </mat-expansion-panel>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Telefono</mat-label>
+        <input formControlName="phone" matInput type="text" >
+        <mat-error>{{getErrorMessage(form.get('phone'))}}</mat-error>
+    </mat-form-field>
+    <!-- <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Cellulare</mat-label>
+        <input formControlName="cellular" matInput type="number" (change)="check(form, 'cellular','phone')">
+        <mat-error>{{getErrorMessage(form.get('cellular'))}}</mat-error>
+    </mat-form-field> -->
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput type="email">
+        <mat-error>{{getErrorMessage(form.get('email'))}}</mat-error>
+    </mat-form-field>
+    <!-- <mat-form-field class="div-half" appearance="outline">
+        <mat-label>PEC</mat-label>
+        <input formControlName="pec" matInput type="email">
+        <mat-error>{{getErrorMessage(form.get('pec'))}}</mat-error>
+    </mat-form-field> -->
+    <mat-error>{{getErrorMessage(form)}}</mat-error>
+    
+</mat-expansion-panel>
