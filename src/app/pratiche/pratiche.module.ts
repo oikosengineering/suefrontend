@@ -43,7 +43,8 @@ import { AdministratorComponent } from './moduli/components-edilizia/administrat
     DetailsPraticheDirective,
     OwnerComponent,
     ExpertsComponent,
-    SupplierComponent
+    SupplierComponent,
+    AdministratorComponent
   ]
 })
 export class PraticheModule { }

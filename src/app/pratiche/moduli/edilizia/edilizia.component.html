@@ -516,7 +516,7 @@
             </mat-radio-group>
             <mat-error>{{getErrorMessage(form.get('qualification'))}}</mat-error>
         </div>
-        <mat-expansion-panel [disabled]="!form.get('business_administrator').enabled" formGroupName="business_administrator" class="referente-group" [expanded]="form.get('business_administrator').enabled">
+        <!-- <mat-expansion-panel [disabled]="!form.get('business_administrator').enabled" formGroupName="business_administrator" class="referente-group" [expanded]="form.get('business_administrator').enabled">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                   Amm./Rapp.
@@ -608,7 +608,13 @@
                 <mat-error>{{getErrorMessage(form.get('business_administrator').get('email'))}}</mat-error>
             </mat-form-field>
             <mat-error>{{getErrorMessage(form.get('business_administrator'))}}</mat-error>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
+        <administrator 
+        [form]="form.get('business_administrator')"
+        [generi]="generi"
+        [titoli_professionali]="titoli_professionali"
+        [tipologie_contatto]="tipologie_contatto"
+        [province]="province"></administrator>
         <div class="div-radio-group">
             <mat-label>Esecuzione dei lavori:</mat-label>
             <mat-radio-group formControlName="work_supplier" class="vartical-radiobutton"
