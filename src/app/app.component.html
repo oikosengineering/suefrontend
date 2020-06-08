@@ -9,14 +9,17 @@
     </span>
     
     <span class="example-fill-remaining-space"></span>
-    <button *ngIf="isUserLoggedIn==false"   mat-button (click)="login()">
+    <button *ngIf="isUserLoggedIn==false" mat-button (click)="login()">
       <mat-icon>account_circle</mat-icon>
-      Log in
+      Accedi
     </button>
-    <button *ngIf="isUserLoggedIn"   mat-button (click)="logout($event)">
-      <mat-icon>account_circle</mat-icon>
-      Log out
-    </button>
+    <button  *ngIf="isUserLoggedIn" mat-button [matMenuTriggerFor]="menu">Benvenuto {{username}}</button>
+    <mat-menu #menu="matMenu">
+      <button *ngIf="isUserLoggedIn" color="primary" mat-button (click)="logout($event)">
+        <mat-icon>account_circle</mat-icon>
+        Esci
+      </button>
+    </mat-menu>
   </mat-toolbar>
   
   <mat-sidenav-container class="sidenav-container">
@@ -34,7 +37,7 @@
           <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="ricerca-pratiche">
             <h4 matLine>Ricerca</h4>
           </mat-list-item>
-          <mat-list-item *ngIf="isUserLoggedIn==false" (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="mie-pratiche">
+          <mat-list-item *ngIf="isUserLoggedIn" (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="mie-pratiche">
             <h4 matLine>Le mie pratiche</h4>
           </mat-list-item>
         <mat-divider></mat-divider>

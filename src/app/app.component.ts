@@ -90,7 +90,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    //this.auth.ctrLogIn();
+    this.auth.ctrLogIn();
   }
 }

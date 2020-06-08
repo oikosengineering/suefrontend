@@ -150,6 +150,18 @@ export class AuthService {
     localStorage.setItem('id', fkuser.ifk.user.id);
     localStorage.setItem('professional_title', 'fakeuser');
     localStorage.setItem('type', fkuser.ifk.type);
+
+    this.userislogin.emit( {
+      token: this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'),
+      id: fkuser.ifk.user.first_name,
+      email: fkuser.ifk.user.email,
+      first_name: fkuser.ifk.user.first_name,
+      last_name: fkuser.ifk.user.last_name,
+      professional_title: fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title,
+      type: fkuser.ifk.type
+    });
+
+    this.isUserLogged = true;
   }
 
   signin() {
@@ -165,6 +177,18 @@ export class AuthService {
       // tslint:disable-next-line: max-line-length
       localStorage.setItem('professional_title', fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title);
       localStorage.setItem('type', fkuser.ifk.type);
+
+      this.userislogin.emit( {
+        token: this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'),
+        id: fkuser.ifk.user.first_name,
+        email: fkuser.ifk.user.email,
+        first_name: fkuser.ifk.user.first_name,
+        last_name: fkuser.ifk.user.last_name,
+        professional_title: fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title,
+        type: fkuser.ifk.type
+      });
+
+      this.isUserLogged = true;
     }
   }
 
