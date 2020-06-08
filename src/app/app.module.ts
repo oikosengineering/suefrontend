@@ -15,7 +15,6 @@ import { UserComponent } from './user/user.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor.service';
 import { CanDeactivateGuard } from './core/guards/can-deactivate.guard';
-import { MiePraticheComponent } from './mie-pratiche/mie-pratiche.component';
 import { ComponentsModule } from './core/components/components.module';
 import { MaterialModule } from './core/module/material/material.module';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
@@ -54,11 +53,7 @@ export const MY_FORMATS = {
     LoginComponent,
     SignupComponent,
     UserComponent,
-    MiePraticheComponent,
     RicercaPraticheComponent,
-    DocumentsUploadedPipe,
-    CategoryPipe,
-    StatusPipe
   ],
   imports: [
     BrowserModule,

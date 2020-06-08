@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuloComponent } from './modulo/modulo.component';
 import { CanDeactivateGuard } from '../core/guards/can-deactivate.guard';
-import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 
 const routes: Routes = [
   {
@@ -11,11 +10,6 @@ const routes: Routes = [
     pathMatch: 'full',
     canDeactivate: [CanDeactivateGuard]
   },
-  {
-    path: 'dettagli-pratica/:idPratica',
-    component: DettagliPraticaComponent,
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({

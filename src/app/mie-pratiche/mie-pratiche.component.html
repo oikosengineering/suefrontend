@@ -46,7 +46,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Azioni </th>
       <td mat-cell *matCellDef="let element" >
-        <button mat-icon-button matTooltip="Visualizza dettagli"><mat-icon>launch</mat-icon> </button>
+        <button mat-icon-button matTooltip="Visualizza dettagli" [routerLink]="['dettagli-pratica/', element.id]"><mat-icon>launch</mat-icon> </button>
         <button mat-icon-button matTooltip="Modifica"><mat-icon>edit</mat-icon></button>
         <button mat-icon-button matTooltip="Elimina la pratica"><mat-icon>delete</mat-icon> </button>
       </td>
