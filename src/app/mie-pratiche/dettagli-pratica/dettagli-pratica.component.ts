@@ -79,6 +79,8 @@ export class DettagliPraticaComponent implements OnInit {
       this.apiService.getProvince().subscribe(data => {
         this.province.push(...data['data']);
         resolve(true);
+      }, error => {
+        resolve(true);
       });
     })
   }
@@ -87,6 +89,8 @@ export class DettagliPraticaComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.apiService.getTitoliProfessionali().subscribe(data => {
         this.titoli_professionali.push(...data['data']);
+        resolve(true);
+      }, error => {
         resolve(true);
       });
     });
@@ -97,6 +101,8 @@ export class DettagliPraticaComponent implements OnInit {
       this.apiService.getNazioni().subscribe(data => {
         this.nazioni.push(...data['data'])
         resolve(true);
+      }, error => {
+        resolve(true);
       });
     });
   }
@@ -105,6 +111,8 @@ export class DettagliPraticaComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('owner.type').subscribe(data => {
         this.tipologie.push(...data['data']);
+        resolve(true);
+      }, error => {
         resolve(true);
       });
     });
@@ -115,6 +123,8 @@ export class DettagliPraticaComponent implements OnInit {
       this.apiService.getDizionario('gender').subscribe(data => {
         this.generi.push(...data['data']);
         resolve(true);
+      }, error => {
+        resolve(true);
       });
     });
   }
@@ -123,6 +133,8 @@ export class DettagliPraticaComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('building.details.flooring_type').subscribe(data => {
         this.pavimentazioni.push(...data['data']);
+        resolve(true);
+      }, error => {
         resolve(true);
       });
     });
@@ -133,6 +145,8 @@ export class DettagliPraticaComponent implements OnInit {
       this.apiService.getDizionario('experts.work_supplier').subscribe(data => {
         this.esecutori.push(...data['data']);
         resolve(true);
+      }, error => {
+        resolve(true);
       });
     });
   }
@@ -141,6 +155,8 @@ export class DettagliPraticaComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('contacs.type').subscribe(data => {
         this.tipologie_contatto.push(...data['data']);
+        resolve(true);
+      }, error => {
         resolve(true);
       });
     });
@@ -151,6 +167,8 @@ export class DettagliPraticaComponent implements OnInit {
       this.apiService.getDizionario('experts.qualification').subscribe(data => {
         this.qualifiche.push(...data['data']);
         resolve(true);
+      }, error => {
+        resolve(true);
       });
     });
   }
@@ -159,6 +177,8 @@ export class DettagliPraticaComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('owner.person.document_type').subscribe(data => {
         this.tipi_documento.push(...data['data']);
+        resolve(true);
+      }, error => {
         resolve(true);
       });
     });

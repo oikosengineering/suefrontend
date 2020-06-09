@@ -111,3 +111,16 @@
         <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Disegna aree di occupazione</button>
     </div>
 </mat-card>
+<div class="div-full">
+    <button *ngIf="!can_modify" class="button-login" mat-raised-button color="primary" (click)="modify()">
+        <mat-icon>create</mat-icon>
+        Modifica
+    </button>
+    <button *ngIf="can_modify" class="button-login" mat-raised-button color="warn" (click)="modify()">
+        <mat-icon>close</mat-icon>
+        Annulla
+    </button>
+    <button *ngIf="can_modify" class="button-login" mat-raised-button color="primary" (click)="save()">
+        Salva
+    </button>
+</div>

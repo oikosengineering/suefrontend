@@ -33,7 +33,7 @@ export class OccupazioneEdileComponent implements OnInit {
       return;
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
-    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)) + 1);
+    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)));
   }
 
   calculateMinDate(form: AbstractControl, target: string) {

@@ -52,7 +52,7 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
       return;
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
-    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)) + 1);
+    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)));
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
@@ -73,6 +73,21 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
         control.updateValueAndValidity();
         break;
     }
+  }
+
+  modify(){
+    if(this.can_modify){
+      this.form.disable();
+    } else {
+      this.form.enable();
+      this.form.get('start_date').disable();
+      this.form.get('end_date').disable();
+    }
+    this.can_modify = !this.can_modify;
+  }
+
+  save(){
+    console.log(this.form.getRawValue());
   }
   
   getErrorMessage(control: AbstractControl) {
