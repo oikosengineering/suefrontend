@@ -76,11 +76,11 @@ export class RotturaSuoloComponent implements OnInit {
     let features = [
       {
         type: 'scavo',
-        features: this.form.get('details').get('excavation_details').get('geometry').value
+        features: this.form.get('excavation_details').get('geometry').value
       },
       {
         type: 'cantiere',
-        features: this.form.get('details').get('building_site').get('geometry').value
+        features: this.form.get('building_site').get('geometry').value
       }
     ]
     this.map_cfg.features = features;
@@ -90,15 +90,15 @@ export class RotturaSuoloComponent implements OnInit {
         value.forEach(feature => {
           switch(feature.type){
             case 'scavo':
-              this.form.get('details').get('excavation_details').get('geometry').patchValue(feature.features);
+              this.form.get('excavation_details').get('geometry').patchValue(feature.features);
               // this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
               break;
             case 'cantiere':
-              this.form.get('details').get('building_site').get('geometry').patchValue(feature.features);
+              this.form.get('building_site').get('geometry').patchValue(feature.features);
               // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
           }
         });
-        console.log("Dati pratica",this.form.get('details').value);
+        console.log("Dati pratica",this.form.value);
       }
       console.log('Mappa chiusa', value);
     }, error => {
