@@ -8,6 +8,8 @@ import { StatusPipe } from '../core/pipes/status.pipe';
 import { DocumentsUploadedPipe } from '../core/pipes/documents-uploaded.pipe';
 import { CategoryPipe } from '../core/pipes/category.pipe';
 import { ComponentsModule } from '../core/components/components.module';
+import { DelegatedPipe } from '../core/pipes/delegated.pipe';
+import { CanExtendedPipe } from '../core/pipes/can-extended.pipe';
 
 
 
@@ -18,6 +20,8 @@ import { ComponentsModule } from '../core/components/components.module';
     DocumentsUploadedPipe,
     CategoryPipe,
     StatusPipe,
+    DelegatedPipe,
+    CanExtendedPipe
   ],
   imports: [
     CommonModule,
