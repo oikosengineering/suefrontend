@@ -82,8 +82,6 @@ export class EdiliziaComponent implements OnInit {
   polizza_fidejussoria = [];
 
   isUserLoggedIn = false;
-  selectedOwnerProvincia: Province;
-  selectedOwnerAddressProvincia: Province;
   province: Province[] = [];
   nazioni = [];
   comuni = {};

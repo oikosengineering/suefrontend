@@ -1,0 +1,32 @@
+<p>Pratica: {{idProcedure}}!</p>
+<p>{{data_procedure | json}}</p>
+<div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<mat-tab-group *ngIf="!isLoading">
+    <mat-tab label="Prorietario" *ngIf="data_procedure.owner" >
+        <view-owner 
+            [data]="data_procedure.owner"
+            [tipologie]="tipologie"
+            [generi]="generi"
+            [tipi_documento]="tipi_documento"
+            [tipologie_contatto]="tipologie_contatto"
+            [province]="province"
+            [nazioni]="nazioni">
+        </view-owner>
+    </mat-tab>
+    <mat-tab label="Tecnici" *ngIf="data_procedure.experts">
+        <view-experts
+            [experts]="data_procedure.experts"
+            [tipologie]="tipologie"
+            [generi]="generi"
+            [tipologie_contatto]="tipologie_contatto"
+            [titoli_professionali]="titoli_professionali"
+            [province]="province">
+        </view-experts>
+    </mat-tab>
+    <mat-tab label="Delegato" *ngIf="data_procedure.administrator">Delegato</mat-tab>
+    <mat-tab label="Ditta costrutrice" *ngIf="data_procedure.supplier">Ditta costrutrice</mat-tab>
+    <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">Dettagli pratica</mat-tab>
+    <mat-tab label="Documenti/allegati">Documenti/allegati</mat-tab>
+</mat-tab-group>

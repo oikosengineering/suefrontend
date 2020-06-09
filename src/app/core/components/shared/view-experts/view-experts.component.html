@@ -1,0 +1,11 @@
+<mat-card *ngFor="let expert of experts; let j = index">
+    <mat-card-title>Tecnico {{j + 1}}</mat-card-title>
+    <view-expert 
+        [data]="expert"
+        [tipologie]="tipologie"
+        [generi]="generi"
+        [tipologie_contatto]="tipologie_contatto"
+        [titoli_professionali]="titoli_professionali"
+        [province]="province">
+    </view-expert>
+</mat-card>

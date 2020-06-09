@@ -4,7 +4,6 @@ import { ModuloComponent } from './modulo/modulo.component';
 import { DynamicFormDirective } from './directives/dynamic-form.directive';
 import { PraticheRoutingModule } from './pratiche-routing.module';
 import { ComponentsModule } from '../core/components/components.module';
-import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 import { RotturaSuoloComponent } from './moduli/components-edilizia/rottura-suolo/rottura-suolo.component';
 import { MaterialModule } from '../core/module/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,11 +12,27 @@ import { DetailsPraticheDirective } from './directives/details-pratiche.directiv
 import { OccupazioneEdileComponent } from './moduli/components-edilizia/occupazione-edile/occupazione-edile.component';
 import { OccupazioneSuoloPubblicoComponent } from './moduli/components-edilizia/occupazione-suolo-pubblico/occupazione-suolo-pubblico.component';
 import { OccupazioneTraslochiLavoriComponent } from './moduli/components-edilizia/occupazione-traslochi-lavori/occupazione-traslochi-lavori.component';
+import { OwnerComponent } from './moduli/components-edilizia/owner/owner.component';
+import { ExpertsComponent } from './moduli/components-edilizia/experts/experts.component';
+import { SupplierComponent } from './moduli/components-edilizia/supplier/supplier.component';
+import { AdministratorComponent } from './moduli/components-edilizia/administrator/administrator.component';
+import { ExpertComponent } from './moduli/components-edilizia/expert/expert.component';
 
 
 @NgModule({
-  declarations: [ModuloComponent, DynamicFormDirective, DettagliPraticaComponent, DetailsPraticheDirective, OccupazioneEdileComponent, OccupazioneSuoloPubblicoComponent, OccupazioneTraslochiLavoriComponent],
-  entryComponents: [EdiliziaComponent, RotturaSuoloComponent],
+  declarations: [
+    ModuloComponent,
+    DynamicFormDirective, 
+    DetailsPraticheDirective, 
+    OccupazioneEdileComponent, 
+    OccupazioneSuoloPubblicoComponent, 
+    OccupazioneTraslochiLavoriComponent, 
+    OwnerComponent, 
+    ExpertsComponent, 
+    SupplierComponent, 
+    AdministratorComponent, ExpertComponent
+  ],
+  entryComponents: [EdiliziaComponent, RotturaSuoloComponent, OwnerComponent],
   imports: [
     CommonModule,
     PraticheRoutingModule,
@@ -26,7 +41,12 @@ import { OccupazioneTraslochiLavoriComponent } from './moduli/components-edilizi
   ],
   exports: [
     DynamicFormDirective,
-    DetailsPraticheDirective
+    DetailsPraticheDirective,
+    OwnerComponent,
+    ExpertsComponent,
+    SupplierComponent,
+    AdministratorComponent,
+    ExpertComponent
   ]
 })
 export class PraticheModule { }
