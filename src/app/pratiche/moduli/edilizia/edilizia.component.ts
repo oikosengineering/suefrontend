@@ -13,6 +13,7 @@ import { Province, City, Professional_Title} from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-edilizia',
@@ -82,6 +83,7 @@ export class EdiliziaComponent implements OnInit {
   polizza_fidejussoria = [];
 
   isUserLoggedIn = false;
+  userid = '';
   province: Province[] = [];
   nazioni = [];
   comuni = {};
@@ -93,8 +95,17 @@ export class EdiliziaComponent implements OnInit {
     private dialog: DialogMessageService,
     private router: Router,
     private formService: FormUtilService,
-    private apiservice: AppApiService
-  ) { }
+    private apiservice: AppApiService,
+    private authservice: AuthService
+  ) {
+
+    this.isUserLoggedIn = this.authservice.ctrLogIn();
+    if (this.isUserLoggedIn === false) {
+      this.router.navigateByUrl('/login');
+    } else {
+      this.userid = localStorage.getItem('id');
+    }
+  }
 
   ngOnInit(): void {
     this.apiservice.getProvince().subscribe(data => {
@@ -140,6 +151,8 @@ export class EdiliziaComponent implements OnInit {
     this.createForm();
     this.checkState();
     this.subscribeToChanges();
+
+
   }
 
   subscribeToChanges(){
@@ -153,7 +166,7 @@ export class EdiliziaComponent implements OnInit {
   createForm() {
     this.form = this.fb.group({
       category: new FormControl(this.modulo),
-      user_id: new FormControl('5d4c3a51-a978-4acd-a757-520145b6268f'),
+      user_id: new FormControl(this.userid),
       delegated: new FormControl(false),
       owner: this.formService.createOwner(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
@@ -248,18 +261,21 @@ export class EdiliziaComponent implements OnInit {
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
-    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
+    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined) {
       return;
-    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined)
+    }
+    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined) {
       return;
+    }
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
     form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)) + 1);
   }
 
   multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string) {
-    if (form.get(value1.split("/")).value === null || form.get(value1.split("/")).value === '' || form.get(value2.split("/")).value === undefined)
+    if (form.get(value1.split("/")).value === null || form.get(value1.split("/")).value === '' || form.get(value2.split("/")).value === undefined) {
       return;
+    }
     if (form.get(value2.split("/")).value === null || form.get(value2.split("/")).value === '' || form.get(value2.split("/")).value === undefined) {
       return;
     } else {
@@ -286,8 +302,9 @@ export class EdiliziaComponent implements OnInit {
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
-    if (form.get(target).value === null || form.get(target).value === '')
+    if (form.get(target).value === null || form.get(target).value === '') {
       return;
+    }
     let date: any = new Date(form.get(target).value);
     return new Date(date.setDate(date.getDate()));
   }
