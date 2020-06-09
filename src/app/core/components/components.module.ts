@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ViewExpertsComponent } from './shared/view-experts/view-experts.component';
 import { ViewExpertComponent } from './shared/view-expert/view-expert.component';
 import { ViewAdministratorComponent } from './shared/view-administrator/view-administrator.component';
+import { ViewSupplierComponent } from './shared/view-supplier/view-supplier.component';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { ViewAdministratorComponent } from './shared/view-administrator/view-adm
     MapComponent, 
     DocumentsUploadedComponent, 
     StatusProceduresComponent, 
-    ViewOwnerComponent, ViewExpertsComponent, ViewExpertComponent, ViewAdministratorComponent
+    ViewOwnerComponent, ViewExpertsComponent, ViewExpertComponent, ViewAdministratorComponent, ViewSupplierComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +40,8 @@ import { ViewAdministratorComponent } from './shared/view-administrator/view-adm
     ViewOwnerComponent,
     ViewExpertComponent,
     ViewExpertsComponent,
-    ViewAdministratorComponent
+    ViewAdministratorComponent,
+    ViewSupplierComponent
   ],
   providers: [DocumentsUploadedPipe, StatusPipe]
 })

@@ -34,7 +34,13 @@
             [province]="province">
         </view-administrator>
     </mat-tab>
-    <mat-tab label="Ditta costrutrice" *ngIf="data_procedure.supplier">Ditta costrutrice</mat-tab>
+    <mat-tab label="Ditta costrutrice" *ngIf="data_procedure.supplier">
+        <view-supplier 
+            [data]="data_procedure.supplier"
+            [tipologie_contatto]="tipologie_contatto"
+            [province]="province">
+        </view-supplier>
+    </mat-tab>
     <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">Dettagli pratica</mat-tab>
     <mat-tab label="Documenti/allegati">Documenti/allegati</mat-tab>
 </mat-tab-group>

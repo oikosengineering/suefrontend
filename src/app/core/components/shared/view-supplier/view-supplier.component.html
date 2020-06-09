@@ -1,58 +1,13 @@
-<ng-container [formGroup]="form">
+<mat-card  [formGroup]="form" class="referente-group">
     <mat-form-field class="div-half" appearance="outline">
-        <mat-label>Tipologia</mat-label>
-        <mat-select formControlName="type" (selectionChange)="changedTipologiaEsperto(form, $event)">
-            <mat-option>Nessuna</mat-option>
-            <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
-                {{tipologia.name}}
-            </mat-option>
-        </mat-select>
-        <mat-error>{{getErrorMessage(form.get('type'))}}</mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
-        <mat-label>Genere</mat-label>
-        <mat-select formControlName="gender">
-            <mat-option>----</mat-option>
-            <mat-option *ngFor="let gender of generi" [value]="gender.value">
-                {{gender.name}}
-            </mat-option>
-        </mat-select>
-        <mat-error>{{getErrorMessage(form.get('gender'))}}</mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
-        <mat-label>Cognome</mat-label>
-        <input formControlName="last_name" matInput type="text">
-        <mat-error>{{getErrorMessage(form.get('last_name'))}}</mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
-        <mat-label>Nome</mat-label>
-        <input formControlName="first_name" matInput type="text">
-        <mat-error>{{getErrorMessage(form.get('first_name'))}}</mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
-        <mat-label>Codice fiscale</mat-label>
-        <input formControlName="fiscal_code" matInput type="text">
-        <mat-error>{{getErrorMessage(form.get('fiscal_code'))}}</mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
-        <mat-label>Titolo professionale</mat-label>
-        <mat-select formControlName="professional_title">
-            <mat-option>----</mat-option>
-            <mat-option *ngFor="let titolo of titoli_professionali" [value]="titolo">
-                {{titolo | titlecase}}
-            </mat-option>
-        </mat-select>
-        <mat-error>{{getErrorMessage(form.get('professional_title'))}}</mat-error>
+        <mat-label>Ragione sociale</mat-label>
+        <input matInput type="text" formControlName="name" >
+        <mat-error>{{getErrorMessage(form.get('name'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Partita IVA</mat-label>
         <input formControlName="vat" matInput type="text">
         <mat-error>{{getErrorMessage(form.get('vat'))}}</mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="form.get('type').value != 'person'" class="div-half" appearance="outline">
-        <mat-label>Ragione sociale</mat-label>
-        <input matInput type="text" formControlName="name" >
-        <mat-error>{{getErrorMessage(form.get('name'))}}</mat-error>
     </mat-form-field>
     <ng-container formGroupName="address">
         <mat-form-field class="div-two-thirds" appearance="outline">
@@ -86,13 +41,13 @@
             <mat-error>{{getErrorMessage(form.get('address').get('city'))}}</mat-error>
         </mat-form-field>
     </ng-container>
-    <mat-expansion-panel *ngIf="form.get('type').value != 'person' && formContacts.controls.length > 0" formArrayName="contacts" [expanded]="formContacts.controls.length > 0">
+    <mat-expansion-panel *ngIf="formContacts.controls.length > 0" formArrayName="contacts" [expanded]="formContacts.controls.length > 0">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Contatti 
+              Contatti 
             </mat-panel-title>
             <mat-panel-description>
-                Lista contatti
+              Lista contatti
             </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-card class="array-list" *ngFor="let contatto of formContacts.controls; let i = index;" [formGroupName]="i">
@@ -121,15 +76,15 @@
                 <input formControlName="email" matInput type="email">
                 <mat-error>{{getErrorMessage(formContacts.controls[i].get('email'))}}</mat-error>
             </mat-form-field>
-            <button *ngIf="can_modify" class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContacts, i);"><mat-icon>close</mat-icon></button>
+            <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContacts, i);"><mat-icon>close</mat-icon></button>
         </mat-card>
         <div class="div-full">
-            <button *ngIf="can_modify" class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('contacts'));">Aggiungi</button>
+            <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('contacts'));">Aggiungi</button>
         </div>
     </mat-expansion-panel>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Telefono</mat-label>
-        <input formControlName="phone" matInput type="text">
+        <input formControlName="phone" matInput type="text" >
         <mat-error>{{getErrorMessage(form.get('phone'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
@@ -138,5 +93,5 @@
         <mat-error>{{getErrorMessage(form.get('email'))}}</mat-error>
     </mat-form-field>
     <mat-error>{{getErrorMessage(form)}}</mat-error>
-</ng-container>
+</mat-card>
 
