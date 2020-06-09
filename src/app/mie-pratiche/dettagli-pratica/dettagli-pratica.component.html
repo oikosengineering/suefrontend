@@ -49,6 +49,12 @@
         <view-occupazione-suolo-edilizio *ngIf="data_procedure.category == 'occupazione_suolo_edilizio'"
             [data]="data_procedure.details">
         </view-occupazione-suolo-edilizio>
+        <view-occupazione-suolo-pubblico *ngIf="data_procedure.category == 'occupazione_suolo_pubblico'"
+            [data]="data_procedure.details">
+        </view-occupazione-suolo-pubblico>
+        <view-traslochi-lavori *ngIf="data_procedure.category == 'traslochi_lavori'"
+            [data]="data_procedure.details">
+        </view-traslochi-lavori>
     </mat-tab>
     <mat-tab label="Documenti/allegati">Documenti/allegati</mat-tab>
 </mat-tab-group>

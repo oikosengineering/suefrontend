@@ -1,0 +1,80 @@
+<mat-card [formGroup]="form">
+    <mat-form-field class="div-full" appearance="outline">
+        <mat-label>Ubicazione</mat-label>
+        <input matInput formControlName="address" type="text">
+        <mat-hint>Indicare via e numero civico</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('address'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Lunghezza</mat-label>
+        <input matInput formControlName="length" type="number">
+        <span matSuffix>m</span>
+        <mat-hint>Lunghezza dell'occupazione</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('length'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Larghezza</mat-label>
+        <input matInput formControlName="width" type="number">
+        <span matSuffix>m</span>
+        <mat-hint>Larghezza dell'occupazione</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('width'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Area</mat-label>
+        <input matInput formControlName="square_meters" type="number">
+        <span matSuffix>m<sup>2</sup></span>
+        <mat-hint>Area dell'occupazione</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('square_meters'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Inizio occupazione</mat-label>
+        <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
+        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+        <mat-datepicker #start_date></mat-datepicker>
+        <mat-error>{{getErrorMessage(form.get('start_date'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Fine occupazione</mat-label>
+        <input formControlName="end_date" [min]="calculateMinDate(form, 'start_date')" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
+        <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+        <mat-datepicker #end_date></mat-datepicker>
+        <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Durata occupazione</mat-label>
+        <input matInput formControlName="total_duration" type="number" readonly="true">
+        <span matSuffix>gg</span>
+        <mat-error>{{getErrorMessage(form.get('total_duration'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Ora di inizio occupazione</mat-label>
+        <input formControlName="start_time" type="time" matInput datetime-picker="H:mm" enable-date="false">
+        <mat-error>{{getErrorMessage(form.get('start_time'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Ora di fine occupazione</mat-label>
+        <input formControlName="end_time"  type="time" matInput datetime-picker="H:mm" enable-date="false">
+        <mat-error>{{getErrorMessage(form.get('end_time'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-full" appearance="outline">
+        <mat-label>Motivo dell'oocupazione</mat-label>
+        <input matInput formControlName="reason" type="text">
+        <mat-error>{{getErrorMessage(form.get('reason'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Mediante</mat-label>
+        <mat-select formControlName="through" (selectionChange)="changeTipologia($event, ['through_details'])">
+            <mat-option>---</mat-option>
+            <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
+                {{tipologia.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('through'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Descrizione</mat-label>
+        <input matInput formControlName="through_details" type="text"/>
+        <mat-hint>Informazioni aggiuntive ad es. targa veicolo</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('through_details'))}}</mat-error>
+    </mat-form-field>
+</mat-card>

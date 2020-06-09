@@ -17,6 +17,8 @@ import { ViewAdministratorComponent } from './shared/view-administrator/view-adm
 import { ViewSupplierComponent } from './shared/view-supplier/view-supplier.component';
 import { ViewRotturaSuoloComponent } from './shared/details/view-rottura-suolo/view-rottura-suolo.component';
 import { ViewOccupazioneSuoloEdilizioComponent } from './shared/details/view-occupazione-suolo-edilizio/view-occupazione-suolo-edilizio.component';
+import { ViewOccupazioneSuoloPubblicoComponent } from './shared/details/view-occupazione-suolo-pubblico/view-occupazione-suolo-pubblico.component';
+import { ViewTraslochiLavoriComponent } from './shared/details/view-traslochi-lavori/view-traslochi-lavori.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { ViewOccupazioneSuoloEdilizioComponent } from './shared/details/view-occ
     ViewAdministratorComponent, 
     ViewSupplierComponent, 
     ViewRotturaSuoloComponent, 
-    ViewOccupazioneSuoloEdilizioComponent
+    ViewOccupazioneSuoloEdilizioComponent, 
+    ViewOccupazioneSuoloPubblicoComponent, 
+    ViewTraslochiLavoriComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +55,9 @@ import { ViewOccupazioneSuoloEdilizioComponent } from './shared/details/view-occ
     ViewAdministratorComponent,
     ViewSupplierComponent,
     ViewRotturaSuoloComponent,
-    ViewOccupazioneSuoloEdilizioComponent
+    ViewOccupazioneSuoloEdilizioComponent,
+    ViewOccupazioneSuoloPubblicoComponent,
+    ViewTraslochiLavoriComponent
   ],
   providers: [DocumentsUploadedPipe, StatusPipe]
 })
