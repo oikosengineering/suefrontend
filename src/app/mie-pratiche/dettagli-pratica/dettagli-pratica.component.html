@@ -56,16 +56,20 @@
     <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">
         <view-rottura-suolo *ngIf="data_procedure.category == 'rottura_suolo'"
             [data]="data_procedure.details"
-            [pavimentazioni]="pavimentazioni">
+            [pavimentazioni]="pavimentazioni"
+            (update_details)="submitDetail($event)">
         </view-rottura-suolo>
         <view-occupazione-suolo-edilizio *ngIf="data_procedure.category == 'occupazione_suolo_edilizio'"
-            [data]="data_procedure.details">
+            [data]="data_procedure.details"
+            (update_details)="submitDetail($event)">
         </view-occupazione-suolo-edilizio>
         <view-occupazione-suolo-pubblico *ngIf="data_procedure.category == 'occupazione_suolo_pubblico'"
-            [data]="data_procedure.details">
+            [data]="data_procedure.details"
+            (update_details)="submitDetail($event)">
         </view-occupazione-suolo-pubblico>
         <view-traslochi-lavori *ngIf="data_procedure.category == 'traslochi_lavori'"
-            [data]="data_procedure.details">
+            [data]="data_procedure.details"
+            (update_details)="submitDetail($event)">
         </view-traslochi-lavori>
     </mat-tab>
     <mat-tab label="Documenti/allegati">Documenti/allegati</mat-tab>

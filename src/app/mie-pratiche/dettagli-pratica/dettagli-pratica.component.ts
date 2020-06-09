@@ -183,4 +183,13 @@ export class DettagliPraticaComponent implements OnInit {
       });
     });
   }
+
+  submitDetail(value: any){
+    console.log("Dettagli pratica", value);
+    this.apiService.modificaDettaglioPratica('building', this.data_procedure.id, value).subscribe(result => {
+      console.log(result);
+    }, error => {
+      console.log(error);
+    });
+  }
 }

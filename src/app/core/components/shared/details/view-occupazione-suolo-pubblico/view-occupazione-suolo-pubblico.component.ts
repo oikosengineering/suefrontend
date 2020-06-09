@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
@@ -13,6 +13,8 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
   form: FormGroup;
   @Input() data: any;
 
+  @Output() update_details = new EventEmitter();
+  
   can_modify = false;
 
   tipologie = [
@@ -103,6 +105,7 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
 
   save(){
     console.log(this.form.getRawValue());
+    this.update_details.next(this.form.getRawValue());
   }
 
   getErrorMessage(control: AbstractControl) {

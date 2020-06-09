@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, Validators, FormGroup } from '@angular/forms';
 import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
@@ -16,6 +16,8 @@ export class ViewRotturaSuoloComponent implements OnInit {
   @Input() data: any;
   @Input() pavimentazioni;
 
+  @Output() update_details = new EventEmitter();
+  
   can_modify = false;
 
   map_cfg = {
@@ -168,6 +170,7 @@ export class ViewRotturaSuoloComponent implements OnInit {
 
   save(){
     console.log(this.form.getRawValue());
+    this.update_details.next(this.form.getRawValue());
   }
 
   getErrorMessage(control: AbstractControl) {
