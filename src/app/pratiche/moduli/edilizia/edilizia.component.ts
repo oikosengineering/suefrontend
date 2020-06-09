@@ -13,6 +13,7 @@ import { Province, City, Professional_Title} from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-edilizia',
@@ -82,6 +83,7 @@ export class EdiliziaComponent implements OnInit {
   polizza_fidejussoria = [];
 
   isUserLoggedIn = false;
+  user_id;
   province: Province[] = [];
   nazioni = [];
   comuni = {};
@@ -93,10 +95,14 @@ export class EdiliziaComponent implements OnInit {
     private dialog: DialogMessageService,
     private router: Router,
     private formService: FormUtilService,
-    private apiservice: AppApiService
+    private apiservice: AppApiService,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
+
+    this.user_id = this.auth.getIdUser();
+
     this.apiservice.getProvince().subscribe(data => {
       this.province.push(...data['data']);
     });
@@ -140,6 +146,7 @@ export class EdiliziaComponent implements OnInit {
     this.createForm();
     this.checkState();
     this.subscribeToChanges();
+
   }
 
   subscribeToChanges(){
@@ -555,13 +562,13 @@ export class EdiliziaComponent implements OnInit {
     let county_of_birth = body.owner.county_of_birth;
     let country_of_birth = body.owner.country_of_birth;
 
-    if(birthplace != null && birthplace != undefined && birthplace != ''){
+    if(birthplace != null && birthplace != undefined && birthplace != '' && typeof birthplace != 'string'){
       body.owner.birthplace = body.owner.birthplace.code;
     }
-    if(county_of_birth != null && county_of_birth != undefined && county_of_birth != ''){
+    if(county_of_birth != null && county_of_birth != undefined && county_of_birth != '' && typeof county_of_birth != 'string'){
       body.owner.county_of_birth = body.owner.county_of_birth.code;
     }
-    if(country_of_birth != null && country_of_birth != undefined && country_of_birth != ''){
+    if(country_of_birth != null && country_of_birth != undefined && country_of_birth != '' && typeof country_of_birth != 'string'){
       body.owner.country_of_birth = body.owner.country_of_birth.code;
     }
   }
