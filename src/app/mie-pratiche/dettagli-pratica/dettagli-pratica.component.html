@@ -41,6 +41,14 @@
             [province]="province">
         </view-supplier>
     </mat-tab>
-    <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">Dettagli pratica</mat-tab>
+    <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">
+        <view-rottura-suolo *ngIf="data_procedure.category == 'rottura_suolo'"
+            [data]="data_procedure.details"
+            [pavimentazioni]="pavimentazioni">
+        </view-rottura-suolo>
+        <view-occupazione-suolo-edilizio *ngIf="data_procedure.category == 'occupazione_suolo_edilizio'"
+            [data]="data_procedure.details">
+        </view-occupazione-suolo-edilizio>
+    </mat-tab>
     <mat-tab label="Documenti/allegati">Documenti/allegati</mat-tab>
 </mat-tab-group>

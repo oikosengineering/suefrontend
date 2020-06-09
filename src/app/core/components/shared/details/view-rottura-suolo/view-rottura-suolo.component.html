@@ -1,0 +1,113 @@
+<mat-card [formGroup]="form">
+    <mat-form-field class="div-full" appearance="outline">
+        <mat-label>Motivo scavi</mat-label>
+        <input matInput formControlName="reason" type="text">
+        <mat-error>{{getErrorMessage(form.get('reason'))}}</mat-error>
+    </mat-form-field>
+    <ng-container formGroupName="description">
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Causale</mat-label>
+            <input matInput formControlName="motive" type="text">
+            <mat-error>{{getErrorMessage(form.get(['description','motive']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Tipo di posa</mat-label>
+            <input matInput formControlName="laying_type" type="text">
+            <mat-hint>Tubazioni, polifore, etc.</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['description','laying_type']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Diametro</mat-label>
+            <input matInput formControlName="diameter" type="number">
+            <span matSuffix>cm</span>
+            <mat-hint>Diametro espresso in cm</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['description','diameter']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Lunghezza</mat-label>
+            <input matInput formControlName="length" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Lunghezza espressa in metri</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['description','length']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Note</mat-label>
+            <textarea matInput formControlName="notes" type="text"></textarea>
+            <mat-hint>Note aggiuntive opzionali</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['description','notes']))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Inizio lavori</mat-label>
+        <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'duration')">
+        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+        <mat-datepicker #start_date></mat-datepicker>
+        <mat-error>{{getErrorMessage(form.get('start_date'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Fine lavori</mat-label>
+        <input formControlName="end_date" [min]="calculateMinDate(form, 'start_date')" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'duration')">
+        <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+        <mat-datepicker #end_date></mat-datepicker>
+        <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Durata lavori</mat-label>
+        <input matInput formControlName="duration" type="number" readonly="true">
+        <span matSuffix>gg</span>
+        <mat-error>{{getErrorMessage(form.get('duration'))}}</mat-error>
+    </mat-form-field>
+    <ng-container formGroupName="excavation_details">
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Estensione degli scavi</mat-label>
+            <input matInput formControlName="area_number" type="number" (change)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
+            <span matSuffix>m<sup>2</sup></span>
+            <mat-error>{{getErrorMessage(form.get('excavation_details').get('area_number'))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Tipologia pavimentazione</mat-label>
+        <mat-select formControlName="flooring_type" (selectionChange)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
+            <mat-option>Nessuna</mat-option>
+            <mat-option *ngFor="let flooring_type of pavimentazioni" [value]="flooring_type.value">
+                {{flooring_type.name}} - € {{flooring_type.price}} m<sup>2</sup>
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('flooring_type'))}}</mat-error>
+    </mat-form-field>
+    <ng-container formGroupName="building_site">
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Estensione del cantiere</mat-label>
+            <input matInput formControlName="area_number" type="number">
+            <span matSuffix>m<sup>2</sup></span>
+            <mat-error>{{getErrorMessage(form.get('building_site').get('area_number'))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <div class="div-full padding-div">Il richiedente si impegna a costituire, a titolo di cauzione, una polizza fidejussoria</div>
+    <ng-container formGroupName="insurance">
+        <div class="div-checkbox div-half">
+            <mat-checkbox formControlName="surety">Conferma la sottoscrizione della poliza</mat-checkbox>
+            <mat-error>{{getErrorMessage(form.get('insurance').get('surety'))}}</mat-error>
+        </div>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Valore polizza</mat-label>
+            <input matInput formControlName="amount" type="number">
+            <span matPrefix>€</span>
+            <mat-error>{{getErrorMessage(form.get('insurance').get('amount'))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <div class="div-a-quarter" appearance="outline">
+        <mat-label>N. geometrie scavo</mat-label>
+        <input matInput readonly="true" type="number" [value]="form.get(['excavation_details', 'geometry']).value.length > 0 ? form.get(['excavation_details', 'geometry']).value.length : '/'">
+        <mat-error>{{getErrorMessage(form.get(['excavation_details', 'geometry']))}}</mat-error>
+    </div>
+    <div class="div-a-quarter" appearance="outline">
+        <mat-label>N. geometrie cantiere</mat-label>
+        <input matInput readonly="true" type="number" [value]="form.get(['building_site', 'geometry']).value.length > 0 ? form.get(['building_site', 'geometry']).value.length : '/'">
+        <mat-error>{{getErrorMessage(form.get(['building_site', 'geometry']))}}</mat-error>
+    </div>
+    
+    <div class="div-half" *ngIf="can_modify">
+        <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Disegna aree di occupazione</button>
+    </div>
+</mat-card>

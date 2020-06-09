@@ -15,6 +15,8 @@ import { ViewExpertsComponent } from './shared/view-experts/view-experts.compone
 import { ViewExpertComponent } from './shared/view-expert/view-expert.component';
 import { ViewAdministratorComponent } from './shared/view-administrator/view-administrator.component';
 import { ViewSupplierComponent } from './shared/view-supplier/view-supplier.component';
+import { ViewRotturaSuoloComponent } from './shared/details/view-rottura-suolo/view-rottura-suolo.component';
+import { ViewOccupazioneSuoloEdilizioComponent } from './shared/details/view-occupazione-suolo-edilizio/view-occupazione-suolo-edilizio.component';
 
 
 @NgModule({
@@ -23,7 +25,13 @@ import { ViewSupplierComponent } from './shared/view-supplier/view-supplier.comp
     MapComponent, 
     DocumentsUploadedComponent, 
     StatusProceduresComponent, 
-    ViewOwnerComponent, ViewExpertsComponent, ViewExpertComponent, ViewAdministratorComponent, ViewSupplierComponent
+    ViewOwnerComponent, 
+    ViewExpertsComponent, 
+    ViewExpertComponent, 
+    ViewAdministratorComponent, 
+    ViewSupplierComponent, 
+    ViewRotturaSuoloComponent, 
+    ViewOccupazioneSuoloEdilizioComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +49,9 @@ import { ViewSupplierComponent } from './shared/view-supplier/view-supplier.comp
     ViewExpertComponent,
     ViewExpertsComponent,
     ViewAdministratorComponent,
-    ViewSupplierComponent
+    ViewSupplierComponent,
+    ViewRotturaSuoloComponent,
+    ViewOccupazioneSuoloEdilizioComponent
   ],
   providers: [DocumentsUploadedPipe, StatusPipe]
 })
