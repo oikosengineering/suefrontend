@@ -8,7 +8,7 @@
     <p class="div-half"><b>Marca da bollo: </b> {{data_procedure.stamp_number || '/'}}</p>
     <p class="div-half"><b>Tipologia: </b> {{data_procedure.type}}</p>
     <p class="div-half"><b>Categoria: </b> {{data_procedure.category | categoryPipe}}</p>
-    <p style="font-weight: bold;">{{data_procedure.subject}}</p>
+    <p class="div-full"><b>Causale: </b> {{data_procedure.subject}}</p>
     <p class="div-half"><b>Delegata: </b> {{data_procedure.delegated | delegatedPipe}}</p>
     <p class="div-half"><b>Prorogabile: </b> {{data_procedure.can_be_extended | canExtended}}</p>
     <p class="div-half"><b>Data creazione: </b> {{data_procedure.created_at}}</p>
