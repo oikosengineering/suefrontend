@@ -1,0 +1,26 @@
+<mat-form-field class="div-full" appearance="outline">
+    <mat-label>Tipologia file</mat-label>
+    <mat-select [(ngModel)]="file_type" (selectionChange)="changeType()">
+        <mat-option>Altro</mat-option>
+        <mat-option *ngFor="let tipologia of tipologie_file" [value]="tipologia.type">
+            {{tipologia.description}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<div class="div-two-thirds">
+    <input id="upload_file" (change)="changeFile($event)" [(ngModel)]="file_name" type="file">
+</div>
+<div class="div-a-third right-align">
+    <!-- <label class="upload-button" for="upload_file">
+        <div class="mat-raised-button">
+            Seleziona file
+        </div>  
+        
+    </label> -->
+    
+    <button [disabled]="!file_to_upload && !file_type" class="button-login" mat-raised-button color="primary" (click)="uploadFile()">
+        <mat-icon>publish</mat-icon>
+        Carica
+    </button>
+    
+</div>

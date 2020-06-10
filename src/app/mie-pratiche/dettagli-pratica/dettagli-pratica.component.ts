@@ -17,6 +17,8 @@ export class DettagliPraticaComponent implements OnInit {
 
   data_procedure;
 
+  documents_uploaded = [];
+
   isLoading = true;
 
   tipologie = [];
@@ -30,6 +32,7 @@ export class DettagliPraticaComponent implements OnInit {
   nazioni = [];
   comuni = {};
   titoli_professionali = [];
+  tipologie_file = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -56,9 +59,12 @@ export class DettagliPraticaComponent implements OnInit {
     promises.push(this.getContactsType());
     promises.push(this.getQualification());
     promises.push(this.getDocumentType());
+    promises.push(this.getDocumentsUploaded());
     Promise.all(promises).then(result => {
+      this.getTipologieFileObbligatori();
       this.isLoading = false;
     }).catch(error => {
+      this.getTipologieFileObbligatori();
       console.log(error);
       this.isLoading = false;
     })
@@ -189,6 +195,28 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
+  getDocumentsUploaded(){
+    return new Promise((resolve, reject) => {
+      this.apiService.getDocumentiPratica('building', this.idProcedure).subscribe(data => {
+        this.documents_uploaded = data['data'];
+        resolve(true);
+      }, error => {
+        resolve(true);
+      });
+    });
+  }
+
+  getTipologieFileObbligatori(){
+    return new Promise((resolve, reject) => {
+      this.apiService.getListaDocumentiObbligatoriPratica('building', this.data_procedure.category).subscribe(data => {
+        this.tipologie_file = data['data'];
+        resolve(true);
+      }, error => {
+        resolve(true);
+      });
+    });
+  }
+
   submitDetail(value: any){
     console.log("Dettagli pratica", value);
     this.apiService.modificaDettaglioPratica('building', this.data_procedure.id, value).subscribe(result => {
@@ -210,6 +238,14 @@ export class DettagliPraticaComponent implements OnInit {
   addExpert(expert: any){
     console.log("Esperto da aggiungere", expert);
     this.apiService.addEspertoPratica('building', this.data_procedure.id, expert).subscribe(result => {
+      console.log(result);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  uploadFile(file: any){
+    this.apiService.updDocumentoPratica('building', this.data_procedure.id, file).subscribe(result => {
       console.log(result);
     }, error => {
       console.log(error);

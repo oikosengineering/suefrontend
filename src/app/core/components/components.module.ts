@@ -10,7 +10,7 @@ import { DocumentsUploadedPipe } from '../pipes/documents-uploaded.pipe';
 import { StatusProceduresComponent } from './shared/status-procedures/status-procedures.component';
 import { StatusPipe } from '../pipes/status.pipe';
 import { ViewOwnerComponent } from './shared/view-owner/view-owner.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ViewExpertsComponent } from './shared/view-experts/view-experts.component';
 import { ViewExpertComponent } from './shared/view-expert/view-expert.component';
 import { ViewAdministratorComponent } from './shared/view-administrator/view-administrator.component';
@@ -20,6 +20,8 @@ import { ViewOccupazioneSuoloEdilizioComponent } from './shared/details/view-occ
 import { ViewOccupazioneSuoloPubblicoComponent } from './shared/details/view-occupazione-suolo-pubblico/view-occupazione-suolo-pubblico.component';
 import { ViewTraslochiLavoriComponent } from './shared/details/view-traslochi-lavori/view-traslochi-lavori.component';
 import { PraticheModule } from 'src/app/pratiche/pratiche.module';
+import { ViewDocumentsComponent } from './shared/documents/view-documents/view-documents.component';
+import { UploadDocumentsComponent } from './shared/documents/upload-documents/upload-documents.component';
 
 
 @NgModule({
@@ -36,13 +38,16 @@ import { PraticheModule } from 'src/app/pratiche/pratiche.module';
     ViewRotturaSuoloComponent, 
     ViewOccupazioneSuoloEdilizioComponent, 
     ViewOccupazioneSuoloPubblicoComponent, 
-    ViewTraslochiLavoriComponent
+    ViewTraslochiLavoriComponent, 
+    ViewDocumentsComponent, 
+    UploadDocumentsComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+    FormsModule,
     PraticheModule
   ],
   entryComponents: [MyDialogComponent, MapComponent],
@@ -59,7 +64,9 @@ import { PraticheModule } from 'src/app/pratiche/pratiche.module';
     ViewRotturaSuoloComponent,
     ViewOccupazioneSuoloEdilizioComponent,
     ViewOccupazioneSuoloPubblicoComponent,
-    ViewTraslochiLavoriComponent
+    ViewTraslochiLavoriComponent,
+    ViewDocumentsComponent,
+    UploadDocumentsComponent
   ],
   providers: [DocumentsUploadedPipe, StatusPipe]
 })
