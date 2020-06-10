@@ -109,7 +109,7 @@ export class AppApiService {
   addEspertoPratica(department: string, id: string, body: any): Observable<Expert> {
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/addEspertoPratica?deparment=' + department + '&id=' + id, body, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/addEspertoPratica?department=' + department + '&id=' + id, body, header).pipe(map(response => response));
   }
 
   delEspertoPratica(department: string, id: string, deleteid: string) {

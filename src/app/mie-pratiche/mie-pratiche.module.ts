@@ -10,6 +10,7 @@ import { CategoryPipe } from '../core/pipes/category.pipe';
 import { ComponentsModule } from '../core/components/components.module';
 import { DelegatedPipe } from '../core/pipes/delegated.pipe';
 import { CanExtendedPipe } from '../core/pipes/can-extended.pipe';
+import { ExpertPipe } from '../core/pipes/expert.pipe';
 
 
 
@@ -21,7 +22,8 @@ import { CanExtendedPipe } from '../core/pipes/can-extended.pipe';
     CategoryPipe,
     StatusPipe,
     DelegatedPipe,
-    CanExtendedPipe
+    CanExtendedPipe,
+    ExpertPipe,
   ],
   imports: [
     CommonModule,

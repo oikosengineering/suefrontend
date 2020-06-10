@@ -33,6 +33,7 @@ import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component
 import { PraticheModule } from './pratiche/pratiche.module';
 import { DelegatedPipe } from './core/pipes/delegated.pipe';
 import { CanExtendedPipe } from './core/pipes/can-extended.pipe';
+import { ExpertPipe } from './core/pipes/expert.pipe';
 
 export const MY_FORMATS = {
   parse: {

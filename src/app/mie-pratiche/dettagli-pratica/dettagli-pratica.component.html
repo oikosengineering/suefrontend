@@ -35,7 +35,8 @@
             [tipologie_contatto]="tipologie_contatto"
             [titoli_professionali]="titoli_professionali"
             [province]="province"
-            (delete_expert)="deleteExpert($event)">
+            (delete_expert)="deleteExpert($event)"
+            (add_expert)="addExpert($event)">
         </view-experts>
     </mat-tab>
     <mat-tab label="Delegato" *ngIf="data_procedure.administrator">

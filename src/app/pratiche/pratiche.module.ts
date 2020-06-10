@@ -30,9 +30,10 @@ import { ExpertComponent } from './moduli/components-edilizia/expert/expert.comp
     OwnerComponent, 
     ExpertsComponent, 
     SupplierComponent, 
-    AdministratorComponent, ExpertComponent
+    AdministratorComponent,
+    ExpertComponent
   ],
-  entryComponents: [EdiliziaComponent, RotturaSuoloComponent, OwnerComponent],
+  entryComponents: [EdiliziaComponent, RotturaSuoloComponent, OwnerComponent, ExpertComponent],
   imports: [
     CommonModule,
     PraticheRoutingModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { Province } from 'src/app/core/models/models';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -11,6 +12,8 @@ import { Province } from 'src/app/core/models/models';
 export class DettagliPraticaComponent implements OnInit {
 
   idProcedure;
+
+  id_user;
 
   data_procedure;
 
@@ -30,12 +33,14 @@ export class DettagliPraticaComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private apiService: AppApiService
+    private apiService: AppApiService,
+    private auth: AuthService
   ) {
     this.chargeData();
   }
 
   ngOnInit(): void {
+    this.id_user = this.auth.getIdUser();
   }
 
   chargeData(){
@@ -196,6 +201,15 @@ export class DettagliPraticaComponent implements OnInit {
   deleteExpert(expert_id: string){
     console.log("Tecnico pratica", expert_id);
     this.apiService.delEspertoPratica('building', this.data_procedure.id, expert_id).subscribe(result => {
+      console.log(result);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  addExpert(expert: any){
+    console.log("Esperto da aggiungere", expert);
+    this.apiService.addEspertoPratica('building', this.data_procedure.id, expert).subscribe(result => {
       console.log(result);
     }, error => {
       console.log(error);
