@@ -15,6 +15,8 @@ export class SupplierComponent implements OnInit {
   @Input() tipologie_contatto: any[];
   @Input() province: any[];
   comuni = {};
+  loading = false;
+
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
@@ -51,6 +53,7 @@ export class SupplierComponent implements OnInit {
   }
 
   onChangeProvince(value: string, target: string){
+    this.loading = true;
     this.checkValidationElseDisable(value, target);
     this.getComuni(value, target);
   }
@@ -60,10 +63,12 @@ export class SupplierComponent implements OnInit {
     if(selectProvince != 'EE'){
       this.apiservice.getComuni(selectProvince).subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
+        this.loading = false;
       });
     } else {
       this.apiservice.getNazioni().subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
+        this.loading = false;
       });
     }
   }

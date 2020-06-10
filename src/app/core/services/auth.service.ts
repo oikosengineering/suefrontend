@@ -180,7 +180,7 @@ export class AuthService {
 
       this.userislogin.emit( {
         token: this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'),
-        id: fkuser.ifk.user.first_name,
+        id: fkuser.ifk.user.id,
         email: fkuser.ifk.user.email,
         first_name: fkuser.ifk.user.first_name,
         last_name: fkuser.ifk.user.last_name,
@@ -189,6 +189,7 @@ export class AuthService {
       });
 
       this.isUserLogged = true;
+      this.iduser = fkuser.ifk.user.id;
     }
   }
 

@@ -336,6 +336,7 @@ export class FormUtilService {
       ])),
     });
   }
+  
   createBusiness(): FormGroup {
     return this.fb.group({
       name: new FormControl(''),
@@ -388,5 +389,15 @@ export class FormUtilService {
       phone: new FormControl('', Validators.compose([
       ])),
     })
+  }
+
+  createDocumenti(): FormGroup{
+    return this.fb.group({
+      type: new FormControl('', Validators.compose([
+      ])),
+      name: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+    });
   }
 }

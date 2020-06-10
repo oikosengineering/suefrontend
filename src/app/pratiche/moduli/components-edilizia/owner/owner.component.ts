@@ -20,6 +20,7 @@ export class OwnerComponent implements OnInit {
   @Input() province: any[];
   @Input() nazioni: any[];
   comuni = {};
+  loading = false;
   
   constructor(
     private validationService: ValidationService,
@@ -84,6 +85,7 @@ export class OwnerComponent implements OnInit {
   }
 
   onChangeProvince(value: string, target: string){
+    this.loading = true;
     this.checkValidationElseDisable(value, target);
     this.getComuni(value, target);
   }
@@ -107,6 +109,7 @@ export class OwnerComponent implements OnInit {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
+      this.loading = false;
     });
   }
 

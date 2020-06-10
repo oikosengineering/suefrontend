@@ -1,0 +1,23 @@
+<mat-card [formGroup]="planimetria1" class="div-full" appearance="outline">
+    <div class="div-half">Caricare il file appropriato:</div>
+    <div class="div-half right-align">
+        <label class="upload-button" for="planimetria1">
+            <div class="mat-raised-button">
+                Aggiungi file
+            </div>  
+            <input (change)="uploadFile($event, form.get('planimetria1'), 'planimetria1')" formControlName="file" hidden type="file" accept=".pdf">
+        </label>
+    </div>
+    <!-- <mat-nav-list class="div-full list-element" *ngIf="documenti.length > 0">
+        <ng-container  *ngFor="let file of documenti">
+            <mat-list-item >
+                <p matLine >{{ file.name }}</p>
+                <button mat-icon-button (click)="removeFile(file, form.get('planimetria1'), 'planimetria1')">
+                   <mat-icon>cancel</mat-icon>
+                </button>
+                <mat-divider></mat-divider>
+             </mat-list-item>
+        </ng-container>
+    </mat-nav-list>
+    <mat-error>{{getErrorMessage(form.get('planimetria1'))}}</mat-error> -->
+</mat-card>

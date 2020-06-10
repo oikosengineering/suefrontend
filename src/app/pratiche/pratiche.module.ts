@@ -17,6 +17,8 @@ import { ExpertsComponent } from './moduli/components-edilizia/experts/experts.c
 import { SupplierComponent } from './moduli/components-edilizia/supplier/supplier.component';
 import { AdministratorComponent } from './moduli/components-edilizia/administrator/administrator.component';
 import { ExpertComponent } from './moduli/components-edilizia/expert/expert.component';
+import { DocumentiComponent } from './moduli/components-edilizia/documenti/documenti.component';
+import { DocumentoComponent } from './moduli/components-edilizia/documento/documento.component';
 
 
 @NgModule({
@@ -30,7 +32,7 @@ import { ExpertComponent } from './moduli/components-edilizia/expert/expert.comp
     OwnerComponent, 
     ExpertsComponent, 
     SupplierComponent, 
-    AdministratorComponent, ExpertComponent
+    AdministratorComponent, ExpertComponent, DocumentiComponent, DocumentoComponent
   ],
   entryComponents: [EdiliziaComponent, RotturaSuoloComponent, OwnerComponent],
   imports: [
@@ -46,7 +48,8 @@ import { ExpertComponent } from './moduli/components-edilizia/expert/expert.comp
     ExpertsComponent,
     SupplierComponent,
     AdministratorComponent,
-    ExpertComponent
+    ExpertComponent,
+    DocumentiComponent
   ]
 })
 export class PraticheModule { }
