@@ -105,7 +105,7 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
 
   save(){
     console.log(this.form.getRawValue());
-    this.update_details.next(this.form.getRawValue());
+    this.update_details.next({details: this.form.getRawValue()});
   }
 
   getErrorMessage(control: AbstractControl) {
