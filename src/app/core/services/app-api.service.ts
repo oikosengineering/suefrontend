@@ -69,7 +69,7 @@ export class AppApiService {
   modificaDettaglioPratica(department: string, id: string, body: any): Observable<Procedure> {
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.patch(environment.api_url + '/modificaDettaglioPratica/department=' + department + '&id=' + id, body, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/modificaDettaglioPratica?department=' + department + '&id=' + id, body, header).pipe(map(response => response));
   }
 
   getDocumentiPratica(department: string, id: string): Observable<Document[]> {
@@ -112,9 +112,9 @@ export class AppApiService {
     return this.httpClient.post(environment.api_url + '/addEspertoPratica?deparment=' + department + '&id=' + id, body, header).pipe(map(response => response));
   }
 
-  delEspertoPratica(deparment: string, id: string, deleteid: string) {
+  delEspertoPratica(department: string, id: string, deleteid: string) {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.delete(environment.api_url + '/delEspertoPratica?deparment=' + deparment + '&id=' + id + '&deleteid=' + deleteid, this.header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/delEspertoPratica?department=' + department + '&id=' + id + '&deleteid=' + deleteid, this.header).pipe(map(response => response));
   }
 
   commitPratica(department: string, id: string) {

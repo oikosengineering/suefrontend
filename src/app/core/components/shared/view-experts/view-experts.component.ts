@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'view-experts',
@@ -14,9 +14,16 @@ export class ViewExpertsComponent implements OnInit {
   @Input() titoli_professionali: any[];
   @Input() province: any[];
 
+  @Output() delete_expert = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  delete(id: number){
+    console.log("Delete expert: " + id);
+    this.delete_expert.next(id);
   }
 
 }

@@ -8,4 +8,10 @@
         [titoli_professionali]="titoli_professionali"
         [province]="province">
     </view-expert>
+    <div class="div-full">
+        <button class="button-login" mat-raised-button color="warn" (click)="delete(expert.id)">
+            <mat-icon>delete</mat-icon>
+            Elimina
+        </button>
+    </div>
 </mat-card>

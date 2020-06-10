@@ -192,4 +192,13 @@ export class DettagliPraticaComponent implements OnInit {
       console.log(error);
     });
   }
+
+  deleteExpert(expert_id: string){
+    console.log("Tecnico pratica", expert_id);
+    this.apiService.delEspertoPratica('building', this.data_procedure.id, expert_id).subscribe(result => {
+      console.log(result);
+    }, error => {
+      console.log(error);
+    });
+  }
 }
