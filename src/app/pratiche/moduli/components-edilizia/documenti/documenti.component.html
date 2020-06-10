@@ -1,0 +1,23 @@
+<mat-expansion-panel [disabled]="!form.enabled" [formGroup]="form" class="documenti-group" [expanded]="form.enabled">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Documenti
+        </mat-panel-title>
+        <mat-panel-description>
+            Allegare i file necessari da inoltrare con la pratica
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card class="array-list" *ngFor="let documento of formDocumenti.controls; let j = index;" [formGroupName]="j">
+        <mat-card-title>Documento {{j+1}}</mat-card-title>
+        <documento [form]="documento">
+        </documento>
+        <button *ngIf="formDocumenti.controls.length > 1" class="button-delete" mat-mini-fab color="warn"
+            (click)="removeItem(formDocumenti, j);">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-card>
+    <div class="div-full">
+        <button class="button-add" mat-raised-button color="primary"
+            (click)="addDocumento(formDocumenti);">Aggiungi</button>
+    </div>
+</mat-expansion-panel>

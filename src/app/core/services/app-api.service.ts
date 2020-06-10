@@ -44,7 +44,7 @@ export class AppApiService {
   GET PRATICA
   */
 
-  creaPratica(department: string, body: any): Observable<Procedure> {
+  creaPratica(department: string, body: any) {
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
     // tslint:disable-next-line: max-line-length
     return this.httpClient.post(environment.api_url + '/creaPratica?department=' + department, body, header).pipe(map(response => response));

@@ -98,16 +98,6 @@
         <mat-error>{{getErrorMessage(form.get('birthday'))}}</mat-error>
     </mat-form-field>
     <ng-container formGroupName="address">
-        <mat-form-field class="div-two-thirds" appearance="outline">
-            <mat-label>Indirizzo</mat-label>
-            <input  formControlName="street_name" matInput type="text">
-            <mat-error>{{getErrorMessage(form.get('address').get('street_name'))}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="div-a-third" appearance="outline">
-            <mat-label>Cap</mat-label>
-            <input  formControlName="postcode" matInput type="number">
-            <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
-        </mat-form-field>
         <mat-form-field class="div-half" appearance="outline">
             <mat-label>Provincia</mat-label>
             <mat-select   formControlName="county" (selectionChange)="onChangeProvince('address/county', 'address/city')">
@@ -127,6 +117,16 @@
                 </mat-option>
             </mat-select>
             <mat-error>{{getErrorMessage(form.get('address').get('city'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-two-thirds" appearance="outline">
+            <mat-label>Indirizzo</mat-label>
+            <input  formControlName="street_name" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('address').get('street_name'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Cap</mat-label>
+            <input  formControlName="postcode" matInput type="number">
+            <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
         </mat-form-field>
     </ng-container>
     <mat-expansion-panel *ngIf="form.get('type').value != 'person' && formContacts.controls.length > 0" formArrayName="contacts" [expanded]="formContacts.controls.length > 0">

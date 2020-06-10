@@ -15,6 +15,7 @@ export class NuovaPraticaComponent implements OnInit {
   
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,9 +25,10 @@ export class NuovaPraticaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
+    this.loading = true;
     this.apiservice.getDizionario('procedure.category').subscribe(data => {
       this.options.push(...data['data']);
+      this.loading = false;
     });
 
     this.firstFormGroup = this.formBuilder.group({

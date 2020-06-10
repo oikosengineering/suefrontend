@@ -13,7 +13,8 @@ import { Province, City, Professional_Title} from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service'
+import { toHtml } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'app-edilizia',
@@ -30,6 +31,7 @@ export class EdiliziaComponent implements OnInit {
   tipologie_contatto = [];
   qualifiche = [];
   tipi_documento = [];
+  documenti = [];
 
   map_cfg = {
     buttons: [
@@ -81,6 +83,7 @@ export class EdiliziaComponent implements OnInit {
   planimetria1 = [];
   planimetria2 = [];
   polizza_fidejussoria = [];
+  fileobbligatori = [];
 
   isUserLoggedIn = false;
   user_id;
@@ -88,6 +91,12 @@ export class EdiliziaComponent implements OnInit {
   nazioni = [];
   comuni = {};
   titoli_professionali = [];
+
+  loading = false;
+  error = false;
+  errormessage = "";
+  errorcode = "";
+  errors: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -100,7 +109,7 @@ export class EdiliziaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.loading = true;
     this.user_id = this.auth.getIdUser();
 
     this.apiservice.getProvince().subscribe(data => {
@@ -112,7 +121,7 @@ export class EdiliziaComponent implements OnInit {
     });
 
     this.apiservice.getNazioni().subscribe(data => {
-      this.nazioni.push(...data['data'])
+      this.nazioni.push(...data['data']);
     });
 
     this.apiservice.getDizionario('owner.type').subscribe(data => {
@@ -123,7 +132,7 @@ export class EdiliziaComponent implements OnInit {
       this.generi.push(...data['data']);
     });
 
-    this.apiservice.getDizionario('building.details.flooring_type').subscribe(data => {
+    this.apiservice.getDizionario('building.details.flooring_type').subscribe(data =>  {
       this.pavimentazioni.push(...data['data']);
     });
 
@@ -143,10 +152,14 @@ export class EdiliziaComponent implements OnInit {
       this.tipi_documento.push(...data['data']);
     });
 
+    this.apiservice.getListaDocumentiObbligatoriPratica('building',this.modulo).subscribe((data) => {
+      this.fileobbligatori.push(...data['data']);
+      this.loading = false;
+    });
+
     this.createForm();
     this.checkState();
     this.subscribeToChanges();
-
   }
 
   subscribeToChanges(){
@@ -160,7 +173,7 @@ export class EdiliziaComponent implements OnInit {
   createForm() {
     this.form = this.fb.group({
       category: new FormControl(this.modulo),
-      user_id: new FormControl('5d4c3a51-a978-4acd-a757-520145b6268f'),
+      user_id: new FormControl(this.user_id),
       delegated: new FormControl(false),
       owner: this.formService.createOwner(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
@@ -176,6 +189,7 @@ export class EdiliziaComponent implements OnInit {
       stamp_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
+      documenti: this.fb.array([this.formService.createDocumenti()])
     });
   }
 
@@ -187,6 +201,8 @@ export class EdiliziaComponent implements OnInit {
   get formContactsDitta() { return <FormArray>this.form.get('supplier_business').get('contacts'); }
   get formContactsExpert() { return <FormArray>this.form.get('expert').get('contacts'); }
   get formContactsOwner() { return <FormArray>this.form.get('owner').get('contacts'); }
+  get formDocumenti() { return <FormArray>this.form.get('documenti');};
+  get formDocumento() { return this.form.get('documento'); }
 
   getArray(value: string){
     return <FormArray>this.form.get(value.split("/"));
@@ -255,18 +271,21 @@ export class EdiliziaComponent implements OnInit {
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
-    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
+    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined) {
       return;
-    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined)
+    }
+    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined) {
       return;
+    }
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
     form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)));
   }
 
   multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string) {
-    if (form.get(value1.split("/")).value === null || form.get(value1.split("/")).value === '' || form.get(value2.split("/")).value === undefined)
+    if (form.get(value1.split("/")).value === null || form.get(value1.split("/")).value === '' || form.get(value2.split("/")).value === undefined) {
       return;
+    }
     if (form.get(value2.split("/")).value === null || form.get(value2.split("/")).value === '' || form.get(value2.split("/")).value === undefined) {
       return;
     } else {
@@ -293,8 +312,9 @@ export class EdiliziaComponent implements OnInit {
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
-    if (form.get(target).value === null || form.get(target).value === '')
+    if (form.get(target).value === null || form.get(target).value === '') {
       return;
+    }
     let date: any = new Date(form.get(target).value);
     return new Date(date.setDate(date.getDate()));
   }
@@ -458,7 +478,7 @@ export class EdiliziaComponent implements OnInit {
     if (event.target.files[0]) {
       this[control].push(event.target.files[0]);
       event.target.value = "";
-      form.get('file').disable()
+      form.get('file').disable();
     }
   }
 
@@ -510,17 +530,30 @@ export class EdiliziaComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.valueChange.unsubscribe();
+    this.error = false;
     if (this.form.valid) {
+      this.loading = true;
     // if (true) {
       console.log(this.form.getRawValue());
       let raw_form = this.form.value;
       this.parseData(raw_form);
       const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
-        console.log(response);
+        console.table(response['status']['errors']);
+        this.loading = false;
         this.saved.emit(true);
+        if (response['status']['errors'] !== null && response['status']['errors'] !== undefined ) {
+          // tslint:disable-next-line: max-line-length
+          if (response['status']['errors'].error_code !== null && response['status']['errors'].error_code !== undefined && response['status']['errors'] !== "" ) {
+            this.error = true;
+            this.errorcode = response['status']['errors'].error_code;
+            this.errormessage = response['status']['errors'].message;
+            this.errors.push(...response['status']['errors']['details']);
+          }
+        }
       }, error => {
-        this.subscribeToChanges();
+          this.loading = false;
+          this.subscribeToChanges();
       });
 
     } else {

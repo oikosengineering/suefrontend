@@ -4,6 +4,7 @@ import { ValidationService } from 'src/app/core/services/validation.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { MatSelectChange } from '@angular/material/select';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'expert',
@@ -19,6 +20,7 @@ export class ExpertComponent implements OnInit {
   @Input() titoli_professionali: any[];
   @Input() province: any[];
   comuni = {};
+  loading = false;
 
   constructor(
     private validationService: ValidationService,
@@ -82,6 +84,7 @@ export class ExpertComponent implements OnInit {
   }
 
   onChangeProvince(value: string, target: string){
+    this.loading = true;
     this.checkValidationElseDisable(value, target);
     this.getComuni(value, target);
   }
@@ -120,10 +123,12 @@ export class ExpertComponent implements OnInit {
     if(selectProvince != 'EE'){
       this.apiservice.getComuni(selectProvince).subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
+        this.loading = false;
       });
     } else {
       this.apiservice.getNazioni().subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
+        this.loading = false;
       });
     }
   }

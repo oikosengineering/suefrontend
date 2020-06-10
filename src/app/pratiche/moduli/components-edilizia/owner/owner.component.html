@@ -1,10 +1,15 @@
+<div class="overlay" *ngIf="loading">
+    <div class="center">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+</div>
 <mat-expansion-panel [formGroup]="form" class="referente-group" expanded>
     <mat-expansion-panel-header>
         <mat-panel-title>
-          Proprietario 
+            Proprietario
         </mat-panel-title>
         <mat-panel-description>
-          Compilare con i dati anagrafici del proprietario
+            Compilare con i dati anagrafici del proprietario
         </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-form-field class="div-half" appearance="outline">
@@ -49,7 +54,7 @@
     </mat-form-field>
     <mat-form-field class="div-full" appearance="outline">
         <mat-label>Ragione sociale</mat-label>
-        <input matInput type="text" formControlName="name" >
+        <input matInput type="text" formControlName="name">
         <mat-error>{{getErrorMessage(form.get('name'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
@@ -67,9 +72,10 @@
         <input formControlName="document_number" matInput type="text">
         <mat-error>{{getErrorMessage(form.get('document_number'))}}</mat-error>
     </mat-form-field>
-    <mat-form-field class="div-half" appearance="outline">
+    <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Stato di nascita</mat-label>
-        <mat-select formControlName="country_of_birth" (selectionChange)="onChangeCountry('country_of_birth', 'county_of_birth')">
+        <mat-select formControlName="country_of_birth"
+            (selectionChange)="onChangeCountry('country_of_birth', 'county_of_birth')">
             <mat-option>----</mat-option>
             <mat-option *ngFor="let nazione of nazioni" [value]="nazione">
                 {{nazione.name}}
@@ -77,9 +83,10 @@
         </mat-select>
         <mat-error>{{getErrorMessage(form.get('country_of_birth'))}}</mat-error>
     </mat-form-field>
-    <mat-form-field class="div-half" appearance="outline">
+    <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Provincia di nascita</mat-label>
-        <mat-select formControlName="county_of_birth" (selectionChange)="onChangeCounty('county_of_birth', 'birthplace', 'country_of_birth')">
+        <mat-select formControlName="county_of_birth"
+            (selectionChange)="onChangeCounty('county_of_birth', 'birthplace', 'country_of_birth')">
             <mat-option>----</mat-option>
             <mat-option *ngFor="let provincia of province" [value]="provincia">
                 {{provincia.name}}
@@ -87,7 +94,7 @@
         </mat-select>
         <mat-error>{{getErrorMessage(form.get('county_of_birth'))}}</mat-error>
     </mat-form-field>
-    <mat-form-field class="div-half" appearance="outline">
+    <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Comune di nascita</mat-label>
         <!-- <mat-select formControlName="birthplace" (focus)="getComuni('county_of_birth', 'birthplace')"> -->
         <mat-select formControlName="birthplace">
@@ -98,7 +105,7 @@
         </mat-select>
         <mat-error>{{getErrorMessage(form.get('birthplace'))}}</mat-error>
     </mat-form-field>
-    <mat-form-field class="div-half" appearance="outline">
+    <mat-form-field class="div-full" appearance="outline">
         <mat-label>Data di nascita</mat-label>
         <input formControlName="birthday" matInput [matDatepicker]="picker_owner">
         <mat-datepicker-toggle matSuffix [for]="picker_owner"></mat-datepicker-toggle>
@@ -106,16 +113,6 @@
         <mat-error>{{getErrorMessage(form.get('birthday'))}}</mat-error>
     </mat-form-field>
     <ng-container formGroupName="address">
-        <mat-form-field class="div-two-thirds" appearance="outline">
-            <mat-label>Indirizzo</mat-label>
-            <input formControlName="street_name" matInput type="text">
-            <mat-error>{{getErrorMessage(form.get('address').get('street_name'))}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="div-a-third" appearance="outline">
-            <mat-label>Cap</mat-label>
-            <input formControlName="postcode" matInput type="number">
-            <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
-        </mat-form-field>
         <mat-form-field class="div-half" appearance="outline">
             <mat-label>Provincia</mat-label>
             <mat-select formControlName="county" (selectionChange)="onChangeProvince('address/county', 'address/city')">
@@ -136,11 +133,22 @@
             </mat-select>
             <mat-error>{{getErrorMessage(form.get('address').get('city'))}}</mat-error>
         </mat-form-field>
+        <mat-form-field class="div-two-thirds" appearance="outline">
+            <mat-label>Indirizzo</mat-label>
+            <input formControlName="street_name" matInput type="text">
+            <mat-error>{{getErrorMessage(form.get('address').get('street_name'))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Cap</mat-label>
+            <input formControlName="postcode" matInput type="number">
+            <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
+        </mat-form-field>
     </ng-container>
-    <mat-expansion-panel [disabled]="!formContacts.enabled" formArrayName="contacts" [expanded]="formContacts.enabled && formContacts.controls.length > 0">
+    <mat-expansion-panel [disabled]="!formContacts.enabled" formArrayName="contacts"
+        [expanded]="formContacts.enabled && formContacts.controls.length > 0">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Contatti 
+                Contatti
             </mat-panel-title>
             <mat-panel-description>
                 Lista contatti
@@ -172,15 +180,18 @@
                 <input formControlName="email" matInput type="email">
                 <mat-error>{{getErrorMessage(formContacts.controls[i].get('email'))}}</mat-error>
             </mat-form-field>
-            <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContacts, i);"><mat-icon>close</mat-icon></button>
+            <button class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formContacts, i);">
+                <mat-icon>close</mat-icon>
+            </button>
         </mat-card>
         <div class="div-full">
-            <button class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('contacts'));">Aggiungi</button>
+            <button class="button-add" mat-raised-button color="primary"
+                (click)="addContatto(form.get('contacts'));">Aggiungi</button>
         </div>
     </mat-expansion-panel>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Telefono</mat-label>
-        <input formControlName="phone" matInput type="text" >
+        <input formControlName="phone" matInput type="text">
         <mat-error>{{getErrorMessage(form.get('phone'))}}</mat-error>
     </mat-form-field>
     <!-- <mat-form-field class="div-half" appearance="outline">
@@ -199,5 +210,5 @@
         <mat-error>{{getErrorMessage(form.get('pec'))}}</mat-error>
     </mat-form-field> -->
     <mat-error>{{getErrorMessage(form)}}</mat-error>
-    
+
 </mat-expansion-panel>
