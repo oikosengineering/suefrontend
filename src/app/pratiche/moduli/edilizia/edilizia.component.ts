@@ -189,7 +189,7 @@ export class EdiliziaComponent implements OnInit {
       stamp_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      documenti: this.fb.array([this.formService.createDocumenti()])
+      // documenti: this.fb.array([this.formService.createDocumenti()])
     });
   }
 
