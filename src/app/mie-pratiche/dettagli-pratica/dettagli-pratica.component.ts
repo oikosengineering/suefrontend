@@ -22,7 +22,13 @@ export class DettagliPraticaComponent implements OnInit {
   data_procedure;
 
   documents_uploaded = [];
-  extensions = [];
+  extensions = [{
+    id: 1,
+    status: 'NEW',
+    expires_on: "2020/06/03",
+    created_at: "2020/06/01",
+    updated_at: "2020/06/08"
+  }];
 
   isLoading = true;
   can_upload = false;

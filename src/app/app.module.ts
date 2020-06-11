@@ -26,7 +26,8 @@ import { CustomPaginator } from './core/models/custom-paginator';
 import { RotturaSuoloComponent } from './pratiche/moduli/components-edilizia/rottura-suolo/rottura-suolo.component';
 import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component';
 import { PraticheModule } from './pratiche/pratiche.module';
-import { PipesModule } from './core/pipes/pipes.module';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it'
 
 export const MY_FORMATS = {
   parse: {
@@ -39,6 +40,9 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+
+registerLocaleData(localeIt, 'it-IT');
+
 @NgModule({
   declarations: [
     AppComponent,
