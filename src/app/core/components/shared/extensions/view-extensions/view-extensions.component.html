@@ -1,0 +1,31 @@
+<section class="margin-top">
+    <h2>Lista proroghe:</h2>
+    <mat-nav-list class="div-full list-element" *ngIf="extensions.length > 0">
+        <p>Documenti caricati:</p>
+        <ng-container  *ngFor="let extension of extensions">
+            <mat-list-item >
+                <mat-icon mat-list-icon>description</mat-icon>
+                <p matLine >
+                    <mat-grid-list cols="2">
+                        <mat-grid-tile>Stato: <status-procedures [status]="extension.status"></status-procedures></mat-grid-tile>
+                        <mat-grid-tile>Scadenza: {{ extension.expires_on }}</mat-grid-tile>
+                    </mat-grid-list>
+                </p>
+                <p matLine >
+                    <mat-grid-list cols="2">
+                        <mat-grid-tile>Creata il: {{ extension.created_at }}</mat-grid-tile>
+                        <mat-grid-tile>Aggiornata il: {{ extension.updated_at }}</mat-grid-tile>
+                    </mat-grid-list>
+                </p>
+                <!-- <p matLine >Scadenza: {{ extension.expires_on }}</p>
+                <p matLine >Creata il: {{ extension.created_at }}</p>
+                <p matLine >Aggiornata il: {{ extension.updated_at }}</p> -->
+                <!-- <button mat-icon-button (click)="removeFile(file.id)">
+                    <mat-icon>cancel</mat-icon>
+                </button> -->
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </ng-container>
+    </mat-nav-list>
+    <p class="padding-side" *ngIf="extensions.length == 0">Non sono presenti proroghe</p>
+</section>

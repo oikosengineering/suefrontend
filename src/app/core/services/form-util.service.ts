@@ -391,6 +391,14 @@ export class FormUtilService {
     })
   }
 
+  createExtension(): FormGroup{
+    return this.fb.group({
+      end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+    })
+  }
+
   createDocumenti(): FormGroup{
     return this.fb.group({
       type: new FormControl('', Validators.compose([

@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { UploadDocumentsComponent } from 'src/app/core/components/shared/documents/upload-documents/upload-documents.component';
 import { CanUploadPipe } from 'src/app/core/pipes/can-upload.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CreateExtensionComponent } from 'src/app/core/components/shared/extensions/create-extension/create-extension.component';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -21,6 +22,7 @@ export class DettagliPraticaComponent implements OnInit {
   data_procedure;
 
   documents_uploaded = [];
+  extensions = [];
 
   isLoading = true;
   can_upload = false;
@@ -39,6 +41,7 @@ export class DettagliPraticaComponent implements OnInit {
   tipologie_file = [];
 
   @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
+  @ViewChild(CreateExtensionComponent) createExtension: CreateExtensionComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -215,6 +218,17 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
+  getExtensions(){
+    return new Promise((resolve, reject) => {
+      // this.apiService.li('building', this.idProcedure).subscribe(data => {
+      //   this.documents_uploaded = data['data'];
+      //   resolve(true);
+      // }, error => {
+      //   resolve(true);
+      // });
+    });
+  }
+
   getTipologieFileObbligatori(){
     return new Promise((resolve, reject) => {
       this.apiService.getListaDocumentiObbligatoriPratica('building', this.data_procedure.category).subscribe(data => {
@@ -263,6 +277,22 @@ export class DettagliPraticaComponent implements OnInit {
       if(this.uploadDocuments){
         this.uploadDocuments.isLoading = false;
         this.snackBar.open('Errore, impossibile caricare il file!', null, {
+          duration: 2000
+        });
+      }
+    });
+  }
+
+  addExtension(value: any){
+    this.apiService.creaProroga('building', this.data_procedure.id, value).subscribe(result => {
+      console.log(result);
+      if(this.createExtension){
+        this.createExtension.uploadComplete();
+      }
+    }, error => {
+      if(this.createExtension){
+        this.createExtension.isLoading = false;
+        this.snackBar.open('Si è verrificato un errore!', null, {
           duration: 2000
         });
       }

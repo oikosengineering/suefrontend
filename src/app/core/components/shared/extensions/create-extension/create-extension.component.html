@@ -1,0 +1,38 @@
+<div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<section class="margin-top">
+    <div class="div-full">
+        <button *ngIf="!createExtension" class="button-login" mat-raised-button color="primary" (click)="newExtension()">
+            <mat-icon>add</mat-icon>
+            Nuova
+        </button>
+        <button *ngIf="createExtension" class="button-login" mat-raised-button color="warn" (click)="newExtension()">
+            <mat-icon>close</mat-icon>
+            Annulla
+        </button>
+    </div>
+    <mat-card *ngIf="createExtension" class="margin-top" [formGroup]="form">
+        <h2>Nuova proroga:</h2>
+        <div class="div-half">
+            <p><b>Attuale scadenza: </b>{{min_date}}</p>
+        </div>
+        <mat-form-field class="div-half" appearance="outline">
+            <mat-label>Nuova data</mat-label>
+            <input formControlName="end_date" [min]="setMinDate()" matInput [matDatepicker]="end_date">
+            <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+            <mat-datepicker #end_date></mat-datepicker>
+            <mat-hint>La data deve essere futura</mat-hint>
+            <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>
+        </mat-form-field>
+    </mat-card>
+    <div  *ngIf="createExtension" class="div-full">
+        <button class="button-login" mat-raised-button color="warn" (click)="newExtension()">
+            <mat-icon>close</mat-icon>
+            Annulla
+        </button>
+        <button [disabled]="form.invalid" class="button-login" mat-raised-button color="primary" (click)="save()">
+            Invia
+        </button>
+    </div>
+</section>

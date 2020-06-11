@@ -22,6 +22,8 @@ import { ViewTraslochiLavoriComponent } from './shared/details/view-traslochi-la
 import { PraticheModule } from 'src/app/pratiche/pratiche.module';
 import { ViewDocumentsComponent } from './shared/documents/view-documents/view-documents.component';
 import { UploadDocumentsComponent } from './shared/documents/upload-documents/upload-documents.component';
+import { CreateExtensionComponent } from './shared/extensions/create-extension/create-extension.component';
+import { ViewExtensionsComponent } from './shared/extensions/view-extensions/view-extensions.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { UploadDocumentsComponent } from './shared/documents/upload-documents/up
     ViewOccupazioneSuoloPubblicoComponent, 
     ViewTraslochiLavoriComponent, 
     ViewDocumentsComponent, 
-    UploadDocumentsComponent
+    UploadDocumentsComponent, 
+    CreateExtensionComponent, 
+    ViewExtensionsComponent
   ],
   imports: [
     CommonModule,
@@ -66,7 +70,9 @@ import { UploadDocumentsComponent } from './shared/documents/upload-documents/up
     ViewOccupazioneSuoloPubblicoComponent,
     ViewTraslochiLavoriComponent,
     ViewDocumentsComponent,
-    UploadDocumentsComponent
+    UploadDocumentsComponent,
+    CreateExtensionComponent,
+    ViewExtensionsComponent
   ],
   providers: [DocumentsUploadedPipe, StatusPipe]
 })
