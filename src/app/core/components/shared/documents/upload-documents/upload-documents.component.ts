@@ -15,6 +15,8 @@ export class UploadDocumentsComponent implements OnInit {
   file_type;
   file_name;
 
+  isLoading = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -32,6 +34,7 @@ export class UploadDocumentsComponent implements OnInit {
 
   uploadFile(){
     if(this.file_to_upload){
+      this.isLoading = true;
       let file = {};
       file['file'] = this.file_to_upload.size;
       file['name'] = this.file_to_upload.name;
@@ -39,10 +42,15 @@ export class UploadDocumentsComponent implements OnInit {
         file['type'] = this.file_type;
       }
       this.upload_file.next(file);
-      this.file_name = '';
     } else {
       this.file_name = '';
     }
+  }
+
+  uploadComplete(){
+    this.file_name = '';
+    this.file_to_upload = null;
+    this.isLoading = false;
   }
 
 }

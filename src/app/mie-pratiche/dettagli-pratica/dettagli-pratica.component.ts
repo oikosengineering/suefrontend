@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { Province } from 'src/app/core/models/models';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { UploadDocumentsComponent } from 'src/app/core/components/shared/documents/upload-documents/upload-documents.component';
+import { CanUploadPipe } from 'src/app/core/pipes/can-upload.pipe';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -20,6 +22,7 @@ export class DettagliPraticaComponent implements OnInit {
   documents_uploaded = [];
 
   isLoading = true;
+  can_upload = false;
 
   tipologie = [];
   generi = [];
@@ -34,10 +37,13 @@ export class DettagliPraticaComponent implements OnInit {
   titoli_professionali = [];
   tipologie_file = [];
 
+  @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
+
   constructor(
     private route: ActivatedRoute,
     private apiService: AppApiService,
-    private auth: AuthService
+    private auth: AuthService,
+    private canUpload: CanUploadPipe
   ) {
     this.chargeData();
   }
@@ -77,6 +83,7 @@ export class DettagliPraticaComponent implements OnInit {
         this.apiService.getDettagliPratica('building', this.idProcedure).subscribe(result => {
           console.log(result);
           this.data_procedure = result['data'];
+          this.checkCanUpload(this.data_procedure.status);
           resolve(true);
         }, error => {
           reject(error);
@@ -247,8 +254,17 @@ export class DettagliPraticaComponent implements OnInit {
   uploadFile(file: any){
     this.apiService.updDocumentoPratica('building', this.data_procedure.id, file).subscribe(result => {
       console.log(result);
+      if(this.uploadDocuments){
+        this.uploadDocuments.uploadComplete();
+      }
     }, error => {
-      console.log(error);
+      if(this.uploadDocuments){
+        this.uploadDocuments.isLoading = false;
+      }
     });
+  }
+
+  checkCanUpload(value){
+    this.can_upload = this.canUpload.transform(value);
   }
 }

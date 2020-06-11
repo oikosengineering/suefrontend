@@ -75,7 +75,7 @@
         </view-traslochi-lavori>
     </mat-tab>
     <mat-tab label="Documenti/allegati">
-        <upload-documents
+        <upload-documents *ngIf="can_upload"
             [tipologie_file]="tipologie_file"
             (upload_file)="uploadFile($event)">
         </upload-documents>

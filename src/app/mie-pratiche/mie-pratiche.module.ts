@@ -4,13 +4,8 @@ import { MiePraticheRoutingModule } from './mie-pratiche-routing.module';
 import { MiePraticheComponent } from './mie-pratiche.component';
 import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 import { MaterialModule } from '../core/module/material/material.module';
-import { StatusPipe } from '../core/pipes/status.pipe';
-import { DocumentsUploadedPipe } from '../core/pipes/documents-uploaded.pipe';
-import { CategoryPipe } from '../core/pipes/category.pipe';
 import { ComponentsModule } from '../core/components/components.module';
-import { DelegatedPipe } from '../core/pipes/delegated.pipe';
-import { CanExtendedPipe } from '../core/pipes/can-extended.pipe';
-import { ExpertPipe } from '../core/pipes/expert.pipe';
+import { PipesModule } from '../core/pipes/pipes.module';
 
 
 
@@ -18,18 +13,13 @@ import { ExpertPipe } from '../core/pipes/expert.pipe';
   declarations: [
     MiePraticheComponent, 
     DettagliPraticaComponent,
-    DocumentsUploadedPipe,
-    CategoryPipe,
-    StatusPipe,
-    DelegatedPipe,
-    CanExtendedPipe,
-    ExpertPipe,
   ],
   imports: [
     CommonModule,
     MiePraticheRoutingModule,
     MaterialModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
   ]
 })
 export class MiePraticheModule { }

@@ -6,7 +6,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { LoginComponent } from './login/login.component';
@@ -17,7 +16,6 @@ import { AuthInterceptor } from './core/interceptors/auth-interceptor.service';
 import { CanDeactivateGuard } from './core/guards/can-deactivate.guard';
 import { ComponentsModule } from './core/components/components.module';
 import { MaterialModule } from './core/module/material/material.module';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -25,15 +23,10 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from './core/models/custom-paginator';
-import { DocumentsUploadedPipe } from './core/pipes/documents-uploaded.pipe';
-import { CategoryPipe } from './core/pipes/category.pipe';
-import { StatusPipe } from './core/pipes/status.pipe';
 import { RotturaSuoloComponent } from './pratiche/moduli/components-edilizia/rottura-suolo/rottura-suolo.component';
 import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component';
 import { PraticheModule } from './pratiche/pratiche.module';
-import { DelegatedPipe } from './core/pipes/delegated.pipe';
-import { CanExtendedPipe } from './core/pipes/can-extended.pipe';
-import { ExpertPipe } from './core/pipes/expert.pipe';
+import { PipesModule } from './core/pipes/pipes.module';
 
 export const MY_FORMATS = {
   parse: {
@@ -56,7 +49,7 @@ export const MY_FORMATS = {
     LoginComponent,
     SignupComponent,
     UserComponent,
-    RicercaPraticheComponent,
+    RicercaPraticheComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +62,7 @@ export const MY_FORMATS = {
     ComponentsModule,
     FontAwesomeModule,
     HttpClientModule,
-    PraticheModule
+    PraticheModule,
   ],
   providers: [
     CanDeactivateGuard,
