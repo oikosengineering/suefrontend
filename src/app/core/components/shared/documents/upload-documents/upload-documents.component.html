@@ -6,7 +6,7 @@
     <mat-form-field  class="div-full" appearance="outline">
         <mat-label>Tipologia file</mat-label>
         <mat-select [(ngModel)]="file_type" (selectionChange)="changeType()">
-            <mat-option>Altro</mat-option>
+            <mat-option value="">Altro</mat-option>
             <mat-option *ngFor="let tipologia of tipologie_file" [value]="tipologia.type">
                 {{tipologia.description}}
             </mat-option>
@@ -23,7 +23,7 @@
         <input id="upload_file" (change)="changeFile($event)" hidden [(ngModel)]="file_name" type="file">
     </ng-container>
     <div class="div-a-third right-align padding-side">
-        <button [disabled]="!file_to_upload || !file_type" mat-raised-button color="primary" (click)="uploadFile()">
+        <button [disabled]="!file_to_upload" mat-raised-button color="primary" (click)="uploadFile()">
             <mat-icon>publish</mat-icon>
             Carica
         </button>

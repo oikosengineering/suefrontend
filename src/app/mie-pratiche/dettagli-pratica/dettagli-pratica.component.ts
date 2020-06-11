@@ -5,6 +5,7 @@ import { Province } from 'src/app/core/models/models';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UploadDocumentsComponent } from 'src/app/core/components/shared/documents/upload-documents/upload-documents.component';
 import { CanUploadPipe } from 'src/app/core/pipes/can-upload.pipe';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -43,7 +44,8 @@ export class DettagliPraticaComponent implements OnInit {
     private route: ActivatedRoute,
     private apiService: AppApiService,
     private auth: AuthService,
-    private canUpload: CanUploadPipe
+    private canUpload: CanUploadPipe,
+    private snackBar: MatSnackBar
   ) {
     this.chargeData();
   }
@@ -260,6 +262,9 @@ export class DettagliPraticaComponent implements OnInit {
     }, error => {
       if(this.uploadDocuments){
         this.uploadDocuments.isLoading = false;
+        this.snackBar.open('Errore, impossibile caricare il file!', null, {
+          duration: 2000
+        });
       }
     });
   }

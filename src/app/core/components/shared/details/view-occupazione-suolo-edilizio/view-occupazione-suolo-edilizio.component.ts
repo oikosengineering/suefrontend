@@ -65,7 +65,11 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
   }
 
   changeOther(event: MatCheckboxChange, control: AbstractControl){
-    switch(event.checked){
+    this.checkOther(event.checked, control);
+  }
+
+  checkOther(value: boolean, control: AbstractControl){
+    switch(value){
       case true:
         control.enable();
         control.updateValueAndValidity();
@@ -82,6 +86,8 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
       this.form.disable();
     } else {
       this.form.enable();
+      let isOther = this.data.other ? true : false;
+      this.checkOther(isOther, this.form.get('other'));
       this.form.get('start_date').disable();
       this.form.get('end_date').disable();
     }
