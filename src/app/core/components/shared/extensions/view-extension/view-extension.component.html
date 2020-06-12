@@ -1,0 +1,18 @@
+<section class="margin-top">
+    <div>
+        <h2>Proroga: {{ extension.id}}</h2>
+        <p class="div-half"><b>Stato: </b> <status-procedures [status]="extension.status"></status-procedures></p>
+        <p class="div-half"><b>Scadenza: </b>{{extension.expires_on | date:'fullDate':'+0100':'it-IT'}}</p>
+        <p class="div-half"><b>Creata il: </b>{{ extension.created_at | date:'shortDate':'+0100':'it-IT' }}</p>
+        <p class="div-half"><b>Aggiornata il: </b>{{ extension.updated_at | date:'shortDate':'+0100':'it-IT' }}</p>
+    </div>
+    <mat-divider *ngIf="can_modify"></mat-divider>
+    <upload-documents *ngIf="can_modify"
+        [tipologie_file]="tipologie_file"
+        (upload_file)="uploadFile($event)">
+    </upload-documents>
+    <mat-divider></mat-divider>
+    <view-documents
+        [documents]="documents_uploaded">
+    </view-documents>
+</section>

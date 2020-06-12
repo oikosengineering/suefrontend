@@ -89,12 +89,9 @@
         </view-documents>
     </mat-tab>
     <mat-tab label="Proroghe">
-        <create-extension *ngIf="data_procedure.can_be_extended && can_modify"
-            [min_date]="data_procedure.details.end_date"
-            (add_extension)="addExtension($event)">
-        </create-extension>
         <view-extensions
-            [extensions]="extensions">
+            [can_extend]="data_procedure.can_be_extended && can_modify"
+            [procedure]="data_procedure">
         </view-extensions>
     </mat-tab>
 </mat-tab-group>

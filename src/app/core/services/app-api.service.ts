@@ -113,6 +113,25 @@ export class AppApiService {
     return this.httpClient.post(environment.api_url + '/uploadDocumentoPratica?department=' + department + '&procedureid=' + id , file, header).pipe(map(response => response));
   }
 
+  updDocumentoProroga(department: string, id: string, file: any) {
+    const header = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Origin': '*',
+      }
+    };
+    // const formData: FormData = new FormData();
+    // if (file != null || file !== undefined) {
+    //   formData.append('file', file.file, file.file.name);
+    // }
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.post(environment.api_url + '/uploadDocumentoProroga?department=' + department + '&extensionid=' + id , file, header).pipe(map(response => response));
+  }
+
+  getListaDocumentiProroga(department: string, id: string){
+    return this.httpClient.get<Document[]>(environment.api_url + '/getListaDocumentiProroga?department=' + department + '&extensionid=' + id, this.header).pipe(map(response => response));
+  }
+
   getListaEspertiPratica(department: string, id: string): Observable<Expert[]> {
     // tslint:disable-next-line: max-line-length
     return this.httpClient.get<Expert[]>(environment.api_url + '/getListaEspertiPratica?department=' + department + '&id=' + id, this.header).pipe(map((response) => response));

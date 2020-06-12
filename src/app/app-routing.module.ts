@@ -22,11 +22,12 @@ const routes: Routes = [
   {
     path: 'mie-pratiche', 
     loadChildren: () => import('./mie-pratiche/mie-pratiche.module').then(mod => mod.MiePraticheModule),
-    //canActivate: [RouteGuard]
+    canActivate: [RouteGuard]
   },
   {
     path: 'pratiche',
-    loadChildren: () => import('./pratiche/pratiche.module').then(mod => mod.PraticheModule)
+    loadChildren: () => import('./pratiche/pratiche.module').then(mod => mod.PraticheModule),
+    canActivate: [RouteGuard]
   },
 ];
 

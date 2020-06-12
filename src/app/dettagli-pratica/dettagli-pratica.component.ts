@@ -23,13 +23,6 @@ export class DettagliPraticaComponent implements OnInit {
   data_procedure;
 
   documents_uploaded = [];
-  extensions = [{
-    id: 1,
-    status: 'NEW',
-    expires_on: "2020/06/03",
-    created_at: "2020/06/01",
-    updated_at: "2020/06/08"
-  }];
 
   isOwner = false;
   isLoading = true;
@@ -49,7 +42,6 @@ export class DettagliPraticaComponent implements OnInit {
   tipologie_file = [];
 
   @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
-  @ViewChild(CreateExtensionComponent) createExtension: CreateExtensionComponent;
   @ViewChild(ViewExpertsComponent) viewExperts: ViewExpertsComponent;
 
   constructor(
@@ -228,17 +220,6 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getExtensions(){
-    return new Promise((resolve, reject) => {
-      // this.apiService.li('building', this.idProcedure).subscribe(data => {
-      //   this.documents_uploaded = data['data'];
-      //   resolve(true);
-      // }, error => {
-      //   resolve(true);
-      // });
-    });
-  }
-
   getTipologieFileObbligatori(){
     return new Promise((resolve, reject) => {
       this.apiService.getListaDocumentiObbligatoriPratica('building', this.data_procedure.category).subscribe(data => {
@@ -301,22 +282,6 @@ export class DettagliPraticaComponent implements OnInit {
       if(this.uploadDocuments){
         this.uploadDocuments.isLoading = false;
         this.snackBar.open('Errore, impossibile caricare il file!', null, {
-          duration: 2000
-        });
-      }
-    });
-  }
-
-  addExtension(value: any){
-    this.apiService.creaProroga('building', this.data_procedure.id, value).subscribe(result => {
-      console.log(result);
-      if(this.createExtension){
-        this.createExtension.uploadComplete();
-      }
-    }, error => {
-      if(this.createExtension){
-        this.createExtension.isLoading = false;
-        this.snackBar.open('Si è verrificato un errore!', null, {
           duration: 2000
         });
       }

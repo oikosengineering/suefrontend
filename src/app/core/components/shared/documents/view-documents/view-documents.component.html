@@ -3,7 +3,7 @@
     <mat-nav-list class="div-full list-element" *ngIf="documents.length > 0">
         <ng-container  *ngFor="let file of documents">
             <mat-list-item >
-                <mat-icon mat-list-icon>attach_file</mat-icon>
+                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
                 <p matLine >Nome: {{ file.name }}</p>
                 <p matLine >Tipo: {{ file.type }}</p>
                 <!-- <button mat-icon-button (click)="removeFile(file.id)">

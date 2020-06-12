@@ -1,8 +1,12 @@
-<section class="margin-top">
+<create-extension *ngIf="can_extend && !viewSelected"
+    [min_date]="procedure.details.end_date"
+    (add_extension)="addExtension($event)">
+</create-extension>
+<section class="margin-top" *ngIf="!viewSelected">
     <h2>Lista proroghe:</h2>
-    <mat-list class="div-full list-element" *ngIf="extensions.length > 0">
+    <mat-selection-list (selectionChange)="changeExtension($event)" [multiple]="false" class="div-full list-element" *ngIf="extensions.length > 0">
         <ng-container  *ngFor="let extension of extensions">
-            <mat-list-item >
+            <mat-list-option [value]="extension">
                 <mat-icon mat-list-icon>description</mat-icon>
                 <p matLine > 
                     <span class="div-half"><b>Stato: </b><status-procedures [status]="extension.status"></status-procedures></span>
@@ -13,8 +17,18 @@
                     <span class="div-half">Aggiornata il: {{ extension.updated_at | date:'shortDate':'+0100':'it-IT' }}</span>
                 </p>
                 <mat-divider></mat-divider>
-            </mat-list-item>
+            </mat-list-option>
         </ng-container>
-    </mat-list>
+    </mat-selection-list>
     <p class="padding-side" *ngIf="extensions.length == 0">Non sono presenti proroghe</p>
 </section>
+<div class="div-full margin-top" *ngIf="viewSelected">
+    <button class="button-login" mat-raised-button color="primary" (click)="closeViewSelected()">
+        <mat-icon>arrow_back</mat-icon>
+        Torna alla lista
+    </button>
+</div>
+<view-extension *ngIf="viewSelected"
+    [can_modify]="can_extend"
+    [extension]="selected_extension">
+</view-extension>
