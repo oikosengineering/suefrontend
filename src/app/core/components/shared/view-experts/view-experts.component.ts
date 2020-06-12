@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FormUtilService } from 'src/app/core/services/form-util.service';
 
 @Component({
   selector: 'view-experts',
@@ -14,9 +16,42 @@ export class ViewExpertsComponent implements OnInit {
   @Input() titoli_professionali: any[];
   @Input() province: any[];
 
-  constructor() { }
+  expert_form: FormGroup;
+
+  @Output() delete_expert = new EventEmitter();
+  @Output() add_expert = new EventEmitter();
+
+
+  createExpert = false;
+  
+
+  constructor(
+    private formService: FormUtilService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  delete(id: number){
+    console.log("Delete expert: " + id);
+    this.delete_expert.next(id);
+  }
+
+  newExpert(){
+    if(this.createExpert){
+      this.expert_form = null;
+    } else {
+      this.expert_form = this.formService.createExpertBusiness();
+    }
+    this.createExpert = !this.createExpert;
+  }
+
+  addExpert(){
+    if(this.expert_form.valid){
+      this.add_expert.next(this.expert_form.value);
+    } else {
+      console.log("Invalid form", this.expert_form.value);
+    }
   }
 
 }

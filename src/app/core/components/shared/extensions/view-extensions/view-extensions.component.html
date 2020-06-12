@@ -1,0 +1,20 @@
+<section class="margin-top">
+    <h2>Lista proroghe:</h2>
+    <mat-list class="div-full list-element" *ngIf="extensions.length > 0">
+        <ng-container  *ngFor="let extension of extensions">
+            <mat-list-item >
+                <mat-icon mat-list-icon>description</mat-icon>
+                <p matLine > 
+                    <span class="div-half"><b>Stato: </b><status-procedures [status]="extension.status"></status-procedures></span>
+                    <span class="div-half"><b>Scadenza: </b>{{extension.expires_on | date:'fullDate':'+0100':'it-IT'}}</span> 
+                </p>
+                <p matLine > 
+                    <span class="div-half">Creata il: {{ extension.created_at | date:'shortDate':'+0100':'it-IT' }}</span>
+                    <span class="div-half">Aggiornata il: {{ extension.updated_at | date:'shortDate':'+0100':'it-IT' }}</span>
+                </p>
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </ng-container>
+    </mat-list>
+    <p class="padding-side" *ngIf="extensions.length == 0">Non sono presenti proroghe</p>
+</section>

@@ -129,7 +129,7 @@
             <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
         </mat-form-field>
     </ng-container>
-    <mat-expansion-panel *ngIf="form.get('type').value != 'person'" formArrayName="contacts" [expanded]="formContacts.controls.length > 0">
+    <mat-expansion-panel *ngIf="form.get('type').value != 'person' && formContacts.controls.length > 0" formArrayName="contacts" [expanded]="formContacts.controls.length > 0">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 Contatti 

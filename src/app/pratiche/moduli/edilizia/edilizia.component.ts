@@ -189,7 +189,7 @@ export class EdiliziaComponent implements OnInit {
       stamp_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      documenti: this.fb.array([this.formService.createDocumenti()])
+      // documenti: this.fb.array([this.formService.createDocumenti()])
     });
   }
 
@@ -201,8 +201,8 @@ export class EdiliziaComponent implements OnInit {
   get formContactsDitta() { return <FormArray>this.form.get('supplier_business').get('contacts'); }
   get formContactsExpert() { return <FormArray>this.form.get('expert').get('contacts'); }
   get formContactsOwner() { return <FormArray>this.form.get('owner').get('contacts'); }
-  get formDocumenti() { return <FormArray>this.form.get('documenti');};
-  get formDocumento() { return this.form.get('documento'); }
+  // get formDocumenti() { return <FormArray>this.form.get('documenti');};
+  // get formDocumento() { return this.form.get('documento'); }
 
   getArray(value: string){
     return <FormArray>this.form.get(value.split("/"));
@@ -279,7 +279,7 @@ export class EdiliziaComponent implements OnInit {
     }
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
-    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)) + 1);
+    form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)));
   }
 
   multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string) {

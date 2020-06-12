@@ -1,7 +1,19 @@
-<p>Pratica: {{idProcedure}}!</p>
-<p>{{data_procedure | json}}</p>
 <div class="loading-shade" *ngIf="isLoading">
     <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!isLoading">
+    <p class="div-half"><b>Pratica N.: </b> {{data_procedure.number}}</p>
+    <p class="div-half"><b>Protocollo: </b> {{data_procedure.protocol || '/'}}</p>
+    <p class="div-half"><b>Stato: </b><status-procedures [status]="data_procedure.status"></status-procedures></p>
+    <p class="div-half"><b>Marca da bollo: </b> {{data_procedure.stamp_number || '/'}}</p>
+    <p class="div-half"><b>Tipologia: </b> {{data_procedure.type}}</p>
+    <p class="div-half"><b>Categoria: </b> {{data_procedure.category | categoryPipe}}</p>
+    <p class="div-full"><b>Causale: </b> {{data_procedure.subject}}</p>
+    <p class="div-half"><b>Delegata: </b> {{data_procedure.delegated | delegatedPipe}}</p>
+    <p class="div-half"><b>Prorogabile: </b> {{data_procedure.can_be_extended | canExtended}}</p>
+    <p class="div-half"><b>Data creazione: </b> {{data_procedure.created_at}}</p>
+    <p class="div-half"><b>Ultimo aggiornamento: </b> {{data_procedure.updated_at}}</p>
+    <p class="div-full"><b>Allegati pratica: </b> {{(data_procedure.all_mandatory_documents_uploaded | documentsUploaded)['tooltip']}}</p>
 </div>
 <mat-tab-group *ngIf="!isLoading">
     <mat-tab label="Prorietario" *ngIf="data_procedure.owner" >
@@ -22,7 +34,9 @@
             [generi]="generi"
             [tipologie_contatto]="tipologie_contatto"
             [titoli_professionali]="titoli_professionali"
-            [province]="province">
+            [province]="province"
+            (delete_expert)="deleteExpert($event)"
+            (add_expert)="addExpert($event)">
         </view-experts>
     </mat-tab>
     <mat-tab label="Delegato" *ngIf="data_procedure.administrator">
@@ -34,7 +48,48 @@
             [province]="province">
         </view-administrator>
     </mat-tab>
-    <mat-tab label="Ditta costrutrice" *ngIf="data_procedure.supplier">Ditta costrutrice</mat-tab>
-    <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">Dettagli pratica</mat-tab>
-    <mat-tab label="Documenti/allegati">Documenti/allegati</mat-tab>
+    <mat-tab label="Ditta costrutrice" *ngIf="data_procedure.supplier">
+        <view-supplier 
+            [data]="data_procedure.supplier"
+            [tipologie_contatto]="tipologie_contatto"
+            [province]="province">
+        </view-supplier>
+    </mat-tab>
+    <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">
+        <view-rottura-suolo *ngIf="data_procedure.category == 'rottura_suolo'"
+            [data]="data_procedure.details"
+            [pavimentazioni]="pavimentazioni"
+            (update_details)="submitDetail($event)">
+        </view-rottura-suolo>
+        <view-occupazione-suolo-edilizio *ngIf="data_procedure.category == 'occupazione_suolo_edilizio'"
+            [data]="data_procedure.details"
+            (update_details)="submitDetail($event)">
+        </view-occupazione-suolo-edilizio>
+        <view-occupazione-suolo-pubblico *ngIf="data_procedure.category == 'occupazione_suolo_pubblico'"
+            [data]="data_procedure.details"
+            (update_details)="submitDetail($event)">
+        </view-occupazione-suolo-pubblico>
+        <view-traslochi-lavori *ngIf="data_procedure.category == 'traslochi_lavori'"
+            [data]="data_procedure.details"
+            (update_details)="submitDetail($event)">
+        </view-traslochi-lavori>
+    </mat-tab>
+    <mat-tab label="Documenti/allegati">
+        <upload-documents *ngIf="can_upload"
+            [tipologie_file]="tipologie_file"
+            (upload_file)="uploadFile($event)">
+        </upload-documents>
+        <view-documents
+            [documents]="documents_uploaded">
+        </view-documents>
+    </mat-tab>
+    <mat-tab label="Proroghe">
+        <create-extension *ngIf="data_procedure.can_be_extended"
+            [min_date]="data_procedure.details.end_date"
+            (add_extension)="addExtension($event)">
+        </create-extension>
+        <view-extensions
+            [extensions]="extensions">
+        </view-extensions>
+    </mat-tab>
 </mat-tab-group>

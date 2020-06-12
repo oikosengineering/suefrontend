@@ -1,0 +1,127 @@
+<mat-card [formGroup]="form">
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Ubicazione</mat-label>
+        <input matInput formControlName="address" type="text">
+        <mat-hint>Indicare via e numero civico</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('address'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Intersezione con via</mat-label>
+        <input matInput formControlName="intersection_address" type="text">
+        <mat-error>{{getErrorMessage(form.get('intersection_address'))}}</mat-error>
+    </mat-form-field>
+    <ng-container formGroupName="scaffolding">
+        <p class="padding-div">Dimensioni Impalcatura:</p>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Lunghezza</mat-label>
+            <input matInput formControlName="length" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Lunghezza dell'impalcatura</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['scaffolding','length']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Larghezza</mat-label>
+            <input matInput formControlName="width" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Larghezza dell'impalcatura</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['scaffolding','width']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Area</mat-label>
+            <input matInput formControlName="total_square_meters" type="number">
+            <span matSuffix>m<sup>2</sup></span>
+            <mat-hint>Area dell'impalcatura</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['scaffolding','total_square_meters']))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <ng-container formGroupName="building_site">
+        <p class="padding-div">Dimensioni Cantiere:</p>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Lunghezza</mat-label>
+            <input matInput formControlName="length" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Lunghezza del cantiere</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['building_site','length']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Larghezza</mat-label>
+            <input matInput formControlName="width" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Larghezza del cantiere</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['building_site','width']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Area</mat-label>
+            <input matInput formControlName="total_square_meters" type="number">
+            <span matSuffix>m<sup>2</sup></span>
+            <mat-hint>Area del cantiere</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['building_site','total_square_meters']))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <ng-container formGroupName="other">
+        <div class="div-checkbox">
+            <mat-checkbox [checked]="data.other" [disabled]="!can_modify" class="checkbox-margin" (change)="changeOther($event, form.get('other'))">Dichiara Altro</mat-checkbox>
+        </div>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Lunghezza</mat-label>
+            <input matInput formControlName="length" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Lunghezza in metri</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['other','length']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Larghezza</mat-label>
+            <input matInput formControlName="width" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Larghezza in metri</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['other','width']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Area</mat-label>
+            <input matInput formControlName="total_square_meters" type="number">
+            <span matSuffix>m<sup>2</sup></span>
+            <mat-hint>Area espressa in metri quadrati</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['other','total_square_meters']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-full" appearance="outline">
+            <mat-label>Descrizione</mat-label>
+            <textarea matInput formControlName="description" type="text"></textarea>
+            <mat-hint>Note aggiuntive opzionali</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['other','description']))}}</mat-error>
+        </mat-form-field>
+    </ng-container>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Inizio lavori</mat-label>
+        <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
+        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+        <mat-datepicker #start_date></mat-datepicker>
+        <mat-error>{{getErrorMessage(form.get('start_date'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Fine lavori</mat-label>
+        <input formControlName="end_date" [min]="calculateMinDate(form, 'start_date')" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
+        <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+        <mat-datepicker #end_date></mat-datepicker>
+        <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Durata lavori</mat-label>
+        <input matInput formControlName="total_duration" type="number" readonly="true">
+        <span matSuffix>gg</span>
+        <mat-error>{{getErrorMessage(form.get('total_duration'))}}</mat-error>
+    </mat-form-field>
+</mat-card>
+<div class="div-full">
+    <button *ngIf="!can_modify" class="button-login" mat-raised-button color="primary" (click)="modify()">
+        <mat-icon>create</mat-icon>
+        Modifica
+    </button>
+    <button *ngIf="can_modify" class="button-login" mat-raised-button color="warn" (click)="modify()">
+        <mat-icon>close</mat-icon>
+        Annulla
+    </button>
+    <button *ngIf="can_modify" class="button-login" mat-raised-button color="primary" (click)="save()">
+        Salva
+    </button>
+</div>
+

@@ -1,0 +1,32 @@
+<div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<section class="margin-top">
+    <h2>Caricamento file:</h2>
+    <mat-form-field  class="div-full" appearance="outline">
+        <mat-label>Tipologia file</mat-label>
+        <mat-select [(ngModel)]="file_type" (selectionChange)="changeType()">
+            <mat-option value="">Altro</mat-option>
+            <mat-option *ngFor="let tipologia of tipologie_file" [value]="tipologia.type">
+                {{tipologia.description}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <ng-container>
+        <label class="div-two-thirds upload-label padding-side" for="upload_file">
+            <div class="mat-icon-button upload-icon" color="primary">
+                <mat-icon>attach_file</mat-icon>
+            </div>
+            <span>{{file_to_upload?.name || 'Nessun file selezionato'}}</span>
+        </label>
+        
+        <input id="upload_file" (change)="changeFile($event)" hidden [(ngModel)]="file_name" type="file">
+    </ng-container>
+    <div class="div-a-third right-align padding-side">
+        <button [disabled]="!file_to_upload" mat-raised-button color="primary" (click)="uploadFile()">
+            <mat-icon>publish</mat-icon>
+            Carica
+        </button>
+    </div>
+</section>
+

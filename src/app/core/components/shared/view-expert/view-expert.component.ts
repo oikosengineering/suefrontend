@@ -21,6 +21,8 @@ export class ViewExpertComponent implements OnInit {
   @Input() province: any[];
   comuni = {};
 
+  can_modify = false;
+  
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,

@@ -34,7 +34,7 @@ import { DocumentoComponent } from './moduli/components-edilizia/documento/docum
     SupplierComponent, 
     AdministratorComponent, ExpertComponent, DocumentiComponent, DocumentoComponent
   ],
-  entryComponents: [EdiliziaComponent, RotturaSuoloComponent, OwnerComponent],
+  entryComponents: [EdiliziaComponent, RotturaSuoloComponent, OwnerComponent, ExpertComponent],
   imports: [
     CommonModule,
     PraticheRoutingModule,
