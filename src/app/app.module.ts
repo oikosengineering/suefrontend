@@ -28,6 +28,7 @@ import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component
 import { PraticheModule } from './pratiche/pratiche.module';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it'
+import { PipesModule } from './core/pipes/pipes.module';
 
 export const MY_FORMATS = {
   parse: {
@@ -67,6 +68,7 @@ registerLocaleData(localeIt, 'it-IT');
     FontAwesomeModule,
     HttpClientModule,
     PraticheModule,
+    PipesModule
   ],
   providers: [
     CanDeactivateGuard,

@@ -1,0 +1,59 @@
+<mat-card [formGroup]="filter" class="referente-group">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="category">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.value">
+                {{category.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Stato paratica</mat-label>
+        <mat-select formControlName="status">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let status of statuses" [value]="status.value">
+                {{status.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Protocollo</mat-label>
+        <input formControlName="protocol" matInput type="text">
+    </mat-form-field>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Anno</mat-label>
+        <mat-select formControlName="year">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let year of years" [value]="year">
+                {{year}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Nome o ragione sociale</mat-label>
+        <input formControlName="referrer_name" matInput type="text">
+    </mat-form-field>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Cognome</mat-label>
+        <input formControlName="referrer_surname" matInput type="text">
+    </mat-form-field>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Dal</mat-label>
+        <input formControlName="created_at_since" matInput [matDatepicker]="created_at_since">
+        <mat-datepicker-toggle matSuffix [for]="created_at_since"></mat-datepicker-toggle>
+        <mat-datepicker #created_at_since></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="div-a-quarter" appearance="outline">
+        <mat-label>Al</mat-label>
+        <input formControlName="created_at_until" matInput [matDatepicker]="created_at_until">
+        <mat-datepicker-toggle matSuffix [for]="created_at_until"></mat-datepicker-toggle>
+        <mat-datepicker #created_at_until></mat-datepicker>
+    </mat-form-field>
+    <mat-card-actions>
+        <button class="button-login" mat-raised-button color="primary" (click)="reset()">Reimposta</button>
+        <button class="button-login" mat-raised-button color="primary" (click)="submit()">Ricerca</button>
+    </mat-card-actions>
+</mat-card>
+    

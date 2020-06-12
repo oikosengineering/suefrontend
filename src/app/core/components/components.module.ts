@@ -24,6 +24,7 @@ import { ViewDocumentsComponent } from './shared/documents/view-documents/view-d
 import { UploadDocumentsComponent } from './shared/documents/upload-documents/upload-documents.component';
 import { CreateExtensionComponent } from './shared/extensions/create-extension/create-extension.component';
 import { ViewExtensionsComponent } from './shared/extensions/view-extensions/view-extensions.component';
+import { FilterProceduresComponent } from './shared/filter-procedures/filter-procedures.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ViewExtensionsComponent } from './shared/extensions/view-extensions/vie
     ViewDocumentsComponent, 
     UploadDocumentsComponent, 
     CreateExtensionComponent, 
-    ViewExtensionsComponent
+    ViewExtensionsComponent, 
+    FilterProceduresComponent
   ],
   imports: [
     CommonModule,
@@ -72,7 +74,8 @@ import { ViewExtensionsComponent } from './shared/extensions/view-extensions/vie
     ViewDocumentsComponent,
     UploadDocumentsComponent,
     CreateExtensionComponent,
-    ViewExtensionsComponent
+    ViewExtensionsComponent,
+    FilterProceduresComponent
   ],
   providers: [DocumentsUploadedPipe, StatusPipe]
 })

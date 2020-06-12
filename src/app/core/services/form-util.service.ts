@@ -399,6 +399,19 @@ export class FormUtilService {
     })
   }
 
+  createFilter(): FormGroup{
+    return this.fb.group({
+      protocol: new FormControl(''),
+      year: new FormControl(''),
+      category: new FormControl(''),
+      status: new FormControl(''),
+      referrer_name: new FormControl(''),
+      referrer_surname: new FormControl(''),
+      created_at_since: new FormControl(''),
+      created_at_until: new FormControl(''),
+    })
+  }
+
   createDocumenti(): FormGroup{
     return this.fb.group({
       type: new FormControl('', Validators.compose([

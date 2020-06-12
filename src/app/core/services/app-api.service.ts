@@ -82,8 +82,20 @@ export class AppApiService {
     return this.httpClient.get<Document[]>(environment.api_url + '/getListaDocumentiObbligatoriPratica?department=' + department + '&category=' + category, this.header).pipe(map(response => response));
   }
 
-  getListaPratiche(department: string, uuid: string) {
-    return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&uuid=' + uuid, this.header).pipe(map((response) => response));
+  getListaPratiche(department: string, query: any) {
+
+    // let result_query = Object.entries(query).map(([key, val]) => `${key}=${val}`).join('&');
+    var result_query = "";
+    for (var key in query) {
+      if(query[key] != '' && query[key] != undefined && query[key] != null){
+        if (result_query != "") {
+          result_query += ",";
+        }
+          result_query += key + "=" + encodeURIComponent(query[key]);
+      }
+    }
+
+    return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
   }
 
   updDocumentoPratica(department: string, id: string, file: any) {

@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from '@angular/forms';
-import { ValidationService } from '../core/services/validation.service';
-import { MatSelectChange } from '@angular/material/select';
-import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { FilterProceduresComponent } from '../core/components/shared/filter-procedures/filter-procedures.component';
+import { AuthService } from '../core/services/auth.service';
+import { AppApiService } from '../core/services/app-api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -11,62 +12,44 @@ import { NavigationEnd, Router } from '@angular/router';
   templateUrl: './ricerca-pratiche.component.html',
   styleUrls: ['./ricerca-pratiche.component.scss']
 })
-export class RicercaPraticheComponent implements OnInit {
-  form: FormGroup;
-  isUserLoggedIn = false;
-  comuni = [
-    { name: "Chiavari", value: 'chiavari' },
-  ];
+export class RicercaPraticheComponent implements AfterViewInit {
+  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'owner', 'expert', 'all_mandatory_documents_uploaded', 'actions'];
+  data;
+  dataSource;
+  isLoadingResults = true;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(FilterProceduresComponent) filterProcedures: FilterProceduresComponent;
 
   constructor(
-    private fb: FormBuilder,
-    private validationService: ValidationService,
-    private dialog: DialogMessageService,
-    private router: Router
+    private auth: AuthService,
+    private apiService: AppApiService,
+    private snackBar: MatSnackBar
   ) { }
 
-  ngOnInit(): void {
-    this.createForm();
+  ngAfterViewInit() {
+    this.getResults(this.filterProcedures.form);
   }
 
-
-  createForm() {
-    this.form = this.fb.group({
-      referente: this.fb.group({
-        titolare: new FormControl(''),
-        indirizzo: new FormControl(''),
-        comune: new FormControl(null, Validators.compose([Validators.required])),
-        civico: new FormControl('')
-      }),
-      dati_pratica: this.fb.group({
-        inizio: new FormControl(''),
-        fine: new FormControl(''),
-        danumero: new FormControl(''),
-        anumero: new FormControl(''),
-        foglio_catasto: new FormControl(''),
-        numero_catasto: new FormControl(''),
-        sezione_catasto: new FormControl(''),
-      })
-    });
+  getResults(query: any){
+    this.apiService.getListaPratiche('building', query).subscribe(result => {
+      if(result['status'] === 200){
+        this.data = result['data'];
+        console.log(this.data);
+        this.dataSource = new MatTableDataSource(this.data.procedures);
+        this.isLoadingResults = false;
+      } else {
+        this.isLoadingResults = false;
+        this.snackBar.open('Errore di sincronizzazione', null, {duration: 2000});
+      }
+    }, error => {
+      console.log(error);
+      this.isLoadingResults = false;
+      this.snackBar.open('Errore di sincronizzazione', null, {duration: 2000});
+    })
   }
 
-  submit() {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.form.valid) {
-      console.log(this.form.getRawValue());
-    } else {
-      this.validationService.validateAllFormFields(this.form);
-      console.log(this.form.getRawValue());
-    }
+  updateFilter(form: any){
+    this.isLoadingResults = true;
+    this.getResults(form);
   }
-
-  getErrorMessage(control: AbstractControl) {
-    return this.validationService.getErrorMessage(control);
-  }
-
-  reset(){
-    this.form.reset();
-  }
-
 }
