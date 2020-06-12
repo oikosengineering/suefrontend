@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MiePraticheComponent } from './mie-pratiche.component';
-import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 
 const routes: Routes = [
   {
@@ -9,11 +8,6 @@ const routes: Routes = [
     component: MiePraticheComponent,
     pathMatch: 'full',
   },
-  {
-    path: 'dettagli-pratica/:idProcedure',
-    component: DettagliPraticaComponent,
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({

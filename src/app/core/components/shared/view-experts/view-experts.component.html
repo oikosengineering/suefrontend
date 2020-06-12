@@ -1,9 +1,12 @@
+<div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
 <div class="div-full margin-top">
-    <button *ngIf="!createExpert" class="button-login" mat-raised-button color="primary" (click)="newExpert()">
+    <button *ngIf="!createExpert && modifiable" class="button-login" mat-raised-button color="primary" (click)="newExpert()">
         <mat-icon>add</mat-icon>
         Nuovo
     </button>
-    <button *ngIf="createExpert" class="button-login" mat-raised-button color="warn" (click)="newExpert()">
+    <button *ngIf="createExpert && modifiable" class="button-login" mat-raised-button color="warn" (click)="newExpert()">
         <mat-icon>close</mat-icon>
         Annulla
     </button>
@@ -21,7 +24,7 @@
         </expert>
     </mat-card>
 </ng-container>
-<div  *ngIf="createExpert" class="div-full">
+<div  *ngIf="createExpert && modifiable" class="div-full">
     <button class="button-login" mat-raised-button color="warn" (click)="newExpert()">
         <mat-icon>close</mat-icon>
         Annulla
@@ -41,7 +44,7 @@
             [titoli_professionali]="titoli_professionali"
             [province]="province">
         </view-expert>
-        <div class="div-full">
+        <div class="div-full" *ngIf="modifiable">
             <button class="button-login" mat-raised-button color="warn" (click)="delete(expert.id)">
                 <mat-icon>delete</mat-icon>
                 Elimina

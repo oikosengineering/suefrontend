@@ -35,6 +35,7 @@
             [tipologie_contatto]="tipologie_contatto"
             [titoli_professionali]="titoli_professionali"
             [province]="province"
+            [modifiable]="can_modify"
             (delete_expert)="deleteExpert($event)"
             (add_expert)="addExpert($event)">
         </view-experts>
@@ -59,23 +60,27 @@
         <view-rottura-suolo *ngIf="data_procedure.category == 'rottura_suolo'"
             [data]="data_procedure.details"
             [pavimentazioni]="pavimentazioni"
+            [modifiable]="can_modify"
             (update_details)="submitDetail($event)">
         </view-rottura-suolo>
         <view-occupazione-suolo-edilizio *ngIf="data_procedure.category == 'occupazione_suolo_edilizio'"
             [data]="data_procedure.details"
+            [modifiable]="can_modify"
             (update_details)="submitDetail($event)">
         </view-occupazione-suolo-edilizio>
         <view-occupazione-suolo-pubblico *ngIf="data_procedure.category == 'occupazione_suolo_pubblico'"
             [data]="data_procedure.details"
+            [modifiable]="can_modify"
             (update_details)="submitDetail($event)">
         </view-occupazione-suolo-pubblico>
         <view-traslochi-lavori *ngIf="data_procedure.category == 'traslochi_lavori'"
             [data]="data_procedure.details"
+            [modifiable]="can_modify"
             (update_details)="submitDetail($event)">
         </view-traslochi-lavori>
     </mat-tab>
     <mat-tab label="Documenti/allegati">
-        <upload-documents *ngIf="can_upload"
+        <upload-documents *ngIf="can_modify"
             [tipologie_file]="tipologie_file"
             (upload_file)="uploadFile($event)">
         </upload-documents>
@@ -84,7 +89,7 @@
         </view-documents>
     </mat-tab>
     <mat-tab label="Proroghe">
-        <create-extension *ngIf="data_procedure.can_be_extended"
+        <create-extension *ngIf="data_procedure.can_be_extended && can_modify"
             [min_date]="data_procedure.details.end_date"
             (add_extension)="addExtension($event)">
         </create-extension>

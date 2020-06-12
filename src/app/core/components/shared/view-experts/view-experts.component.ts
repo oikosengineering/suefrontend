@@ -15,6 +15,7 @@ export class ViewExpertsComponent implements OnInit {
   @Input() tipologie_contatto: any[];
   @Input() titoli_professionali: any[];
   @Input() province: any[];
+  @Input() modifiable: boolean;
 
   expert_form: FormGroup;
 
@@ -23,7 +24,7 @@ export class ViewExpertsComponent implements OnInit {
 
 
   createExpert = false;
-  
+  isLoading = false;
 
   constructor(
     private formService: FormUtilService
@@ -34,6 +35,7 @@ export class ViewExpertsComponent implements OnInit {
 
   delete(id: number){
     console.log("Delete expert: " + id);
+    this.isLoading = true;
     this.delete_expert.next(id);
   }
 
@@ -48,10 +50,15 @@ export class ViewExpertsComponent implements OnInit {
 
   addExpert(){
     if(this.expert_form.valid){
+      this.isLoading = true;
       this.add_expert.next(this.expert_form.value);
     } else {
       console.log("Invalid form", this.expert_form.value);
     }
+  }
+
+  completeAddExpert(){
+    this.newExpert();
   }
 
 }

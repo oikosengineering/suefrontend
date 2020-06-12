@@ -7,6 +7,7 @@ import { UploadDocumentsComponent } from 'src/app/core/components/shared/documen
 import { CanUploadPipe } from 'src/app/core/pipes/can-upload.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateExtensionComponent } from 'src/app/core/components/shared/extensions/create-extension/create-extension.component';
+import { ViewExpertsComponent } from '../core/components/shared/view-experts/view-experts.component';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -30,8 +31,9 @@ export class DettagliPraticaComponent implements OnInit {
     updated_at: "2020/06/08"
   }];
 
+  isOwner = false;
   isLoading = true;
-  can_upload = false;
+  can_modify = false;
 
   tipologie = [];
   generi = [];
@@ -48,6 +50,7 @@ export class DettagliPraticaComponent implements OnInit {
 
   @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
   @ViewChild(CreateExtensionComponent) createExtension: CreateExtensionComponent;
+  @ViewChild(ViewExpertsComponent) viewExperts: ViewExpertsComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -94,7 +97,8 @@ export class DettagliPraticaComponent implements OnInit {
         this.apiService.getDettagliPratica('building', this.idProcedure).subscribe(result => {
           console.log(result);
           this.data_procedure = result['data'];
-          this.checkCanUpload(this.data_procedure.status);
+          this.checkCanModify(this.data_procedure.status);
+          this.checkOwner();
           resolve(true);
         }, error => {
           reject(error);
@@ -255,12 +259,23 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
+  getExperts(){
+    this.apiService.getListaEspertiPratica('building', this.data_procedure.id).subscribe(result => {
+      this.data_procedure.experts = result['data'].experts;
+      this.viewExperts.isLoading = false;
+    }, error => {
+      this.snackBar.open("Errore di sincronizzazione", null, {duration: 2000});
+    })
+  }
+
   deleteExpert(expert_id: string){
     console.log("Tecnico pratica", expert_id);
     this.apiService.delEspertoPratica('building', this.data_procedure.id, expert_id).subscribe(result => {
       console.log(result);
+      this.getExperts();
     }, error => {
       console.log(error);
+      this.snackBar.open("Errore, il tecnico non è stato eliminato", null, {duration: 2000});
     });
   }
 
@@ -268,8 +283,11 @@ export class DettagliPraticaComponent implements OnInit {
     console.log("Esperto da aggiungere", expert);
     this.apiService.addEspertoPratica('building', this.data_procedure.id, expert).subscribe(result => {
       console.log(result);
+      this.viewExperts.completeAddExpert();
+      this.getExperts();
     }, error => {
       console.log(error);
+      this.snackBar.open("Errore, il tecnico non è stato aggiunto", null, {duration: 2000});
     });
   }
 
@@ -305,7 +323,11 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  checkCanUpload(value){
-    this.can_upload = this.canUpload.transform(value);
+  checkCanModify(value){
+    this.can_modify = this.canUpload.transform(value);
+  }
+
+  checkOwner(){
+    this.can_modify = this.can_modify && (this.data_procedure.user_id === this.id_user);
   }
 }

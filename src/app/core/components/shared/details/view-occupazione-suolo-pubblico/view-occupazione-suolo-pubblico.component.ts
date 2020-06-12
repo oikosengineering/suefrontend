@@ -12,7 +12,8 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
 
   form: FormGroup;
   @Input() data: any;
-
+  @Input() modifiable: boolean
+  
   @Output() update_details = new EventEmitter();
   
   can_modify = false;

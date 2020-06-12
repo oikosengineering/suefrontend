@@ -15,6 +15,7 @@ export class ViewRotturaSuoloComponent implements OnInit {
   form: FormGroup;
   @Input() data: any;
   @Input() pavimentazioni;
+  @Input() modifiable: boolean
 
   @Output() update_details = new EventEmitter();
   

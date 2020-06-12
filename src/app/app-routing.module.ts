@@ -3,11 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NuovaPraticaComponent } from './nuova-pratica/nuova-pratica.component';
 import { RicercaPraticheComponent } from './ricerca-pratiche/ricerca-pratiche.component';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouteGuard } from './core/guards/routeguard.guard';
 import { CookieService } from 'ngx-cookie-service';
+import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 
 const routes: Routes = [
   {
@@ -17,6 +16,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'nuova-pratica', component: NuovaPraticaComponent },
       { path: 'ricerca-pratiche', component: RicercaPraticheComponent },
+      { path: 'dettagli-pratica/:idProcedure', component: DettagliPraticaComponent,}
     ]
   },
   {

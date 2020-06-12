@@ -29,6 +29,7 @@ import { PraticheModule } from './pratiche/pratiche.module';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it'
 import { PipesModule } from './core/pipes/pipes.module';
+import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -54,7 +55,8 @@ registerLocaleData(localeIt, 'it-IT');
     LoginComponent,
     SignupComponent,
     UserComponent,
-    RicercaPraticheComponent
+    RicercaPraticheComponent,
+    DettagliPraticaComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ registerLocaleData(localeIt, 'it-IT');
     FontAwesomeModule,
     HttpClientModule,
     PraticheModule,
-    PipesModule
+    PipesModule,
+    ComponentsModule
   ],
   providers: [
     CanDeactivateGuard,
