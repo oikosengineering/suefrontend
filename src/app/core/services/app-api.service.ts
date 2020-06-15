@@ -98,6 +98,10 @@ export class AppApiService {
     return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
   }
 
+  getListaProroghePratica(department: string, id: string) {
+    return this.httpClient.get(environment.api_url + '/getListaProroghePratica?department=' + department + '&id=' + id, this.header).pipe(map((response) => response));
+  }
+
   updDocumentoPratica(department: string, id: string, file: any) {
     const header = {
       headers: {

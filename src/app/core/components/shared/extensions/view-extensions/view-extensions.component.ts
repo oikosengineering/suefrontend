@@ -38,13 +38,25 @@ export class ViewExtensionsComponent implements OnInit {
 
   viewSelected = false;
   
+  isLoading = false;
+
   constructor(
     private apiService: AppApiService,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
+    this.loadExtensions();
+  }
 
+  loadExtensions(){
+    this.isLoading = true;
+    this.getExtensions().then(result => {
+      this.isLoading = false;
+    }).catch(error => {
+      console.log(error);
+      this.isLoading = false;
+    })
   }
 
   changeExtension(event: MatSelectionListChange){
@@ -61,6 +73,7 @@ export class ViewExtensionsComponent implements OnInit {
       console.log(result);
       if(this.createExtension){
         this.createExtension.uploadComplete();
+        this.loadExtensions();
       }
     }, error => {
       if(this.createExtension){
@@ -75,12 +88,13 @@ export class ViewExtensionsComponent implements OnInit {
 
   getExtensions(){
     return new Promise((resolve, reject) => {
-      // this.apiService.li('building', this.idProcedure).subscribe(data => {
-      //   this.documents_uploaded = data['data'];
-      //   resolve(true);
-      // }, error => {
-      //   resolve(true);
-      // });
+      this.apiService.getListaProroghePratica('building', this.procedure.id).subscribe(data => {
+        console.log(data['data']);
+        this.extensions = data['data'];
+        resolve(true);
+      }, error => {
+        resolve(true);
+      });
     });
   }
 
