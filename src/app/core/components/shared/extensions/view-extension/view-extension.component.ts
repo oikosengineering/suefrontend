@@ -48,5 +48,4 @@ export class ViewExtensionComponent implements OnInit {
       }
     });
   }
-
 }

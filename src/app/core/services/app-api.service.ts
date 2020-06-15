@@ -53,7 +53,7 @@ export class AppApiService {
   creaProroga(department: string, id: string, body: any): Observable<Procedure> {
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/creaProroga?department=' + department + '&id=' + id, body, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/creaProroga?department=' + department + '&id=' + id + '&end_date=' + body.end_date, body, header).pipe(map(response => response));
   }
 
   getDettagliPratica(department: string, id: string): Observable<Procedure> {

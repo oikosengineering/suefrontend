@@ -46,7 +46,7 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
 
   minDate(){
     var result = new Date();
-    result.setDate(result.getDate() + 15);
+    result.setDate(result.getDate() + 20);
     return result;
   }
 

@@ -12,22 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ViewExtensionsComponent implements OnInit {
 
-  extensions = [
-    {
-      id: 1,
-      status: 'NEW',
-      expires_on: "2020/06/03",
-      created_at: "2020/06/01",
-      updated_at: "2020/06/08"
-    },
-    {
-      id: 2,
-      status: 'PENDING',
-      expires_on: "2020/06/03",
-      created_at: "2020/06/01",
-      updated_at: "2020/06/25"
-    }
-  ];
+  extensions = [];
   @Input() can_extend: boolean;
   @Input() procedure: any;
 
@@ -85,12 +70,10 @@ export class ViewExtensionsComponent implements OnInit {
     });
   }
 
-
   getExtensions(){
     return new Promise((resolve, reject) => {
       this.apiService.getListaProroghePratica('building', this.procedure.id).subscribe(data => {
-        console.log(data['data']);
-        this.extensions = data['data'];
+        this.extensions = data['data'].extensions;
         resolve(true);
       }, error => {
         resolve(true);

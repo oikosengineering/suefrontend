@@ -18,7 +18,7 @@ export class StatusPipe implements PipeTransform {
       case 'REJECTED':
         return {value: 'Respinta', color: '#f44336'};
       case 'EXTENSION_REQUESTED':
-        return {value: 'Richiesta proroga', color: '#fb9bfb'}
+        return {value: 'Richiesta proroga', color: '#000000'}
     }
   }
 

@@ -28,6 +28,7 @@ export class DettagliPraticaComponent implements OnInit {
   isOwner = false;
   isLoading = true;
   can_modify = false;
+  can_extend = false;
 
   tipologie = [];
   generi = [];
@@ -93,6 +94,7 @@ export class DettagliPraticaComponent implements OnInit {
           this.data_procedure = result['data'];
           this.checkCanModify(this.data_procedure.status);
           this.checkOwner();
+          this.checkExtend();
           resolve(true);
         }, error => {
           reject(error);
@@ -299,5 +301,9 @@ export class DettagliPraticaComponent implements OnInit {
 
   checkOwner(){
     this.can_modify = this.can_modify && (this.data_procedure.user_id === this.id_user);
+  }
+
+  checkExtend(){
+    this.can_extend = this.data_procedure.status == 'APPROVED' && (this.data_procedure.user_id === this.id_user);
   }
 }

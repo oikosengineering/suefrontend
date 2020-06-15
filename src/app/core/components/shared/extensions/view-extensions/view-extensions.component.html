@@ -13,11 +13,11 @@
                 <mat-icon mat-list-icon>description</mat-icon>
                 <p matLine > 
                     <span class="div-half"><b>Stato: </b><status-procedures [status]="extension.status"></status-procedures></span>
-                    <span class="div-half"><b>Scadenza: </b>{{extension.expires_on | date:'fullDate':'+0100':'it-IT'}}</span> 
+                    <span class="div-half"><b>Scadenza: </b>{{extension.expires_on}}</span> 
                 </p>
                 <p matLine > 
-                    <span class="div-half">Creata il: {{ extension.created_at | date:'shortDate':'+0100':'it-IT' }}</span>
-                    <span class="div-half">Aggiornata il: {{ extension.updated_at | date:'shortDate':'+0100':'it-IT' }}</span>
+                    <span class="div-half">Creata il: {{ extension.created_at}}</span>
+                    <span class="div-half">Aggiornata il: {{ extension.updated_at}}</span>
                 </p>
                 <mat-divider></mat-divider>
             </mat-list-option>
