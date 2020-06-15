@@ -173,10 +173,14 @@ export class ViewRotturaSuoloComponent implements OnInit {
   }
 
   save(){
-    this.isLoading = true;
-    let result = this.form.getRawValue();
-    this.formatData(result);
-    this.update_details.next({details: result});
+    if(this.form.valid){
+      this.isLoading = true
+      let result = this.form.getRawValue();
+      this.formatData(result);
+      this.update_details.next({details: result});
+    } else {
+      this.validationService.validateAllFormFields(this.form);
+    }
   }
 
   completeModify(){

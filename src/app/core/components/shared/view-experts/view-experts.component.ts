@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
+import { ValidationService } from 'src/app/core/services/validation.service';
 
 @Component({
   selector: 'view-experts',
@@ -27,7 +28,8 @@ export class ViewExpertsComponent implements OnInit {
   isLoading = false;
 
   constructor(
-    private formService: FormUtilService
+    private formService: FormUtilService,
+    private validationService: ValidationService,
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class ViewExpertsComponent implements OnInit {
       this.isLoading = true;
       this.add_expert.next(this.expert_form.value);
     } else {
-      console.log("Invalid form", this.expert_form.value);
+      this.validationService.validateAllFormFields(this.expert_form);
     }
   }
 

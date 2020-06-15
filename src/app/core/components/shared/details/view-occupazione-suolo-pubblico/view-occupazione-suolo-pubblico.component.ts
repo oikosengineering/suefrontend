@@ -108,9 +108,23 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
   }
 
   save(){
-    let result = this.form.getRawValue();
-    this.formatData(result);
-    this.update_details.next({details: result});
+    if(this.form.valid){
+      this.isLoading = true
+      let result = this.form.getRawValue();
+      this.formatData(result);
+      this.update_details.next({details: result});
+    } else {
+      this.validationService.validateAllFormFields(this.form);
+    }
+  }
+
+  completeModify(){
+    this.isLoading = false;
+    this.modify()
+  }
+
+  abortModify(){
+    this.isLoading = false;
   }
 
   formatData(body: any){

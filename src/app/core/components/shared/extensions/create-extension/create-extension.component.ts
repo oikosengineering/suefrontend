@@ -47,6 +47,8 @@ export class CreateExtensionComponent implements OnInit {
       let extension = this.form.value;
       this.parseDate(extension)
       this.add_extension.next(this.form.value);
+    } else {
+      this.validationService.validateAllFormFields(this.form);
     }
   }
 
