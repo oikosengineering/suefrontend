@@ -76,7 +76,7 @@
     </mat-tab>
     <mat-tab label="Proroghe">
         <view-extensions
-            [can_extend]="data_procedure.can_be_extended "
+            [can_extend]="data_procedure.can_be_extended && can_extend"
             [procedure]="data_procedure">
         </view-extensions>
     </mat-tab>
