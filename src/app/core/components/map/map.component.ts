@@ -453,6 +453,16 @@ export class MapComponent implements OnInit {
     this.dialogRef.close(new_features);
   }
 
+  getNumberOfGeometry(target: string){
+    let target_layer = this.map.getLayers().getArray().find(layer => layer.get('id') == target);
+    let features: Feature[] = target_layer.get('source').getFeatures();
+    return features.length
+  }
+
+  canDraw(target: string, max_features: number){
+    return this.getNumberOfGeometry(target) >= max_features;
+  }
+
   zoomIn(){
     var view = this.map.getView();
     var zoom = view.getZoom();

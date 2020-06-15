@@ -199,9 +199,8 @@ export class FormUtilService {
       area_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      geometry: new FormControl([], Validators.compose([
-        Validators.required,
-        Validators.maxLength(1)
+      geometry: new FormControl('', Validators.compose([
+        Validators.required
       ])),
     })
   }

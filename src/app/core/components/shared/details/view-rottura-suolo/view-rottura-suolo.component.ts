@@ -84,11 +84,11 @@ export class ViewRotturaSuoloComponent implements OnInit {
     let features = [
       {
         type: 'scavo',
-        features: this.form.get('excavation_details').get('geometry').value
+        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value != ''] : []
       },
       {
         type: 'cantiere',
-        features: this.form.get('building_site').get('geometry').value
+        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value != ''] : []
       }
     ]
     this.map_cfg.features = features;
@@ -98,11 +98,11 @@ export class ViewRotturaSuoloComponent implements OnInit {
         value.forEach(feature => {
           switch(feature.type){
             case 'scavo':
-              this.form.get('excavation_details').get('geometry').patchValue(feature.features);
+              this.form.get('excavation_details').get('geometry').patchValue(feature.features[0] || '');
               // this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
               break;
             case 'cantiere':
-              this.form.get('building_site').get('geometry').patchValue(feature.features);
+              this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
               // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
           }
         });
@@ -185,6 +185,9 @@ export class ViewRotturaSuoloComponent implements OnInit {
     }
     if(body.description.notes == null || body.description.notes == undefined || body.description.notes == ''){
       delete body.description.notes;
+    }
+    if(body.insurance.amount){
+      body.insurance.amount = body.insurance.amount * 100;
     }
   }
 

@@ -16,7 +16,7 @@
             </mat-form-field>
         </mat-card>
         <ng-container *ngFor="let button of options.buttons">
-            <button class="features_button" mat-raised-button (click)="addInteraction(button.geometryType, button.style, button.target)" [matTooltip]="button.tooltip" matTooltipPosition="after" [ngClass]="draw ? 'selected_button' : ''">
+            <button [disabled]="canDraw(button.target, 1)" class="features_button" mat-raised-button (click)="addInteraction(button.geometryType, button.style, button.target)" [matTooltip]="button.tooltip" matTooltipPosition="after" [ngClass]="draw ? 'selected_button' : ''">
                 <fa-icon icon="draw-polygon"></fa-icon> {{button.name}}
             </button>
         </ng-container>

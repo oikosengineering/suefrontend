@@ -98,12 +98,12 @@
     </ng-container>
     <div class="div-a-quarter" appearance="outline">
         <mat-label>N. geometrie scavo</mat-label>
-        <input matInput readonly="true" type="number" [value]="form.get(['excavation_details', 'geometry']).value.length > 0 ? form.get(['excavation_details', 'geometry']).value.length : '/'">
+        <input matInput readonly="true" type="number" [value]="form.get(['excavation_details', 'geometry']).value != '' ? 1 : 0">
         <mat-error>{{getErrorMessage(form.get(['excavation_details', 'geometry']))}}</mat-error>
     </div>
     <div class="div-a-quarter" appearance="outline">
         <mat-label>N. geometrie cantiere</mat-label>
-        <input matInput readonly="true" type="number" [value]="form.get(['building_site', 'geometry']).value.length > 0 ? form.get(['building_site', 'geometry']).value.length : '/'">
+        <input matInput readonly="true" type="number" [value]="form.get(['building_site', 'geometry']).value.length != '' ? 1 : 0">
         <mat-error>{{getErrorMessage(form.get(['building_site', 'geometry']))}}</mat-error>
     </div>
     
