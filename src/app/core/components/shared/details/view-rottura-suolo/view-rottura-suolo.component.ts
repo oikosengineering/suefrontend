@@ -4,6 +4,7 @@ import { DialogMessageService } from 'src/app/core/services/dialog-message.servi
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'view-rottura-suolo',
@@ -170,8 +171,21 @@ export class ViewRotturaSuoloComponent implements OnInit {
   }
 
   save(){
-    console.log(this.form.getRawValue());
-    this.update_details.next({details: this.form.getRawValue()});
+    let result = this.form.getRawValue();
+    this.formatData(result);
+    this.update_details.next({details: result});
+  }
+
+  formatData(body: any){
+    if(body.end_date){
+      body.end_date = formatDate(body.end_date, "yyyy-MM-dd", "en");
+    }
+    if(body.start_date){
+      body.start_date = formatDate(body.start_date, "yyyy-MM-dd", "en");
+    }
+    if(body.description.notes == null || body.description.notes == undefined || body.description.notes == ''){
+      delete body.description.notes;
+    }
   }
 
   getErrorMessage(control: AbstractControl) {

@@ -33,13 +33,13 @@ import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.co
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: ['l', 'LL'],
+    dateInput: 'LL',
   },
   display: {
-    dateInput: 'L',
-    monthYearLabel: 'MMM YYYY',
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
+    monthYearA11yLabel: 'YYYY',
   },
 };
 

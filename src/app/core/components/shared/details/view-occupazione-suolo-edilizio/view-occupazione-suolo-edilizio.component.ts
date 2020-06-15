@@ -96,8 +96,21 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
   }
 
   save(){
-    console.log(this.form.getRawValue());
-    this.update_details.next({details: this.form.getRawValue()});
+    let result = this.form.getRawValue();
+    this.formatData(result);
+    this.update_details.next({details: result});
+  }
+
+  formatData(body: any){
+    if(body.end_date){
+      body.end_date = formatDate(body.end_date, "yyyy-MM-dd", "en");
+    }
+    if(body.start_date){
+      body.start_date = formatDate(body.start_date, "yyyy-MM-dd", "en");
+    }
+    if(body.intersection_address == null || body.intersection_address == undefined || body.intersection_address == ''){
+      delete body.intersection_address;
+    }
   }
   
   getErrorMessage(control: AbstractControl) {
