@@ -19,6 +19,8 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
   
   can_modify = false;
 
+  isLoading = false; 
+
   tipologie = [
     {value: 'less_than_year', name: "Minore di un anno"},
     {value: 'more_than_year', name: "Maggiore di un anno"},

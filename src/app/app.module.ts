@@ -30,6 +30,7 @@ import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it'
 import { PipesModule } from './core/pipes/pipes.module';
 import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
+import { ViewDetailsDirective } from './core/directives/view-details.directive';
 
 export const MY_FORMATS = {
   parse: {
@@ -56,7 +57,8 @@ registerLocaleData(localeIt, 'it-IT');
     SignupComponent,
     UserComponent,
     RicercaPraticheComponent,
-    DettagliPraticaComponent
+    DettagliPraticaComponent,
+    ViewDetailsDirective
   ],
   imports: [
     BrowserModule,

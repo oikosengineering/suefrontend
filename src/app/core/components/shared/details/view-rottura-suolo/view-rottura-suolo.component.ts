@@ -22,6 +22,8 @@ export class ViewRotturaSuoloComponent implements OnInit {
   
   can_modify = false;
 
+  isLoading = false; 
+
   map_cfg = {
     buttons: [
       {
@@ -171,9 +173,19 @@ export class ViewRotturaSuoloComponent implements OnInit {
   }
 
   save(){
+    this.isLoading = true;
     let result = this.form.getRawValue();
     this.formatData(result);
     this.update_details.next({details: result});
+  }
+
+  completeModify(){
+    this.isLoading = false;
+    this.modify()
+  }
+
+  abortModify(){
+    this.isLoading = false;
   }
 
   formatData(body: any){

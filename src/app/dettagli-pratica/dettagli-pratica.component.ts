@@ -8,6 +8,7 @@ import { CanUploadPipe } from 'src/app/core/pipes/can-upload.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateExtensionComponent } from 'src/app/core/components/shared/extensions/create-extension/create-extension.component';
 import { ViewExpertsComponent } from '../core/components/shared/view-experts/view-experts.component';
+import { ViewDetailsDirective } from '../core/directives/view-details.directive';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -43,6 +44,7 @@ export class DettagliPraticaComponent implements OnInit {
 
   @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
   @ViewChild(ViewExpertsComponent) viewExperts: ViewExpertsComponent;
+  @ViewChild(ViewDetailsDirective) viewDetails: ViewDetailsDirective;
 
   constructor(
     private route: ActivatedRoute,
@@ -235,8 +237,10 @@ export class DettagliPraticaComponent implements OnInit {
     console.log("Dettagli pratica", value);
     this.apiService.modificaDettaglioPratica('building', this.data_procedure.id, value).subscribe(result => {
       console.log(result);
+      this.viewDetails.completeModify();
     }, error => {
       console.log(error);
+      this.viewDetails.abortModify();
     });
   }
 
@@ -246,6 +250,7 @@ export class DettagliPraticaComponent implements OnInit {
       this.viewExperts.isLoading = false;
     }, error => {
       this.snackBar.open("Errore di sincronizzazione", null, {duration: 2000});
+      this.viewExperts.isLoading = false;
     })
   }
 

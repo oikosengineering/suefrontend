@@ -19,6 +19,8 @@ export class ViewTraslochiLavoriComponent implements OnInit {
   
   can_modify = false;
 
+  isLoading = false; 
+
   tipologie = [
     {value: 'vehicle', name: 'Veicolo'},
     {value: 'other', name: 'Altro'},
@@ -103,9 +105,19 @@ export class ViewTraslochiLavoriComponent implements OnInit {
   }
 
   save(){
+    this.isLoading = true;
     let result = this.form.getRawValue();
     this.formatData(result);
     this.update_details.next({details: result});
+  }
+
+  completeModify(){
+    this.isLoading = false;
+    this.modify()
+  }
+
+  abortModify(){
+    this.isLoading = false;
   }
 
   formatData(body: any){

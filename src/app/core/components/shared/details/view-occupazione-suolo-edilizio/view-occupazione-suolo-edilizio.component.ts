@@ -20,6 +20,8 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
 
   can_modify = false;
 
+  isLoading = false; 
+
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
@@ -96,9 +98,19 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
   }
 
   save(){
+    this.isLoading = true
     let result = this.form.getRawValue();
     this.formatData(result);
     this.update_details.next({details: result});
+  }
+
+  completeModify(){
+    this.isLoading = false;
+    this.modify()
+  }
+
+  abortModify(){
+    this.isLoading = false;
   }
 
   formatData(body: any){
@@ -110,6 +122,18 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
     }
     if(body.intersection_address == null || body.intersection_address == undefined || body.intersection_address == ''){
       delete body.intersection_address;
+    }
+    if(body.other.width == null || body.other.width == undefined || body.other.width == ''){
+      delete body.other.width
+    }
+    if(body.other.total_square_meters == null || body.other.total_square_meters == undefined || body.other.total_square_meters == ''){
+      delete body.other.total_square_meters;
+    }
+    if(body.other.length == null || body.other.length == undefined || body.other.length == ''){
+      delete body.other.length;
+    }
+    if(body.other.description == null || body.other.description == undefined || body.other.description == ''){
+      delete body.other.description;
     }
   }
   

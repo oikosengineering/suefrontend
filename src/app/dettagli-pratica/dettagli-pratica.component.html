@@ -57,27 +57,13 @@
         </view-supplier>
     </mat-tab>
     <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">
-        <view-rottura-suolo *ngIf="data_procedure.category == 'rottura_suolo'"
+        <ng-container viewDetails
+            [type]="data_procedure.category"
             [data]="data_procedure.details"
             [pavimentazioni]="pavimentazioni"
             [modifiable]="can_modify"
             (update_details)="submitDetail($event)">
-        </view-rottura-suolo>
-        <view-occupazione-suolo-edilizio *ngIf="data_procedure.category == 'occupazione_suolo_edilizio'"
-            [data]="data_procedure.details"
-            [modifiable]="can_modify"
-            (update_details)="submitDetail($event)">
-        </view-occupazione-suolo-edilizio>
-        <view-occupazione-suolo-pubblico *ngIf="data_procedure.category == 'occupazione_suolo_pubblico'"
-            [data]="data_procedure.details"
-            [modifiable]="can_modify"
-            (update_details)="submitDetail($event)">
-        </view-occupazione-suolo-pubblico>
-        <view-traslochi-lavori *ngIf="data_procedure.category == 'traslochi_lavori'"
-            [data]="data_procedure.details"
-            [modifiable]="can_modify"
-            (update_details)="submitDetail($event)">
-        </view-traslochi-lavori>
+        </ng-container>
     </mat-tab>
     <mat-tab label="Documenti/allegati">
         <upload-documents *ngIf="can_modify"

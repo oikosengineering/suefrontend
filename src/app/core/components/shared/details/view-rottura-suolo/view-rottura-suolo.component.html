@@ -1,3 +1,6 @@
+<div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
 <mat-card [formGroup]="form">
     <mat-form-field class="div-full" appearance="outline">
         <mat-label>Motivo scavi</mat-label>
@@ -60,7 +63,7 @@
     <ng-container formGroupName="excavation_details">
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Estensione degli scavi</mat-label>
-            <input matInput formControlName="area_number" type="number" (change)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
+            <input matInput formControlName="area_number" type="text" (change)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
             <span matSuffix>m<sup>2</sup></span>
             <mat-error>{{getErrorMessage(form.get('excavation_details').get('area_number'))}}</mat-error>
         </mat-form-field>
@@ -78,7 +81,7 @@
     <ng-container formGroupName="building_site">
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Estensione del cantiere</mat-label>
-            <input matInput formControlName="area_number" type="number">
+            <input matInput formControlName="area_number" type="text">
             <span matSuffix>m<sup>2</sup></span>
             <mat-error>{{getErrorMessage(form.get('building_site').get('area_number'))}}</mat-error>
         </mat-form-field>
