@@ -2,6 +2,11 @@
     <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="!isLoading">
+    <div class="div-full commit-procedure">
+        <button [disabled]="!can_commit" mat-raised-button color="primary" (click)="commitPratica()">
+            Inoltra pratica
+        </button>
+    </div>
     <p class="div-half"><b>Pratica N.: </b> {{data_procedure.number}}</p>
     <p class="div-half"><b>Protocollo: </b> {{data_procedure.protocol || '/'}}</p>
     <p class="div-half"><b>Stato: </b><status-procedures [status]="data_procedure.status"></status-procedures></p>

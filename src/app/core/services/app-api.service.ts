@@ -154,7 +154,11 @@ export class AppApiService {
 
   commitPratica(department: string, id: string) {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/commitPratica/department=' + department + '&id='  + id, this.header).pipe(map(response => response));
+    let body = {
+      id: id
+    }
+    return this.httpClient.post(environment.api_url + '/commitPratica?department=' + department + '&id='  + id, body, this.header).pipe(map(response => response));
+    // return this.httpClient.post(environment.api_url + '/commitPratica?department=' + department + '&id='  + id, this.header).pipe(map(response => response));
   }
 
   verificaToken(): Observable<boolean> {

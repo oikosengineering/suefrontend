@@ -26,9 +26,10 @@ export class DettagliPraticaComponent implements OnInit {
   documents_uploaded = [];
 
   isOwner = false;
-  isLoading = true;
+  isLoading = false;
   can_modify = false;
   can_extend = false;
+  can_commit = false;
 
   tipologie = [];
   generi = [];
@@ -62,6 +63,7 @@ export class DettagliPraticaComponent implements OnInit {
   }
 
   chargeData(){
+    this.isLoading = true;
     let promises = [];
     promises.push(this.getProcedure());
     promises.push(this.getProvince());
@@ -95,6 +97,7 @@ export class DettagliPraticaComponent implements OnInit {
           this.checkCanModify(this.data_procedure.status);
           this.checkOwner();
           this.checkExtend();
+          this.checkCanCommit();
           resolve(true);
         }, error => {
           reject(error);
@@ -295,15 +298,33 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
+  commitPratica(){
+    this.apiService.commitPratica('building', this.data_procedure.id).subscribe(result => {
+      if(result['status'] == 200){
+        this.snackBar.open('Pratica somministrata con successo', null, {duration: 2000});
+        this.chargeData();
+      }else{
+        this.snackBar.open('Pratica incompleta, verifica i dati', null, {duration: 2000});
+      }
+    }, error => {
+      this.snackBar.open('Si è verificato un errore!', null, {duration: 2000});
+    })
+  }
+
   checkCanModify(value){
     this.can_modify = this.canUpload.transform(value);
   }
 
   checkOwner(){
-    this.can_modify = this.can_modify && (this.data_procedure.user_id === this.id_user);
+    this.isOwner = this.data_procedure.user_id === this.id_user;
+    this.can_modify = this.can_modify && this.isOwner;
   }
 
   checkExtend(){
     this.can_extend = this.data_procedure.status == 'APPROVED' && (this.data_procedure.user_id === this.id_user);
+  }
+
+  checkCanCommit(){
+    this.can_commit = this.data_procedure.status == 'PENDING' && this.data_procedure.all_mandatory_documents_uploaded;
   }
 }
