@@ -102,7 +102,30 @@ export class AppApiService {
     return this.httpClient.get(environment.api_url + '/getListaProroghePratica?department=' + department + '&id=' + id, this.header).pipe(map((response) => response));
   }
 
-  updDocumentoPratica(department: string, id: string, file: any) {
+  updDocumentoPratica(department: string, id: string, data: any) {
+    const header = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Origin': '*',
+      }
+    };
+    console.log(data);
+    const formData: FormData = new FormData();
+    if (data != null || data !== undefined) {
+      formData.append('file', data.file);
+      formData.append('name', data.name);
+      if(data.type){
+        formData.append('type', data.type);
+      }
+    }
+    console.log(formData);
+    // tslint:disable-next-line: max-line-length
+    
+    let api_url = 'http://192.168.113.17:8001/api/suechiavari';
+    return this.httpClient.post(api_url + '/uploadDocumentoPratica?department='+ department + '&id=' + id , formData, header).pipe(map(response => response));
+  }
+
+  updDocumentoProroga(department: string, id: string, data: any) {
     const header = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -110,30 +133,20 @@ export class AppApiService {
       }
     };
     // const formData: FormData = new FormData();
-    // if (file != null || file !== undefined) {
-    //   formData.append('file', file.file, file.file.name);
+    // if (data != null || data !== undefined) {
+    //   formData.append('file', data.file);
+    //   formData.append('name', data.name);
+    //   if(data.type){
+    //     formData.append('type', data.type);
+    //   }
     // }
+
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/uploadDocumentoPratica?department=' + department + '&procedureid=' + id , file, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/uploadDocumentoProroga?department=' + department + '&extensionid=' + id , data, header).pipe(map(response => response));
   }
 
-  updDocumentoProroga(department: string, id: string, file: any) {
-    const header = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Origin': '*',
-      }
-    };
-    // const formData: FormData = new FormData();
-    // if (file != null || file !== undefined) {
-    //   formData.append('file', file.file, file.file.name);
-    // }
-    // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/uploadDocumentoProroga?department=' + department + '&extensionid=' + id , file, header).pipe(map(response => response));
-  }
-
-  getListaDocumentiProroga(department: string, id: string){
-    return this.httpClient.get<Document[]>(environment.api_url + '/getListaDocumentiProroga?department=' + department + '&extensionid=' + id, this.header).pipe(map(response => response));
+  getListaDocumentiProroga(department: string, id: string, extensionid: string){
+    return this.httpClient.get<Document[]>(environment.api_url + '/getListaDocumentiProroga?department=' + department + '&id=' + id + '&relatedid=' + extensionid, this.header).pipe(map(response => response));
   }
 
   getListaEspertiPratica(department: string, id: string): Observable<Expert[]> {

@@ -36,7 +36,7 @@ export class UploadDocumentsComponent implements OnInit {
     if(this.file_to_upload){
       this.isLoading = true;
       let file = {};
-      file['file'] = this.file_to_upload.size;
+      file['file'] = this.file_to_upload;
       file['name'] = this.file_to_upload.name;
       if(this.file_type){
         file['type'] = this.file_type;

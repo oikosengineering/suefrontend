@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ViewExtensionComponent implements OnInit {
 
   @Input() extension: any;
+  @Input() idProcedure: string;
   @Input() can_modify: boolean;
 
   tipologie_file = [];
@@ -28,7 +29,7 @@ export class ViewExtensionComponent implements OnInit {
   }
 
   getDocumentiCaricati(){
-    this.apiService.getListaDocumentiProroga('building', this.extension.id).subscribe(result => {
+    this.apiService.getListaDocumentiProroga('building',this.idProcedure, this.extension.id).subscribe(result => {
       this.documents_uploaded = result['data'];
     })
   }
