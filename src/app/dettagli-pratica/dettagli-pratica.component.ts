@@ -325,6 +325,6 @@ export class DettagliPraticaComponent implements OnInit {
   }
 
   checkCanCommit(){
-    this.can_commit = this.data_procedure.status == 'PENDING' && this.data_procedure.all_mandatory_documents_uploaded;
+    this.can_commit = this.data_procedure.status == 'PENDING';
   }
 }
