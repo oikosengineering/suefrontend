@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="Mappa Pratiche Edilizie" version="3.10.4-A Coruña">
+<qgis version="3.10.4-A Coruña" projectname="Mappa Pratiche Edilizie">
   <homePath path=""/>
   <title>Mappa Pratiche Edilizie</title>
   <autotransaction active="0"/>
@@ -20,26 +20,26 @@
   </projectCrs>
   <layer-tree-group>
     <customproperties/>
-    <layer-tree-layer checked="Qt::Checked" providerKey="postgres" name="PRATICHE" source="dbname='sue' host=192.168.1.26 port=5432 user='sue' sslmode=disable key='id' srid=0 type=Point checkPrimaryKeyUnicity='0' table=&quot;sue&quot;.&quot;praticheedilizie&quot; (geometria) sql=" id="praticheedilizie_9ff43caf_5688_47f2_955e_d2a3939d6948" expanded="1">
+    <layer-tree-layer name="Pratiche" checked="Qt::Checked" id="praticheedilizie_c0423791_a61f_4871_9cf6_eca467e8d25f" expanded="1" providerKey="postgres" source="dbname='sue' host=192.168.1.26 port=5432 user='sue' sslmode=disable key='id' srid=0 type=Polygon checkPrimaryKeyUnicity='0' table=&quot;sue&quot;.&quot;praticheedilizie&quot; (geometria) sql=">
       <customproperties/>
     </layer-tree-layer>
     <custom-order enabled="0">
-      <item>praticheedilizie_9ff43caf_5688_47f2_955e_d2a3939d6948</item>
+      <item>praticheedilizie_c0423791_a61f_4871_9cf6_eca467e8d25f</item>
     </custom-order>
   </layer-tree-group>
-  <snapping-settings mode="2" enabled="0" unit="1" tolerance="12" type="1" intersection-snapping="0">
+  <snapping-settings mode="2" type="1" tolerance="12" intersection-snapping="0" enabled="0" unit="1">
     <individual-layer-settings>
-      <layer-setting enabled="0" units="1" id="praticheedilizie_9ff43caf_5688_47f2_955e_d2a3939d6948" tolerance="12" type="1"/>
+      <layer-setting units="1" type="1" tolerance="12" id="praticheedilizie_c0423791_a61f_4871_9cf6_eca467e8d25f" enabled="0"/>
     </individual-layer-settings>
   </snapping-settings>
   <relations/>
-  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+  <mapcanvas name="theMapCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
-      <xmin>1525981.02888294914737344</xmin>
-      <ymin>4907110.20614751242101192</ymin>
-      <xmax>1525981.06092855101451278</xmax>
-      <ymax>4907110.30919682793319225</ymax>
+      <xmin>1034744.04193549370393157</xmin>
+      <ymin>5500680.29432534240186214</ymin>
+      <xmax>1097343.40604572463780642</xmax>
+      <ymax>5534842.98808883689343929</ymax>
     </extent>
     <rotation>0</rotation>
     <destinationsrs>
@@ -60,15 +60,15 @@
   </mapcanvas>
   <projectModels/>
   <legend updateDrawingOrder="true">
-    <legendlayer checked="Qt::Checked" name="PRATICHE" showFeatureCount="0" drawingOrder="-1" open="true">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="praticheedilizie_9ff43caf_5688_47f2_955e_d2a3939d6948"/>
+    <legendlayer drawingOrder="-1" showFeatureCount="0" name="Pratiche" checked="Qt::Checked" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" isInOverview="0" layerid="praticheedilizie_c0423791_a61f_4871_9cf6_eca467e8d25f"/>
       </filegroup>
     </legendlayer>
   </legend>
   <mapViewDocks/>
   <mapViewDocks3D/>
-  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+  <mapcanvas name="mAreaCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
       <xmin>0</xmin>
@@ -93,7 +93,7 @@
     <rendermaptile>0</rendermaptile>
     <expressionContextScope/>
   </mapcanvas>
-  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+  <mapcanvas name="mAreaCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
       <xmin>0</xmin>
@@ -118,7 +118,7 @@
     <rendermaptile>0</rendermaptile>
     <expressionContextScope/>
   </mapcanvas>
-  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+  <mapcanvas name="mAreaCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
       <xmin>0</xmin>
@@ -144,30 +144,30 @@
     <expressionContextScope/>
   </mapcanvas>
   <projectlayers>
-    <maplayer refreshOnNotifyMessage="" type="vector" maxScale="0" styleCategories="AllStyleCategories" simplifyDrawingHints="1" simplifyDrawingTol="1" labelsEnabled="0" simplifyAlgorithm="0" simplifyMaxScale="1" wkbType="Point" readOnly="0" autoRefreshEnabled="0" autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" refreshOnNotifyEnabled="0" geometry="Point" minScale="1e+08">
+    <maplayer minScale="1e+08" simplifyDrawingTol="1" wkbType="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" simplifyAlgorithm="0" maxScale="0" autoRefreshTime="0" readOnly="0" simplifyLocal="1" simplifyDrawingHints="1" type="vector" geometry="Polygon" autoRefreshEnabled="0" styleCategories="AllStyleCategories" simplifyMaxScale="1" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="">
       <extent>
-        <xmin>1525981.04490575008094311</xmin>
-        <ymin>4907110.25767217017710209</ymin>
-        <xmax>1525981.04490575008094311</xmax>
-        <ymax>4907110.25767217017710209</ymax>
+        <xmin>1037911.93691499996930361</xmin>
+        <ymin>5514040.22399639990180731</ymin>
+        <xmax>1038672.01507950003724545</xmax>
+        <ymax>5514548.59741550032049417</ymax>
       </extent>
-      <id>praticheedilizie_9ff43caf_5688_47f2_955e_d2a3939d6948</id>
-      <datasource>dbname='sue' host=192.168.1.26 port=5432 user='sue' password='oikos' sslmode=disable key='id' srid=0 type=Point checkPrimaryKeyUnicity='0' table="sue"."praticheedilizie" (geometria) sql=</datasource>
+      <id>praticheedilizie_c0423791_a61f_4871_9cf6_eca467e8d25f</id>
+      <datasource>dbname='sue' host=192.168.1.26 port=5432 user='sue' password='oikos' sslmode=disable key='id' srid=0 type=Polygon checkPrimaryKeyUnicity='0' table="sue"."praticheedilizie" (geometria) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
-      <layername>PRATICHE</layername>
+      <layername>Pratiche</layername>
       <srs>
         <spatialrefsys>
-          <wkt></wkt>
-          <proj4></proj4>
-          <srsid>0</srsid>
-          <srid>0</srid>
-          <authid></authid>
-          <description></description>
-          <projectionacronym></projectionacronym>
-          <ellipsoidacronym></ellipsoidacronym>
-          <geographicflag>false</geographicflag>
+          <wkt>GEOGCRS["WGS 84",DATUM["World Geodetic System 1984",ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["unknown"],AREA["World"],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
       <resourceMetadata>
@@ -177,6 +177,15 @@
         <type>dataset</type>
         <title></title>
         <abstract></abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
         <links/>
         <fees></fees>
         <encoding></encoding>
@@ -193,7 +202,15 @@
             <geographicflag>false</geographicflag>
           </spatialrefsys>
         </crs>
-        <extent/>
+        <extent>
+          <spatial maxx="0" maxz="0" crs="" minx="0" dimensions="2" miny="0" maxy="0" minz="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
       </resourceMetadata>
       <provider encoding="">postgres</provider>
       <vectorjoins/>
@@ -210,33 +227,26 @@
         <Removable>1</Removable>
         <Searchable>1</Searchable>
       </flags>
-      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
+      <renderer-v2 enableorderby="0" type="singleSymbol" symbollevels="0" forceraster="0">
         <symbols>
-          <symbol name="0" force_rhr="0" alpha="1" clip_to_extent="1" type="marker">
-            <layer locked="0" enabled="1" class="SimpleMarker" pass="0">
-              <prop v="0" k="angle"/>
-              <prop v="213,180,60,255" k="color"/>
-              <prop v="1" k="horizontal_anchor_point"/>
-              <prop v="bevel" k="joinstyle"/>
-              <prop v="circle" k="name"/>
-              <prop v="0,0" k="offset"/>
-              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
-              <prop v="MM" k="offset_unit"/>
-              <prop v="35,35,35,255" k="outline_color"/>
-              <prop v="solid" k="outline_style"/>
-              <prop v="0" k="outline_width"/>
-              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
-              <prop v="MM" k="outline_width_unit"/>
-              <prop v="diameter" k="scale_method"/>
-              <prop v="2" k="size"/>
-              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
-              <prop v="MM" k="size_unit"/>
-              <prop v="1" k="vertical_anchor_point"/>
+          <symbol clip_to_extent="1" name="0" force_rhr="0" type="fill" alpha="1">
+            <layer pass="0" locked="0" class="SimpleFill" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="141,90,153,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
               <data_defined_properties>
                 <Option type="Map">
-                  <Option name="name" value="" type="QString"/>
+                  <Option name="name" type="QString" value=""/>
                   <Option name="properties"/>
-                  <Option name="type" value="collection" type="QString"/>
+                  <Option name="type" type="QString" value="collection"/>
                 </Option>
               </data_defined_properties>
             </layer>
@@ -245,40 +255,62 @@
         <rotation/>
         <sizescale/>
       </renderer-v2>
-      <customproperties/>
+      <customproperties>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
       <blendMode>0</blendMode>
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer diagramType="Histogram" attributeLegend="1">
+        <DiagramCategory minimumSize="0" penAlpha="255" diagramOrientation="Up" sizeType="MM" minScaleDenominator="0" barWidth="5" opacity="1" penColor="#000000" scaleDependency="Area" backgroundAlpha="255" width="15" penWidth="0" labelPlacementMethod="XHeight" sizeScale="3x:0,0,0,0,0,0" height="15" scaleBasedVisibility="0" backgroundColor="#ffffff" lineSizeType="MM" maxScaleDenominator="1e+08" enabled="0" rotationOffset="270" lineSizeScale="3x:0,0,0,0,0,0">
+          <fontProperties style="" description="Ubuntu,11,-1,5,50,0,0,0,0,0"/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings priority="0" linePlacementFlags="18" obstacle="0" dist="0" showAll="1" zIndex="0" placement="1">
+        <properties>
+          <Option type="Map">
+            <Option name="name" type="QString" value=""/>
+            <Option name="properties"/>
+            <Option name="type" type="QString" value="collection"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
       <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
-        <activeChecks type="StringList">
-          <Option value="" type="QString"/>
-        </activeChecks>
-        <checkConfiguration/>
+        <activeChecks/>
+        <checkConfiguration type="Map">
+          <Option name="QgsGeometryGapCheck" type="Map">
+            <Option name="allowedGapsBuffer" type="double" value="0"/>
+            <Option name="allowedGapsEnabled" type="bool" value="false"/>
+            <Option name="allowedGapsLayer" type="QString" value=""/>
+          </Option>
+        </checkConfiguration>
       </geometryOptions>
       <fieldConfiguration>
         <field name="id">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="stato">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="tipo">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="numeropratica">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
@@ -286,37 +318,43 @@
         </field>
       </fieldConfiguration>
       <aliases>
-        <alias index="0" name="" field="id"/>
-        <alias index="1" name="" field="stato"/>
-        <alias index="2" name="" field="tipo"/>
-        <alias index="3" name="" field="numeropratica"/>
+        <alias name="" field="id" index="0"/>
+        <alias name="" field="stato" index="1"/>
+        <alias name="" field="tipo" index="2"/>
+        <alias name="" field="numeropratica" index="3"/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <defaults>
-        <default expression="" applyOnUpdate="0" field="id"/>
-        <default expression="" applyOnUpdate="0" field="stato"/>
-        <default expression="" applyOnUpdate="0" field="tipo"/>
-        <default expression="" applyOnUpdate="0" field="numeropratica"/>
+        <default applyOnUpdate="0" field="id" expression=""/>
+        <default applyOnUpdate="0" field="stato" expression=""/>
+        <default applyOnUpdate="0" field="tipo" expression=""/>
+        <default applyOnUpdate="0" field="numeropratica" expression=""/>
       </defaults>
       <constraints>
-        <constraint unique_strength="1" constraints="3" exp_strength="0" notnull_strength="1" field="id"/>
-        <constraint unique_strength="0" constraints="1" exp_strength="0" notnull_strength="1" field="stato"/>
-        <constraint unique_strength="0" constraints="1" exp_strength="0" notnull_strength="1" field="tipo"/>
-        <constraint unique_strength="0" constraints="1" exp_strength="0" notnull_strength="1" field="numeropratica"/>
+        <constraint constraints="3" notnull_strength="1" unique_strength="1" exp_strength="0" field="id"/>
+        <constraint constraints="1" notnull_strength="1" unique_strength="0" exp_strength="0" field="stato"/>
+        <constraint constraints="1" notnull_strength="1" unique_strength="0" exp_strength="0" field="tipo"/>
+        <constraint constraints="1" notnull_strength="1" unique_strength="0" exp_strength="0" field="numeropratica"/>
       </constraints>
       <constraintExpressions>
-        <constraint desc="" exp="" field="id"/>
-        <constraint desc="" exp="" field="stato"/>
-        <constraint desc="" exp="" field="tipo"/>
-        <constraint desc="" exp="" field="numeropratica"/>
+        <constraint exp="" desc="" field="id"/>
+        <constraint exp="" desc="" field="stato"/>
+        <constraint exp="" desc="" field="tipo"/>
+        <constraint exp="" desc="" field="numeropratica"/>
       </constraintExpressions>
       <expressionfields/>
       <attributeactions>
-        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
       </attributeactions>
       <attributetableconfig sortExpression="" actionWidgetStyle="dropDown" sortOrder="0">
-        <columns/>
+        <columns>
+          <column name="id" hidden="0" type="field" width="-1"/>
+          <column name="stato" hidden="0" type="field" width="-1"/>
+          <column name="tipo" hidden="0" type="field" width="-1"/>
+          <column name="numeropratica" hidden="0" type="field" width="-1"/>
+          <column hidden="1" type="actions" width="-1"/>
+        </columns>
       </attributetableconfig>
       <conditionalstyles>
         <rowstyles/>
@@ -327,18 +365,43 @@
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+I form QGIS possono avere una funzione Python che può essere chiamata quando un form viene aperto.
+
+Usa questa funzione per aggiungere logica extra ai tuoi forms..
+
+Inserisci il nome della funzione nel campo "Funzione Python di avvio".
+
+Segue un esempio:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
-      <editable/>
-      <labelOnTop/>
+      <editable>
+        <field name="id" editable="1"/>
+        <field name="numeropratica" editable="1"/>
+        <field name="stato" editable="1"/>
+        <field name="tipo" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="id" labelOnTop="0"/>
+        <field name="numeropratica" labelOnTop="0"/>
+        <field name="stato" labelOnTop="0"/>
+        <field name="tipo" labelOnTop="0"/>
+      </labelOnTop>
       <widgets/>
-      <previewExpression></previewExpression>
+      <previewExpression>id</previewExpression>
       <mapTip></mapTip>
     </maplayer>
   </projectlayers>
   <layerorder>
-    <layer id="praticheedilizie_9ff43caf_5688_47f2_955e_d2a3939d6948"/>
+    <layer id="praticheedilizie_c0423791_a61f_4871_9cf6_eca467e8d25f"/>
   </layerorder>
   <properties>
     <DefaultStyles>
@@ -392,6 +455,9 @@
       <DecimalPlaces type="int">2</DecimalPlaces>
       <DegreeFormat type="QString">MU</DegreeFormat>
     </PositionPrecision>
+    <SpatialRefSys>
+      <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+    </SpatialRefSys>
     <WCSLayers type="QStringList"/>
     <WCSUrl type="QString"></WCSUrl>
     <WFSLayers type="QStringList"/>
