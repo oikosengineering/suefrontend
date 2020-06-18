@@ -56,7 +56,7 @@ export class AppApiService {
     return this.httpClient.post(environment.api_url + '/creaProroga?department=' + department + '&id=' + id + '&end_date=' + body.end_date, body, header).pipe(map(response => response));
   }
 
-  getDettagliPratica(department: string, id: string): Observable<Procedure> {
+  getDettagliPratica(department: string, id: string){
     // tslint:disable-next-line: max-line-length
     return this.httpClient.get(environment.api_url + '/getDettagliPratica?department=' + department + '&id=' + id, this.header).pipe(map(response => response));
   }
