@@ -540,8 +540,13 @@ export class EdiliziaComponent implements OnInit {
       const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
         console.table(response['status']['errors']);
-        this.loading = false;
-        this.saved.emit(true);
+        if(response['status'] == 200){
+          this.loading = false;
+          this.saved.emit(true);
+          this.router.navigate(['/dettagli-pratica', response['data'].id]);
+        } else {
+          this.loading = false;
+        }
         if (response['status']['errors'] !== null && response['status']['errors'] !== undefined ) {
           // tslint:disable-next-line: max-line-length
           if (response['status']['errors'].error_code !== null && response['status']['errors'].error_code !== undefined && response['status']['errors'] !== "" ) {
