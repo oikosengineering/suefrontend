@@ -120,9 +120,7 @@ export class AppApiService {
     }
     console.log(formData);
     // tslint:disable-next-line: max-line-length
-    
-    let api_url = 'http://192.168.113.17:8001/api/suechiavari';
-    return this.httpClient.post(api_url + '/uploadDocumentoPratica?department='+ department + '&id=' + id , formData, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url  + '/uploadDocumentoPratica?department='+ department + '&id=' + id , formData, header).pipe(map(response => response));
   }
 
   updDocumentoProroga(department: string, id: string, data: any) {
