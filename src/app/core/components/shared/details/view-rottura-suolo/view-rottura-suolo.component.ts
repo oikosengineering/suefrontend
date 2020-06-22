@@ -19,10 +19,10 @@ export class ViewRotturaSuoloComponent implements OnInit {
   @Input() modifiable: boolean
 
   @Output() update_details = new EventEmitter();
-  
+
   can_modify = false;
 
-  isLoading = false; 
+  isLoading = false;
 
   map_cfg = {
     buttons: [
@@ -71,7 +71,7 @@ export class ViewRotturaSuoloComponent implements OnInit {
     private apiservice: AppApiService,
     private formService: FormUtilService,
   ) {
-   }
+  }
 
   ngOnInit(): void {
     this.form = this.formService.createDetailsRotturaSuolo();
@@ -94,21 +94,21 @@ export class ViewRotturaSuoloComponent implements OnInit {
       }
     ]
     this.map_cfg.features = features;
-    this.dialog.openMap(this.map_cfg, ).subscribe(value => {
+    this.dialog.openMap(this.map_cfg,).subscribe(value => {
       if (value) {
         this.map_cfg.features = value;
         value.forEach(feature => {
-          switch(feature.type){
+          switch (feature.type) {
             case 'scavo':
               this.form.get('excavation_details').get('geometry').patchValue(feature.features[0] || '');
               // this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
               break;
             case 'cantiere':
               this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
-              // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
+            // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
           }
         });
-        console.log("Dati pratica",this.form.value);
+        console.log("Dati pratica", this.form.value);
       }
       console.log('Mappa chiusa', value);
     }, error => {
@@ -138,31 +138,34 @@ export class ViewRotturaSuoloComponent implements OnInit {
     }
   }
 
-  minDate(){
+  minDate() {
     var result = new Date();
     result.setDate(result.getDate() + 20);
     return result;
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
-    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
+    if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined) {
       return;
-    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined)
+    }
+    if (form.get(value2).value === null || form.get(value2).value === '' || form.get(value2).value === undefined) {
       return;
+    }
     let date1: any = new Date(form.get(value1).value);
     let date2: any = new Date(form.get(value2).value);
     form.get(dest).patchValue(Math.floor((date1 - date2) / (1000 * 60 * 60 * 24)));
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
-    if (form.get(target).value === null || form.get(target).value === '')
+    if (form.get(target).value === null || form.get(target).value === '') {
       return;
+    }
     let date: any = new Date(form.get(target).value);
     return new Date(date.setDate(date.getDate()));
   }
 
-  modify(){
-    if(this.can_modify){
+  modify() {
+    if (this.can_modify) {
       this.form.disable();
     } else {
       this.form.enable();
@@ -172,37 +175,37 @@ export class ViewRotturaSuoloComponent implements OnInit {
     this.can_modify = !this.can_modify;
   }
 
-  save(){
-    if(this.form.valid){
-      this.isLoading = true
+  save() {
+    if (this.form.valid) {
+      this.isLoading = true;
       let result = this.form.getRawValue();
       this.formatData(result);
-      this.update_details.next({details: result});
+      this.update_details.next({ details: result });
     } else {
       this.validationService.validateAllFormFields(this.form);
     }
   }
 
-  completeModify(){
+  completeModify() {
     this.isLoading = false;
-    this.modify()
+    this.modify();
   }
 
-  abortModify(){
+  abortModify() {
     this.isLoading = false;
   }
 
-  formatData(body: any){
-    if(body.end_date){
+  formatData(body: any) {
+    if (body.end_date) {
       body.end_date = formatDate(body.end_date, "yyyy-MM-dd", "en");
     }
-    if(body.start_date){
+    if (body.start_date) {
       body.start_date = formatDate(body.start_date, "yyyy-MM-dd", "en");
     }
-    if(body.description.notes == null || body.description.notes == undefined || body.description.notes == ''){
+    if (body.description.notes == null || body.description.notes === undefined || body.description.notes === '') {
       delete body.description.notes;
     }
-    if(body.insurance.amount){
+    if (body.insurance.amount) {
       body.insurance.amount = body.insurance.amount * 100;
     }
   }

@@ -5,13 +5,13 @@ import { map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { createTransformFromCoordinateTransform } from 'ol/proj';
 import { Country, Province, City, Document, Procedure, ListaPratiche, Expert, Extension } from '../models/models';
-import {Observable, throwError} from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppApiService {
-  header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'} };
+  header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
   constructor(
     private httpClient: HttpClient,
   ) { }
@@ -21,7 +21,7 @@ export class AppApiService {
   */
 
   getNazioni() {
-    return this.httpClient.get(environment.api_url + '/getListaNazioni', this.header).pipe(map((response)  => response));
+    return this.httpClient.get(environment.api_url + '/getListaNazioni', this.header).pipe(map((response) => response));
   }
 
   getProvince() {
@@ -56,7 +56,7 @@ export class AppApiService {
     return this.httpClient.post(environment.api_url + '/creaProroga?department=' + department + '&id=' + id + '&end_date=' + body.end_date, body, header).pipe(map(response => response));
   }
 
-  getDettagliPratica(department: string, id: string): Observable<Procedure> {
+  getDettagliPratica(department: string, id: string) {
     // tslint:disable-next-line: max-line-length
     return this.httpClient.get(environment.api_url + '/getDettagliPratica?department=' + department + '&id=' + id, this.header).pipe(map(response => response));
   }
@@ -66,7 +66,7 @@ export class AppApiService {
     return this.httpClient.get<Extension>(environment.api_url + '/getDettagliProroga?department=' + department + '&id=' + id + '&relatedid=' + relatedid, this.header).pipe(map(response => response));
   }
 
-  modificaDettaglioPratica(department: string, id: string, body: any): Observable<Procedure> {
+  modificaDettaglioPratica(department: string, id: string, body: any){
     const header = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } };
     // tslint:disable-next-line: max-line-length
     return this.httpClient.post(environment.api_url + '/modificaDettaglioPratica?department=' + department + '&id=' + id, body, header).pipe(map(response => response));
@@ -85,20 +85,23 @@ export class AppApiService {
   getListaPratiche(department: string, query: any) {
 
     // let result_query = Object.entries(query).map(([key, val]) => `${key}=${val}`).join('&');
-    var result_query = "";
-    for (var key in query) {
-      if(query[key] != '' && query[key] != undefined && query[key] != null){
-        if (result_query != "") {
-          result_query += ",";
+    // tslint:disable-next-line: variable-name
+    let result_query = '';
+    for (let key in query) {
+      if (query[key] !== '' && query[key] !== undefined && query[key] !== null) {
+        if (result_query !== '') {
+          result_query += ',';
         }
-          result_query += key + "=" + encodeURIComponent(query[key]);
+        result_query += key + '=' + encodeURIComponent(query[key]);
       }
     }
 
+    // tslint:disable-next-line: max-line-length
     return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
   }
 
   getListaProroghePratica(department: string, id: string) {
+    // tslint:disable-next-line: max-line-length
     return this.httpClient.get(environment.api_url + '/getListaProroghePratica?department=' + department + '&id=' + id, this.header).pipe(map((response) => response));
   }
 
@@ -114,15 +117,13 @@ export class AppApiService {
     if (data != null || data !== undefined) {
       formData.append('file', data.file);
       formData.append('name', data.name);
-      if(data.type){
+      if (data.type) {
         formData.append('type', data.type);
       }
     }
     console.log(formData);
     // tslint:disable-next-line: max-line-length
-    
-    let api_url = 'http://192.168.113.17:8001/api/suechiavari';
-    return this.httpClient.post(api_url + '/uploadDocumentoPratica?department='+ department + '&id=' + id , formData, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/uploadDocumentoPratica?department=' + department + '&id=' + id, formData, header).pipe(map(response => response));
   }
 
   updDocumentoProroga(department: string, id: string, data: any) {
@@ -142,10 +143,11 @@ export class AppApiService {
     // }
 
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/uploadDocumentoProroga?department=' + department + '&extensionid=' + id , data, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/uploadDocumentoProroga?department=' + department + '&extensionid=' + id, data, header).pipe(map(response => response));
   }
 
-  getListaDocumentiProroga(department: string, id: string, extensionid: string){
+  getListaDocumentiProroga(department: string, id: string, extensionid: string) {
+    // tslint:disable-next-line: max-line-length
     return this.httpClient.get<Document[]>(environment.api_url + '/getListaDocumentiProroga?department=' + department + '&id=' + id + '&relatedid=' + extensionid, this.header).pipe(map(response => response));
   }
 
@@ -166,11 +168,12 @@ export class AppApiService {
   }
 
   commitPratica(department: string, id: string) {
-    let body = {
-      id: id
+    // tslint:disable-next-line: max-line-length
+    const body = {
+      id
     };
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/commitPratica?department=' + department + '&id='  + id, body, this.header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/commitPratica?department=' + department + '&id=' + id, body, this.header).pipe(map(response => response));
     // tslint:disable-next-line: max-line-length
     // return this.httpClient.post(environment.api_url + '/commitPratica?department=' + department + '&id='  + id, this.header).pipe(map(response => response));
   }
@@ -186,6 +189,11 @@ export class AppApiService {
   getCivici(fk_stradario: string) {
     // tslint:disable-next-line: max-line-length
     return this.httpClient.get(environment.oikos_url + '/getCivici?fk_repertorio=1' + (fk_stradario !== '' || fk_stradario !== null || fk_stradario !== undefined ? 'fk_stradario=' + fk_stradario : '' ) , this.header).pipe(map(response => response));
+  }
+
+  setGeomToPratica(numeropratica: string, status: string, geom: any) {
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.post(environment.api_url + '/setGeomToPratica?numeropratica=' + numeropratica + '&status=' + status + '&geom=' + geom, this.header).pipe(map(response => response));
   }
 
 }

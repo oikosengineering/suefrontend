@@ -62,7 +62,7 @@ export class DettagliPraticaComponent implements OnInit {
     this.id_user = this.auth.getIdUser();
   }
 
-  chargeData(){
+  chargeData() {
     this.isLoading = true;
     let promises = [];
     promises.push(this.getProcedure());
@@ -87,7 +87,7 @@ export class DettagliPraticaComponent implements OnInit {
     })
   }
 
-  getProcedure(){
+  getProcedure() {
     return new Promise((resolve, reject) => {
       this.route.params.subscribe(routeParams => {
         this.idProcedure = routeParams.idProcedure;
@@ -106,7 +106,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getProvince(){
+  getProvince() {
     return new Promise((resolve, reject) => {
       this.apiService.getProvince().subscribe(data => {
         this.province.push(...data['data']);
@@ -117,7 +117,7 @@ export class DettagliPraticaComponent implements OnInit {
     })
   }
 
-  getTitoliProfessionali(){
+  getTitoliProfessionali() {
     return new Promise((resolve, reject) => {
       this.apiService.getTitoliProfessionali().subscribe(data => {
         this.titoli_professionali.push(...data['data']);
@@ -128,7 +128,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getNazioni(){
+  getNazioni() {
     return new Promise((resolve, reject) => {
       this.apiService.getNazioni().subscribe(data => {
         this.nazioni.push(...data['data'])
@@ -139,7 +139,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getOwnerType(){
+  getOwnerType() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('owner.type').subscribe(data => {
         this.tipologie.push(...data['data']);
@@ -150,7 +150,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getGender(){
+  getGender() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('gender').subscribe(data => {
         this.generi.push(...data['data']);
@@ -160,8 +160,8 @@ export class DettagliPraticaComponent implements OnInit {
       });
     });
   }
-  
-  getFlooringType(){
+
+  getFlooringType() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('building.details.flooring_type').subscribe(data => {
         this.pavimentazioni.push(...data['data']);
@@ -172,7 +172,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getWorkSupplier(){
+  getWorkSupplier() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('experts.work_supplier').subscribe(data => {
         this.esecutori.push(...data['data']);
@@ -183,7 +183,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getContactsType(){
+  getContactsType() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('contacs.type').subscribe(data => {
         this.tipologie_contatto.push(...data['data']);
@@ -193,8 +193,8 @@ export class DettagliPraticaComponent implements OnInit {
       });
     });
   }
-  
-  getQualification(){
+
+  getQualification() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('experts.qualification').subscribe(data => {
         this.qualifiche.push(...data['data']);
@@ -205,7 +205,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getDocumentType(){
+  getDocumentType() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('owner.person.document_type').subscribe(data => {
         this.tipi_documento.push(...data['data']);
@@ -216,7 +216,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getDocumentsUploaded(){
+  getDocumentsUploaded() {
     return new Promise((resolve, reject) => {
       this.apiService.getDocumentiPratica('building', this.idProcedure).subscribe(data => {
         this.documents_uploaded = data['data'];
@@ -227,7 +227,7 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  getTipologieFileObbligatori(){
+  getTipologieFileObbligatori() {
     return new Promise((resolve, reject) => {
       this.apiService.getListaDocumentiObbligatoriPratica('building', this.data_procedure.category).subscribe(data => {
         this.tipologie_file = data['data'];
@@ -238,39 +238,53 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  submitDetail(value: any){
+  submitDetail(value: any) {
     console.log("Dettagli pratica", value);
     this.apiService.modificaDettaglioPratica('building', this.data_procedure.id, value).subscribe(result => {
       console.log(result);
+      if (result !== null && result !== undefined) {
+        if (result['status'] === 200) {
+          if (result['data'].details.building_site !== null || result['data'].details.building_site !== undefined) {
+            // tslint:disable-next-line: max-line-length
+            this.apiService.setGeomToPratica(result['data'].number, result['data'].status.toString(), result['data'].details.building_site.geometry).subscribe(result => {
+              if (result['status'] !== 200) {
+                this.viewDetails.abortModify();
+              }
+            });
+          }
+        }
+        this.isLoading = false;
+      }
       this.viewDetails.completeModify();
     }, error => {
       console.log(error);
       this.viewDetails.abortModify();
+      this.isLoading = false;
     });
   }
 
-  getExperts(){
+  getExperts() {
     this.apiService.getListaEspertiPratica('building', this.data_procedure.id).subscribe(result => {
       this.data_procedure.experts = result['data'].experts;
       this.viewExperts.isLoading = false;
     }, error => {
-      this.snackBar.open("Errore di sincronizzazione", null, {duration: 2000});
+      this.snackBar.open("Errore di sincronizzazione", null, { duration: 2000 });
       this.viewExperts.isLoading = false;
     })
   }
 
-  deleteExpert(expert_id: string){
+  deleteExpert(expert_id: string) {
     console.log("Tecnico pratica", expert_id);
     this.apiService.delEspertoPratica('building', this.data_procedure.id, expert_id).subscribe(result => {
       console.log(result);
       this.getExperts();
     }, error => {
       console.log(error);
-      this.snackBar.open("Errore, il tecnico non è stato eliminato", null, {duration: 2000});
+      this.snackBar.open("Errore, il tecnico non è stato eliminato", null, { duration: 2000 });
     });
   }
 
-  addExpert(expert: any){
+  addExpert(expert: any) {
     console.log("Esperto da aggiungere", expert);
     this.apiService.addEspertoPratica('building', this.data_procedure.id, expert).subscribe(result => {
       console.log(result);
@@ -278,18 +292,18 @@ export class DettagliPraticaComponent implements OnInit {
       this.getExperts();
     }, error => {
       console.log(error);
-      this.snackBar.open("Errore, il tecnico non è stato aggiunto", null, {duration: 2000});
+      this.snackBar.open("Errore, il tecnico non è stato aggiunto", null, { duration: 2000 });
     });
   }
 
-  uploadFile(file: any){
+  uploadFile(file: any) {
     this.apiService.updDocumentoPratica('building', this.data_procedure.id, file).subscribe(result => {
       console.log(result);
-      if(this.uploadDocuments){
+      if (this.uploadDocuments) {
         this.uploadDocuments.uploadComplete();
       }
     }, error => {
-      if(this.uploadDocuments){
+      if (this.uploadDocuments) {
         this.uploadDocuments.isLoading = false;
         this.snackBar.open('Errore, impossibile caricare il file!', null, {
           duration: 2000
@@ -298,33 +312,33 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  commitPratica(){
+  commitPratica() {
     this.apiService.commitPratica('building', this.data_procedure.id).subscribe(result => {
-      if(result['status'] == 200){
-        this.snackBar.open('Pratica somministrata con successo', null, {duration: 2000});
+      if (result['status'] == 200) {
+        this.snackBar.open('Pratica somministrata con successo', null, { duration: 2000 });
         this.chargeData();
-      }else{
-        this.snackBar.open('Pratica incompleta, verifica i dati', null, {duration: 2000});
+      } else {
+        this.snackBar.open('Pratica incompleta, verifica i dati', null, { duration: 2000 });
       }
     }, error => {
-      this.snackBar.open('Si è verificato un errore!', null, {duration: 2000});
+      this.snackBar.open('Si è verificato un errore!', null, { duration: 2000 });
     })
   }
 
-  checkCanModify(value){
+  checkCanModify(value) {
     this.can_modify = this.canUpload.transform(value);
   }
 
-  checkOwner(){
+  checkOwner() {
     this.isOwner = this.data_procedure.user_id === this.id_user;
     this.can_modify = this.can_modify && this.isOwner;
   }
 
-  checkExtend(){
+  checkExtend() {
     this.can_extend = this.data_procedure.status == 'APPROVED' && (this.data_procedure.user_id === this.id_user);
   }
 
-  checkCanCommit(){
+  checkCanCommit() {
     this.can_commit = this.data_procedure.status == 'PENDING';
   }
 }
