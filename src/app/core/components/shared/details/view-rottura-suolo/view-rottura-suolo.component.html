@@ -1,3 +1,6 @@
+<div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
 <mat-card [formGroup]="form">
     <mat-form-field class="div-full" appearance="outline">
         <mat-label>Motivo scavi</mat-label>
@@ -60,7 +63,7 @@
     <ng-container formGroupName="excavation_details">
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Estensione degli scavi</mat-label>
-            <input matInput formControlName="area_number" type="number" (change)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
+            <input matInput formControlName="area_number" type="text" (change)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
             <span matSuffix>m<sup>2</sup></span>
             <mat-error>{{getErrorMessage(form.get('excavation_details').get('area_number'))}}</mat-error>
         </mat-form-field>
@@ -78,7 +81,7 @@
     <ng-container formGroupName="building_site">
         <mat-form-field class="div-a-third text-right" appearance="outline">
             <mat-label>Estensione del cantiere</mat-label>
-            <input matInput formControlName="area_number" type="number">
+            <input matInput formControlName="area_number" type="text">
             <span matSuffix>m<sup>2</sup></span>
             <mat-error>{{getErrorMessage(form.get('building_site').get('area_number'))}}</mat-error>
         </mat-form-field>
@@ -98,12 +101,12 @@
     </ng-container>
     <div class="div-a-quarter" appearance="outline">
         <mat-label>N. geometrie scavo</mat-label>
-        <input matInput readonly="true" type="number" [value]="form.get(['excavation_details', 'geometry']).value.length > 0 ? form.get(['excavation_details', 'geometry']).value.length : '/'">
+        <input matInput readonly="true" type="number" [value]="form.get(['excavation_details', 'geometry']).value != '' ? 1 : 0">
         <mat-error>{{getErrorMessage(form.get(['excavation_details', 'geometry']))}}</mat-error>
     </div>
     <div class="div-a-quarter" appearance="outline">
         <mat-label>N. geometrie cantiere</mat-label>
-        <input matInput readonly="true" type="number" [value]="form.get(['building_site', 'geometry']).value.length > 0 ? form.get(['building_site', 'geometry']).value.length : '/'">
+        <input matInput readonly="true" type="number" [value]="form.get(['building_site', 'geometry']).value.length != '' ? 1 : 0">
         <mat-error>{{getErrorMessage(form.get(['building_site', 'geometry']))}}</mat-error>
     </div>
     
@@ -112,15 +115,15 @@
     </div>
 </mat-card>
 <div class="div-full">
-    <button *ngIf="!can_modify" class="button-login" mat-raised-button color="primary" (click)="modify()">
+    <button *ngIf="!can_modify && modifiable" class="button-login" mat-raised-button color="primary" (click)="modify()">
         <mat-icon>create</mat-icon>
         Modifica
     </button>
-    <button *ngIf="can_modify" class="button-login" mat-raised-button color="warn" (click)="modify()">
+    <button *ngIf="can_modify && modifiable" class="button-login" mat-raised-button color="warn" (click)="modify()">
         <mat-icon>close</mat-icon>
         Annulla
     </button>
-    <button *ngIf="can_modify" class="button-login" mat-raised-button color="primary" (click)="save()">
+    <button *ngIf="can_modify && modifiable" class="button-login" mat-raised-button color="primary" (click)="save()">
         Salva
     </button>
 </div>

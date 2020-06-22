@@ -16,7 +16,7 @@ export class CanUploadPipe implements PipeTransform {
       case 'APPROVED':
         return false;
       case 'REJECTED':
-        return true;
+        return false;
     }
   }
 

@@ -14,10 +14,13 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
   
   form: FormGroup;
   @Input() data: any;
+  @Input() modifiable: boolean
   
   @Output() update_details = new EventEmitter();
 
   can_modify = false;
+
+  isLoading = false; 
 
   constructor(
     private validationService: ValidationService,
@@ -43,7 +46,7 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
 
   minDate(){
     var result = new Date();
-    result.setDate(result.getDate() + 15);
+    result.setDate(result.getDate() + 20);
     return result;
   }
 
@@ -95,8 +98,47 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
   }
 
   save(){
-    console.log(this.form.getRawValue());
-    this.update_details.next({details: this.form.getRawValue()});
+    if(this.form.valid){
+      this.isLoading = true
+      let result = this.form.getRawValue();
+      this.formatData(result);
+      this.update_details.next({details: result});
+    } else {
+      this.validationService.validateAllFormFields(this.form);
+    }
+  }
+
+  completeModify(){
+    this.isLoading = false;
+    this.modify()
+  }
+
+  abortModify(){
+    this.isLoading = false;
+  }
+
+  formatData(body: any){
+    if(body.end_date){
+      body.end_date = formatDate(body.end_date, "yyyy-MM-dd", "en");
+    }
+    if(body.start_date){
+      body.start_date = formatDate(body.start_date, "yyyy-MM-dd", "en");
+    }
+    if(body.intersection_address == null || body.intersection_address == undefined || body.intersection_address == ''){
+      delete body.intersection_address;
+    }
+    if(body.other.width == null || body.other.width == undefined || body.other.width == ''){
+      delete body.other.width
+    }
+    if(body.other.total_square_meters == null || body.other.total_square_meters == undefined || body.other.total_square_meters == ''){
+      delete body.other.total_square_meters;
+    }
+    if(body.other.length == null || body.other.length == undefined || body.other.length == ''){
+      delete body.other.length;
+    }
+    if(body.other.description == null || body.other.description == undefined || body.other.description == ''){
+      delete body.other.description;
+    }
   }
   
   getErrorMessage(control: AbstractControl) {

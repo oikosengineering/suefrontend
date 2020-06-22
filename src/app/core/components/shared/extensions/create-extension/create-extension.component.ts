@@ -3,6 +3,7 @@ import { FormGroup, AbstractControl } from '@angular/forms';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
 import { formatDate } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'create-extension',
@@ -21,6 +22,7 @@ export class CreateExtensionComponent implements OnInit {
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,8 @@ export class CreateExtensionComponent implements OnInit {
       let extension = this.form.value;
       this.parseDate(extension)
       this.add_extension.next(this.form.value);
+    } else {
+      this.validationService.validateAllFormFields(this.form);
     }
   }
 
@@ -61,12 +65,26 @@ export class CreateExtensionComponent implements OnInit {
   }
 
   newExtension(){
-    if(this.createExtension){
-      this.form = null;
+    if(this.checkMinDate()){
+      if(this.createExtension){
+        this.form = null;
+      } else {
+        this.form = this.formService.createExtension();
+      }
+      this.createExtension = !this.createExtension;
     } else {
-      this.form = this.formService.createExtension();
+      this.snackBar.open('La ricchiesta deve pervenire almeno entro 7 giorni dalla scadenza', 'Chiudi', {duration: 4000});
     }
-    this.createExtension = !this.createExtension;
+  }
+
+  checkMinDate(): boolean {
+    var target: any = new Date(this.min_date.split("/").reverse());
+    if(!this.isValidDate(target)){
+      target = new Date(this.min_date);
+    }
+    let today: any = new Date();
+    let diference = Math.floor((target - today) / (1000 * 60 * 60 * 24));
+    return diference >= 7;
   }
   
   getErrorMessage(control: AbstractControl) {

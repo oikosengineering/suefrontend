@@ -29,16 +29,18 @@ import { PraticheModule } from './pratiche/pratiche.module';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it'
 import { PipesModule } from './core/pipes/pipes.module';
+import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
+import { ViewDetailsDirective } from './core/directives/view-details.directive';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: ['l', 'LL'],
+    dateInput: 'LL',
   },
   display: {
-    dateInput: 'L',
-    monthYearLabel: 'MMM YYYY',
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
+    monthYearA11yLabel: 'YYYY',
   },
 };
 
@@ -54,7 +56,9 @@ registerLocaleData(localeIt, 'it-IT');
     LoginComponent,
     SignupComponent,
     UserComponent,
-    RicercaPraticheComponent
+    RicercaPraticheComponent,
+    DettagliPraticaComponent,
+    ViewDetailsDirective
   ],
   imports: [
     BrowserModule,
@@ -68,7 +72,8 @@ registerLocaleData(localeIt, 'it-IT');
     FontAwesomeModule,
     HttpClientModule,
     PraticheModule,
-    PipesModule
+    PipesModule,
+    ComponentsModule
   ],
   providers: [
     CanDeactivateGuard,

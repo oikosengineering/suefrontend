@@ -2,6 +2,11 @@
     <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="!isLoading">
+    <div class="div-full commit-procedure">
+        <button [disabled]="!can_commit" mat-raised-button color="primary" (click)="commitPratica()">
+            Inoltra pratica
+        </button>
+    </div>
     <p class="div-half"><b>Pratica N.: </b> {{data_procedure.number}}</p>
     <p class="div-half"><b>Protocollo: </b> {{data_procedure.protocol || '/'}}</p>
     <p class="div-half"><b>Stato: </b><status-procedures [status]="data_procedure.status"></status-procedures></p>
@@ -35,6 +40,7 @@
             [tipologie_contatto]="tipologie_contatto"
             [titoli_professionali]="titoli_professionali"
             [province]="province"
+            [modifiable]="can_modify"
             (delete_expert)="deleteExpert($event)"
             (add_expert)="addExpert($event)">
         </view-experts>
@@ -56,26 +62,16 @@
         </view-supplier>
     </mat-tab>
     <mat-tab label="Dettagli pratica" *ngIf="data_procedure.details">
-        <view-rottura-suolo *ngIf="data_procedure.category == 'rottura_suolo'"
+        <ng-container viewDetails
+            [type]="data_procedure.category"
             [data]="data_procedure.details"
             [pavimentazioni]="pavimentazioni"
+            [modifiable]="can_modify"
             (update_details)="submitDetail($event)">
-        </view-rottura-suolo>
-        <view-occupazione-suolo-edilizio *ngIf="data_procedure.category == 'occupazione_suolo_edilizio'"
-            [data]="data_procedure.details"
-            (update_details)="submitDetail($event)">
-        </view-occupazione-suolo-edilizio>
-        <view-occupazione-suolo-pubblico *ngIf="data_procedure.category == 'occupazione_suolo_pubblico'"
-            [data]="data_procedure.details"
-            (update_details)="submitDetail($event)">
-        </view-occupazione-suolo-pubblico>
-        <view-traslochi-lavori *ngIf="data_procedure.category == 'traslochi_lavori'"
-            [data]="data_procedure.details"
-            (update_details)="submitDetail($event)">
-        </view-traslochi-lavori>
+        </ng-container>
     </mat-tab>
     <mat-tab label="Documenti/allegati">
-        <upload-documents *ngIf="can_upload"
+        <upload-documents *ngIf="can_modify"
             [tipologie_file]="tipologie_file"
             (upload_file)="uploadFile($event)">
         </upload-documents>
@@ -84,12 +80,9 @@
         </view-documents>
     </mat-tab>
     <mat-tab label="Proroghe">
-        <create-extension *ngIf="data_procedure.can_be_extended"
-            [min_date]="data_procedure.details.end_date"
-            (add_extension)="addExtension($event)">
-        </create-extension>
         <view-extensions
-            [extensions]="extensions">
+            [can_extend]="data_procedure.can_be_extended "
+            [procedure]="data_procedure">
         </view-extensions>
     </mat-tab>
 </mat-tab-group>

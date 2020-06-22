@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'view-traslochi-lavori',
@@ -12,10 +13,13 @@ export class ViewTraslochiLavoriComponent implements OnInit {
   
   form: FormGroup;
   @Input() data: any;
+  @Input() modifiable: boolean
 
   @Output() update_details = new EventEmitter();
   
   can_modify = false;
+
+  isLoading = false; 
 
   tipologie = [
     {value: 'vehicle', name: 'Veicolo'},
@@ -68,7 +72,7 @@ export class ViewTraslochiLavoriComponent implements OnInit {
 
   minDate(){
     var result = new Date();
-    result.setDate(result.getDate() + 15);
+    result.setDate(result.getDate() + 20);
     return result;
   }
 
@@ -101,8 +105,32 @@ export class ViewTraslochiLavoriComponent implements OnInit {
   }
 
   save(){
-    console.log(this.form.getRawValue());
-    this.update_details.next({details: this.form.getRawValue()});
+    if(this.form.valid){
+      this.isLoading = true
+      let result = this.form.getRawValue();
+      this.formatData(result);
+      this.update_details.next({details: result});
+    } else {
+      this.validationService.validateAllFormFields(this.form);
+    }
+  }
+
+  completeModify(){
+    this.isLoading = false;
+    this.modify()
+  }
+
+  abortModify(){
+    this.isLoading = false;
+  }
+
+  formatData(body: any){
+    if(body.end_date){
+      body.end_date = formatDate(body.end_date, "yyyy-MM-dd", "en");
+    }
+    if(body.start_date){
+      body.start_date = formatDate(body.start_date, "yyyy-MM-dd", "en");
+    }
   }
 
   getErrorMessage(control: AbstractControl) {

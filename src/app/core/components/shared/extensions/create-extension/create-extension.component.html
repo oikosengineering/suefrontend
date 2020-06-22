@@ -3,11 +3,11 @@
 </div>
 <section class="margin-top">
     <div class="div-full">
-        <button *ngIf="!createExtension" class="button-login" mat-raised-button color="primary" (click)="newExtension()">
+        <button class="button-login" *ngIf="!createExtension" mat-raised-button color="primary" (click)="newExtension()">
             <mat-icon>add</mat-icon>
             Nuova
         </button>
-        <button *ngIf="createExtension" class="button-login" mat-raised-button color="warn" (click)="newExtension()">
+        <button class="button-login" *ngIf="createExtension" mat-raised-button color="warn" (click)="newExtension()">
             <mat-icon>close</mat-icon>
             Annulla
         </button>
@@ -31,7 +31,7 @@
             <mat-icon>close</mat-icon>
             Annulla
         </button>
-        <button [disabled]="form.invalid" class="button-login" mat-raised-button color="primary" (click)="save()">
+        <button class="button-login" [disabled]="form.invalid" mat-raised-button color="primary" (click)="save()">
             Invia
         </button>
     </div>
