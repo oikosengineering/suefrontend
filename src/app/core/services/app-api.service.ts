@@ -166,16 +166,26 @@ export class AppApiService {
   }
 
   commitPratica(department: string, id: string) {
-    // tslint:disable-next-line: max-line-length
     let body = {
       id: id
-    }
+    };
+    // tslint:disable-next-line: max-line-length
     return this.httpClient.post(environment.api_url + '/commitPratica?department=' + department + '&id='  + id, body, this.header).pipe(map(response => response));
+    // tslint:disable-next-line: max-line-length
     // return this.httpClient.post(environment.api_url + '/commitPratica?department=' + department + '&id='  + id, this.header).pipe(map(response => response));
   }
 
   verificaToken(): Observable<boolean> {
     return this.httpClient.get<boolean>(environment.api_url + '/validatetoken', this.header).pipe(map(response => response));
+  }
+
+  getStradario() {
+    return this.httpClient.get(environment.oikos_url + '/getStradario?fk_repertorio=1', this.header).pipe(map(response => response));
+  }
+
+  getCivici(fk_stradario: string) {
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.get(environment.oikos_url + '/getCivici?fk_repertorio=1' + (fk_stradario !== '' || fk_stradario !== null || fk_stradario !== undefined ? 'fk_stradario=' + fk_stradario : '' ) , this.header).pipe(map(response => response));
   }
 
 }
