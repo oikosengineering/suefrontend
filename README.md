@@ -29,15 +29,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Esempio di chiamata WMS su server Staging
 
-<<<<<<< HEAD
-http://192.168.1.26/qgis/qgis_mapserv.fcgi?map=/var/www/html/wms/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1033404,5511783,1042505,5516488&SRS=EPSG:3857&WIDTH=1024&HEIGHT=768&LAYERS=PRATICHE&FORMAT=image/png&TRANSPARENT=TRUE
-
-https://frontoffice-staging.digitale.comune.chiavari.ge.it/qgis/qgis_mapserv.fcgi?map=/var/www/html/wms/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1033404,5511783,1042505,5516488&SRS=EPSG:3857&WIDTH=1024&HEIGHT=768&LAYERS=PRATICHE&FORMAT=image/png&TRANSPARENT=TRUE
-=======
 https://192.168.1.26/qgis/qgis_mapserv.fcgi?map=/projects/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1033404,5511783,1042505,5516488&SRS=EPSG:3857&WIDTH=1024&HEIGHT=768&LAYERS=pratiche_edilizie&FORMAT=image/png&TRANSPARENT=TRUE
 
 https://frontoffice-staging.digitale.comune.chiavari.ge.it/qgis/qgis_mapserv.fcgi?map=/projects/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1033404,5511783,1042505,5516488&SRS=EPSG:3857&WIDTH=1024&HEIGHT=768&LAYERS=pratiche_edilizie&FORMAT=image/png&TRANSPARENT=TRUE
->>>>>>> map
 
 http://192.168.1.26/qgis/qgis_mapserv.fcgi?map=/projects/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
 
