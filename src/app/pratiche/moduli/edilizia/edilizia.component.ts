@@ -570,6 +570,28 @@ export class EdiliziaComponent implements OnInit {
   }
 
   parseData(body){
+    this.parseDate(body)
+    switch(this.modulo){
+      case 'rottura_suolo':
+        if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
+          delete body.details.description.notes;
+        }
+        break;
+      case 'occupazione_suolo_edilizio':
+        this.parseAddress(body);
+        this.parseIntersectionAddress(body);
+        break;
+      case 'occupazione_suolo_pubblico':
+        this.parseAddress(body);
+        break;
+      case 'traslochi_lavori':
+        this.parseAddress(body);
+        break;
+    }
+    this.parseBirthPlace(body);
+  }
+
+  parseDate(body: any){
     if(body.owner.birthday){
       body.owner.birthday = formatDate(body.owner.birthday, "yyyy-MM-dd", "en");
     }
@@ -579,38 +601,31 @@ export class EdiliziaComponent implements OnInit {
     if(body.details.start_date){
       body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-dd", "en");
     }
-    switch(this.modulo){
-      case 'rottura_suolo':
-        if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
-          delete body.details.description.notes;
-        }
-        break;
-      case 'occupazione_suolo_edilizio':
-        let address = body.details.address;
-        let intersection_address = body.details.intersection_address;
-        if(body.details.intersection_address == null || intersection_address == undefined || intersection_address == ''){
-          delete body.details.intersection_address;
-        } else if (typeof intersection_address != 'string'){
-          body.details.intersection_address = body.details.intersection_address.toponimo;
-          if(body.details.intersection_number != null && body.details.intersection_number != undefined && body.details.intersection_number != ''){
-            body.details.intersection_address += ', ' + body.details.intersection_number;
-          }
-          delete body.details.intersection_number;
-        }
-        if(typeof address != 'string'){
-          body.details.address = body.details.address.toponimo;
-          if(body.details.address_number != null && body.details.address_number != undefined && body.details.address_number != ''){
-            body.details.address += ', ' + body.details.address_number;
-          }
-          delete body.details.address_number;
-        }
-        break;
-      case 'occupazione_suolo_pubblico':
-        break;
-      case 'traslochi_lavori':
-        break;
-    }
+  }
 
+  parseAddress(body: any){
+    if(typeof body.details.address != 'string'){
+      body.details.address = body.details.address.toponimo;
+      if(body.details.address_number != null && body.details.address_number != undefined && body.details.address_number != ''){
+        body.details.address += ', ' + body.details.address_number;
+      }
+      delete body.details.address_number;
+    }
+  }
+
+  parseIntersectionAddress(body: any){
+    if(body.details.intersection_address == null || body.details.intersection_address == undefined || body.details.intersection_address == ''){
+      delete body.details.intersection_address;
+    } else if (typeof body.details.intersection_address != 'string'){
+      body.details.intersection_address = body.details.intersection_address.toponimo;
+      if(body.details.intersection_number != null && body.details.intersection_number != undefined && body.details.intersection_number != ''){
+        body.details.intersection_address += ', ' + body.details.intersection_number;
+      }
+      delete body.details.intersection_number;
+    }
+  }
+
+  parseBirthPlace(body: any){
     let birthplace = body.owner.birthplace;
     let county_of_birth = body.owner.county_of_birth;
     let country_of_birth = body.owner.country_of_birth;
