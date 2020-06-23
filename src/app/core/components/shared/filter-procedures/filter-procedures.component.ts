@@ -88,6 +88,20 @@ export class FilterProceduresComponent implements OnInit {
     this.parseFilter(result);
     this.update_filter.next(result);
   }
+
+  patchForm(data: any){
+    this.filter.patchValue(data);
+    this.patchDate(data);
+  }
+
+  patchDate(data){
+    if(data.created_at_since){
+      this.filter.get('created_at_since').patchValue(new Date(data.created_at_since * 1000));
+    }
+    if(data.created_at_until){
+      this.filter.get('created_at_until').patchValue(new Date(data.created_at_until * 1000));
+    }
+  }
   
   parseFilter(body: any){
     if(body.created_at_since){
