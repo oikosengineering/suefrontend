@@ -9,22 +9,13 @@
     </mat-expansion-panel-header>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Ubicazione</mat-label>
-        <mat-select formControlName="intersection_address" (selectionChange)="onChangeStradario(indirizzo.id')">
-            <mat-option>----</mat-option>
-            <mat-option *ngFor="let indirizzo of indirizzi" [value]="indirizzo.toponimo">
-                {{indirizzo.toponimo}}
-            </mat-option>
-        </mat-select>
+        <input matInput formControlName="address" type="text">
+        <mat-hint>Indicare via e numero civico</mat-hint>
         <mat-error>{{getErrorMessage(form.get('address'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
-        <mat-label>Civico</mat-label>
-        <mat-select formControlName="intersection_address">
-            <mat-option>----</mat-option>
-            <mat-option *ngFor="let civico of civici" [value]="civico.id">
-                {{civico.civico}}
-            </mat-option>
-        </mat-select>
+        <mat-label>Intersezione con via</mat-label>
+        <input matInput formControlName="intersection_address" type="text">
         <mat-error>{{getErrorMessage(form.get('intersection_address'))}}</mat-error>
     </mat-form-field>
     <ng-container formGroupName="scaffolding">
