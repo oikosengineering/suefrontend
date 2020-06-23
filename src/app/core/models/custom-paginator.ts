@@ -10,7 +10,6 @@ export class CustomPaginator extends MatPaginatorIntl {
   firstPageLabel = 'Pagina iniziale';
 
   getRangeLabel = function (page, pageSize, length) {
-    console.log(length);
     if (length === 0 || pageSize === 0) {
       return '0 di ' + length;
     }

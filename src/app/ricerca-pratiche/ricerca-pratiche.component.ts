@@ -69,8 +69,7 @@ export class RicercaPraticheComponent implements AfterViewInit {
     form['page'] = page;
     this.router.navigate([], { 
       relativeTo: this.route,
-      queryParams: this.queryParams(form),
-      queryParamsHandling: 'merge'
+      queryParams: this.queryParams(form)
      });
     this.getResults(form);
   }
@@ -82,8 +81,7 @@ export class RicercaPraticheComponent implements AfterViewInit {
     form['page'] = page;
     this.router.navigate([], { 
       relativeTo: this.route,
-      queryParams: this.queryParams(form),
-      queryParamsHandling: 'merge'
+      queryParams: this.queryParams(form)
     });
     this.getResults(form);
   }
