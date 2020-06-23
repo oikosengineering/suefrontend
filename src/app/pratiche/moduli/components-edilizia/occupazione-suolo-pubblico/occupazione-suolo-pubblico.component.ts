@@ -3,6 +3,7 @@ import { FormGroup, AbstractControl } from '@angular/forms';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
+import { AppApiService } from 'src/app/core/services/app-api.service';
 
 @Component({
   selector: 'app-occupazione-suolo-pubblico',
@@ -19,10 +20,17 @@ export class OccupazioneSuoloPubblicoComponent implements OnInit {
     {value: 'permanent', name: "Permanente"}
   ];
 
+  indirizzi = [];
+  civici = [];
 
   constructor(
     private validationService: ValidationService,
-  ) { }
+    private apiService: AppApiService
+  ) {
+    this.apiService.getStradario().subscribe(result => {
+      this.indirizzi = result['data'];
+    })
+   }
 
   ngOnInit(): void {
   }
@@ -74,6 +82,26 @@ export class OccupazioneSuoloPubblicoComponent implements OnInit {
         control.updateValueAndValidity();
         break;
     }
+  }
+
+  onChangeStradario(control: AbstractControl, target: string){
+    this.form.get(target.split("/")).reset();
+    if(control.value){
+      this.apiService.getCivici(control.value.id).subscribe(result => {
+        this.civici[this.toCamelCase(target)] = result['data'];
+      })
+    } else {
+      control.reset();
+    }
+  }
+
+  toCamelCase(sentenceCase) {
+    var out = "";
+    sentenceCase.split("/").forEach((element, index) => {
+        var add = element.toLowerCase();
+        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+    });
+    return out;
   }
 
   getErrorMessage(control: AbstractControl) {

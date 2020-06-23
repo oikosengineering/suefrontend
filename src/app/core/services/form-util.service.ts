@@ -41,9 +41,7 @@ export class FormUtilService {
       address: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      address_number: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
+      address_number: new FormControl(''),
       intersection_address: new FormControl(''),
       intersection_number: new FormControl(''),
       scaffolding: this.createBuildingSize(),
@@ -70,6 +68,7 @@ export class FormUtilService {
       address: new FormControl('', Validators.compose([
         Validators.required
       ])),
+      address_number: new FormControl(''),
       length: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -106,6 +105,7 @@ export class FormUtilService {
       address: new FormControl('', Validators.compose([
         Validators.required
       ])),
+      address_number: new FormControl(''),
       length: new FormControl('', Validators.compose([
         Validators.required
       ])),

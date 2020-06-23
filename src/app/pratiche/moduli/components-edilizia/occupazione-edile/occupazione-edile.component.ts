@@ -20,13 +20,14 @@ export class OccupazioneEdileComponent implements OnInit {
   constructor(
     private validationService: ValidationService,
     private apiService: AppApiService
-  ) { }
-
-  ngOnInit(): void {
-    this.form.get('other').disable();
+  ) { 
     this.apiService.getStradario().subscribe(result => {
       this.indirizzi = result['data'];
     })
+  }
+
+  ngOnInit(): void {
+    this.form.get('other').disable();
   }
 
   minDate(){

@@ -7,7 +7,7 @@
         Pratica di occupazione suolo pubblico
         </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-form-field class="div-half" appearance="outline">
+    <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Periodo di occupazione</mat-label>
         <mat-select formControlName="type" (selectionChange)="changeTipologia($event, ['end_date', 'total_duration'])">
             <mat-option>---</mat-option>
@@ -17,11 +17,25 @@
         </mat-select>
         <mat-error>{{getErrorMessage(form.get('type'))}}</mat-error>
     </mat-form-field>
-    <mat-form-field class="div-half" appearance="outline">
+    <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Ubicazione</mat-label>
-        <input matInput formControlName="address" type="text">
-        <mat-hint>Indicare via e numero civico</mat-hint>
+        <mat-select formControlName="address" (selectionChange)="onChangeStradario(form.get('address'), 'address_number')">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let indirizzo of indirizzi" [value]="indirizzo">
+                {{indirizzo.toponimo}}
+            </mat-option>
+        </mat-select>
         <mat-error>{{getErrorMessage(form.get('address'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third" appearance="outline">
+        <mat-label>Civico</mat-label>
+        <mat-select formControlName="address_number">
+            <mat-option>----</mat-option>
+            <mat-option *ngFor="let civico of civici[toCamelCase('address_number')] || []" [value]="civico.civico">
+                {{civico.civico}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{getErrorMessage(form.get('address_number'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third text-right" appearance="outline">
         <mat-label>Lunghezza</mat-label>

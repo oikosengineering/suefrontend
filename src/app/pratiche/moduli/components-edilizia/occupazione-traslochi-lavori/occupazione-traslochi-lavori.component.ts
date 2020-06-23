@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
+import { AppApiService } from 'src/app/core/services/app-api.service';
 
 @Component({
   selector: 'app-occupazione-traslochi-lavori',
@@ -17,10 +18,18 @@ export class OccupazioneTraslochiLavoriComponent implements OnInit {
     {value: 'other', name: 'Altro'},
     {value: 'stopover', name: 'Sosta'}
   ]
+  
+  indirizzi = [];
+  civici = [];
 
   constructor(
     private validationService: ValidationService,
-  ) { }
+    private apiService: AppApiService
+  ) {
+    this.apiService.getStradario().subscribe(result => {
+      this.indirizzi = result['data'];
+    })
+   }
 
   ngOnInit(): void {
   }
@@ -59,6 +68,26 @@ export class OccupazioneTraslochiLavoriComponent implements OnInit {
       return;
     let date: any = new Date(form.get(target).value);
     return new Date(date.setDate(date.getDate()));
+  }
+
+  onChangeStradario(control: AbstractControl, target: string){
+    this.form.get(target.split("/")).reset();
+    if(control.value){
+      this.apiService.getCivici(control.value.id).subscribe(result => {
+        this.civici[this.toCamelCase(target)] = result['data'];
+      })
+    } else {
+      control.reset();
+    }
+  }
+
+  toCamelCase(sentenceCase) {
+    var out = "";
+    sentenceCase.split("/").forEach((element, index) => {
+        var add = element.toLowerCase();
+        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+    });
+    return out;
   }
 
   getErrorMessage(control: AbstractControl) {
