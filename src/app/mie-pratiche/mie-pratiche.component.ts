@@ -67,7 +67,7 @@ export class MiePraticheComponent implements AfterViewInit{
       relativeTo: this.route,
       queryParams: this.queryParams(form)
      });
-    this.getResults(form);
+    // this.getResults(form);
   }
 
   changePage(event: PageEvent){
@@ -79,7 +79,7 @@ export class MiePraticheComponent implements AfterViewInit{
       relativeTo: this.route,
       queryParams: this.queryParams(form)
     });
-    this.getResults(form);
+    // this.getResults(form);
   }
 
   queryParams(query: any){
