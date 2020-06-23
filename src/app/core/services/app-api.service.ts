@@ -188,7 +188,7 @@ export class AppApiService {
 
   getCivici(fk_stradario: string) {
     // tslint:disable-next-line: max-line-length
-    return this.httpClient.get(environment.oikos_url + '/getCivici?fk_repertorio=1' + (fk_stradario !== '' || fk_stradario !== null || fk_stradario !== undefined ? 'fk_stradario=' + fk_stradario : '' ) , this.header).pipe(map(response => response));
+    return this.httpClient.get(environment.oikos_url + '/getCivici?fk_repertorio=1' + (fk_stradario !== '' || fk_stradario !== null || fk_stradario !== undefined ? '&fk_stradario=' + fk_stradario : '' ) , this.header).pipe(map(response => response));
   }
 
   setGeomToPratica(numeropratica: string, status: string, geom: any) {

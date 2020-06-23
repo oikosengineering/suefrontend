@@ -41,7 +41,11 @@ export class FormUtilService {
       address: new FormControl('', Validators.compose([
         Validators.required
       ])),
+      address_number: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       intersection_address: new FormControl(''),
+      intersection_number: new FormControl(''),
       scaffolding: this.createBuildingSize(),
       building_site: this.createBuildingSize(),
       other: this.createBuildingSizeDescription(),

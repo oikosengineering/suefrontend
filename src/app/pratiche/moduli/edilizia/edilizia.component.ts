@@ -586,8 +586,23 @@ export class EdiliziaComponent implements OnInit {
         }
         break;
       case 'occupazione_suolo_edilizio':
-        if(body.details.intersection_address == null || body.details.intersection_address == undefined || body.details.intersection_address == ''){
+        let address = body.details.address;
+        let intersection_address = body.details.intersection_address;
+        if(body.details.intersection_address == null || intersection_address == undefined || intersection_address == ''){
           delete body.details.intersection_address;
+        } else if (typeof intersection_address != 'string'){
+          body.details.intersection_address = body.details.intersection_address.toponimo;
+          if(body.details.intersection_number != null && body.details.intersection_number != undefined && body.details.intersection_number != ''){
+            body.details.intersection_address += ', ' + body.details.intersection_number;
+          }
+          delete body.details.intersection_number;
+        }
+        if(typeof address != 'string'){
+          body.details.address = body.details.address.toponimo;
+          if(body.details.address_number != null && body.details.address_number != undefined && body.details.address_number != ''){
+            body.details.address += ', ' + body.details.address_number;
+          }
+          delete body.details.address_number;
         }
         break;
       case 'occupazione_suolo_pubblico':
