@@ -32,14 +32,12 @@ export class MiePraticheComponent implements AfterViewInit{
   ngAfterViewInit() {
     this.route.queryParams.subscribe(queryParams => {
       let form = {};
-      console.log(queryParams);
       if(queryParams){
         this.filterProcedures.patchForm(queryParams);
         form = Object.assign({}, queryParams);;
       } else {
         form = this.filterProcedures.form;
       }
-      console.log(form);
       this.getResults(form);
     });
   }
@@ -49,7 +47,6 @@ export class MiePraticheComponent implements AfterViewInit{
     this.apiService.getListaPratiche('building', query).subscribe(result => {
       if(result['status'] === 200){
         this.data = result['data'];
-        console.log(this.data);
         this.dataSource = new MatTableDataSource(this.data.procedures);
         this.isLoadingResults = false;
       } else {
@@ -57,7 +54,6 @@ export class MiePraticheComponent implements AfterViewInit{
         this.snackBar.open('Errore di sincronizzazione', null, {duration: 2000});
       }
     }, error => {
-      console.log(error);
       this.isLoadingResults = false;
       this.snackBar.open('Errore di sincronizzazione', null, {duration: 2000});
     })
