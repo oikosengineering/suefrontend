@@ -44,7 +44,7 @@
             [titoli_professionali]="titoli_professionali"
             [province]="province">
         </view-expert>
-        <div class="div-full" *ngIf="modifiable">
+        <div class="div-full" *ngIf="modifiable && experts.length > 1">
             <button class="button-login" mat-raised-button color="warn" (click)="delete(expert.id)">
                 <mat-icon>delete</mat-icon>
                 Elimina

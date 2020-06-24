@@ -281,6 +281,7 @@ export class DettagliPraticaComponent implements OnInit {
     }, error => {
       console.log(error);
       this.snackBar.open("Errore, il tecnico non è stato eliminato", null, { duration: 2000 });
+      this.viewExperts.isLoading = false;
     });
   }
 
