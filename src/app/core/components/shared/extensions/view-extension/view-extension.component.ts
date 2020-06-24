@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { UploadDocumentsComponent } from '../../documents/upload-documents/upload-documents.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ViewDocumentsComponent } from '../../documents/view-documents/view-documents.component';
 
 @Component({
   selector: 'view-extension',
@@ -17,6 +18,8 @@ export class ViewExtensionComponent implements OnInit {
   tipologie_file = [];
   documents_uploaded = [];
 
+  isLoading = false;
+
   @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
 
   constructor(
@@ -29,17 +32,21 @@ export class ViewExtensionComponent implements OnInit {
   }
 
   getDocumentiCaricati() {
+    this.isLoading = true;
     this.apiService.getListaDocumentiProroga('building', this.idProcedure, this.extension.id).subscribe(result => {
       this.documents_uploaded = result['data'];
+      this.isLoading = false;
+    }, error => {
+      this.isLoading = false;
     })
   }
 
   uploadFile(file: any) {
     this.apiService.updDocumentoProroga('building', this.idProcedure, this.extension.id, file).subscribe(result => {
-      console.log(result);
       if (this.uploadDocuments) {
         this.uploadDocuments.uploadComplete();
       }
+      this.getDocumentiCaricati();
     }, error => {
       if (this.uploadDocuments) {
         this.uploadDocuments.isLoading = false;

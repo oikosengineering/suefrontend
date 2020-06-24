@@ -106,45 +106,11 @@ export class AppApiService {
   }
 
   updDocumentoPratica(department: string, id: string, data: any) {
-    const header = {
-      headers: {
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': '*',
-      }
-    };
-    console.log(data);
-    // const formData: FormData = new FormData();
-    // if (data != null || data !== undefined) {
-    //   formData.append('file', data.file, data.file.name);
-    //   formData.append('name', data.name);
-    //   if (data.type) {
-    //     formData.append('type', data.type);
-    //   }
-    // }
-    // console.log(formData);
-    // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/uploadDocumento?department=' + department + '&id=' + id  + '&method=procedures&details=documents&type=' + data.get('type'), data, header).pipe(map(response => response));
+    return this.httpClient.post(environment.api_url + '/uploadDocumento?department=' + department + '&id=' + id  + '&method=procedures&details=documents', data).pipe(map(response => response));
   }
 
-  updDocumentoProroga(department: string, id: string, relatedid: string, data: any) {
-    const header = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Origin': '*',
-      }
-    };
-    const formData: FormData = new FormData();
-    if (data != null || data !== undefined) {
-      formData.append('file', data.file, data.file.name);
-      formData.append('name', data.name);
-      if (data.type) {
-        formData.append('type', data.type);
-      }
-    }
-
-    // tslint:disable-next-line: max-line-length
-    return this.httpClient.post(environment.api_url + '/uploadDocumento?department=' + department + '&relatedid=' + relatedid + '&id=' + id  + '&method=procedures&details=extensions&extra=documents&type=' + data.type, formData, header).pipe(map(response => response));
+  updDocumentoProroga(department: string, id: string, relatedid: string, formData: any) {
+    return this.httpClient.post(environment.api_url + '/uploadDocumento?department=' + department + '&relatedid=' + relatedid + '&id=' + id  + '&method=procedures&details=extensions&extra=documents', formData).pipe(map(response => response));
   }
 
   getListaDocumentiProroga(department: string, id: string, extensionid: string) {

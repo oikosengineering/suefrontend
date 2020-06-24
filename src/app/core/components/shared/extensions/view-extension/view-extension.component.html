@@ -1,4 +1,7 @@
 <section class="margin-top">
+    <div class="loading-shade" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+    </div>
     <div>
         <h2>Proroga: {{ extension.id}}</h2>
         <p class="div-half"><b>Stato: </b> <status-procedures [status]="extension.status"></status-procedures></p>
