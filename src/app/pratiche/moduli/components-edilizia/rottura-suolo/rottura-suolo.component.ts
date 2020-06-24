@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, AbstractControl, Validators } from '@angular/forms';
+import { FormGroup, AbstractControl, Validators, FormArray } from '@angular/forms';
 import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { AppApiService } from 'src/app/core/services/app-api.service';
+import { FormUtilService } from 'src/app/core/services/form-util.service';
 
 @Component({
   selector: 'rottura-suolo',
@@ -14,6 +15,9 @@ export class RotturaSuoloComponent implements OnInit {
   @Input() form: FormGroup;
 
   pavimentazioni = [];
+
+  indirizzi = [];
+  civici = [];
 
   map_cfg = {
     buttons: [
@@ -59,16 +63,22 @@ export class RotturaSuoloComponent implements OnInit {
   constructor(
     private dialog: DialogMessageService,
     private validationService: ValidationService,
-    private apiservice: AppApiService
+    private apiService: AppApiService,
+    private formService: FormUtilService
   ) {
-    this.apiservice.getDizionario('building.details.flooring_type').subscribe(data => {
+    this.apiService.getDizionario('building.details.flooring_type').subscribe(data => {
       this.pavimentazioni.push(...data['data']);
     });
+    this.apiService.getStradario().subscribe(result => {
+      this.indirizzi = result['data'];
+    })
    }
 
   ngOnInit(): void {
     console.log(this.form);
   }
+
+  get formAddress() { return <FormArray>this.form.get(['excavation_details', 'related_addresses']); }
 
   openMap() {
     event.preventDefault();
@@ -149,6 +159,41 @@ export class RotturaSuoloComponent implements OnInit {
       return;
     let date: any = new Date(form.get(target).value);
     return new Date(date.setDate(date.getDate()));
+  }
+
+  onChangeStradario(control: AbstractControl, target: string){
+    control.parent.get('from_street_number').reset();
+    control.parent.get('to_street_number').reset();
+    if(control.value){
+      this.apiService.getCivici(control.value.id).subscribe(result => {
+        this.civici[target] = result['data'];
+      })
+    } else {
+      control.reset();
+    }
+  }
+
+  toCamelCase(sentenceCase: string) {
+    var out = "";
+    sentenceCase.split("/").forEach((element, index) => {
+        var add = element.toLowerCase();
+        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+    });
+    return out;
+  }
+
+  addAddress(array: AbstractControl): void {
+    event.preventDefault();
+    event.stopPropagation();
+    let items = array as FormArray;
+    items.push(this.formService.geometryAddress());
+  }
+
+  removeItem(array: AbstractControl, index: number){
+    event.preventDefault();
+    event.stopPropagation();
+    let items = array as FormArray;
+    items.removeAt(index);
   }
 
   getErrorMessage(control: AbstractControl) {

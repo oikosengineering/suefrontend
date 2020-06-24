@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { fiscalCodeValidator } from './validation.service';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class FormUtilService {
         Validators.required,
       ])),
       description: this.createDescriptionRotturaSuolo(),
-      excavation_details: this.createGeometryDetails(),
+      excavation_details: this.createGeometryDetailsAddress(),
       building_site: this.createGeometryDetails(),
       flooring_type: new FormControl('', Validators.compose([
         Validators.required,
@@ -206,6 +206,28 @@ export class FormUtilService {
       geometry: new FormControl('', Validators.compose([
         Validators.required
       ])),
+    })
+  }
+
+  createGeometryDetailsAddress(): FormGroup{
+    return this.fb.group({
+      area_number: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      geometry: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      related_addresses: this.fb.array([this.geometryAddress()])
+    })
+  }
+
+  geometryAddress(): FormGroup{
+    return this.fb.group({
+      street_name: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      from_street_number: new FormControl(''),
+      to_street_number: new FormControl('')
     })
   }
 
