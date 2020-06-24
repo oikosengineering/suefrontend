@@ -86,11 +86,11 @@ export class RotturaSuoloComponent implements OnInit {
     let features = [
       {
         type: 'scavo',
-        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value != ''] : []
+        features: this.form.get('excavation_details').get('geometry').value != '' ? [this.form.get('excavation_details').get('geometry').value] : []
       },
       {
         type: 'cantiere',
-        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value != ''] : []
+        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value] : []
       }
     ]
     this.map_cfg.features = features;
@@ -171,15 +171,6 @@ export class RotturaSuoloComponent implements OnInit {
     } else {
       control.reset();
     }
-  }
-
-  toCamelCase(sentenceCase: string) {
-    var out = "";
-    sentenceCase.split("/").forEach((element, index) => {
-        var add = element.toLowerCase();
-        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
-    });
-    return out;
   }
 
   addAddress(array: AbstractControl): void {

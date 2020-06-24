@@ -583,6 +583,9 @@ export class EdiliziaComponent implements OnInit {
         if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
           delete body.details.description.notes;
         }
+        if (body.details.insurance.amount) {
+          body.details.insurance.amount = body.details.insurance.amount * 100;
+        }
         this.parseGeometryAddress(body);
         break;
       case 'occupazione_suolo_edilizio':

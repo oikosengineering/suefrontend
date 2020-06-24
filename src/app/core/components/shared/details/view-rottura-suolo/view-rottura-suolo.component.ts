@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AbstractControl, Validators, FormGroup } from '@angular/forms';
+import { AbstractControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { AppApiService } from 'src/app/core/services/app-api.service';
@@ -23,6 +23,9 @@ export class ViewRotturaSuoloComponent implements OnInit {
   can_modify = false;
 
   isLoading = false;
+
+  indirizzi = [];
+  civici = [];
 
   map_cfg = {
     buttons: [
@@ -68,17 +71,30 @@ export class ViewRotturaSuoloComponent implements OnInit {
   constructor(
     private dialog: DialogMessageService,
     private validationService: ValidationService,
-    private apiservice: AppApiService,
-    private formService: FormUtilService,
+    private apiService: AppApiService,
+    private formService: FormUtilService
   ) {
   }
 
   ngOnInit(): void {
     this.form = this.formService.createDetailsRotturaSuolo();
+    this.apiService.getStradario().subscribe(result => {
+      this.indirizzi = result['data'];
+      this.patchExcavationAddress();
+    })
     this.form.patchValue(this.data);
     this.form.get('description').patchValue(this.data);
     this.form.disable();
   }
+
+  resetDetails(){
+    this.form.patchValue(this.data);
+    this.form.get('description').patchValue(this.data);
+    this.patchExcavationAddress();
+    this.form.disable();
+  }
+
+  get formAddress() { return <FormArray>this.form.get(['excavation_details', 'related_addresses']); }
 
   openMap() {
     event.preventDefault();
@@ -86,11 +102,11 @@ export class ViewRotturaSuoloComponent implements OnInit {
     let features = [
       {
         type: 'scavo',
-        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value != ''] : []
+        features: this.form.get('excavation_details').get('geometry').value != '' ? [this.form.get('excavation_details').get('geometry').value] : []
       },
       {
         type: 'cantiere',
-        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value != ''] : []
+        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value] : []
       }
     ]
     this.map_cfg.features = features;
@@ -167,6 +183,7 @@ export class ViewRotturaSuoloComponent implements OnInit {
   modify() {
     if (this.can_modify) {
       this.form.disable();
+      this.resetDetails();
     } else {
       this.form.enable();
       this.form.get('start_date').disable();
@@ -208,6 +225,64 @@ export class ViewRotturaSuoloComponent implements OnInit {
     if (body.insurance.amount) {
       body.insurance.amount = body.insurance.amount * 100;
     }
+    this.parseGeometryAddress(body);
+  }
+
+  parseGeometryAddress(body: any){
+    let addresses = body.excavation_details.related_addresses;
+    console.log("Indirizzi",addresses);
+    addresses.forEach(address => {
+      if(typeof address.street_name != 'string'){
+        address.street_name = address.street_name.toponimo;
+      }
+    })
+  }
+
+  patchExcavationAddress(){
+    let controlArray = this.formAddress;
+    controlArray.clear();       
+    this.data.excavation_details.addresses.forEach((address, i) => {
+      const fb = this.formService.geometryAddress();
+      controlArray.push(fb);
+      console.log(fb);
+      let street = this.findStreet(address.street_name);
+      fb.get('street_name').patchValue(street);
+      this.onChangeStradario(fb.get('street_name'), i);
+      fb.get('from_street_number').patchValue(address.from_street_number);
+      fb.get('to_street_number').patchValue(address.to_street_number);
+    });
+    this.form.disable();
+  }
+
+  findStreet(street_name: string){
+    return this.indirizzi.find(street => street.toponimo === street_name);
+  }
+
+  onChangeStradario(control: AbstractControl, target: string){
+    console.log(control);
+    control.parent.get('from_street_number').reset();
+    control.parent.get('to_street_number').reset();
+    if(control.value){
+      this.apiService.getCivici(control.value.id).subscribe(result => {
+        this.civici[target] = result['data'];
+      })
+    } else {
+      control.reset();
+    }
+  }
+
+  addAddress(array: AbstractControl): void {
+    event.preventDefault();
+    event.stopPropagation();
+    let items = array as FormArray;
+    items.push(this.formService.geometryAddress());
+  }
+
+  removeItem(array: AbstractControl, index: number){
+    event.preventDefault();
+    event.stopPropagation();
+    let items = array as FormArray;
+    items.removeAt(index);
   }
 
   getErrorMessage(control: AbstractControl) {

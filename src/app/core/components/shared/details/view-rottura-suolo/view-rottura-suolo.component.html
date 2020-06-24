@@ -99,6 +99,50 @@
             <mat-error>{{getErrorMessage(form.get('insurance').get('amount'))}}</mat-error>
         </mat-form-field>
     </ng-container>
+    <h3 class="div-full padding-div">Indirizzi coinvolti durante gli scavi:</h3>
+    <ng-container formGroupName="excavation_details">
+        <ng-container formArrayName="related_addresses">
+            <mat-card *ngFor="let contatto of formAddress.controls; let i = index;" [formGroupName]="i">
+                <mat-form-field class="div-half" appearance="outline">
+                    <mat-label>Indirizzo</mat-label>
+                    <mat-select formControlName="street_name" (selectionChange)="onChangeStradario(formAddress.controls[i].get('street_name'), i)">
+                        <mat-option>----</mat-option>
+                        <mat-option *ngFor="let indirizzo of indirizzi" [value]="indirizzo">
+                            {{indirizzo.toponimo}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{getErrorMessage(formAddress.controls[i].get('street_name'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-quarter" appearance="outline">
+                    <mat-label>Dal</mat-label>
+                    <mat-select formControlName="from_street_number">
+                        <mat-option value="sn">Senza numero</mat-option>
+                        <mat-option *ngFor="let civico of civici[i] || []" [value]="civico.civico">
+                            {{civico.civico}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{getErrorMessage(formAddress.controls[i].get('from_street_number'))}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="div-a-quarter" appearance="outline">
+                    <mat-label>Al</mat-label>
+                    <mat-select formControlName="to_street_number">
+                        <mat-option value="sn">Senza numero</mat-option>
+                        <mat-option *ngFor="let civico of civici[i] || []" [value]="civico.civico">
+                            {{civico.civico}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{getErrorMessage(formAddress.controls[i].get('to_street_number'))}}</mat-error>
+                </mat-form-field>
+                <button *ngIf="formAddress.controls.length > 1" [disabled]="!can_modify" class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formAddress, i);">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-card>
+            <div class="div-full">
+                <button [disabled]="!can_modify" class="button-add" mat-raised-button color="primary"
+                    (click)="addAddress(formAddress);">Aggiungi indirizzo</button>
+            </div>
+        </ng-container>
+    </ng-container>
     <div class="div-a-quarter" appearance="outline">
         <mat-label>N. geometrie scavo</mat-label>
         <input matInput readonly="true" type="number" [value]="form.get(['excavation_details', 'geometry']).value != '' ? 1 : 0">
