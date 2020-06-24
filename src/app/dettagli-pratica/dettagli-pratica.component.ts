@@ -297,8 +297,8 @@ export class DettagliPraticaComponent implements OnInit {
     });
   }
 
-  uploadFile(file: any) {
-    this.apiService.updDocumentoPratica('building', this.data_procedure.id, file).subscribe(result => {
+  uploadFile(formData) {
+    this.apiService.updDocumentoPratica('building', this.data_procedure.id, formData).subscribe(result => {
       console.log(result);
       if (this.uploadDocuments) {
         this.uploadDocuments.uploadComplete();

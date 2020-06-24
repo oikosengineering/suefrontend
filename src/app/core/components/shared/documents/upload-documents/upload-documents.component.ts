@@ -35,13 +35,20 @@ export class UploadDocumentsComponent implements OnInit {
   uploadFile(){
     if(this.file_to_upload){
       this.isLoading = true;
-      let file = {};
-      file['file'] = this.file_to_upload;
-      file['name'] = this.file_to_upload.name;
-      if(this.file_type){
-        file['type'] = this.file_type;
+      // let file = {};
+      // file['file'] = this.file_to_upload;
+      // file['name'] = this.file_to_upload.name;
+      // if(this.file_type){
+      //   file['type'] = this.file_type;
+      // }
+      const formData = new FormData();
+      formData.append('file', this.file_to_upload, this.file_to_upload.name);
+      formData.append('name', this.file_to_upload.name);
+      if (this.file_type) {
+        formData.append('type', this.file_type);
       }
-      this.upload_file.next(file);
+      console.log(formData);
+      this.upload_file.next(formData);
     } else {
       this.file_name = '';
     }
