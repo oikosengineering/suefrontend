@@ -226,8 +226,12 @@ export class FormUtilService {
       street_name: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      from_street_number: new FormControl(''),
-      to_street_number: new FormControl('')
+      from_street_number: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      to_street_number: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     })
   }
 

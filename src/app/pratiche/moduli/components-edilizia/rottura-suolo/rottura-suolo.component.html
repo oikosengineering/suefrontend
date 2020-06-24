@@ -122,7 +122,7 @@
                 <mat-form-field class="div-a-quarter" appearance="outline">
                     <mat-label>Dal</mat-label>
                     <mat-select formControlName="from_street_number">
-                        <mat-option>----</mat-option>
+                        <mat-option value="sn">Senza numero</mat-option>
                         <mat-option *ngFor="let civico of civici[i] || []" [value]="civico.civico">
                             {{civico.civico}}
                         </mat-option>
@@ -132,7 +132,7 @@
                 <mat-form-field class="div-a-quarter" appearance="outline">
                     <mat-label>Al</mat-label>
                     <mat-select formControlName="to_street_number">
-                        <mat-option>----</mat-option>
+                        <mat-option value="sn">Senza numero</mat-option>
                         <mat-option *ngFor="let civico of civici[i] || []" [value]="civico.civico">
                             {{civico.civico}}
                         </mat-option>

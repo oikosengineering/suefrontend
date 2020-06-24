@@ -44,7 +44,6 @@ export class ValidationService {
         const control = formGroup.get(field);
         control.markAsTouched({ onlySelf: true });
       }
-      
     });
   }
 }

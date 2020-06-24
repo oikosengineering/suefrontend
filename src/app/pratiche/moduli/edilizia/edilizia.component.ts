@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder, FormArray } from '@angular/forms';
 import { ValidationService } from '../../../core/services/validation.service';
 import { MatSelectChange } from '@angular/material/select';
@@ -105,7 +105,8 @@ export class EdiliziaComponent implements OnInit {
     private router: Router,
     private formService: FormUtilService,
     private apiservice: AppApiService,
-    private auth: AuthService
+    private auth: AuthService,
+    private el: ElementRef
   ) { }
 
   ngOnInit(): void {
@@ -563,10 +564,16 @@ export class EdiliziaComponent implements OnInit {
 
     } else {
       this.validationService.validateAllFormFields(this.form);
+      this.focusInvalidField();
       const body = this.form.getRawValue();
       this.parseData(body);
       this.subscribeToChanges();
     }
+  }
+
+  focusInvalidField(){
+    let element = this.el.nativeElement.querySelector('mat-form-field .ng-invalid');
+    element.scrollIntoView({ behavior: 'smooth', block: 'center'});
   }
 
   parseData(body){
@@ -576,6 +583,7 @@ export class EdiliziaComponent implements OnInit {
         if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
           delete body.details.description.notes;
         }
+        this.parseGeometryAddress(body);
         break;
       case 'occupazione_suolo_edilizio':
         this.parseAddress(body);
@@ -601,6 +609,16 @@ export class EdiliziaComponent implements OnInit {
     if(body.details.start_date){
       body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-dd", "en");
     }
+  }
+
+  parseGeometryAddress(body: any){
+    let addresses = body.details.excavation_details.related_addresses;
+    console.log("Indirizzi",addresses);
+    addresses.forEach(address => {
+      if(typeof address.street_name != 'string'){
+        address.street_name = address.street_name.toponimo;
+      }
+    })
   }
 
   parseAddress(body: any){
