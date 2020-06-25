@@ -11,7 +11,7 @@
     <p class="div-half"><b>Protocollo: </b> {{data_procedure.protocol || '/'}}</p>
     <p class="div-half"><b>Stato: </b><status-procedures [status]="data_procedure.status"></status-procedures></p>
     <p class="div-half"><b>Marca da bollo: </b> {{data_procedure.stamp_number || '/'}}</p>
-    <p class="div-half"><b>Tipologia: </b> {{data_procedure.type}}</p>
+    <p class="div-half"><b>Tipologia: </b> {{data_procedure.type | procedureType}}</p>
     <p class="div-half"><b>Categoria: </b> {{data_procedure.category | categoryPipe}}</p>
     <p class="div-full"><b>Causale: </b> {{data_procedure.subject}}</p>
     <p class="div-half"><b>Delegata: </b> {{data_procedure.delegated | delegatedPipe}}</p>

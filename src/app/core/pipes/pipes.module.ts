@@ -8,6 +8,7 @@ import { CanExtendedPipe } from './can-extended.pipe';
 import { ExpertPipe } from './expert.pipe';
 import { CanUploadPipe } from './can-upload.pipe';
 import { FileExtensionsPipe } from './file-extensions.pipe';
+import { ProcedureTypePipe } from './procedure-type.pipe';
 
 
 
@@ -20,7 +21,8 @@ import { FileExtensionsPipe } from './file-extensions.pipe';
     CanExtendedPipe,
     ExpertPipe,
     CanUploadPipe,
-    FileExtensionsPipe
+    FileExtensionsPipe,
+    ProcedureTypePipe
   ],
   exports:[
     DocumentsUploadedPipe,
@@ -30,7 +32,8 @@ import { FileExtensionsPipe } from './file-extensions.pipe';
     CanExtendedPipe,
     ExpertPipe,
     CanUploadPipe,
-    FileExtensionsPipe
+    FileExtensionsPipe,
+    ProcedureTypePipe
   ],
   providers:[
     CanUploadPipe
