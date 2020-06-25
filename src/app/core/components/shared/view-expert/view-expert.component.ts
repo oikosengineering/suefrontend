@@ -47,8 +47,19 @@ export class ViewExpertComponent implements OnInit {
         break;
       case 'business':
         this.patchAddress('address/county', 'address/city');
+        this.patchContacts();
         break;
     }
+  }
+
+  patchContacts(){
+    let controlArray = this.formContacts;
+    controlArray.clear();       
+    this.data.contacts.forEach((contact) => {
+      const fb = this.formService.createContact();
+      controlArray.push(fb);
+      fb.patchValue(contact);
+    });
   }
 
   patchAddress(value: string, target: string){

@@ -61,6 +61,11 @@ export class ViewExpertsComponent implements OnInit {
 
   completeAddExpert(){
     this.newExpert();
+    this.isLoading = false;
+  }
+
+  abortAddExpert(){
+    this.isLoading = false;
   }
 
 }

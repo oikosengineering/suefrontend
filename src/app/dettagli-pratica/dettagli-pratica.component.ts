@@ -300,6 +300,7 @@ export class DettagliPraticaComponent implements OnInit {
       this.getExperts();
     }, error => {
       console.log(error);
+      this.viewExperts.abortAddExpert();
       this.snackBar.open("Errore, il tecnico non è stato aggiunto", null, { duration: 2000 });
     });
   }
