@@ -205,7 +205,8 @@ export class ViewRotturaSuoloComponent implements OnInit {
 
   completeModify() {
     this.isLoading = false;
-    this.modify();
+    this.can_modify = false;
+    this.form.disable();
   }
 
   abortModify() {
