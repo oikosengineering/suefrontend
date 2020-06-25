@@ -1,4 +1,4 @@
-import { Directive, Output, Input, EventEmitter, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Directive, Output, Input, EventEmitter, ComponentFactoryResolver, ViewContainerRef, SimpleChanges, OnChanges } from '@angular/core';
 import { ViewRotturaSuoloComponent } from '../components/shared/details/view-rottura-suolo/view-rottura-suolo.component';
 import { ViewOccupazioneSuoloEdilizioComponent } from '../components/shared/details/view-occupazione-suolo-edilizio/view-occupazione-suolo-edilizio.component';
 import { ViewOccupazioneSuoloPubblicoComponent } from '../components/shared/details/view-occupazione-suolo-pubblico/view-occupazione-suolo-pubblico.component';
@@ -14,7 +14,7 @@ const componentMapper = {
 @Directive({
   selector: '[viewDetails]'
 })
-export class ViewDetailsDirective {
+export class ViewDetailsDirective implements OnChanges {
 
   @Input() type: string;
   @Input() data: any;
@@ -44,11 +44,23 @@ export class ViewDetailsDirective {
     })
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    console.log("Change");
+    if(changes.data && this.componentRef){
+      this.componentRef.instance.data = changes.data.currentValue;
+      this.resetDetails();
+    }
+  }
+
   completeModify(){
     this.componentRef.instance.completeModify();
   }
 
   abortModify(){
     this.componentRef.instance.abortModify();
+  }
+
+  resetDetails(){
+    this.componentRef.instance.resetDetails();
   }
 }

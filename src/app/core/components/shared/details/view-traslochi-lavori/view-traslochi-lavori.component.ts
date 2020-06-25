@@ -39,6 +39,12 @@ export class ViewTraslochiLavoriComponent implements OnInit {
     this.form.disable();
   }
 
+  resetDetails(){
+    this.form.patchValue(this.data);
+    this.patchDate();
+    this.form.disable();
+  }
+
   patchDate(){
     this.form.get('start_time').setValue(this.formatTime(this.data.start_time));
     this.form.get('end_time').setValue(this.formatTime(this.data.end_time));
@@ -96,6 +102,7 @@ export class ViewTraslochiLavoriComponent implements OnInit {
   modify(){
     if(this.can_modify){
       this.form.disable();
+      this.resetDetails();
     } else {
       this.form.enable();
       this.form.get('start_date').disable();
@@ -117,7 +124,8 @@ export class ViewTraslochiLavoriComponent implements OnInit {
 
   completeModify(){
     this.isLoading = false;
-    this.modify()
+    this.can_modify = false;
+    this.form.disable();
   }
 
   abortModify(){

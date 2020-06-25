@@ -247,15 +247,22 @@ export class DettagliPraticaComponent implements OnInit {
           if (result['data'].details.building_site !== null || result['data'].details.building_site !== undefined) {
             // tslint:disable-next-line: max-line-length
             this.apiService.setGeomToPratica(result['data'].number, result['data'].status.toString(), result['data'].details.building_site.geometry).subscribe(result => {
-              if (result['status'] !== 200) {
-                this.viewDetails.abortModify();
+              if (result['status'] == 200) {
+                console.log("Geometrie aggiornate");
+              } else {
+                console.log("Geometrie non aggiornate");
               }
+            }, error => {
+              console.log("Geometrie non aggiornate");
             });
           }
+          this.data_procedure = result['data'];
+          this.viewDetails.completeModify();
+        } else {
+          this.viewDetails.abortModify();
         }
-        this.isLoading = false;
       }
-      this.viewDetails.completeModify();
+      this.isLoading = false;
     }, error => {
       console.log(error);
       this.viewDetails.abortModify();

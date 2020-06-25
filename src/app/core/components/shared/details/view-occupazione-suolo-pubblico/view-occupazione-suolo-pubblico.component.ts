@@ -40,6 +40,12 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
     this.form.disable();
   }
 
+  resetDetails(){
+    this.form.patchValue(this.data);
+    this.patchDate();
+    this.form.disable();
+  }
+
   patchDate(){
     this.form.get('start_date').patchValue(new Date(this.data.start_date.split("/").reverse()));
     if(this.data.end_date){
@@ -99,6 +105,7 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
   modify(){
     if(this.can_modify){
       this.form.disable();
+      this.resetDetails();
     } else {
       this.form.enable();
       this.form.get('start_date').disable();
@@ -120,7 +127,8 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
 
   completeModify(){
     this.isLoading = false;
-    this.modify()
+    this.can_modify = false;
+    this.form.disable();
   }
 
   abortModify(){

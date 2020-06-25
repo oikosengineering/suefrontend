@@ -39,6 +39,17 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
     this.form.disable();
   }
 
+  resetDetails(){
+    let result = Object.assign({}, this.data);
+    if(!result.other){
+      delete result.other;
+    }
+    console.log(result);
+    this.form.patchValue(result);
+    this.patchDate();
+    this.form.disable();
+  }
+
   patchDate(){
     this.form.get('start_date').patchValue(new Date(this.data.start_date.split("/").reverse()));
     this.form.get('end_date').patchValue(new Date(this.data.end_date.split("/").reverse()));
@@ -87,6 +98,7 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
   modify(){
     if(this.can_modify){
       this.form.disable();
+      this.resetDetails();
     } else {
       this.form.enable();
       let isOther = this.data.other ? true : false;
@@ -110,7 +122,8 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
 
   completeModify(){
     this.isLoading = false;
-    this.modify()
+    this.can_modify = false;
+    this.form.disable();
   }
 
   abortModify(){

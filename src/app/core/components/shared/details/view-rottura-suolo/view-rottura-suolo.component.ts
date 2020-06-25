@@ -244,7 +244,6 @@ export class ViewRotturaSuoloComponent implements OnInit {
     this.data.excavation_details.addresses.forEach((address, i) => {
       const fb = this.formService.geometryAddress();
       controlArray.push(fb);
-      console.log(fb);
       let street = this.findStreet(address.street_name);
       fb.get('street_name').patchValue(street);
       this.onChangeStradario(fb.get('street_name'), i);
@@ -259,7 +258,6 @@ export class ViewRotturaSuoloComponent implements OnInit {
   }
 
   onChangeStradario(control: AbstractControl, target: string){
-    console.log(control);
     control.parent.get('from_street_number').reset();
     control.parent.get('to_street_number').reset();
     if(control.value){
