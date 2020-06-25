@@ -7,6 +7,7 @@ import { DelegatedPipe } from './delegated.pipe';
 import { CanExtendedPipe } from './can-extended.pipe';
 import { ExpertPipe } from './expert.pipe';
 import { CanUploadPipe } from './can-upload.pipe';
+import { FileExtensionsPipe } from './file-extensions.pipe';
 
 
 
@@ -18,7 +19,8 @@ import { CanUploadPipe } from './can-upload.pipe';
     DelegatedPipe,
     CanExtendedPipe,
     ExpertPipe,
-    CanUploadPipe
+    CanUploadPipe,
+    FileExtensionsPipe
   ],
   exports:[
     DocumentsUploadedPipe,
@@ -27,7 +29,8 @@ import { CanUploadPipe } from './can-upload.pipe';
     DelegatedPipe,
     CanExtendedPipe,
     ExpertPipe,
-    CanUploadPipe
+    CanUploadPipe,
+    FileExtensionsPipe
   ],
   providers:[
     CanUploadPipe

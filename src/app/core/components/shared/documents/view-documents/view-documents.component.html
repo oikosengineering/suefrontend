@@ -1,18 +1,32 @@
 <section class="margin-top">
     <h2>Lista file caricati:</h2>
-    <mat-nav-list class="div-full list-element" *ngIf="documents.length > 0">
+    <mat-list class="div-full list-element" *ngIf="documents.length > 0">
         <ng-container  *ngFor="let file of documents">
             <mat-list-item >
-                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                <!-- <mat-icon mat-list-icon>insert_drive_file</mat-icon>
                 <p matLine >Nome: {{ file.name }}</p>
                 <p matLine >Tipo: {{ file.type }}</p>
-                <!-- <button mat-icon-button (click)="removeFile(file.id)">
+                <button mat-icon-button (click)="removeFile(file.id)">
                     <mat-icon>cancel</mat-icon>
-                </button> -->
+                </button>
+                <mat-divider></mat-divider> -->
+                <!-- <mat-icon mat-list-icon>description</mat-icon> -->
+                <fa-icon mat-list-icon [icon]="file.extension | fileExtensions"></fa-icon>
+                <p matLine > 
+                    <span class="div-half"><b>Nome: </b> {{ file.name }}</span>
+                    <span class="div-half"><b>Tipologia: </b> {{ file.type || 'Altro' }}</span> 
+                </p>
+                <p matLine > 
+                    <span class="div-half"><b>File: </b> {{ file.is_mandatory != '0' ? 'Obbligatorio' : 'Opzionale'}}</span>
+                    <span class="div-half"><b>Caricato il: </b> {{ file.date}}</span>
+                </p>
+                <p matLine > 
+                    <span class="div-full"><b>Descrizione: </b> {{ file.description || 'Nessuna descrizione'}}</span>
+                </p>
                 <mat-divider></mat-divider>
             </mat-list-item>
         </ng-container>
-    </mat-nav-list>
+    </mat-list>
     <p class="padding-side" *ngIf="documents.length == 0">Nessun documento caricato</p>
 </section>
 

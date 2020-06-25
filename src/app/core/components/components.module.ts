@@ -26,6 +26,8 @@ import { CreateExtensionComponent } from './shared/extensions/create-extension/c
 import { ViewExtensionsComponent } from './shared/extensions/view-extensions/view-extensions.component';
 import { FilterProceduresComponent } from './shared/filter-procedures/filter-procedures.component';
 import { ViewExtensionComponent } from './shared/extensions/view-extension/view-extension.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { FileExtensionsPipe } from '../pipes/file-extensions.pipe';
 
 
 @NgModule({
@@ -56,7 +58,8 @@ import { ViewExtensionComponent } from './shared/extensions/view-extension/view-
     FontAwesomeModule,
     ReactiveFormsModule,
     FormsModule,
-    PraticheModule
+    PraticheModule,
+    PipesModule,
   ],
   entryComponents: [MyDialogComponent, MapComponent],
   exports: [
@@ -80,7 +83,7 @@ import { ViewExtensionComponent } from './shared/extensions/view-extension/view-
     FilterProceduresComponent,
     ViewExtensionComponent
   ],
-  providers: [DocumentsUploadedPipe, StatusPipe]
+  providers: [DocumentsUploadedPipe, StatusPipe, FileExtensionsPipe]
 })
 export class ComponentsModule {
   constructor(library: FaIconLibrary) {
