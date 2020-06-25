@@ -306,10 +306,13 @@ export class DettagliPraticaComponent implements OnInit {
 
   uploadFile(formData) {
     this.apiService.updDocumentoPratica('building', this.data_procedure.id, formData).subscribe(result => {
-      console.log(result);
       if (this.uploadDocuments) {
         this.uploadDocuments.uploadComplete();
       }
+      this.getDocumentsUploaded();
+      this.snackBar.open('Documento caricato con successo!', null, {
+        duration: 2000
+      });
     }, error => {
       if (this.uploadDocuments) {
         this.uploadDocuments.isLoading = false;
