@@ -27,10 +27,21 @@ export class ViewSupplierComponent implements OnInit {
     this.form = this.formService.createBusiness();
     this.form.patchValue(this.data);
     this.patchAddress('address/county', 'address/city');
+    this.patchContacts();
     this.form.disable();
   }
 
   get formContacts() { return <FormArray>this.form.get('contacts'); }
+
+  patchContacts(){
+    let controlArray = this.formContacts;
+    controlArray.clear();       
+    this.data.contacts.forEach((contact) => {
+      const fb = this.formService.createContact();
+      controlArray.push(fb);
+      fb.patchValue(contact);
+    });
+  }
 
   patchAddress(value: string, target: string){
     this.form.get(value.split("/")).patchValue(this.data.address.county_code);
