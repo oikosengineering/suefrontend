@@ -8,7 +8,7 @@
         </button>
     </div>
     <p class="div-half"><b>Pratica N.: </b> {{data_procedure.number}}</p>
-    <p class="div-half"><b>Protocollo: </b> {{data_procedure.protocol || '/'}}</p>
+    <p class="div-half"><b>N. Protocollo: </b> {{data_procedure.protocol || '/'}}</p>
     <p class="div-half"><b>Stato: </b><status-procedures [status]="data_procedure.status"></status-procedures></p>
     <p class="div-half"><b>Marca da bollo: </b> {{data_procedure.stamp_number || '/'}}</p>
     <p class="div-half"><b>Tipologia: </b> {{data_procedure.type | procedureType}}</p>
@@ -21,7 +21,7 @@
     <p class="div-full"><b>Allegati pratica: </b> {{(data_procedure.all_mandatory_documents_uploaded | documentsUploaded)['tooltip']}}</p>
 </div>
 <mat-tab-group *ngIf="!isLoading">
-    <mat-tab label="Prorietario" *ngIf="data_procedure.owner" >
+    <mat-tab label="Proprietario" *ngIf="data_procedure.owner" >
         <view-owner 
             [data]="data_procedure.owner"
             [tipologie]="tipologie"
@@ -54,7 +54,7 @@
             [province]="province">
         </view-administrator>
     </mat-tab>
-    <mat-tab label="Ditta costrutrice" *ngIf="data_procedure.supplier">
+    <mat-tab label="Ditta costruttrice" *ngIf="data_procedure.supplier">
         <view-supplier 
             [data]="data_procedure.supplier"
             [tipologie_contatto]="tipologie_contatto"
