@@ -13,7 +13,7 @@
       <mat-icon>account_circle</mat-icon>
       Accedi
     </button>
-    <button  *ngIf="isUserLoggedIn" mat-button [matMenuTriggerFor]="menu">Benvenuto {{username}}</button>
+    <button  *ngIf="isUserLoggedIn" mat-button [matMenuTriggerFor]="menu">Benvenuto, {{profile.full_name}}</button>
     <mat-menu #menu="matMenu">
       <button *ngIf="isUserLoggedIn" color="primary" mat-button (click)="logout($event)">
         <mat-icon>account_circle</mat-icon>

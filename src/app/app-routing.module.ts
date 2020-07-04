@@ -14,9 +14,9 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      { path: 'nuova-pratica', component: NuovaPraticaComponent },
-      { path: 'ricerca-pratiche', component: RicercaPraticheComponent },
-      { path: 'dettagli-pratica/:idProcedure', component: DettagliPraticaComponent,}
+      { path: 'nuova-pratica', component: NuovaPraticaComponent, canActivate: [RouteGuard] },
+      { path: 'ricerca-pratiche', component: RicercaPraticheComponent, canActivate: [RouteGuard] },
+      { path: 'dettagli-pratica/:idProcedure', component: DettagliPraticaComponent, canActivate: [RouteGuard]}
     ]
   },
   {

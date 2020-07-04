@@ -152,7 +152,7 @@ export class AuthService {
     localStorage.setItem('type', fkuser.ifk.type);
 
     this.userislogin.emit( {
-      token: this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'),
+      token: localStorage.getItem('token'),
       id: fkuser.ifk.user.first_name,
       email: fkuser.ifk.user.email,
       first_name: fkuser.ifk.user.first_name,
