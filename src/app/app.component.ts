@@ -2,7 +2,7 @@ import { Component, ChangeDetectorRef, OnInit, ɵConsole } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './core/services/auth.service';
 import { EvtSignIn } from './core/models/models';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../environments/environment';
 import { Location, PathLocationStrategy } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
     media: MediaMatcher,
     private auth: AuthService,
     public router: Router,
+    private route: ActivatedRoute,
     private cookieservice: CookieService,
     private pathLocationStrategy: PathLocationStrategy) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -43,7 +44,6 @@ export class AppComponent implements OnInit {
     );
     auth.userislogin.subscribe(
       (data: EvtSignIn) => {
-        console.log(data);
         const jwt = jwt_decode(data.token);
         this.profile = jwt.user.profile;
         this.isUserLoggedIn = true;
@@ -75,7 +75,8 @@ export class AppComponent implements OnInit {
   }
 
   login() {
-    const url = environment.auth_url;
+    let url = environment.auth_url ;
+    url =  url + window.location.href + '?code=ssoreturn';
     window.location.href = url;
   }
 

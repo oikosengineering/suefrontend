@@ -30,16 +30,15 @@ export class MiePraticheComponent implements AfterViewInit{
   ) { }
 
   ngAfterViewInit() {
-    this.route.queryParams.subscribe(queryParams => {
-      let form = {};
-      if(queryParams){
-        this.filterProcedures.patchForm(queryParams);
-        form = Object.assign({}, queryParams);;
-      } else {
-        form = this.filterProcedures.form;
-      }
-      this.getResults(form);
-    });
+    let queryParams = this.route.snapshot.queryParams;
+    let form = {};
+    if(queryParams){
+      this.filterProcedures.patchForm(queryParams);
+      form = Object.assign({}, queryParams);;
+    } else {
+      form = this.filterProcedures.form;
+    }
+    this.getResults(form);
   }
 
   getResults(query: any){
@@ -67,7 +66,7 @@ export class MiePraticheComponent implements AfterViewInit{
       relativeTo: this.route,
       queryParams: this.queryParams(form)
      });
-    // this.getResults(form);
+    this.getResults(form);
   }
 
   changePage(event: PageEvent){
@@ -79,7 +78,7 @@ export class MiePraticheComponent implements AfterViewInit{
       relativeTo: this.route,
       queryParams: this.queryParams(form)
     });
-    // this.getResults(form);
+    this.getResults(form);
   }
 
   queryParams(query: any){

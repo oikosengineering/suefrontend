@@ -14,7 +14,8 @@ export class RouteGuard implements CanActivate {
     if (this.auth.isUserLoggedIn()) {
         return true;
     } else {
-      const url = environment.auth_url;
+      let url = environment.auth_url ;
+      url =  url + window.location.origin + state.url + '?code=ssoreturn';
       window.location.href = url;
       return false;
     }

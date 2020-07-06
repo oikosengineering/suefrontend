@@ -7,6 +7,7 @@ const routes: Routes = [
     path: '',
     component: MiePraticheComponent,
     pathMatch: 'full',
+    runGuardsAndResolvers: 'always'
   },
 ];
 
