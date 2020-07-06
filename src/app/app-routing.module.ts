@@ -7,6 +7,7 @@ import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouteGuard } from './core/guards/routeguard.guard';
 import { CookieService } from 'ngx-cookie-service';
 import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
+import { AccessGuard } from './core/guards/access.guard';
 
 const routes: Routes = [
   {

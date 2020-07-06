@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
     );
     auth.userislogin.subscribe(
       (data: EvtSignIn) => {
+        console.log(data);
         const jwt = jwt_decode(data.token);
         this.profile = jwt.user.profile;
         this.isUserLoggedIn = true;
@@ -62,10 +63,10 @@ export class AppComponent implements OnInit {
       }
     }
 
-    if (this.auth.isTokenExpired()) {
-      console.log("Token expired");
-      this.auth.logout();
-    }
+    // if (this.auth.isTokenExpired()) {
+    //   console.log("Token expired");
+    //   this.auth.logout();
+    // }
 
     // if (this.auth.isTokenValid()) {
     //   console.log("Token not valid");

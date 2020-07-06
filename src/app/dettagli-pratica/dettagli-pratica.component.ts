@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateExtensionComponent } from 'src/app/core/components/shared/extensions/create-extension/create-extension.component';
 import { ViewExpertsComponent } from '../core/components/shared/view-experts/view-experts.component';
 import { ViewDetailsDirective } from '../core/directives/view-details.directive';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -53,9 +54,10 @@ export class DettagliPraticaComponent implements OnInit {
     private apiService: AppApiService,
     private auth: AuthService,
     private canUpload: CanUploadPipe,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private location: Location
   ) {
-    this.chargeData();
+    this.getProcedure();
   }
 
   ngOnInit(): void {
@@ -63,9 +65,7 @@ export class DettagliPraticaComponent implements OnInit {
   }
 
   chargeData() {
-    this.isLoading = true;
     let promises = [];
-    promises.push(this.getProcedure());
     promises.push(this.getProvince());
     promises.push(this.getTitoliProfessionali());
     promises.push(this.getNazioni());
@@ -88,24 +88,24 @@ export class DettagliPraticaComponent implements OnInit {
   }
 
   getProcedure() {
-    return new Promise((resolve, reject) => {
-      this.route.params.subscribe(routeParams => {
-        this.idProcedure = routeParams.idProcedure;
-        this.apiService.getDettagliPratica('building', this.idProcedure).subscribe(result => {
-          console.log(result);
-          if (result !== null) {
-            //se l'id è diverso da quello dell'utente allora non mostro il dettaglio pratica
-            this.data_procedure = result['data']['user_id'] !== localStorage.getItem('id') ? [] : result['data'];
-            // this.data_procedure = result['data'];
+    this.isLoading = true;
+    this.route.params.subscribe(routeParams => {
+      this.idProcedure = routeParams.idProcedure;
+      this.apiService.getDettagliPratica('building', this.idProcedure).subscribe(result => {
+        console.log(result);
+        if (result !== null) {
+          if(result['data']['user_id'] == localStorage.getItem('id')){
+            this.data_procedure = result['data'];
             this.checkCanModify(this.data_procedure.status);
             this.checkOwner();
             this.checkExtend();
             this.checkCanCommit();
+            this.chargeData();
+          } else {
+            this.snackBar.open("Accesso negato", null, {duration: 2000});
+            this.location.back();
           }
-          resolve(true);
-        }, error => {
-          reject(error);
-        });
+        }
       });
     });
   }
@@ -332,7 +332,7 @@ export class DettagliPraticaComponent implements OnInit {
     this.apiService.commitPratica('building', this.data_procedure.id).subscribe(result => {
       if (result['status'] == 200) {
         this.snackBar.open('Pratica somministrata con successo', null, { duration: 2000 });
-        this.chargeData();
+        this.getProcedure();
       } else {
         this.snackBar.open('Pratica incompleta, verifica i dati', null, { duration: 2000 });
       }
