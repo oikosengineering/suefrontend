@@ -35,7 +35,6 @@ export class OwnerComponent implements OnInit {
     let token = this.auth.getToken();
     const jwt = jwt_decode(token);
     this.profile = jwt.user.profile;
-    console.log(this.profile);
   }
 
   ngOnInit(): void {

@@ -23,7 +23,6 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
     private dialog: DialogMessageService
   ) {
     this.route.params.subscribe(routeParams => {
-      console.log(routeParams);
       this.idModulo = routeParams.idModulo;
     });
    }
@@ -33,7 +32,6 @@ export class ModuloComponent implements OnInit, CanComponentDeactivate {
   }
 
   saveEvent(event){
-    console.log(event)
     this.saved_form = event;
   }
 

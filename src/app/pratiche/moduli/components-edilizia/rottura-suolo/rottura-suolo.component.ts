@@ -75,7 +75,6 @@ export class RotturaSuoloComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log(this.form);
   }
 
   get formAddress() { return <FormArray>this.form.get(['excavation_details', 'related_addresses']); }

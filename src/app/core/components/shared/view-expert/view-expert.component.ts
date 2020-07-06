@@ -35,7 +35,6 @@ export class ViewExpertComponent implements OnInit {
     let token = this.auth.getToken();
     const jwt = jwt_decode(token);
     this.profile = jwt.user.profile;
-    console.log(this.profile);
    }
 
   ngOnInit(): void {
@@ -85,7 +84,9 @@ export class ViewExpertComponent implements OnInit {
   }
 
   patchPrafessionalTitle(data: any){
-    this.form.get('professional_title').patchValue(data.professional_title.long.toLowerCase());
+    if(data.professional_title){
+      this.form.get('professional_title').patchValue(data.professional_title.long.toLowerCase());
+    }
   }
 
   getComuniForPatch(value: string, target: string, patchValue: any){

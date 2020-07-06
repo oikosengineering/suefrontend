@@ -24,7 +24,6 @@ export class ExpertsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.form);
   }
 
   get formExperts() {return <FormArray>this.form;}

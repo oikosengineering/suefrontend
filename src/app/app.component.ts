@@ -43,7 +43,6 @@ export class AppComponent implements OnInit {
     );
     auth.userislogin.subscribe(
       (data: EvtSignIn) => {
-        console.log(data);
         const jwt = jwt_decode(data.token);
         this.profile = jwt.user.profile;
         this.isUserLoggedIn = true;

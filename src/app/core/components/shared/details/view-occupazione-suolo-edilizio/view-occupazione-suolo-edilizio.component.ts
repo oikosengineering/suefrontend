@@ -33,7 +33,6 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
     if(!result.other){
       delete result.other;
     }
-    console.log(result);
     this.form.patchValue(result);
     this.patchDate();
     this.form.disable();
@@ -44,7 +43,6 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
     if(!result.other){
       delete result.other;
     }
-    console.log(result);
     this.form.patchValue(result);
     this.patchDate();
     this.form.disable();

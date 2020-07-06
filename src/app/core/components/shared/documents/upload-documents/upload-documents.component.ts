@@ -20,15 +20,12 @@ export class UploadDocumentsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("File obbligatori", this.tipologie_file);
   }
 
   changeType(){
-    console.log(this.file_type);
   }
 
   changeFile(event){
-    console.log(event.target.files[0])
     this.file_to_upload = event.target.files[0];
   }
 
