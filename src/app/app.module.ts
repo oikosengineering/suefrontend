@@ -26,7 +26,7 @@ import { CustomPaginator } from './core/models/custom-paginator';
 import { RotturaSuoloComponent } from './pratiche/moduli/components-edilizia/rottura-suolo/rottura-suolo.component';
 import { EdiliziaComponent } from './pratiche/moduli/edilizia/edilizia.component';
 import { PraticheModule } from './pratiche/pratiche.module';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import localeIt from '@angular/common/locales/it'
 import { PipesModule } from './core/pipes/pipes.module';
 import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
@@ -81,6 +81,7 @@ registerLocaleData(localeIt, 'it-IT');
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
   ],
   bootstrap: [AppComponent]
 })
