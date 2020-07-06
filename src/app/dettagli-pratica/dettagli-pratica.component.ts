@@ -93,11 +93,15 @@ export class DettagliPraticaComponent implements OnInit {
         this.idProcedure = routeParams.idProcedure;
         this.apiService.getDettagliPratica('building', this.idProcedure).subscribe(result => {
           console.log(result);
-          this.data_procedure = result['data'];
-          this.checkCanModify(this.data_procedure.status);
-          this.checkOwner();
-          this.checkExtend();
-          this.checkCanCommit();
+          if (result !== null) {
+            //se l'id è diverso da quello dell'utente allora non mostro il dettaglio pratica
+            this.data_procedure = result['data']['user_id'] !== localStorage.getItem('id') ? [] : result['data'];
+            // this.data_procedure = result['data'];
+            this.checkCanModify(this.data_procedure.status);
+            this.checkOwner();
+            this.checkExtend();
+            this.checkCanCommit();
+          }
           resolve(true);
         }, error => {
           reject(error);

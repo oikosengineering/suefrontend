@@ -20,6 +20,7 @@ export class RicercaPraticheComponent implements AfterViewInit {
   isLoadingResults = true;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(FilterProceduresComponent) filterProcedures: FilterProceduresComponent;
+  isUserLoggedIn = false;
 
   constructor(
     private auth: AuthService,
@@ -28,6 +29,7 @@ export class RicercaPraticheComponent implements AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
   ) {
+    this.isUserLoggedIn = this.auth.isUserLoggedIn();
   }
 
   ngAfterViewInit() {
