@@ -3,7 +3,8 @@ import { FormGroup, AbstractControl, FormArray, Validators } from '@angular/form
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
-import { MatSelectChange } from '@angular/material/select';
+import { AuthService } from 'src/app/core/services/auth.service';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'view-expert',
@@ -22,54 +23,69 @@ export class ViewExpertComponent implements OnInit {
   comuni = {};
 
   can_modify = false;
+
+  profile;
   
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
-    private apiservice: AppApiService
-  ) { }
+    private apiservice: AppApiService,
+    private auth: AuthService
+  ) {
+    let token = this.auth.getToken();
+    const jwt = jwt_decode(token);
+    this.profile = jwt.user.profile;
+    console.log(this.profile);
+   }
 
   ngOnInit(): void {
     this.form = this.formService.createExpertBusiness();
     this.form.patchValue(this.data);
     this.changedTipologiaEsperto(this.form, {value: this.form.get('type').value});
-    this.patchParsedData(this.form.get('type').value);
+    this.patchParsedData(this.form.get('type').value, this.data);
     this.form.disable();
   }
 
   get formContacts() { return <FormArray>this.form.get('contacts'); }
 
-  patchParsedData(value){
+  autocomplete(){
+    this.form.reset();
+    this.form.patchValue(this.profile);
+    this.changedTipologiaEsperto(this.form, {value: this.form.get('type').value});
+    this.patchParsedData(this.form.get('type').value, this.profile);
+  }
+
+  patchParsedData(value: string, data: any){
     switch (value) {
       case 'person':
-        this.patchAddress('address/county', 'address/city');
-        this.patchPrafessionalTitle();
+        this.patchAddress('address/county', 'address/city', data);
+        this.patchPrafessionalTitle(data);
         break;
       case 'business':
-        this.patchAddress('address/county', 'address/city');
-        this.patchContacts();
+        this.patchAddress('address/county', 'address/city', data);
+        this.patchContacts(data);
         break;
     }
   }
 
-  patchContacts(){
+  patchContacts(data: any){
     let controlArray = this.formContacts;
     controlArray.clear();       
-    this.data.contacts.forEach((contact) => {
+    data.contacts.forEach((contact) => {
       const fb = this.formService.createContact();
       controlArray.push(fb);
       fb.patchValue(contact);
     });
   }
 
-  patchAddress(value: string, target: string){
-    this.form.get(value.split("/")).patchValue(this.data.address.county_code);
+  patchAddress(value: string, target: string, data: any){
+    this.form.get(value.split("/")).patchValue(data.address.county_code);
     this.checkValidationElseDisable(value, target);
-    this.getComuniForPatch(value, target, this.data.address.city_code);
+    this.getComuniForPatch(value, target, data.address.city_code);
   }
 
-  patchPrafessionalTitle(){
-    this.form.get('professional_title').patchValue(this.data.professional_title.long.toLowerCase());
+  patchPrafessionalTitle(data: any){
+    this.form.get('professional_title').patchValue(data.professional_title.long.toLowerCase());
   }
 
   getComuniForPatch(value: string, target: string, patchValue: any){
@@ -174,6 +190,22 @@ export class ViewExpertComponent implements OnInit {
       this.apiservice.getNazioni().subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
       });
+    }
+  }
+
+  checkFiscalCode(){
+    if(this.profile.fiscal_code.toLowerCase() == this.form.get('fiscal_code').value.toLowerCase()){
+      return false
+    } else {
+      return true;
+    }
+  }
+
+  checkVat(){
+    if(this.profile.vat == this.form.get('vat').value){
+      return false
+    } else {
+      return true;
     }
   }
   

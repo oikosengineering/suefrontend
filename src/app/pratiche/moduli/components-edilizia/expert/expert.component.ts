@@ -4,7 +4,8 @@ import { ValidationService } from 'src/app/core/services/validation.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { MatSelectChange } from '@angular/material/select';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { AuthService } from 'src/app/core/services/auth.service';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'expert',
@@ -22,18 +23,26 @@ export class ExpertComponent implements OnInit {
   comuni = {};
   loading = false;
 
+  profile;
+
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
-    private apiservice: AppApiService
-  ) { }
+    private apiservice: AppApiService,
+    private auth: AuthService
+  ) { 
+    let token = this.auth.getToken();
+    const jwt = jwt_decode(token);
+    this.profile = jwt.user.profile;
+    console.log(this.profile);
+  }
 
   ngOnInit(): void {
   }
 
   get formContacts() { return <FormArray>this.form.get('contacts'); }
 
-  changedTipologiaEsperto(form: AbstractControl, event: MatSelectChange) {
+  changedTipologiaEsperto(form: AbstractControl, event: any) {
     switch (event.value) {
       case 'person':
         form.get('first_name').enable()
@@ -131,6 +140,72 @@ export class ExpertComponent implements OnInit {
         this.loading = false;
       });
     }
+  }
+
+  checkFiscalCode(){
+    if(this.profile.fiscal_code.toLowerCase() == this.form.get('fiscal_code').value.toLowerCase()){
+      return false
+    } else {
+      return true;
+    }
+  }
+
+  checkVat(){
+    if(this.profile.vat == this.form.get('vat').value){
+      return false
+    } else {
+      return true;
+    }
+  }
+
+  autocomplete(){
+    this.form.reset();
+    this.form.patchValue(this.profile);
+    this.changedTipologiaEsperto(this.form, {value: this.form.get('type').value});
+    this.patchParsedData(this.form.get('type').value);
+  }
+
+  patchParsedData(value){
+    switch (value) {
+      case 'person':
+        this.patchAddress('address/county', 'address/city');
+        this.patchPrafessionalTitle();
+        break;
+      case 'business':
+        this.patchAddress('address/county', 'address/city');
+        this.patchContacts();
+        break;
+    }
+  }
+
+  patchContacts(){
+    let controlArray = this.formContacts;
+    controlArray.clear();       
+    this.profile.contacts.forEach((contact) => {
+      const fb = this.formService.createContact();
+      controlArray.push(fb);
+      fb.patchValue(contact);
+    });
+  }
+
+  patchAddress(value: string, target: string){
+    this.form.get(value.split("/")).patchValue(this.profile.address.county_code);
+    this.checkValidationElseDisable(value, target);
+    this.getComuniForPatch(value, target, this.profile.address.city_code);
+  }
+
+  patchPrafessionalTitle(){
+    if(this.profile.professional_title){
+      this.form.get('professional_title').patchValue(this.profile.professional_title.long.toLowerCase());
+    }
+  }
+
+  getComuniForPatch(value: string, target: string, patchValue: any){
+    let selectProvince = this.form.get(value.split("/")).value;
+    this.apiservice.getComuni(selectProvince).subscribe(value => {
+      this.comuni[this.toCamelCase(target)] = value['data'];
+      this.form.get(target.split("/")).patchValue(patchValue);
+    });
   }
   
   getErrorMessage(control: AbstractControl) {
