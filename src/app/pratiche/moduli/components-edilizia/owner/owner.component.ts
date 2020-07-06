@@ -100,6 +100,7 @@ export class OwnerComponent implements OnInit {
   }
 
   onChangeCounty(value: string, target_enable: string, target_disable: string){
+    this.loading = true;
     this.checkValidationElseDisable(value, target_enable);
     this.checkValidationElseEnable(value, target_disable);
     this.getComuniBirthPlace(value, target_enable);
@@ -126,6 +127,7 @@ export class OwnerComponent implements OnInit {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince.code).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
+      this.loading = false;
     });
   }
 

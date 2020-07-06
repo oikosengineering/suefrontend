@@ -8,8 +8,8 @@ import { MatRadioChange } from '@angular/material/radio';
 import { BrowserStack } from 'protractor/built/driverProviders';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
-import CodiceFiscale  from 'codice-fiscale-js';
-import { Province, City, Professional_Title} from 'src/app/core/models/models';
+import CodiceFiscale from 'codice-fiscale-js';
+import { Province, City, Professional_Title } from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -36,14 +36,14 @@ export class EdiliziaComponent implements OnInit {
   map_cfg = {
     buttons: [
       {
-        name: "Scavo",
+        name: 'Scavo',
         style: 'style_scavo',
         geometryType: 'Polygon',
         tooltip: 'Disegna area scavo',
         target: 'scavo'
       },
       {
-        name: "Cantiere",
+        name: 'Cantiere',
         style: 'style_cantiere',
         geometryType: 'Polygon',
         tooltip: 'Disegna area Cantiere',
@@ -52,13 +52,13 @@ export class EdiliziaComponent implements OnInit {
     ],
     layers: [
       {
-        name: "Scavo",
-        style: "style_scavo",
+        name: 'Scavo',
+        style: 'style_scavo',
         id: 'scavo'
       },
       {
-        name: "Cantiere",
-        style: "style_cantiere",
+        name: 'Cantiere',
+        style: 'style_cantiere',
         id: 'cantiere'
       }
     ],
@@ -94,8 +94,8 @@ export class EdiliziaComponent implements OnInit {
 
   loading = false;
   error = false;
-  errormessage = "";
-  errorcode = "";
+  errormessage = '';
+  errorcode = '';
   errors: any[] = [];
 
   constructor(
@@ -133,7 +133,7 @@ export class EdiliziaComponent implements OnInit {
       this.generi.push(...data['data']);
     });
 
-    this.apiservice.getDizionario('building.details.flooring_type').subscribe(data =>  {
+    this.apiservice.getDizionario('building.details.flooring_type').subscribe(data => {
       this.pavimentazioni.push(...data['data']);
     });
 
@@ -153,7 +153,7 @@ export class EdiliziaComponent implements OnInit {
       this.tipi_documento.push(...data['data']);
     });
 
-    this.apiservice.getListaDocumentiObbligatoriPratica('building',this.modulo).subscribe((data) => {
+    this.apiservice.getListaDocumentiObbligatoriPratica('building', this.modulo).subscribe((data) => {
       this.fileobbligatori.push(...data['data']);
       this.loading = false;
     });
@@ -163,7 +163,7 @@ export class EdiliziaComponent implements OnInit {
     this.subscribeToChanges();
   }
 
-  subscribeToChanges(){
+  subscribeToChanges() {
     this.valueChange = this.form.valueChanges.subscribe(value => {
       if (this.form.touched) {
         this.saved.emit(this.form.untouched);
@@ -196,7 +196,7 @@ export class EdiliziaComponent implements OnInit {
 
   get formOwner() { return this.form.get('owner'); }
   get formExpert() { return this.form.get('expert'); }
-  get formExperts() {return <FormArray>this.form.get('experts');}
+  get formExperts() { return <FormArray>this.form.get('experts'); }
   get formDittaLavori() { return this.form.get('supplier_business'); }
   get formDatiPratica() { return this.form.get('details'); }
   get formContactsDitta() { return <FormArray>this.form.get('supplier_business').get('contacts'); }
@@ -205,12 +205,12 @@ export class EdiliziaComponent implements OnInit {
   // get formDocumenti() { return <FormArray>this.form.get('documenti');};
   // get formDocumento() { return this.form.get('documento'); }
 
-  getArray(value: string){
-    return <FormArray>this.form.get(value.split("/"));
+  getArray(value: string) {
+    return <FormArray>this.form.get(value.split('/'));
   }
 
-  getDetailsProcedures(value: string): FormGroup{
-    switch(value){
+  getDetailsProcedures(value: string): FormGroup {
+    switch (value) {
       case 'rottura_suolo':
         return this.formService.createDetailsRotturaSuolo();
       case 'occupazione_suolo_edilizio':
@@ -222,15 +222,15 @@ export class EdiliziaComponent implements OnInit {
     }
   }
 
-  subscriptionForChange(list: string[], target: string[]){
+  subscriptionForChange(list: string[], target: string[]) {
     list.forEach(element => {
-      this.form.get(element.split("/")).valueChanges.subscribe(()=>this.forceValidControl(target));
+      this.form.get(element.split('/')).valueChanges.subscribe(() => this.forceValidControl(target));
     });
   }
 
-  forceValidControl(list: string[]){
+  forceValidControl(list: string[]) {
     list.forEach(element => {
-      this.form.get(element.split("/")).updateValueAndValidity();
+      this.form.get(element.split('/')).updateValueAndValidity();
     });
   }
 
@@ -241,7 +241,7 @@ export class EdiliziaComponent implements OnInit {
     items.push(this.formService.createContact());
   }
 
-  removeItem(array: AbstractControl, index: number){
+  removeItem(array: AbstractControl, index: number) {
     event.preventDefault();
     event.stopPropagation();
     let items = array as FormArray;
@@ -255,16 +255,16 @@ export class EdiliziaComponent implements OnInit {
     items.push(this.formService.createExpertBusiness());
   }
 
-  checkState(){
+  checkState() {
     // if(!this.form.get('delegated').value){
     //   this.form.get('experts').disable();
     //   this.form.get('experts').updateValueAndValidity();
     // }
-    if(this.form.get('qualification').value == 'owner'){
+    if (this.form.get('qualification').value == 'owner') {
       this.form.get('business_administrator').disable();
       this.form.get('business_administrator').updateValueAndValidity();
     }
-    if(this.form.get('work_supplier').value == 'self'){
+    if (this.form.get('work_supplier').value == 'self') {
       this.form.get('supplier_business').disable();
       this.form.get('supplier_business').updateValueAndValidity();
     }
@@ -284,29 +284,29 @@ export class EdiliziaComponent implements OnInit {
   }
 
   multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string) {
-    if (form.get(value1.split("/")).value === null || form.get(value1.split("/")).value === '' || form.get(value2.split("/")).value === undefined) {
+    if (form.get(value1.split('/')).value === null || form.get(value1.split('/')).value === '' || form.get(value2.split('/')).value === undefined) {
       return;
     }
-    if (form.get(value2.split("/")).value === null || form.get(value2.split("/")).value === '' || form.get(value2.split("/")).value === undefined) {
+    if (form.get(value2.split('/')).value === null || form.get(value2.split('/')).value === '' || form.get(value2.split('/')).value === undefined) {
       return;
     } else {
-      let min = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2.split("/")).value).min;
-      form.get(dest.split("/")).clearValidators();
-      form.get(dest.split("/")).setValidators(Validators.min(min));
-      form.get(dest.split("/")).updateValueAndValidity();
+      let min = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2.split('/')).value).min;
+      form.get(dest.split('/')).clearValidators();
+      form.get(dest.split('/')).setValidators(Validators.min(min));
+      form.get(dest.split('/')).updateValueAndValidity();
     }
-    let pavimentazione = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2.split("/")).value);
+    let pavimentazione = this.pavimentazioni.find(pavimentazione => pavimentazione.value == form.get(value2.split('/')).value);
     let price = pavimentazione.price;
     let min = pavimentazione.min;
-    let tot = Math.floor(price * form.get(value1.split("/")).value);
+    let tot = Math.floor(price * form.get(value1.split('/')).value);
     if (tot >= min) {
-      form.get(dest.split("/")).patchValue(tot);
+      form.get(dest.split('/')).patchValue(tot);
     } else {
-      form.get(dest.split("/")).patchValue(min);
+      form.get(dest.split('/')).patchValue(min);
     }
   }
 
-  minDate(){
+  minDate() {
     var result = new Date();
     result.setDate(result.getDate() + 20);
     return result;
@@ -324,7 +324,7 @@ export class EdiliziaComponent implements OnInit {
     return this.validationService.getErrorMessage(control);
   }
 
-  calculateFiscalCode(form: AbstractControl){
+  calculateFiscalCode(form: AbstractControl) {
     let dati = {
       name: form.get('first_name').value,
       surname: form.get('last_name').value,
@@ -332,7 +332,7 @@ export class EdiliziaComponent implements OnInit {
       day: new Date(form.get('birthday').value).getDate(),
       month: new Date(form.get('birthday').value).getMonth() + 1,
       year: new Date(form.get('birthday').value).getFullYear(),
-      birthplace: form.get('birthplace').value, 
+      birthplace: form.get('birthplace').value,
       birthplaceProvincia: form.get('county_of_birth').value
     }
     console.log(dati);
@@ -341,12 +341,12 @@ export class EdiliziaComponent implements OnInit {
     form.get('fiscal_code').patchValue(cf);
   }
 
-  calculateValueFromFiscalCode(form: AbstractControl){
+  calculateValueFromFiscalCode(form: AbstractControl) {
     event.preventDefault();
     event.stopPropagation();
     const cf = new CodiceFiscale(form.get('fiscal_code').value).toJSON();
     form.get('gender').patchValue(cf.gender);
-    form.get('birthday').patchValue(new Date(cf.year, cf.month-1, cf.day));
+    form.get('birthday').patchValue(new Date(cf.year, cf.month - 1, cf.day));
     form.get('county_of_birth').patchValue(cf.birthplaceProvincia);
     this.onChangeProvinceFiscalCode('owner/county_of_birth', 'owner/birthplace', cf.birthplace);
     console.log(this.comuni[this.toCamelCase('owner/birthplace')]);
@@ -425,8 +425,8 @@ export class EdiliziaComponent implements OnInit {
     }
   }
 
-  changeEsecutore(event: MatRadioChange, control: AbstractControl){
-    switch(event.value){
+  changeEsecutore(event: MatRadioChange, control: AbstractControl) {
+    switch (event.value) {
       case 'self':
         control.disable()
         control.updateValueAndValidity();
@@ -437,9 +437,9 @@ export class EdiliziaComponent implements OnInit {
         break;
     }
   }
-  
-  changeDelegated(event: MatCheckboxChange, control: AbstractControl){
-    switch(event.checked){
+
+  changeDelegated(event: MatCheckboxChange, control: AbstractControl) {
+    switch (event.checked) {
       case true:
         control.enable();
         control.updateValueAndValidity();
@@ -451,8 +451,8 @@ export class EdiliziaComponent implements OnInit {
     }
   }
 
-  changeQualification(event: MatRadioChange, control: AbstractControl){
-    switch(event.value){
+  changeQualification(event: MatRadioChange, control: AbstractControl) {
+    switch (event.value) {
       case 'owner':
         control.disable();
         control.updateValueAndValidity();
@@ -460,7 +460,7 @@ export class EdiliziaComponent implements OnInit {
       default:
         control.enable()
         control.updateValueAndValidity();
-      break;
+        break;
     }
   }
 
@@ -478,7 +478,7 @@ export class EdiliziaComponent implements OnInit {
   uploadFile(event, form: AbstractControl, control: string) {
     if (event.target.files[0]) {
       this[control].push(event.target.files[0]);
-      event.target.value = "";
+      event.target.value = '';
       form.get('file').disable();
     }
   }
@@ -505,21 +505,21 @@ export class EdiliziaComponent implements OnInit {
       }
     ]
     this.map_cfg.features = features;
-    this.dialog.openMap(this.map_cfg, ).subscribe(value => {
+    this.dialog.openMap(this.map_cfg,).subscribe(value => {
       if (value) {
         this.map_cfg.features = value;
         value.forEach(feature => {
-          switch(feature.type){
+          switch (feature.type) {
             case 'scavo':
               this.form.get('details').get('excavation_details').get('geometry').patchValue(feature.features);
               // this.form.get('details').get('excavation_details').get('area_number').patchValue(feature.area);
               break;
             case 'cantiere':
               this.form.get('details').get('building_site').get('geometry').patchValue(feature.features);
-              // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
+            // this.form.get('details').get('building_site').get('area_number').patchValue(feature.area);
           }
         });
-        console.log("Dati pratica",this.form.get('details').value);
+        console.log('Dati pratica', this.form.get('details').value);
       }
       console.log('Mappa chiusa', value);
     }, error => {
@@ -532,34 +532,44 @@ export class EdiliziaComponent implements OnInit {
     event.stopPropagation();
     this.valueChange.unsubscribe();
     this.error = false;
+    this.errorcode = '';
+    this.errormessage = '';
+    this.errors = [];
+
     if (this.form.valid) {
       this.loading = true;
-    // if (true) {
+      // if (true) {
       console.log(this.form.getRawValue());
       let raw_form = this.form.value;
       this.parseData(raw_form);
       const body = JSON.stringify(raw_form);
       this.apiservice.creaPratica('building', body).subscribe((response) => {
-        console.table(response['status']['errors']);
-        if(response['status'] == 200){
+        console.table(response);
+        if (response['status'] === 200) {
           this.loading = false;
           this.saved.emit(true);
           this.router.navigate(['/dettagli-pratica', response['data'].id]);
         } else {
           this.loading = false;
         }
-        if (response['status']['errors'] !== null && response['status']['errors'] !== undefined ) {
+      }, error => {
+        this.loading = false;
+        if (error.error['errors'] !== null && error.error['errors'] !== undefined) {
           // tslint:disable-next-line: max-line-length
-          if (response['status']['errors'].error_code !== null && response['status']['errors'].error_code !== undefined && response['status']['errors'] !== "" ) {
+          if (error.error['errors'].error_code !== null && error.error['errors'].error_code !== undefined && error.error['errors'] !== '') {
             this.error = true;
-            this.errorcode = response['status']['errors'].error_code;
-            this.errormessage = response['status']['errors'].message;
-            this.errors.push(...response['status']['errors']['details']);
+            this.errorcode = error.error['errors'].error_code;
+            this.errormessage = error.error['errors'].message;
+
+            for (var obj in error.error['errors']['details']) { 
+              this.errors.push(obj);
+            }
+
+            console.log(this.errors);
           }
         }
-      }, error => {
-          this.loading = false;
-          this.subscribeToChanges();
+        this.loading = false;
+        this.subscribeToChanges();
       });
 
     } else {
@@ -571,16 +581,16 @@ export class EdiliziaComponent implements OnInit {
     }
   }
 
-  focusInvalidField(){
+  focusInvalidField() {
     let element = this.el.nativeElement.querySelector('mat-form-field .ng-invalid');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center'});
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  parseData(body){
+  parseData(body) {
     this.parseDate(body)
-    switch(this.modulo){
+    switch (this.modulo) {
       case 'rottura_suolo':
-        if(body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == ''){
+        if (body.details.description.notes == null || body.details.description.notes == undefined || body.details.description.notes == '') {
           delete body.details.description.notes;
         }
         if (body.details.insurance.amount) {
@@ -602,148 +612,154 @@ export class EdiliziaComponent implements OnInit {
     this.parseBirthPlace(body);
   }
 
-  parseDate(body: any){
-    if(body.owner.birthday){
-      body.owner.birthday = formatDate(body.owner.birthday, "yyyy-MM-dd", "en");
+  parseDate(body: any) {
+    if (body.owner.birthday) {
+      body.owner.birthday = formatDate(body.owner.birthday, 'yyyy-MM-dd', 'en');
     }
-    if(body.details.end_date){
-      body.details.end_date = formatDate(body.details.end_date, "yyyy-MM-dd", "en");
+    if (body.details.end_date) {
+      body.details.end_date = formatDate(body.details.end_date, 'yyyy-MM-dd', 'en');
     }
-    if(body.details.start_date){
-      body.details.start_date = formatDate(body.details.start_date, "yyyy-MM-dd", "en");
+    if (body.details.start_date) {
+      body.details.start_date = formatDate(body.details.start_date, 'yyyy-MM-dd', 'en');
     }
   }
 
-  parseGeometryAddress(body: any){
+  parseGeometryAddress(body: any) {
     let addresses = body.details.excavation_details.related_addresses;
-    console.log("Indirizzi",addresses);
+    console.log('Indirizzi', addresses);
     addresses.forEach(address => {
-      if(typeof address.street_name != 'string'){
+      if (typeof address.street_name != 'string') {
         address.street_name = address.street_name.toponimo;
       }
     })
   }
 
-  parseAddress(body: any){
-    if(typeof body.details.address != 'string'){
+  parseAddress(body: any) {
+    if (typeof body.details.address != 'string') {
       body.details.address = body.details.address.toponimo;
-      if(body.details.address_number != null && body.details.address_number != undefined && body.details.address_number != ''){
+      if (body.details.address_number != null && body.details.address_number != undefined && body.details.address_number != '') {
         body.details.address += ', ' + body.details.address_number;
       }
       delete body.details.address_number;
     }
   }
 
-  parseIntersectionAddress(body: any){
-    if(body.details.intersection_address == null || body.details.intersection_address == undefined || body.details.intersection_address == ''){
+  parseIntersectionAddress(body: any) {
+    if (body.details.intersection_address == null || body.details.intersection_address == undefined || body.details.intersection_address == '') {
       delete body.details.intersection_address;
-    } else if (typeof body.details.intersection_address != 'string'){
+    } else if (typeof body.details.intersection_address != 'string') {
       body.details.intersection_address = body.details.intersection_address.toponimo;
-      if(body.details.intersection_number != null && body.details.intersection_number != undefined && body.details.intersection_number != ''){
+      if (body.details.intersection_number != null && body.details.intersection_number != undefined && body.details.intersection_number != '') {
         body.details.intersection_address += ', ' + body.details.intersection_number;
       }
       delete body.details.intersection_number;
     }
   }
 
-  parseBirthPlace(body: any){
+  parseBirthPlace(body: any) {
     let birthplace = body.owner.birthplace;
     let county_of_birth = body.owner.county_of_birth;
     let country_of_birth = body.owner.country_of_birth;
 
-    if(birthplace != null && birthplace != undefined && birthplace != '' && typeof birthplace != 'string'){
+    if (birthplace != null && birthplace != undefined && birthplace != '' && typeof birthplace != 'string') {
       body.owner.birthplace = body.owner.birthplace.code;
     }
-    if(county_of_birth != null && county_of_birth != undefined && county_of_birth != '' && typeof county_of_birth != 'string'){
+    if (county_of_birth != null && county_of_birth != undefined && county_of_birth != '' && typeof county_of_birth != 'string') {
       body.owner.county_of_birth = body.owner.county_of_birth.code;
     }
-    if(country_of_birth != null && country_of_birth != undefined && country_of_birth != '' && typeof country_of_birth != 'string'){
+    if (country_of_birth != null && country_of_birth != undefined && country_of_birth != '' && typeof country_of_birth != 'string') {
       body.owner.country_of_birth = body.owner.country_of_birth.code;
     }
   }
 
-  checkValidationElseDisable(value: string, target: string){
-    if(this.form.get(value.split("/")).invalid){
-      this.form.get(target.split("/")).disable();
-      this.form.get(target.split("/")).reset();
+  checkValidationElseDisable(value: string, target: string) {
+    if (this.form.get(value.split('/')).invalid) {
+      this.form.get(target.split('/')).disable();
+      this.form.get(target.split('/')).reset();
     } else {
-      this.form.get(target.split("/")).enable();
-      this.form.get(target.split("/")).reset();
+      this.form.get(target.split('/')).enable();
+      this.form.get(target.split('/')).reset();
     }
   }
 
-  checkValidationElseEnable(value: string, target: string){
-    if(this.form.get(value.split("/")).invalid){
-      this.form.get(target.split("/")).enable();
-      this.form.get(target.split("/")).reset();
+  checkValidationElseEnable(value: string, target: string) {
+    if (this.form.get(value.split('/')).invalid) {
+      this.form.get(target.split('/')).enable();
+      this.form.get(target.split('/')).reset();
     } else {
-      this.form.get(target.split("/")).disable();
-      this.form.get(target.split("/")).reset();
+      this.form.get(target.split('/')).disable();
+      this.form.get(target.split('/')).reset();
     }
   }
 
-  onChangeCountry(value: string, target: string){
-    let value_field = this.form.get(value.split("/")).value;
-    if(value_field != null && value_field != '' && value_field != undefined){
-      this.form.get(target.split("/")).disable();
+  onChangeCountry(value: string, target: string) {
+    let value_field = this.form.get(value.split('/')).value;
+    if (value_field != null && value_field != '' && value_field != undefined) {
+      this.form.get(target.split('/')).disable();
     } else {
-      this.form.get(target.split("/")).enable();
+      this.form.get(target.split('/')).enable();
     }
   }
 
-  onChangeCounty(value: string, target_enable: string, target_disable: string){
+  onChangeCounty(value: string, target_enable: string, target_disable: string) {
+    this.loading = true;
     this.checkValidationElseDisable(value, target_enable);
     this.checkValidationElseEnable(value, target_disable);
     this.getComuni(value, target_enable);
   }
 
-  onChangeProvince(value: string, target: string){
+  onChangeProvince(value: string, target: string) {
+    this.loading = true;
     this.checkValidationElseDisable(value, target);
     this.getComuni(value, target);
   }
 
-  onChangeProvinceFiscalCode(value: string, target: string, data: string){
+  onChangeProvinceFiscalCode(value: string, target: string, data: string) {
     this.checkValidationElseDisable(value, target);
     this.getComuniAndPatch(value, target, data);
   }
 
-  checkValidation(targets: string[]){
+  checkValidation(targets: string[]) {
     let check = false;
     targets.forEach(target => {
-      if(this.form.get(target.split("/")).invalid){
+      if (this.form.get(target.split('/')).invalid) {
         check = true;
       }
     });
     return check;
   }
 
-  getComuni(value: string, target: string){
-    let selectProvince = this.form.get(value.split("/")).value;
-    if(selectProvince != 'EE'){
+  getComuni(value: string, target: string) {
+    let selectProvince = this.form.get(value.split('/')).value;
+    if (selectProvince != 'EE') {
       this.apiservice.getComuni(selectProvince).subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
+        this.loading = false;
       });
     } else {
       this.apiservice.getNazioni().subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
+        this.loading = false;
       });
     }
   }
 
-  getComuniAndPatch(value: string, target: string, data: string){
-    let selectProvince = this.form.get(value.split("/")).value;
+  getComuniAndPatch(value: string, target: string, data: string) {
+    this.loading = true;
+    let selectProvince = this.form.get(value.split('/')).value;
     this.apiservice.getComuni(selectProvince).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
       let result: City = this.comuni[this.toCamelCase(target)].find((comune: City) => comune.name.toLowerCase() === data.toLowerCase());
-      this.form.get(target.split("/")).patchValue(result.name);
+      this.form.get(target.split('/')).patchValue(result.name);
+      this.loading = false;
     });
   }
 
   toCamelCase(sentenceCase) {
-    var out = "";
-    sentenceCase.split("/").forEach((element, index) => {
-        var add = element.toLowerCase();
-        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+    var out = '';
+    sentenceCase.split('/').forEach((element, index) => {
+      var add = element.toLowerCase();
+      out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
     });
     return out;
   }

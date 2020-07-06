@@ -62,10 +62,10 @@ export class AppComponent implements OnInit {
       }
     }
 
-    // if (this.auth.isTokenExpired()) {
-    //   console.log("Token expired");
-    //   this.auth.logout();
-    // }
+    if (this.auth.isTokenExpired()) {
+      console.log("Token expired");
+      this.auth.logout();
+    }
 
     // if (this.auth.isTokenValid()) {
     //   console.log("Token not valid");
