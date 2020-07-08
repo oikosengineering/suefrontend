@@ -43,7 +43,7 @@ export class MiePraticheComponent implements AfterViewInit{
 
   getResults(query: any){
     query['user'] = this.auth.getIdUser();
-    this.apiService.getListaPratiche('building', query).subscribe(result => {
+    this.apiService.getListaPratiche('building', query, '').subscribe(result => {
       if(result['status'] === 200){
         this.data = result['data'];
         this.dataSource = new MatTableDataSource(this.data.procedures);
@@ -55,7 +55,7 @@ export class MiePraticheComponent implements AfterViewInit{
     }, error => {
       this.isLoadingResults = false;
       this.snackBar.open('Errore di sincronizzazione', null, {duration: 2000});
-    })
+    });
   }
 
   updateFilter(form: any){

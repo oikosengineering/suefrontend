@@ -7,7 +7,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-ricerca-pratiche',
@@ -54,7 +53,7 @@ export class RicercaPraticheComponent implements AfterViewInit {
 
   ngAfterViewInit() {
 
-    if (this.isUserLoggedIn === false) { this.route.snapshot.queryParams = { 'status': 'APPROVED' }; }
+    if (this.router.url.includes('ricerca-pratiche')) { this.route.snapshot.queryParams = { 'status': 'APPROVED' }; }
     let queryParams = this.route.snapshot.queryParams;
     let form = {};
     if (queryParams) {
@@ -68,7 +67,7 @@ export class RicercaPraticheComponent implements AfterViewInit {
   }
 
   getResults(query: any) {
-    this.apiService.getListaPratiche('building', query).subscribe(result => {
+    this.apiService.getListaPratiche('building', query, 'public').subscribe(result => {
       if (result['status'] === 200) {
         this.data = result['data'];
         this.dataSource = new MatTableDataSource(this.data.procedures);

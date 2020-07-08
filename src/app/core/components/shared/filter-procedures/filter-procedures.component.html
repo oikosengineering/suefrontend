@@ -12,7 +12,6 @@
     <mat-form-field class="div-a-quarter" appearance="outline">
         <mat-label>Stato pratica</mat-label>
         <mat-select formControlName="status">
-            <mat-option>----</mat-option>
             <mat-option *ngFor="let status of statuses" [value]="status.value">
                 {{status.name}}
             </mat-option>

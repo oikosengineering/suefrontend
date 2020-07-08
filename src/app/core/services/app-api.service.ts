@@ -82,7 +82,7 @@ export class AppApiService {
     return this.httpClient.get<Document[]>(environment.api_url + '/getListaDocumentiObbligatoriPratica?department=' + department + '&category=' + category, this.header).pipe(map(response => response));
   }
 
-  getListaPratiche(department: string, query: any) {
+  getListaPratiche(department: string, query: any, uid: string) {
 
     // let result_query = Object.entries(query).map(([key, val]) => `${key}=${val}`).join('&');
     // tslint:disable-next-line: variable-name
@@ -96,8 +96,8 @@ export class AppApiService {
       }
     }
 
-    // tslint:disable-next-line: max-line-length
-    return this.httpClient.get(environment.api_url + '/getListaPratiche?department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
+    // tslint:disable-next-line: max-line-length'
+    return this.httpClient.get(environment.api_url + '/getListaPratiche?' + (uid === 'public' ? '_uid=public&' : '' )  + 'department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
   }
 
   getListaProroghePratica(department: string, id: string) {
