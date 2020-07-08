@@ -163,4 +163,9 @@ export class AppApiService {
     return this.httpClient.post(environment.api_url + '/setGeomToPratica?numeropratica=' + numeropratica + '&status=' + status + '&geom=' + geom, this.header).pipe(map(response => response));
   }
 
+  getCoordFromIndirizzo(indirizzo: string) {
+    // tslint:disable-next-line: max-line-length
+    return this.httpClient.get(environment.oikos_url + '/getCoordFromIndirizzo?fk_repertorio=1&indirizzo=' + indirizzo, this.header).pipe(map(response => response));
+  }
+
 }

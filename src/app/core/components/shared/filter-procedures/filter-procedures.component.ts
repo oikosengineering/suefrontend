@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
 import { StatusType } from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'filter-procedures',
@@ -20,14 +21,19 @@ export class FilterProceduresComponent implements OnInit {
   @Output() update_filter = new EventEmitter();
 
   isLoading = false;
+  isUserLoggedIn = false;
 
   constructor(
     private apiService: AppApiService,
     private formService: FormUtilService,
-  ) { }
+    private authService: AuthService
+  ) { 
+    this.isUserLoggedIn = this.authService.isUserLoggedIn();
+  }
 
   ngOnInit(): void {
     console.log(this.statuses);
+    this.isUserLoggedIn = this.authService.isUserLoggedIn();
     this.getVariables();
     this.setYears();
     this.filter = this.formService.createFilter();
@@ -61,7 +67,7 @@ export class FilterProceduresComponent implements OnInit {
   getStatuses(){
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('procedure.status').subscribe(data => {
-        this.statuses = data['data'];
+        this.statuses = this.isUserLoggedIn ? data['data'] : data['data'].filter(value => value['value'] === 'APPROVED') ; 
         resolve(true);
       }, error => {
         resolve(true);

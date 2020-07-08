@@ -16,7 +16,9 @@ import { ViewExpertComponent } from './shared/view-expert/view-expert.component'
 import { ViewAdministratorComponent } from './shared/view-administrator/view-administrator.component';
 import { ViewSupplierComponent } from './shared/view-supplier/view-supplier.component';
 import { ViewRotturaSuoloComponent } from './shared/details/view-rottura-suolo/view-rottura-suolo.component';
+// tslint:disable-next-line: max-line-length
 import { ViewOccupazioneSuoloEdilizioComponent } from './shared/details/view-occupazione-suolo-edilizio/view-occupazione-suolo-edilizio.component';
+// tslint:disable-next-line: max-line-length
 import { ViewOccupazioneSuoloPubblicoComponent } from './shared/details/view-occupazione-suolo-pubblico/view-occupazione-suolo-pubblico.component';
 import { ViewTraslochiLavoriComponent } from './shared/details/view-traslochi-lavori/view-traslochi-lavori.component';
 import { PraticheModule } from 'src/app/pratiche/pratiche.module';
@@ -32,24 +34,24 @@ import { FileExtensionsPipe } from '../pipes/file-extensions.pipe';
 
 @NgModule({
   declarations: [
-    MyDialogComponent, 
-    MapComponent, 
-    DocumentsUploadedComponent, 
-    StatusProceduresComponent, 
-    ViewOwnerComponent, 
-    ViewExpertsComponent, 
-    ViewExpertComponent, 
-    ViewAdministratorComponent, 
-    ViewSupplierComponent, 
-    ViewRotturaSuoloComponent, 
-    ViewOccupazioneSuoloEdilizioComponent, 
-    ViewOccupazioneSuoloPubblicoComponent, 
-    ViewTraslochiLavoriComponent, 
-    ViewDocumentsComponent, 
-    UploadDocumentsComponent, 
-    CreateExtensionComponent, 
-    ViewExtensionsComponent, 
-    FilterProceduresComponent, 
+    MyDialogComponent,
+    MapComponent,
+    DocumentsUploadedComponent,
+    StatusProceduresComponent,
+    ViewOwnerComponent,
+    ViewExpertsComponent,
+    ViewExpertComponent,
+    ViewAdministratorComponent,
+    ViewSupplierComponent,
+    ViewRotturaSuoloComponent,
+    ViewOccupazioneSuoloEdilizioComponent,
+    ViewOccupazioneSuoloPubblicoComponent,
+    ViewTraslochiLavoriComponent,
+    ViewDocumentsComponent,
+    UploadDocumentsComponent,
+    CreateExtensionComponent,
+    ViewExtensionsComponent,
+    FilterProceduresComponent,
     ViewExtensionComponent
   ],
   imports: [
@@ -63,9 +65,9 @@ import { FileExtensionsPipe } from '../pipes/file-extensions.pipe';
   ],
   entryComponents: [MyDialogComponent, MapComponent],
   exports: [
-    MyDialogComponent, 
-    MapComponent, 
-    DocumentsUploadedComponent, 
+    MyDialogComponent,
+    MapComponent,
+    DocumentsUploadedComponent,
     StatusProceduresComponent,
     ViewOwnerComponent,
     ViewExpertComponent,

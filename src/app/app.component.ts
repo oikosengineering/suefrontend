@@ -63,9 +63,11 @@ export class AppComponent implements OnInit {
       }
     }
 
-    if (this.auth.isTokenExpired()) {
-      console.log("Token expired");
-      this.auth.logout();
+    if (environment.production) {
+      if (this.auth.isTokenExpired()) {
+        console.log("Token expired");
+        this.auth.logout();
+      }
     }
 
     // if (this.auth.isTokenValid()) {
@@ -75,8 +77,8 @@ export class AppComponent implements OnInit {
   }
 
   login() {
-    let url = environment.auth_url ;
-    url =  url + window.location.href + '?code=ssoreturn';
+    let url = environment.auth_url;
+    url = url + window.location.href + '?code=ssoreturn';
     window.location.href = url;
   }
 
