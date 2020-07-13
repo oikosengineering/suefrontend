@@ -67,7 +67,7 @@ export class RicercaPraticheComponent implements AfterViewInit {
   }
 
   getResults(query: any) {
-    this.apiService.getListaPratiche('building', query, 'public').subscribe(result => {
+    this.apiService.getListaPratichePubbliche('building', query, 'public').subscribe(result => {
       if (result['status'] === 200) {
         this.data = result['data'];
         this.dataSource = new MatTableDataSource(this.data.procedures);

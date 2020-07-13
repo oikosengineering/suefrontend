@@ -97,7 +97,25 @@ export class AppApiService {
     }
 
     // tslint:disable-next-line: max-line-length'
-    return this.httpClient.get(environment.api_url + '/getListaPratiche?' + (uid === 'public' ? '_uid=public&' : '' )  + 'department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
+    return this.httpClient.get(environment.api_url + '/getListaPratiche?'  + 'department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
+  }
+
+  getListaPratichePubbliche(department: string, query: any, uid: string) {
+
+    // let result_query = Object.entries(query).map(([key, val]) => `${key}=${val}`).join('&');
+    // tslint:disable-next-line: variable-name
+    let result_query = '';
+    for (let key in query) {
+      if (query[key] !== '' && query[key] !== undefined && query[key] !== null) {
+        if (result_query !== '') {
+          result_query += ',';
+        }
+        result_query += key + '=' + encodeURIComponent(query[key]);
+      }
+    }
+
+    // tslint:disable-next-line: max-line-length'
+    return this.httpClient.get(environment.api_url + '/getListaPratichePubbliche?'  + 'department=' + department + '&query=' + result_query, this.header).pipe(map((response) => response));
   }
 
   getListaProroghePratica(department: string, id: string) {
