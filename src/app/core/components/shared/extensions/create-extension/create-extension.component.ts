@@ -30,9 +30,9 @@ export class CreateExtensionComponent implements OnInit {
     this.setMinDate();
   }
 
-  setMinDate(){
+  setMinDate() {
     var result = new Date(this.min_date.split("/").reverse());
-    if(!this.isValidDate(result)){
+    if (!this.isValidDate(result)) {
       result = new Date(this.min_date);
     }
     result.setDate(result.getDate() + 1);
@@ -43,8 +43,8 @@ export class CreateExtensionComponent implements OnInit {
     return date instanceof Date && !isNaN(date.getTime());
   }
 
-  save(){
-    if(this.form.valid){
+  save() {
+    if (this.form.valid) {
       this.isLoading = true;
       let extension = this.form.value;
       this.parseDate(extension)
@@ -54,39 +54,39 @@ export class CreateExtensionComponent implements OnInit {
     }
   }
 
-  parseDate(body: any){
+  parseDate(body: any) {
     body.end_date = formatDate(body.end_date, "yyyy-MM-dd", "en");
   }
 
-  uploadComplete(){
+  uploadComplete() {
     this.form.reset();
     this.newExtension();
     this.isLoading = false;
   }
 
-  newExtension(){
-    if(this.checkMinDate()){
-      if(this.createExtension){
+  newExtension() {
+    if (this.checkMinDate()) {
+      if (this.createExtension) {
         this.form = null;
       } else {
         this.form = this.formService.createExtension();
       }
       this.createExtension = !this.createExtension;
     } else {
-      this.snackBar.open('La ricchiesta deve pervenire almeno entro 7 giorni dalla scadenza', 'Chiudi', {duration: 4000});
+      this.snackBar.open('La richiesta deve pervenire almeno entro 7 giorni dalla scadenza', 'Chiudi', { duration: 4000 });
     }
   }
 
   checkMinDate(): boolean {
     var target: any = new Date(this.min_date.split("/").reverse());
-    if(!this.isValidDate(target)){
+    if (!this.isValidDate(target)) {
       target = new Date(this.min_date);
     }
     let today: any = new Date();
     let diference = Math.floor((target - today) / (1000 * 60 * 60 * 24));
     return diference >= 7;
   }
-  
+
   getErrorMessage(control: AbstractControl) {
     return this.validationService.getErrorMessage(control);
   }

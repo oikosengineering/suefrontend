@@ -7,6 +7,7 @@ import { environment } from '../environments/environment';
 import { Location, PathLocationStrategy } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import * as jwt_decode from 'jwt-decode';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   mobileQuery: MediaQueryList;
   profile: any;
   isUserLoggedIn = false;
+  isUserActive = false;
 
   private _mobileQueryListener: () => void;
 
@@ -29,7 +31,9 @@ export class AppComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private cookieservice: CookieService,
-    private pathLocationStrategy: PathLocationStrategy) {
+    private pathLocationStrategy: PathLocationStrategy,
+    private snackBar: MatSnackBar,
+  ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -42,11 +46,23 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/']);
       }
     );
+
+    auth.useractive.subscribe(
+      () => {
+        console.log(this.auth.isUserActivated());
+        if (this.auth.isUserActivated() === false) {
+          this.snackBar.open('Utente non ancora attivato! Aspetta la mail di conferma attivazione.', null, { duration: 10000 });
+          this.auth.logout();
+        }
+      }
+    );
+
     auth.userislogin.subscribe(
       (data: EvtSignIn) => {
         const jwt = jwt_decode(data.token);
         this.profile = jwt.user.profile;
         this.isUserLoggedIn = true;
+        this.isUserActive = true;
       }
     );
 
@@ -56,7 +72,7 @@ export class AppComponent implements OnInit {
     if (basePath !== absolutePathWithParams) {
       if (absolutePathWithParams.lastIndexOf('code=') > 0) {
         if (location.hostname === 'localhost') {
-          this.auth.fackesigin();
+          this.auth.fakesigin();
         } else {
           this.auth.signin();
         }
@@ -84,11 +100,14 @@ export class AppComponent implements OnInit {
 
   logout(e) {
     e.preventDefault();
+    let url = environment.logout_url;
+    window.location.href = url;
     this.auth.logout();
-    this.router.navigateByUrl('/');
   }
 
   ngOnInit() {
-    this.auth.ctrLogIn();
+    if (this.auth.userActivation()) {
+      this.auth.ctrLogIn();
+    }
   }
 }

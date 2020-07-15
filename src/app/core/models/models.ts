@@ -54,6 +54,7 @@ export interface User {
     birth_date?: string;
     birthplace?: Birthplace;
     phone?: string;
+    status?: string;
 }
 
 export interface Jwt {

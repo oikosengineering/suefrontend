@@ -16,15 +16,12 @@ declare var window;
 export class AuthService {
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private zone: NgZone,
-    private activateRoute: ActivatedRoute,
     private cookieservice: CookieService,
     private apiservice: AppApiService
   ) {
   }
   private isUserLogged = false;
+  private isUserActive = false;
   private iduser: string;
 
   @Output() usersignedin = new EventEmitter();
@@ -32,6 +29,7 @@ export class AuthService {
   @Output() usersignedup = new EventEmitter();
   @Output() userlogout = new EventEmitter();
   @Output() usersetlanguage = new EventEmitter();
+  @Output() useractive = new EventEmitter();
 
   /**
    * attraverso il token controlla se l'utente è loggato o meno
@@ -46,8 +44,27 @@ export class AuthService {
    */
   logout() {
     if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken')) {
-      this.cookieservice.delete('staging_comune_chiavari_ge_it_idtoken');
+      this.cookieservice.delete('staging_comune_chiavari_ge_it_idtoken', '/');
     }
+    if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken_refresh_token')) {
+      this.cookieservice.delete('staging_comune_chiavari_ge_it_idtoken_refresh_token', '/');
+    }
+    if (this.cookieservice.check('chiavari_digitale_staging_session')) {
+      this.cookieservice.delete('chiavari_digitale_staging_session', '/');
+    }
+    if (this.cookieservice.check('chiavari_data')) {
+      this.cookieservice.delete('chiavari_data', '/');
+    }
+    if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken')) {
+      this.cookieservice.delete('staging_comune_chiavari_ge_it_idtoken', '/');
+    }
+    if (this.cookieservice.check('XSRF-TOKEN')) {
+      this.cookieservice.delete('XSRF-TOKEN', '/');
+    }
+
+    this.cookieservice.deleteAll('/');
+    this.cookieservice.deleteAll('/', '.digitale.comune.chiavari.ge.it');
+
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('first_name');
@@ -55,9 +72,11 @@ export class AuthService {
     localStorage.removeItem('type');
     localStorage.setItem('id', '-1');
     localStorage.removeItem('professional_title');
+    localStorage.removeItem('status');
     this.isUserLogged = false;
-    this.userlogout.emit();
+
     this.iduser = '-1';
+    this.userlogout.emit();
   }
   /**
    * si verifica se l'utente ha effettuato il login
@@ -81,6 +100,14 @@ export class AuthService {
     return this.isUserLogged;
   }
 
+ userActivation() {
+   this.isUserActive = !!localStorage.getItem('status');
+   if (this.isUserActive === false) {
+     this.useractive.emit();
+   }
+   return this.isUserActive;
+ }
+
   getToken() {
     return localStorage.getItem('token');
   }
@@ -89,7 +116,12 @@ export class AuthService {
     return this.iduser;
   }
 
-  fackesigin() {
+  isUserActivated() {
+    this.isUserActive = localStorage.getItem('status') === 'false' ? false : true;
+    return this.isUserActive;
+  }
+
+  fakesigin() {
     const fkjson = {
       'iss': 'comune.chiavari.ge.it',
       'nbf': 1591272354,
@@ -103,6 +135,7 @@ export class AuthService {
         'first_name': 'Simone',
         'last_name': 'Sarzano',
         'email': 's.sarzano@oikosweb.com',
+        'status' : 'unactivate',
         'profile': {
           'type': 'person',
           'first_name': 'Simone',
@@ -150,16 +183,19 @@ export class AuthService {
     localStorage.setItem('id', fkuser.ifk.user.id);
     localStorage.setItem('professional_title', 'fakeuser');
     localStorage.setItem('type', fkuser.ifk.type);
+    localStorage.setItem('status', 'false');
+    
+    this.useractive.emit();
 
-    this.userislogin.emit( {
-      token: localStorage.getItem('token'),
-      id: fkuser.ifk.user.first_name,
-      email: fkuser.ifk.user.email,
-      first_name: fkuser.ifk.user.first_name,
-      last_name: fkuser.ifk.user.last_name,
-      professional_title: fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title,
-      type: fkuser.ifk.type
-    });
+    // this.userislogin.emit({
+    //   token: localStorage.getItem('token'),
+    //   id: fkuser.ifk.user.first_name,
+    //   email: fkuser.ifk.user.email,
+    //   first_name: fkuser.ifk.user.first_name,
+    //   last_name: fkuser.ifk.user.last_name,
+    //   professional_title: fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title,
+    //   type: fkuser.ifk.type
+    // });
 
     this.isUserLogged = true;
   }
@@ -168,29 +204,43 @@ export class AuthService {
     if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken')) {
       const fkjson = jwt_decode(this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'));
       const fkuser: FakeUser = new FakeUser(fkjson as iFakeUser);
-      localStorage.setItem('token', this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'));
-      localStorage.setItem('first_name', fkuser.ifk.user.first_name);
-      localStorage.setItem('last_name', fkuser.ifk.user.last_name);
-      localStorage.setItem('email', fkuser.ifk.user.email);
-      localStorage.setItem('last_name', fkuser.ifk.user.last_name);
-      localStorage.setItem('id', fkuser.ifk.user.id);
-      // tslint:disable-next-line: max-line-length
-      localStorage.setItem('professional_title', fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title);
-      localStorage.setItem('type', fkuser.ifk.type);
+      if (fkuser.ifk.user.status !== undefined && fkuser.ifk.user.status !== null) {
+        if (fkuser.ifk.user.status.includes('active')) {
+          localStorage.setItem('token', this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'));
+          localStorage.setItem('first_name', fkuser.ifk.user.first_name);
+          localStorage.setItem('last_name', fkuser.ifk.user.last_name);
+          localStorage.setItem('email', fkuser.ifk.user.email);
+          localStorage.setItem('last_name', fkuser.ifk.user.last_name);
+          localStorage.setItem('id', fkuser.ifk.user.id);
+          // tslint:disable-next-line: max-line-length
+          localStorage.setItem('professional_title', fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title);
+          localStorage.setItem('type', fkuser.ifk.type);
+          localStorage.setItem('status', 'true');
 
-      this.userislogin.emit( {
-        token: this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'),
-        id: fkuser.ifk.user.id,
-        email: fkuser.ifk.user.email,
-        first_name: fkuser.ifk.user.first_name,
-        last_name: fkuser.ifk.user.last_name,
-        professional_title: fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title,
-        type: fkuser.ifk.type
-      });
+          this.userislogin.emit({
+            token: this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'),
+            id: fkuser.ifk.user.id,
+            email: fkuser.ifk.user.email,
+            first_name: fkuser.ifk.user.first_name,
+            last_name: fkuser.ifk.user.last_name,
+            professional_title: fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title,
+            type: fkuser.ifk.type
+          });
 
-      this.isUserLogged = true;
-      this.iduser = fkuser.ifk.user.id;
+          this.isUserLogged = true;
+          this.iduser = fkuser.ifk.user.id;
+        } else if (fkuser.ifk.user.status.includes('unactive')) {
+          this.isUserActive = false;
+          this.useractive.emit();
+        }
+
+      } else {
+        this.isUserLogged = false;
+        this.isUserActive = false;
+      }
     }
+
+
   }
 
   getTokenExpirationDate(token: string): Date {

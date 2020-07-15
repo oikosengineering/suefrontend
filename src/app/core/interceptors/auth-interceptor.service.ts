@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthService} from '../services/auth.service'
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 
@@ -32,13 +32,13 @@ export class AuthInterceptor implements HttpInterceptor {
     this.loggedin = false;
     this.token = undefined;
   }
-  
+
   /**
    * se l'utente è loggato torna true, altrimenti false
    * @returns boolean
    */
   private haveAuthentication(): boolean {
-    return localStorage.getItem('token')!=null;
+    return localStorage.getItem('token') != null;
   }
 
   /**

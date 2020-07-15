@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
     private validationService: ValidationService
     ) {
 
+      
+
       this.form = this.formBuilder.group({
         user: ['', Validators.compose(
           [
