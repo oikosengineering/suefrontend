@@ -436,7 +436,7 @@ export class MapComponent implements OnInit {
   }
 
   close(){
-    this.openDialog("Exit", "Sei sicuro di voler uscire dalla mappa?").subscribe(value => {
+    this.openDialog("Uscire", "Sei sicuro di voler uscire dalla mappa? Le modifiche non salvate andranno perse.").subscribe(value => {
       if(value){
         this.dialogRef.close(null);
       }
@@ -444,7 +444,7 @@ export class MapComponent implements OnInit {
   }
 
   save() {
-    this.openDialog("Salva", "Vuoi confermare le modifiche ed uscire?").subscribe(value => {
+    this.openDialog("Salvare", "Vuoi confermare le modifiche ed uscire?").subscribe(value => {
       if(value){
         let result = [];
         // let total_area = 0;
