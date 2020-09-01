@@ -14,7 +14,7 @@ import { DialogMessageService } from 'src/app/core/services/dialog-message.servi
   styleUrls: ['./ricerca-pratiche.component.scss']
 })
 export class RicercaPraticheComponent implements AfterViewInit {
-  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'owner', 'expert', 'all_mandatory_documents_uploaded', 'actions'];
+  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'owner', 'creator', /* 'all_mandatory_documents_uploaded', */ 'actions'];
   data;
   dataSource;
   isLoadingResults = true;
