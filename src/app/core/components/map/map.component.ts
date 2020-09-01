@@ -346,6 +346,7 @@ export class MapComponent implements OnInit {
         let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == feature.get('target'));
         let source = layer.get('source');
         source.removeFeature(feature);
+        this.select.getFeatures().clear();
       });
       this._snackBar.open("Elementi cancellati", null, {duration: 2000});
     } else {
@@ -358,9 +359,6 @@ export class MapComponent implements OnInit {
       var tooltipCoord = event.coordinate;
       this.createMeasureTooltip();
       let listener = sketch.getGeometry().on('change', (evt) => {
-        
-        
-        
         var geom: Polygon = evt.target;
         console.log("draw event",geom);
         var output;
@@ -378,6 +376,9 @@ export class MapComponent implements OnInit {
     event.feature.setProperties({'target': target});
     this.map.removeInteraction(this.draw);
     this.draw = null;
+    setTimeout(() => {
+      this.measureTooltip.setPosition(null);
+    }, 500);
     this.activeLater();
   }
 
@@ -393,7 +394,6 @@ export class MapComponent implements OnInit {
 
   printInfo(event){
     let features: Feature[] = event.selected;
-    console.log(features);
   }
 
   createMeasureTooltip() {
