@@ -312,6 +312,9 @@ export class MapComponent implements OnInit {
     } else {
       this.map.removeInteraction(this.translate);
       this.translate = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
   }
 
@@ -328,6 +331,9 @@ export class MapComponent implements OnInit {
     } else {
       this.map.removeInteraction(this.modify);
       this.modify = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
   }
 
@@ -335,10 +341,16 @@ export class MapComponent implements OnInit {
     if(this.translate){
       this.map.removeInteraction(this.translate);
       this.translate = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
     if(this.modify){
       this.map.removeInteraction(this.modify);
       this.modify = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
     let selected_feature = this.select.getFeatures().getArray();
     if(selected_feature.length > 0){
@@ -360,7 +372,7 @@ export class MapComponent implements OnInit {
       this.createMeasureTooltip();
       let listener = sketch.getGeometry().on('change', (evt) => {
         var geom: Polygon = evt.target;
-        console.log("draw event",geom);
+        // console.log("draw event",geom);
         var output;
         output = this.formatLength(geom);
         tooltipCoord = geom.getInteriorPoint().getCoordinates();
@@ -372,7 +384,7 @@ export class MapComponent implements OnInit {
   }
 
   onDrawEnd(event, target){
-    console.log(event);
+    // console.log(event);
     event.feature.setProperties({'target': target});
     this.map.removeInteraction(this.draw);
     this.draw = null;
@@ -432,7 +444,7 @@ export class MapComponent implements OnInit {
   };
 
   search(){
-    console.log("search");
+    // console.log("search");
   }
 
   close(){
@@ -493,7 +505,7 @@ export class MapComponent implements OnInit {
   }
 
   openDialog(title: string, message: string) {
-    console.log('entrato');
+    console.log('modal');
     const dialogRef = this.dialog.open(MyDialogComponent, {
       width: '250px',
       data: {title: title, message: message}

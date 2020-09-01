@@ -69,6 +69,7 @@ export class FormUtilService {
         Validators.required
       ])),
       address_number: new FormControl(''),
+      building_site: this.createBuildingSize(),
       length: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -106,6 +107,7 @@ export class FormUtilService {
         Validators.required
       ])),
       address_number: new FormControl(''),
+      building_site: this.createBuildingSize(),
       length: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -148,6 +150,9 @@ export class FormUtilService {
         Validators.required
       ])),
       total_square_meters: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      geometry: new FormControl('', Validators.compose([
         Validators.required
       ])),
     })
