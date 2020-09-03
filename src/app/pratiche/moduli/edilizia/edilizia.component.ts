@@ -78,6 +78,7 @@ export class EdiliziaComponent implements OnInit {
 
   saved_form = true;
   valueChange: Subscription;
+  personOwnerChange: Subscription;
 
   file_bollo = [];
   planimetria1 = [];
@@ -228,6 +229,19 @@ export class EdiliziaComponent implements OnInit {
     });
   }
 
+  subscribeOwnerType(){
+    this.form.get('owner.type').valueChanges.subscribe(() => {
+      if(this.form.get('owner.type').value == 'person'){
+        this.form.get('qualification').patchValue('owner');
+        this.changeQualification({value: this.form.get('qualification').value}, this.form.get('business_administrator'));
+        this.form.get('qualification').disable();
+      } else {
+        this.form.get('qualification').enable();
+        this.changeQualification({value: this.form.get('qualification').value}, this.form.get('business_administrator'));
+      }
+    })
+  }
+
   forceValidControl(list: string[]) {
     list.forEach(element => {
       this.form.get(element.split('/')).updateValueAndValidity();
@@ -269,6 +283,7 @@ export class EdiliziaComponent implements OnInit {
       this.form.get('supplier_business').updateValueAndValidity();
     }
     this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth', 'owner/country_of_birth'], ['owner/fiscal_code']);
+    this.subscribeOwnerType();
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
@@ -451,7 +466,7 @@ export class EdiliziaComponent implements OnInit {
     }
   }
 
-  changeQualification(event: MatRadioChange, control: AbstractControl) {
+  changeQualification(event: any, control: AbstractControl) {
     switch (event.value) {
       case 'owner':
         control.disable();
@@ -610,6 +625,8 @@ export class EdiliziaComponent implements OnInit {
         break;
     }
     this.parseBirthPlace(body);
+
+    body.qualification = this.form.getRawValue().qualification;
   }
 
   parseDate(body: any) {
