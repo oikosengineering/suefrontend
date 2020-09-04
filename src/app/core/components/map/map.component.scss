@@ -92,11 +92,23 @@
   border-bottom-right-radius: 5px;
 }
 
-
 #close_panel {
   position: absolute;
   top: .5em;
   right: .5em;
+}
+
+#save_panel {
+  position: absolute;
+  display: table;
+  text-align: center;
+  bottom: 0.5em;
+  width: fit-content;
+  left: 45%;
+  button {
+    display: table-cell;
+    vertical-align: bottom;
+  }
 }
 
 #close_panel button,

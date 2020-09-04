@@ -113,6 +113,10 @@
         <span matSuffix>gg</span>
         <mat-error>{{getErrorMessage(form.get('total_duration'))}}</mat-error>
     </mat-form-field>
+
+    <div class="div-half">
+        <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Disegna aree di occupazione</button>
+    </div>
 </mat-card>
 <div class="div-full">
     <button *ngIf="!can_modify && modifiable" class="button-login" mat-raised-button color="primary" (click)="modify()">

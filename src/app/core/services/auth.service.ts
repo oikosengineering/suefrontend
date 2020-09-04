@@ -183,7 +183,7 @@ export class AuthService {
     localStorage.setItem('id', fkuser.ifk.user.id);
     localStorage.setItem('professional_title', 'fakeuser');
     localStorage.setItem('type', fkuser.ifk.type);
-    localStorage.setItem('status', 'false');
+    localStorage.setItem('status', 'true');
     
     this.useractive.emit();
 
