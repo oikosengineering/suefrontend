@@ -190,7 +190,7 @@ export class EdiliziaComponent implements OnInit {
       stamp_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      // documenti: this.fb.array([this.formService.createDocumenti()])
+      documenti: this.fb.array([this.formService.createDocumenti()])
     });
   }
 
@@ -202,8 +202,8 @@ export class EdiliziaComponent implements OnInit {
   get formContactsDitta() { return <FormArray>this.form.get('supplier_business').get('contacts'); }
   get formContactsExpert() { return <FormArray>this.form.get('expert').get('contacts'); }
   get formContactsOwner() { return <FormArray>this.form.get('owner').get('contacts'); }
-  // get formDocumenti() { return <FormArray>this.form.get('documenti');};
-  // get formDocumento() { return this.form.get('documento'); }
+  get formDocumenti() { return <FormArray>this.form.get('documenti'); };
+  get formDocumento() { return this.form.get('documento'); }
 
   getArray(value: string) {
     return <FormArray>this.form.get(value.split('/'));
@@ -561,7 +561,7 @@ export class EdiliziaComponent implements OnInit {
             this.errorcode = error.error['errors'].error_code;
             this.errormessage = error.error['errors'].message;
 
-            for (var obj in error.error['errors']['details']) { 
+            for (var obj in error.error['errors']['details']) {
               this.errors.push(obj);
             }
 

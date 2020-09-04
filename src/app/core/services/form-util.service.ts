@@ -277,6 +277,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       // cellular: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -324,6 +325,7 @@ export class FormUtilService {
       // ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       // pec: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -360,6 +362,7 @@ export class FormUtilService {
       address: this.createAddress(),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -380,6 +383,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -422,7 +426,8 @@ export class FormUtilService {
         Validators.required
       ])),
       phone: new FormControl('', Validators.compose([
-        Validators.required
+        Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
     })
   }
