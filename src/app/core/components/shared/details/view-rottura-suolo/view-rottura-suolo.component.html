@@ -79,7 +79,7 @@
             (selectionChange)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
             <mat-option>Nessuna</mat-option>
             <mat-option *ngFor="let flooring_type of pavimentazioni" [value]="flooring_type.value">
-                {{flooring_type.name}} - € {{flooring_type.price}} m<sup>2</sup>
+                {{flooring_type.name}}
             </mat-option>
         </mat-select>
         <mat-error>{{getErrorMessage(form.get('flooring_type'))}}</mat-error>
