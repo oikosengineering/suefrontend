@@ -65,3 +65,9 @@
         <p matLine>{{error}}</p>
     </mat-list>
 </mat-error>
+<ng-container  *ngIf="can_modify">
+    <upload-documents [tipologie_file]="tipologie_file" (upload_file)="uploadFile($event)">
+    </upload-documents>
+    <view-documents [documents]="documents_uploaded">
+    </view-documents>
+</ng-container>
