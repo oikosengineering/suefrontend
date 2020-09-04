@@ -124,18 +124,18 @@ export class AuthService {
   fakesigin() {
     const fkjson = {
       'iss': 'comune.chiavari.ge.it',
-      'nbf': 1591272354,
-      'iat': 1591272354,
-      'exp': 1591275954,
-      'sub': '5d4c3a51-a978-4acd-a757-520145b6268f',
+      'nbf': 1599142630,
+      'iat': 1599142630,
+      'exp': 1599142630,
+      'sub': '5c82bcb3-e774-47c4-854b-074934b271cf',
       'user': {
-        'id': '5d4c3a51-a978-4acd-a757-520145b6268f',
-        'role': null,
+        'id': '5c82bcb3-e774-47c4-854b-074934b271cf',
+        'role': 'manager',
         'department': null,
         'first_name': 'Simone',
         'last_name': 'Sarzano',
         'email': 's.sarzano@oikosweb.com',
-        'status' : 'unactivate',
+        'status' : 'active',
         'profile': {
           'type': 'person',
           'first_name': 'Simone',
@@ -175,7 +175,7 @@ export class AuthService {
 
     const fkuser: FakeUser = new FakeUser(fkjson as iFakeUser);
     // tslint:disable-next-line: max-line-length
-    localStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJjb211bmUuY2hpYXZhcmkuZ2UuaXQiLCJuYmYiOjE1OTEyNzYwNjYsImlhdCI6MTU5MTI3NjA2NiwiZXhwIjoxNTkxMjc5NjY2LCJzdWIiOiI1ZDRjM2E1MS1hOTc4LTRhY2QtYTc1Ny01MjAxNDViNjI2OGYiLCJ1c2VyIjp7ImlkIjoiNWQ0YzNhNTEtYTk3OC00YWNkLWE3NTctNTIwMTQ1YjYyNjhmIiwicm9sZSI6bnVsbCwiZGVwYXJ0bWVudCI6bnVsbCwiZmlyc3RfbmFtZSI6IlNpbW9uZSIsImxhc3RfbmFtZSI6IlNhcnphbm8iLCJlbWFpbCI6InMuc2FyemFub0BvaWtvc3dlYi5jb20iLCJwcm9maWxlIjp7InR5cGUiOiJwZXJzb24iLCJmaXJzdF9uYW1lIjoiU2ltb25lIiwibGFzdF9uYW1lIjoiU2FyemFubyIsImZ1bGxfbmFtZSI6IlNpbW9uZSBTYXJ6YW5vIiwiZG9jdW1lbnQiOnsidHlwZSI6ImlkX2NhcmQiLCJudW1iZXIiOiJBQTEyMzQ1NjcifSwicHJvZmVzc2lvbmFsX3RpdGxlIjpudWxsLCJhZGRyZXNzIjp7InN0cmVldF9uYW1lIjoiVmlhIFJvbWEgMSIsInBvc3Rjb2RlIjoiMTUwMzMiLCJjaXR5IjoiQ2FzYWxlIE1vbmZlcnJhdG8iLCJjaXR5X2NvZGUiOiJCODg1IiwiY291bnR5IjoiQWxlc3NhbmRyaWEiLCJjb3VudHlfY29kZSI6IkFMIiwiY291bnRyeSI6IklUIn0sImdlbmRlciI6Ik0iLCJmaXNjYWxfY29kZSI6IlNSWlNNTjc3QzE4Qjg4NUoiLCJ2YXQiOm51bGwsImJpcnRoX2RhdGUiOiIxOFwvMDNcLzE5NzciLCJiaXJ0aHBsYWNlIjp7ImlzX2ZvcmVpZ24iOmZhbHNlLCJjb3VudHkiOiJBTCIsImNvdW50eV9uYW1lIjoiQWxlc3NhbmRyaWEiLCJjaXR5IjoiQjg4NSIsImNpdHlfbmFtZSI6IkNhc2FsZSBNb25mZXJyYXRvIn0sImVtYWlsIjoicy5zYXJ6YW5vQG9pa29zd2ViLmNvbSIsInBob25lIjoiKzM5MzMzMTIzNDU2NyJ9fSwidHlwZSI6InVzZXIifQ.rOYnRsShGPC5YEB78kakfqQhESEjIksrez5SlPVU9Aco0VSnfVD0yYSlumSkV7lO9QXbInJyKlFHJgl33j8_Di0zJwHWraJYm2EJTxI_otA25TGUmgK0D91ct3nXWW5O_pIxycTuVhVt5n81g8ZFP4CPAM5LaQxE-BcI3RYjaL0vmtviC6zBT_L5ut_N0NJ7UKCCTML99UHx_ekWrXDHEDmtXLQryJn2ParaVHFg1KfmtXZGQk64564_Pf-K9RfiA1mZD1OeSKJZNZBNdFh7Jd3zkZIueJWznDyXhBJVgaXgdSuG2TRA9AKM4l5ETk2w9GNfdfNQIWDbFjLtfnWgjw; XSRF-TOKEN=eyJpdiI6ImtMZk01a3VNd2Y3eW51ZzNFRmV0cXc9PSIsInZhbHVlIjoiZFh4cmZkVnRDM2dZYktyMmdUTUo4Z2V0TTgxNHk2RVhrU1l2WXRNUlVmY2ZDRW9ZOHB0VUFkVzlsYjI4eUNwUyIsIm1hYyI6ImZjMDFkY2VlYjFiOTE0MTI2MDYyMmU3MDAwMmQ2M2FlZWJjN2Q4MzFhMDcwODE3NGZhYjMwYTNmYzY1ODY4MGMifQ%3D%3D; chiavari_digitale_staging_session=eyJpdiI6IjBEVG9FZXlaUXR4TWJcL01hYldiM3NnPT0iLCJ2YWx1ZSI6IjZORFo0d25ma0tHZXdvT1RKbitDU21Vd09zWlpQcW16cHpZQUZKU2NWNUNBWjlEZFRLd01kZmcxdEZwVWZcL1lMIiwibWFjIjoiMWU2NWVhZDNiNjI5NDU0OWQ1MTkyMzBiZTE4NDhmZjcyZmI2YmIyNmVjMzc3YTkzZGM1MDUyMDcyMjQ3MGI4ZCJ9');
+    localStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJjb211bmUuY2hpYXZhcmkuZ2UuaXQiLCJuYmYiOjE1OTkxNDI2MzAsImlhdCI6MTU5OTE0MjYzMCwiZXhwIjoxNTk5MTQ2MjMwLCJzdWIiOiI1YzgyYmNiMy1lNzc0LTQ3YzQtODU0Yi0wNzQ5MzRiMjcxY2YiLCJ1c2VyIjp7ImlkIjoiNWM4MmJjYjMtZTc3NC00N2M0LTg1NGItMDc0OTM0YjI3MWNmIiwicm9sZSI6Im1hbmFnZXIiLCJzdGF0dXMiOiJhY3RpdmUiLCJkZXBhcnRtZW50IjoiZWRpbGl6aWEiLCJlbWFpbCI6InMuc2FyemFub0BvaWtvc3dlYi5jb20iLCJwcm9maWxlIjp7InR5cGUiOiJwZXJzb24iLCJmaXJzdF9uYW1lIjoiU2ltb25lIiwibGFzdF9uYW1lIjoiU2FyemFubyIsImZ1bGxfbmFtZSI6IlNpbW9uZSBTYXJ6YW5vIiwiZG9jdW1lbnQiOnsidHlwZSI6ImlkX2NhcmQiLCJudW1iZXIiOiJBQTEyMzQ1NjcifSwicHJvZmVzc2lvbmFsX3RpdGxlIjpudWxsLCJhZGRyZXNzIjp7InN0cmVldF9uYW1lIjoiQ29yc28gVmFsZW50aW5vIDE5NiIsInBvc3Rjb2RlIjoiMTUwMzMiLCJjaXR5IjoiQ2FzYWxlIE1vbmZlcnJhdG8iLCJjaXR5X2NvZGUiOiJCODg1IiwiY291bnR5IjoiQWxlc3NhbmRyaWEiLCJjb3VudHlfY29kZSI6IkFMIiwiY291bnRyeSI6IklUIn0sImdlbmRlciI6Ik0iLCJmaXNjYWxfY29kZSI6IlNSWlNNTjc3QzE4Qjg4NUoiLCJ2YXQiOm51bGwsImJpcnRoX2RhdGUiOiIxOFwvMDNcLzE5NzciLCJiaXJ0aHBsYWNlIjp7ImlzX2ZvcmVpZ24iOmZhbHNlLCJjb3VudHkiOiJBTCIsImNvdW50eV9uYW1lIjoiQWxlc3NhbmRyaWEiLCJjaXR5IjoiQjg4NSIsImNpdHlfbmFtZSI6IkNhc2FsZSBNb25mZXJyYXRvIn0sImVtYWlsIjoicy5zYXJ6YW5vQG9pa29zd2ViLmNvbSIsInBob25lIjoiKzM5MzkyNzEwMzIxMiJ9fSwidHlwZSI6InVzZXIifQ.T6rHxsBKLB5z-1g_7Yb_3g7eZ6OSLGGB3mrvJQytF9jGihuMgUmusCp2G5Rf-2GOFCKJcxvPNRQt1VAA8ATeL5TNegOg1-SeZpY6pDNTOIfXVi_XItJVxfufukhrHwkdTdn4W7KpOM8iQmAWKSTPwEMN9zOloBFyQy68PzR_KYNQSV-LkzEGXy1eZS2RL8Lt6aQv9pOyKWN9yXU5asTfRKoAy1hUyGE1X6Zxgsu93FqnpXc6Wr8GtukPcAFPKvYn5nQ_Vs0gEYuGbeqT2vMyh9C8Vx2mH6pKV6omAU3OQBt5AiZts0QVYbLX_JmZArkkv19IoTsfKpcs4OxS8tpidw');
     localStorage.setItem('first_name', fkuser.ifk.user.first_name);
     localStorage.setItem('last_name', fkuser.ifk.user.last_name);
     localStorage.setItem('email', fkuser.ifk.user.email);
