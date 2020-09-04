@@ -203,8 +203,8 @@ export class EdiliziaComponent implements OnInit {
   get formContactsDitta() { return <FormArray>this.form.get('supplier_business').get('contacts'); }
   get formContactsExpert() { return <FormArray>this.form.get('expert').get('contacts'); }
   get formContactsOwner() { return <FormArray>this.form.get('owner').get('contacts'); }
-  get formDocumenti() { return <FormArray>this.form.get('documenti'); };
-  get formDocumento() { return this.form.get('documento'); }
+  // get formDocumenti() { return <FormArray>this.form.get('documenti'); };
+  // get formDocumento() { return this.form.get('documento'); }
 
   getArray(value: string) {
     return <FormArray>this.form.get(value.split('/'));

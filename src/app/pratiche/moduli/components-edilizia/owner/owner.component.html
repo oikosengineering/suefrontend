@@ -44,7 +44,7 @@
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Codice fiscale</mat-label>
-        <input formControlName="fiscal_code" matInput type="text">
+        <input formControlName="fiscal_code" matInput type="text"  oninput="this.value = this.value.toUpperCase()">
         <button mat-icon-button matSuffix matTooltip="Compila i campi mancanti con i propri dati"
             (click)="autocomplete()" [disabled]="checkFiscalCode()">
             <mat-icon>post_add</mat-icon>
@@ -77,7 +77,7 @@
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Numero documento</mat-label>
-        <input formControlName="document_number" matInput type="text">
+        <input formControlName="document_number" matInput type="text" oninput="this.value = this.value.toUpperCase()">
         <mat-error>{{getErrorMessage(form.get('document_number'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">

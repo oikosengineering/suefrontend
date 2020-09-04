@@ -31,7 +31,7 @@
     </mat-form-field>
     <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
         <mat-label>Codice fiscale</mat-label>
-        <input formControlName="fiscal_code" matInput type="text">
+        <input formControlName="fiscal_code" matInput type="text"  oninput="this.value = this.value.toUpperCase()">
         <button mat-icon-button matSuffix matTooltip="Compila i campi mancanti con i propri dati" (click)="autocomplete()" [disabled]="checkFiscalCode()">
             <mat-icon>post_add</mat-icon>
         </button>

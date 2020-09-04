@@ -31,7 +31,7 @@
     </mat-form-field>
     <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
         <mat-label>Codice fiscale</mat-label>
-        <input  formControlName="fiscal_code" matInput type="text">
+        <input  formControlName="fiscal_code" matInput type="text"  oninput="this.value = this.value.toUpperCase()">
         <mat-error>{{getErrorMessage(form.get('fiscal_code'))}}</mat-error>
     </mat-form-field>
     <mat-form-field *ngIf="form.get('type').value != 'person'" class="div-half" appearance="outline">
@@ -56,7 +56,7 @@
     </mat-form-field>
     <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
         <mat-label>Numero documento</mat-label>
-        <input  formControlName="document_number" matInput type="text">
+        <input  formControlName="document_number" matInput type="text" oninput="this.value = this.value.toUpperCase()">
         <mat-error>{{getErrorMessage(form.get('document_number'))}}</mat-error>
     </mat-form-field>
     <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
