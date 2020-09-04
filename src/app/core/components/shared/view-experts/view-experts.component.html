@@ -35,7 +35,8 @@
 </div>
 <ng-container *ngIf="!createExpert">
     <mat-card *ngFor="let expert of experts; let j = index">
-        <mat-card-title>Tecnico {{j + 1}}</mat-card-title>
+        <mat-card-title *ngIf="j > 0" >Tecnico {{j + 1}}</mat-card-title>
+        <mat-card-title *ngIf="j == 0">Tecnico</mat-card-title>
         <view-expert 
             [data]="expert"
             [tipologie]="tipologie"

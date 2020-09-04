@@ -40,6 +40,10 @@ export class AppApiService {
     return this.httpClient.get(environment.api_url + '/getDizionario?cat=' + cat, this.header).pipe(map(response => response));
   }
 
+  getDizionarioById(cat: string) {
+    return this.httpClient.get(environment.api_url + '/getDizionarioById?cat=' + cat, this.header).pipe(map(response => response));
+  }
+
   /*
   GET PRATICA
   */

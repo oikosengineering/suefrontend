@@ -39,12 +39,12 @@
         <th mat-header-cell *matHeaderCellDef> Tecnico </th>
         <td mat-cell *matCellDef="let element"> {{element | expertPipe}} </td>
       </ng-container>
-  
+<!--   
       <ng-container matColumnDef="all_mandatory_documents_uploaded">
         <th mat-header-cell *matHeaderCellDef [ngStyle]="isUserLoggedIn == false ? {'display': 'none'}  : {}"> Documenti </th>
         <td mat-cell class="documents_uploaded" *matCellDef="let element" [ngStyle]="isUserLoggedIn == false ? {'display': 'none'}  : {}"><documents-uploaded [doucuments_uploaded]="element.all_mandatory_documents_uploaded"></documents-uploaded></td>
       </ng-container>
-  
+   -->
       <ng-container matColumnDef="actions" *ngIf="isUserLoggedIn">
         <th mat-header-cell *matHeaderCellDef> Azioni </th>
         <td mat-cell *matCellDef="let element" >

@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MiePraticheComponent implements AfterViewInit{
   
-  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'owner', 'expert', 'all_mandatory_documents_uploaded', 'actions'];
+  displayedColumns: string[] = ['number', 'protocol', 'status', 'category', 'owner', 'expert', 'actions'];
   data;
   dataSource;
   isLoadingResults = true;
