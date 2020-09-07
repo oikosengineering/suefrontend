@@ -58,7 +58,7 @@ export class ViewExpertComponent implements OnInit {
     switch (value) {
       case 'person':
         this.patchAddress('address/county', 'address/city', data);
-        this.patchPrafessionalTitle(data);
+        this.patchProfessionalTitle(data);
         break;
       case 'business':
         this.patchAddress('address/county', 'address/city', data);
@@ -83,7 +83,7 @@ export class ViewExpertComponent implements OnInit {
     this.getComuniForPatch(value, target, data.address.city_code);
   }
 
-  patchPrafessionalTitle(data: any){
+  patchProfessionalTitle(data: any){
     if(data.professional_title){
       this.form.get('professional_title').patchValue(data.professional_title.long.toLowerCase());
     }

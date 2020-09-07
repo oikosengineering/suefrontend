@@ -33,16 +33,6 @@
         <mat-divider></mat-divider>
         <h3 matSubheader>Pratiche</h3>
         <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="ricerca-pratiche">
-<<<<<<< HEAD
-          <h4 matLine>Consultazione pubblica</h4>
-        </mat-list-item>
-          <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="nuova-pratica">
-            <h4 matLine>Nuova</h4>
-          </mat-list-item>
-          <mat-list-item *ngIf="isUserLoggedIn" (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="mie-pratiche">
-            <h4 matLine>Le mie pratiche</h4>
-          </mat-list-item>
-=======
           <h4 matLine>Consultazione Pubblica</h4>
         </mat-list-item>
         <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="nuova-pratica">
@@ -52,7 +42,6 @@
           routerLink="mie-pratiche">
           <h4 matLine>Le mie pratiche</h4>
         </mat-list-item>
->>>>>>> a000c9fc92279936ddde446535b2d7e622008cbf
         <mat-divider></mat-divider>
       </mat-nav-list>
     </mat-sidenav>
