@@ -22,7 +22,7 @@ export class ExpertComponent implements OnInit {
   @Input() province: any[];
   comuni = {};
   loading = false;
-
+  nazioni = [];
   profile;
 
   constructor(
@@ -30,13 +30,16 @@ export class ExpertComponent implements OnInit {
     private formService: FormUtilService,
     private apiservice: AppApiService,
     private auth: AuthService
-  ) { 
+  ) {
     let token = this.auth.getToken();
     const jwt = jwt_decode(token);
     this.profile = jwt.user.profile;
   }
 
   ngOnInit(): void {
+    this.apiservice.getNazioni().subscribe(data => {
+      this.nazioni.push(...data['data']);
+    });
   }
 
   get formContacts() { return <FormArray>this.form.get('contacts'); }
@@ -44,7 +47,7 @@ export class ExpertComponent implements OnInit {
   changedTipologiaEsperto(form: AbstractControl, event: any) {
     switch (event.value) {
       case 'person':
-        form.get('first_name').enable()
+        form.get('first_name').enable();
         form.get('last_name').enable();
         form.get('fiscal_code').enable();
         form.get('gender').enable();
@@ -52,9 +55,11 @@ export class ExpertComponent implements OnInit {
         form.get('contacts').disable();
         form.get('name').clearValidators();
         form.get('name').updateValueAndValidity();
+        form.get('country').enable();
+        form.get('county').enable();
         break;
       case 'business':
-        form.get('first_name').disable()
+        form.get('first_name').disable();
         form.get('last_name').disable();
         form.get('fiscal_code').disable();
         form.get('gender').disable();
@@ -67,10 +72,10 @@ export class ExpertComponent implements OnInit {
     }
   }
 
-  checkValidation(targets: string[]){
+  checkValidation(targets: string[]) {
     let check = false;
     targets.forEach(target => {
-      if(this.form.get(target.split("/")).invalid){
+      if (this.form.get(target.split("/")).invalid) {
         check = true;
       }
     });
@@ -84,14 +89,14 @@ export class ExpertComponent implements OnInit {
     items.push(this.formService.createContact());
   }
 
-  removeItem(array: AbstractControl, index: number){
+  removeItem(array: AbstractControl, index: number) {
     event.preventDefault();
     event.stopPropagation();
     let items = array as FormArray;
     items.removeAt(index);
   }
 
-  onChangeProvince(value: string, target: string){
+  onChangeProvince(value: string, target: string) {
     this.loading = true;
     this.checkValidationElseDisable(value, target);
     this.getComuni(value, target);
@@ -100,14 +105,14 @@ export class ExpertComponent implements OnInit {
   toCamelCase(sentenceCase) {
     var out = "";
     sentenceCase.split("/").forEach((element, index) => {
-        var add = element.toLowerCase();
-        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+      var add = element.toLowerCase();
+      out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
     });
     return out;
   }
 
-  checkValidationElseDisable(value: string, target: string){
-    if(this.form.get(value.split("/")).invalid){
+  checkValidationElseDisable(value: string, target: string) {
+    if (this.form.get(value.split("/")).invalid) {
       this.form.get(target.split("/")).disable();
       this.form.get(target.split("/")).reset();
     } else {
@@ -116,8 +121,8 @@ export class ExpertComponent implements OnInit {
     }
   }
 
-  checkValidationElseEnable(value: string, target: string){
-    if(this.form.get(value.split("/")).invalid){
+  checkValidationElseEnable(value: string, target: string) {
+    if (this.form.get(value.split("/")).invalid) {
       this.form.get(target.split("/")).enable();
       this.form.get(target.split("/")).reset();
     } else {
@@ -126,9 +131,9 @@ export class ExpertComponent implements OnInit {
     }
   }
 
-  getComuni(value: string, target: string){
+  getComuni(value: string, target: string) {
     let selectProvince = this.form.get(value.split("/")).value;
-    if(selectProvince != 'EE'){
+    if (selectProvince != 'EE') {
       this.apiservice.getComuni(selectProvince).subscribe(value => {
         this.comuni[this.toCamelCase(target)] = value['data'];
         this.loading = false;
@@ -141,34 +146,34 @@ export class ExpertComponent implements OnInit {
     }
   }
 
-  checkFiscalCode(){
-    if(this.profile.fiscal_code.toLowerCase() == this.form.get('fiscal_code').value.toLowerCase()){
+  checkFiscalCode() {
+    if (this.profile.fiscal_code.toLowerCase() == this.form.get('fiscal_code').value.toLowerCase()) {
       return false
     } else {
       return true;
     }
   }
 
-  checkVat(){
-    if(this.profile.vat == this.form.get('vat').value){
+  checkVat() {
+    if (this.profile.vat == this.form.get('vat').value) {
       return false
     } else {
       return true;
     }
   }
 
-  autocomplete(){
+  autocomplete() {
     this.form.reset();
     this.form.patchValue(this.profile);
-    this.changedTipologiaEsperto(this.form, {value: this.form.get('type').value});
+    this.changedTipologiaEsperto(this.form, { value: this.form.get('type').value });
     this.patchParsedData(this.form.get('type').value);
   }
 
-  patchParsedData(value){
+  patchParsedData(value) {
     switch (value) {
       case 'person':
         this.patchAddress('address/county', 'address/city');
-        this.patchPrafessionalTitle();
+        this.patchProfessionalTitle();
         break;
       case 'business':
         this.patchAddress('address/county', 'address/city');
@@ -177,9 +182,9 @@ export class ExpertComponent implements OnInit {
     }
   }
 
-  patchContacts(){
+  patchContacts() {
     let controlArray = this.formContacts;
-    controlArray.clear();       
+    controlArray.clear();
     this.profile.contacts.forEach((contact) => {
       const fb = this.formService.createContact();
       controlArray.push(fb);
@@ -187,27 +192,36 @@ export class ExpertComponent implements OnInit {
     });
   }
 
-  patchAddress(value: string, target: string){
+  patchAddress(value: string, target: string) {
     this.form.get(value.split("/")).patchValue(this.profile.address.county_code);
     this.checkValidationElseDisable(value, target);
     this.getComuniForPatch(value, target, this.profile.address.city_code);
   }
 
-  patchPrafessionalTitle(){
-    if(this.profile.professional_title){
+  patchProfessionalTitle() {
+    if (this.profile.professional_title) {
       this.form.get('professional_title').patchValue(this.profile.professional_title.long.toLowerCase());
     }
   }
 
-  getComuniForPatch(value: string, target: string, patchValue: any){
+  getComuniForPatch(value: string, target: string, patchValue: any) {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
       this.form.get(target.split("/")).patchValue(patchValue);
     });
   }
-  
+
   getErrorMessage(control: AbstractControl) {
     return this.validationService.getErrorMessage(control);
+  }
+
+  onChangeCountry(value: string, target: string) {
+    let value_field = this.form.get(value.split("/")).value;
+    if (value_field != null && value_field != '' && value_field != undefined && value_field.name.toString().toUpperCase() != 'ITALIA') {
+      this.form.get(target.split('/')).disable();
+    } else {
+      this.form.get(target.split('/')).enable();
+    }
   }
 }

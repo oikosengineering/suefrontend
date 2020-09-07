@@ -183,20 +183,9 @@ export class AuthService {
     localStorage.setItem('id', fkuser.ifk.user.id);
     localStorage.setItem('professional_title', 'fakeuser');
     localStorage.setItem('type', fkuser.ifk.type);
-    localStorage.setItem('status', 'false');
+    localStorage.setItem('status', 'true');
     
     this.useractive.emit();
-
-    // this.userislogin.emit({
-    //   token: localStorage.getItem('token'),
-    //   id: fkuser.ifk.user.first_name,
-    //   email: fkuser.ifk.user.email,
-    //   first_name: fkuser.ifk.user.first_name,
-    //   last_name: fkuser.ifk.user.last_name,
-    //   professional_title: fkuser.ifk.user.profile.professional_title === null ? '' : fkuser.ifk.user.profile.professional_title,
-    //   type: fkuser.ifk.type
-    // });
-
     this.isUserLogged = true;
   }
 

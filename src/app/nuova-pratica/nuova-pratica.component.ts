@@ -26,7 +26,7 @@ export class NuovaPraticaComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.apiservice.getDizionario('procedure.category').subscribe(data => {
+    this.apiservice.getDizionarioById('procedure.category').subscribe(data => {
       this.options.push(...data['data']);
       this.loading = false;
     });

@@ -394,6 +394,9 @@ export class FormUtilService {
       county: new FormControl('', Validators.compose([
         Validators.required,
       ])),
+      country: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
       street_name: new FormControl('', Validators.compose([
         Validators.required,
       ])),
@@ -402,7 +405,7 @@ export class FormUtilService {
         Validators.minLength(5),
         Validators.maxLength(5)
       ])),
-    })
+    });
   }
 
   createContact(): FormGroup{
@@ -418,9 +421,10 @@ export class FormUtilService {
         Validators.required
       ])),
       phone: new FormControl('', Validators.compose([
-        Validators.required
+        Validators.required,
+        Validators.pattern('\+39([0-9]{10})$'),
       ])),
-    })
+    });
   }
 
   createExtension(): FormGroup{

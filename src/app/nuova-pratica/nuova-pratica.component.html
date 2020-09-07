@@ -9,7 +9,7 @@
       <ng-template matStepLabel>Specificare il tipo di pratica</ng-template>
       <div class="div-radio-group">
         <mat-label>Selezionare il tipo di pratica:</mat-label>
-        <mat-radio-group formControlName="tipo_pratica" class="vartical-radiobutton">
+        <mat-radio-group formControlName="tipo_pratica" class="vertical-radiobutton">
           <ng-container *ngFor="let option of options">
             <mat-radio-button [value]="option.value">{{option.name}}</mat-radio-button>
           </ng-container>
@@ -17,7 +17,8 @@
         <mat-error>{{getErrorMessage(firstFormGroup.get('tipo_pratica'))}}</mat-error>
       </div>
       <div>
-        <button mat-button matStepperNext>Avanti</button>
+        <!-- <button mat-button matStepperNext>Avanti</button> -->
+        <button mat-button (click)="submit()">Conferma</button>
       </div>
     </form>
   </mat-step>
@@ -40,16 +41,16 @@
       </div>
     </form>
   </mat-step> -->
-  <mat-step>
+  <!-- <mat-step>
     <ng-template matStepLabel>Riepilogo</ng-template>
     <p>Confermi i seguenti dati?</p>
-    <p><strong>Tipo pratica: </strong> {{getPratica()}}</p>
+    <p><strong>Tipo pratica: </strong> {{getPratica()}}</p> -->
     <!-- <p><strong>Oggetto: </strong> {{secondFormGroup.value.oggetto}}</p>
       <p><strong>Descrizione: </strong> {{secondFormGroup.value.descrizione}}</p> -->
-    <div>
+    <!-- <div>
       <button mat-button matStepperPrevious>Indietro</button>
       <button mat-button (click)="stepper.reset()">Reset</button>
       <button mat-button [disabled]="!firstFormGroup.valid" (click)="submit()">Conferma</button>
     </div>
-  </mat-step>
+  </mat-step> -->
 </mat-vertical-stepper>

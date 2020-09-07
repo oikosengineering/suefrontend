@@ -15,6 +15,7 @@ import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service'
 import { toHtml } from '@fortawesome/fontawesome-svg-core';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-edilizia',
@@ -23,6 +24,7 @@ import { toHtml } from '@fortawesome/fontawesome-svg-core';
 })
 export class EdiliziaComponent implements OnInit {
   @Input() modulo: string;
+  @Input() ownertype: string;
   form: FormGroup;
   tipologie = [];
   generi = [];
@@ -325,7 +327,7 @@ export class EdiliziaComponent implements OnInit {
   }
 
   calculateFiscalCode(form: AbstractControl) {
-    let dati = {
+    const dati = {
       name: form.get('first_name').value,
       surname: form.get('last_name').value,
       gender: form.get('gender').value,
@@ -334,8 +336,7 @@ export class EdiliziaComponent implements OnInit {
       year: new Date(form.get('birthday').value).getFullYear(),
       birthplace: form.get('birthplace').value,
       birthplaceProvincia: form.get('county_of_birth').value
-    }
-    console.log(dati);
+    };
     const cf = new CodiceFiscale(dati);
     console.log(cf);
     form.get('fiscal_code').patchValue(cf);
@@ -354,81 +355,10 @@ export class EdiliziaComponent implements OnInit {
     form.get('birthplace').patchValue(cf.birthplace);
   }
 
-  changedTipologiaPersona(form: AbstractControl, event: MatSelectChange) {
-    switch (event.value) {
-      case 'person':
-        form.get('first_name').enable()
-        form.get('last_name').enable();
-        form.get('fiscal_code').enable();
-        form.get('gender').enable();
-        form.get('county_of_birth').enable();
-        form.get('country_of_birth').enable();
-        form.get('birthday').enable();
-        form.get('document_type').enable();
-        form.get('document_number').enable();
-        form.get('contacts').disable();
-        form.get('name').disable();
-        form.get('vat').disable();
-        // form.get('name').clearValidators()
-        // form.get('name').updateValueAndValidity();
-        // form.get('vat').clearValidators()
-        // form.get('vat').updateValueAndValidity();
-        break;
-      case 'business':
-        form.get('first_name').disable()
-        form.get('last_name').disable();
-        form.get('fiscal_code').disable();
-        form.get('gender').disable();
-        form.get('birthplace').disable();
-        form.get('birthplace').reset();
-        form.get('county_of_birth').disable();
-        form.get('county_of_birth').reset();
-        form.get('country_of_birth').disable();
-        form.get('country_of_birth').reset();
-        form.get('birthday').disable();
-        form.get('document_type').disable();
-        form.get('document_number').disable();
-        form.get('name').enable();
-        form.get('contacts').enable();
-        form.get('vat').enable();
-        // form.get('name').setValidators([Validators.required]);
-        // form.get('name').updateValueAndValidity();
-        // form.get('vat').setValidators([Validators.required]);
-        // form.get('vat').updateValueAndValidity();
-        break;
-    }
-  }
-
-  changedTipologiaEsperto(form: AbstractControl, event: MatSelectChange) {
-    switch (event.value) {
-      case 'person':
-        form.get('first_name').enable()
-        form.get('last_name').enable();
-        form.get('fiscal_code').enable();
-        form.get('gender').enable();
-        form.get('professional_title').enable();
-        form.get('contacts').disable();
-        form.get('name').clearValidators();
-        form.get('name').updateValueAndValidity();
-        break;
-      case 'business':
-        form.get('first_name').disable()
-        form.get('last_name').disable();
-        form.get('fiscal_code').disable();
-        form.get('gender').disable();
-        form.get('professional_title').disable();
-        form.get('name').enable();
-        form.get('contacts').enable();
-        form.get('name').setValidators([Validators.required]);
-        form.get('name').updateValueAndValidity();
-        break;
-    }
-  }
-
   changeEsecutore(event: MatRadioChange, control: AbstractControl) {
     switch (event.value) {
       case 'self':
-        control.disable()
+        control.disable();
         control.updateValueAndValidity();
         break;
       case 'business':
@@ -458,14 +388,14 @@ export class EdiliziaComponent implements OnInit {
         control.updateValueAndValidity();
         break;
       default:
-        control.enable()
+        control.enable();
         control.updateValueAndValidity();
         break;
     }
   }
 
   check(form: AbstractControl, field: string, target: string) {
-    if (form.get(field).value == '' || form.get(field).value == null || form.get(field).value === undefined) {
+    if (form.get(field).value === '' || form.get(field).value == null || form.get(field).value === undefined) {
       form.get(target).setValidators(Validators.required);
       form.get(target).updateValueAndValidity();
     } else {
@@ -535,7 +465,7 @@ export class EdiliziaComponent implements OnInit {
     this.errorcode = '';
     this.errormessage = '';
     this.errors = [];
-
+    console.log(this.form.getRawValue());
     if (this.form.valid) {
       this.loading = true;
       // if (true) {
@@ -561,7 +491,7 @@ export class EdiliziaComponent implements OnInit {
             this.errorcode = error.error['errors'].error_code;
             this.errormessage = error.error['errors'].message;
 
-            for (var obj in error.error['errors']['details']) { 
+            for (var obj in error.error['errors']['details']) {
               this.errors.push(obj);
             }
 
@@ -694,7 +624,8 @@ export class EdiliziaComponent implements OnInit {
 
   onChangeCountry(value: string, target: string) {
     let value_field = this.form.get(value.split('/')).value;
-    if (value_field != null && value_field != '' && value_field != undefined) {
+    console.log(value_field);
+    if (value_field != null && value_field != '' && value_field != undefined && value_field.name.toString().toUpperCase() != 'ITALIA') {
       this.form.get(target.split('/')).disable();
     } else {
       this.form.get(target.split('/')).enable();

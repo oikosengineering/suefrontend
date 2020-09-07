@@ -3,13 +3,13 @@
 </div>
 <mat-card [formGroup]="form">
     <mat-form-field class="div-full" appearance="outline">
-        <mat-label>Motivo scavi</mat-label>
+        <mat-label>Motivazione</mat-label>
         <input matInput formControlName="reason" type="text">
         <mat-error>{{getErrorMessage(form.get('reason'))}}</mat-error>
     </mat-form-field>
     <ng-container formGroupName="description">
         <mat-form-field class="div-full" appearance="outline">
-            <mat-label>Causale</mat-label>
+            <mat-label>Descrizione</mat-label>
             <input matInput formControlName="motive" type="text">
             <mat-error>{{getErrorMessage(form.get(['description','motive']))}}</mat-error>
         </mat-form-field>
@@ -73,7 +73,7 @@
         <mat-select formControlName="flooring_type" (selectionChange)="multiplicationPolizza(form, 'excavation_details/area_number', 'flooring_type', 'insurance/amount')">
             <mat-option>Nessuna</mat-option>
             <mat-option *ngFor="let flooring_type of pavimentazioni" [value]="flooring_type.value">
-                {{flooring_type.name}} - € {{flooring_type.price}} m<sup>2</sup>
+                {{flooring_type.name}}
             </mat-option>
         </mat-select>
         <mat-error>{{getErrorMessage(form.get('flooring_type'))}}</mat-error>
@@ -114,7 +114,7 @@
                     <mat-error>{{getErrorMessage(formAddress.controls[i].get('street_name'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-a-quarter" appearance="outline">
-                    <mat-label>Dal</mat-label>
+                    <mat-label>Dal civico</mat-label>
                     <mat-select formControlName="from_street_number">
                         <mat-option value="sn">Senza numero</mat-option>
                         <mat-option *ngFor="let civico of civici[i] || []" [value]="civico.civico">
@@ -124,7 +124,7 @@
                     <mat-error>{{getErrorMessage(formAddress.controls[i].get('from_street_number'))}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="div-a-quarter" appearance="outline">
-                    <mat-label>Al</mat-label>
+                    <mat-label>Al civico</mat-label>
                     <mat-select formControlName="to_street_number">
                         <mat-option value="sn">Senza numero</mat-option>
                         <mat-option *ngFor="let civico of civici[i] || []" [value]="civico.civico">

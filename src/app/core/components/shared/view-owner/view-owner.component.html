@@ -31,7 +31,7 @@
     </mat-form-field>
     <mat-form-field *ngIf="form.get('type').value == 'person'" class="div-half" appearance="outline">
         <mat-label>Codice fiscale</mat-label>
-        <input  formControlName="fiscal_code" matInput type="text">
+        <input  formControlName="fiscal_code" matInput type="text" oninput="this.value = this.value.toUpperCase()">
         <mat-error>{{getErrorMessage(form.get('fiscal_code'))}}</mat-error>
     </mat-form-field>
     <mat-form-field *ngIf="form.get('type').value != 'person'" class="div-half" appearance="outline">
@@ -129,6 +129,16 @@
             <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
         </mat-form-field>
     </ng-container>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Telefono</mat-label>
+        <input  formControlName="phone" matInput type="text" >
+        <mat-error>{{getErrorMessage(form.get('phone'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-half" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input  formControlName="email" matInput type="email">
+        <mat-error>{{getErrorMessage(form.get('email'))}}</mat-error>
+    </mat-form-field>
     <mat-expansion-panel *ngIf="form.get('type').value != 'person' && formContacts.controls.length > 0" formArrayName="contacts" [expanded]="formContacts.controls.length > 0">
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -170,15 +180,5 @@
             <button *ngIf="can_modify" class="button-add" mat-raised-button color="primary" (click)="addContatto(form.get('contacts'));">Aggiungi</button>
         </div>
     </mat-expansion-panel>
-    <mat-form-field class="div-half" appearance="outline">
-        <mat-label>Telefono</mat-label>
-        <input  formControlName="phone" matInput type="text" >
-        <mat-error>{{getErrorMessage(form.get('phone'))}}</mat-error>
-    </mat-form-field>
-    <mat-form-field class="div-half" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input  formControlName="email" matInput type="email">
-        <mat-error>{{getErrorMessage(form.get('email'))}}</mat-error>
-    </mat-form-field>
     <mat-error>{{getErrorMessage(form)}}</mat-error>
 </mat-card>

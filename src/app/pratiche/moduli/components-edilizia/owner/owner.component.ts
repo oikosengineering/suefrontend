@@ -6,6 +6,9 @@ import { AppApiService } from 'src/app/core/services/app-api.service';
 import { MatSelectChange } from '@angular/material/select';
 import { AuthService } from 'src/app/core/services/auth.service';
 import * as jwt_decode from 'jwt-decode';
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
+import { CommentStmt } from '@angular/compiler';
+import { element } from 'protractor';
 
 @Component({
   selector: 'owner',
@@ -25,16 +28,17 @@ export class OwnerComponent implements OnInit {
   loading = false;
 
   profile;
-  
+
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
     private apiservice: AppApiService,
     private auth: AuthService,
-  ) { 
+  ) {
     let token = this.auth.getToken();
     const jwt = jwt_decode(token);
     this.profile = jwt.user.profile;
+    console.log(this.profile);
   }
 
   ngOnInit(): void {
@@ -45,7 +49,7 @@ export class OwnerComponent implements OnInit {
   changedTipologiaPersona(form: AbstractControl, event: any) {
     switch (event.value) {
       case 'person':
-        form.get('first_name').enable()
+        form.get('first_name').enable();
         form.get('last_name').enable();
         form.get('fiscal_code').enable();
         form.get('gender').enable();
@@ -59,7 +63,7 @@ export class OwnerComponent implements OnInit {
         form.get('vat').disable();
         break;
       case 'business':
-        form.get('first_name').disable()
+        form.get('first_name').disable();
         form.get('last_name').disable();
         form.get('fiscal_code').disable();
         form.get('gender').disable();
@@ -86,36 +90,36 @@ export class OwnerComponent implements OnInit {
     items.push(this.formService.createContact());
   }
 
-  removeItem(array: AbstractControl, index: number){
+  removeItem(array: AbstractControl, index: number) {
     event.preventDefault();
     event.stopPropagation();
     let items = array as FormArray;
     items.removeAt(index);
   }
 
-  onChangeProvince(value: string, target: string){
+  onChangeProvince(value: string, target: string) {
     this.loading = true;
     this.checkValidationElseDisable(value, target);
     this.getComuni(value, target);
   }
 
-  onChangeCounty(value: string, target_enable: string, target_disable: string){
+  onChangeCounty(value: string, target_enable: string, target_disable: string) {
     this.loading = true;
     this.checkValidationElseDisable(value, target_enable);
     this.checkValidationElseEnable(value, target_disable);
     this.getComuniBirthPlace(value, target_enable);
   }
 
-  onChangeCountry(value: string, target: string){
+  onChangeCountry(value: string, target: string) {
     let value_field = this.form.get(value.split("/")).value;
-    if(value_field != null && value_field != '' && value_field != undefined){
+    if (value_field != null && value_field != '' && value_field != undefined && value_field.name.toString().toUpperCase() != 'ITALIA') {
       this.form.get(target.split("/")).disable();
     } else {
       this.form.get(target.split("/")).enable();
     }
   }
 
-  getComuni(value: string, target: string){
+  getComuni(value: string, target: string) {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
@@ -123,7 +127,7 @@ export class OwnerComponent implements OnInit {
     });
   }
 
-  getComuniBirthPlace(value: string, target: string){
+  getComuniBirthPlace(value: string, target: string) {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince.code).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
@@ -134,14 +138,14 @@ export class OwnerComponent implements OnInit {
   toCamelCase(sentenceCase) {
     var out = "";
     sentenceCase.split("/").forEach((element, index) => {
-        var add = element.toLowerCase();
-        out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
+      var add = element.toLowerCase();
+      out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
     });
     return out;
   }
 
-  checkValidationElseDisable(value: string, target: string){
-    if(this.form.get(value.split("/")).invalid){
+  checkValidationElseDisable(value: string, target: string) {
+    if (this.form.get(value.split("/")).invalid) {
       this.form.get(target.split("/")).disable();
       this.form.get(target.split("/")).reset();
     } else {
@@ -150,8 +154,8 @@ export class OwnerComponent implements OnInit {
     }
   }
 
-  checkValidationElseEnable(value: string, target: string){
-    if(this.form.get(value.split("/")).invalid){
+  checkValidationElseEnable(value: string, target: string) {
+    if (this.form.get(value.split("/")).invalid) {
       this.form.get(target.split("/")).enable();
       this.form.get(target.split("/")).reset();
     } else {
@@ -160,30 +164,30 @@ export class OwnerComponent implements OnInit {
     }
   }
 
-  checkFiscalCode(){
-    if(this.profile.fiscal_code.toLowerCase() == this.form.get('fiscal_code').value.toLowerCase()){
+  checkFiscalCode() {
+    if (this.profile.fiscal_code.toLowerCase() == this.form.get('fiscal_code').value.toLowerCase()) {
       return false
     } else {
       return true;
     }
   }
 
-  checkVat(){
-    if(this.profile.vat == this.form.get('vat').value){
+  checkVat() {
+    if (this.profile.vat == this.form.get('vat').value) {
       return false
     } else {
       return true;
     }
   }
 
-  autocomplete(){
+  autocomplete() {
     this.form.reset();
     this.form.patchValue(this.profile);
-    this.changedTipologiaPersona(this.form, {value: this.form.get('type').value});
+    this.changedTipologiaPersona(this.form, { value: this.form.get('type').value });
     this.patchParsedData(this.form.get('type').value);
   }
 
-  patchParsedData(value){
+  patchParsedData(value) {
     switch (value) {
       case 'person':
         this.patchAddress('address/county', 'address/city');
@@ -198,9 +202,9 @@ export class OwnerComponent implements OnInit {
     }
   }
 
-  patchContacts(){
+  patchContacts() {
     let controlArray = this.formContacts;
-    controlArray.clear();       
+    controlArray.clear();
     this.profile.contacts.forEach((contact) => {
       const fb = this.formService.createContact();
       controlArray.push(fb);
@@ -208,53 +212,54 @@ export class OwnerComponent implements OnInit {
     });
   }
 
-  patchAddress(value: string, target: string){
+  patchAddress(value: string, target: string) {
     this.form.get(value.split("/")).patchValue(this.profile.address.county_code);
     this.checkValidationElseDisable(value, target);
     this.getComuniForPatch(value, target, this.profile.address.city_code);
   }
 
-  patchCounty(value: string, target_enable: string, target_disable: string){
-    let selected_county = this.province.find(element => element.code == this.profile.birthplace.county)
+  patchCounty(value: string, target_enable: string, target_disable: string) {
+    let selected_county = this.province.find(element => element.code == this.profile.birthplace.county);
     this.form.get(value.split("/")).patchValue(selected_county);
     this.checkValidationElseDisable(value, target_enable);
     this.checkValidationElseEnable(value, target_disable);
     this.getComuniBirthPlaceForPatch(value, target_enable, this.profile.birthplace.city);
   }
 
-  patchCountry(value: string, target: string){
-    let selected_country = this.nazioni.find(element => element.code == this.profile.birthplace.county)
+  patchCountry(value: string, target: string) {
+    let selected_country = this.nazioni.find(element => element.code == this.profile.address.country);
     this.form.get(value.split("/")).patchValue(selected_country);
     let value_field = this.form.get(value.split("/")).value;
-    if(value_field != null && value_field != '' && value_field != undefined){
+    if (value_field != null && value_field != '' && value_field != undefined && value_field.name.toString().toUpperCase() != 'ITALIA') {
       this.form.get(target.split("/")).disable();
     } else {
       this.form.get(target.split("/")).enable();
     }
   }
 
-  patchDocument(){
+  patchDocument() {
     this.form.get(['document_type']).patchValue(this.profile.document.type);
     this.form.get(['document_number']).patchValue(this.profile.document.number);
   }
 
-  patchBirthPlace(){
-    if(this.profile.birthplace.is_foreign){
-      this.patchCountry('country_of_birth', 'county_of_birth')
+  patchBirthPlace() {
+    if (this.profile.birthplace.is_foreign) {
+      this.patchCountry('country_of_birth', 'county_of_birth');
     } else {
+      this.patchCountry('country_of_birth', 'county_of_birth');
       this.patchCounty('county_of_birth', 'birthplace', 'country_of_birth');
     }
   }
 
-  patchBirthday(){
+  patchBirthday() {
     let date = this.profile.birth_date.split("/");
     let year = date[2];
     let month = date[1];
     let day = date[0];
-    this.form.get(['birthday']).patchValue(new Date(year, month-1, day));
+    this.form.get(['birthday']).patchValue(new Date(year, month - 1, day));
   }
 
-  getComuniForPatch(value: string, target: string, patchValue: any){
+  getComuniForPatch(value: string, target: string, patchValue: any) {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
@@ -262,7 +267,7 @@ export class OwnerComponent implements OnInit {
     });
   }
 
-  getComuniBirthPlaceForPatch(value: string, target: string, patchValue: any){
+  getComuniBirthPlaceForPatch(value: string, target: string, patchValue: any) {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince.code).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
@@ -270,7 +275,7 @@ export class OwnerComponent implements OnInit {
       this.form.get(target.split("/")).patchValue(selected_city);
     });
   }
-  
+
   getErrorMessage(control: AbstractControl) {
     return this.validationService.getErrorMessage(control);
   }
