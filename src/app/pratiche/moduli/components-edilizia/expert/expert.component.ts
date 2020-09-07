@@ -23,7 +23,6 @@ export class ExpertComponent implements OnInit {
   @Input() nazioni: any[];
   comuni = {};
   loading = false;
-  nazioni = [];
   profile;
 
   constructor(
