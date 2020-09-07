@@ -6,6 +6,7 @@ import { DialogMessageService } from 'src/app/core/services/dialog-message.servi
 import { NavigationEnd, Router } from '@angular/router';
 import { MatRadioChange } from '@angular/material/radio';
 import { BrowserStack } from 'protractor/built/driverProviders';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
 import CodiceFiscale from 'codice-fiscale-js';
@@ -13,7 +14,8 @@ import { Province, City, Professional_Title } from 'src/app/core/models/models';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/core/services/auth.service'
+import { AuthService } from 'src/app/core/services/auth.service';
+import { UploadDocumentsComponent } from 'src/app/core/components/shared/documents/upload-documents/upload-documents.component';
 import { toHtml } from '@fortawesome/fontawesome-svg-core';
 import { ThrowStmt } from '@angular/compiler';
 
@@ -33,7 +35,10 @@ export class EdiliziaComponent implements OnInit {
   tipologie_contatto = [];
   qualifiche = [];
   tipi_documento = [];
+  tipologie_file = [];
   documenti = [];
+  idProcedure;
+  documents_uploaded = [];
 
   map_cfg = {
     buttons: [
@@ -77,9 +82,11 @@ export class EdiliziaComponent implements OnInit {
   };
 
   @Output() saved = new EventEmitter<boolean>();
+  @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
 
   saved_form = true;
   valueChange: Subscription;
+  personOwnerChange: Subscription;
 
   file_bollo = [];
   planimetria1 = [];
@@ -100,6 +107,9 @@ export class EdiliziaComponent implements OnInit {
   errorcode = '';
   errors: any[] = [];
 
+  can_modify = false;
+  file_name;
+
   constructor(
     private fb: FormBuilder,
     private validationService: ValidationService,
@@ -108,7 +118,8 @@ export class EdiliziaComponent implements OnInit {
     private formService: FormUtilService,
     private apiservice: AppApiService,
     private auth: AuthService,
-    private el: ElementRef
+    private el: ElementRef,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -163,6 +174,18 @@ export class EdiliziaComponent implements OnInit {
     this.createForm();
     this.checkState();
     this.subscribeToChanges();
+
+    const promises = [];
+    promises.push(this.getDocumentType());
+    promises.push(this.getDocumentsUploaded());
+    Promise.all(promises).then(result => {
+      this.getTipologieFileObbligatori();
+      this.loading = false;
+    }).catch(error => {
+      this.getTipologieFileObbligatori();
+      console.log(error);
+      this.loading = false;
+    });
   }
 
   subscribeToChanges() {
@@ -192,7 +215,7 @@ export class EdiliziaComponent implements OnInit {
       stamp_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      // documenti: this.fb.array([this.formService.createDocumenti()])
+      // documenti: this.fb.array([this.formService.createDocumenti()]);
     });
   }
 
@@ -204,7 +227,7 @@ export class EdiliziaComponent implements OnInit {
   get formContactsDitta() { return <FormArray>this.form.get('supplier_business').get('contacts'); }
   get formContactsExpert() { return <FormArray>this.form.get('expert').get('contacts'); }
   get formContactsOwner() { return <FormArray>this.form.get('owner').get('contacts'); }
-  // get formDocumenti() { return <FormArray>this.form.get('documenti');};
+  // get formDocumenti() { return <FormArray>this.form.get('documenti'); };
   // get formDocumento() { return this.form.get('documento'); }
 
   getArray(value: string) {
@@ -228,6 +251,19 @@ export class EdiliziaComponent implements OnInit {
     list.forEach(element => {
       this.form.get(element.split('/')).valueChanges.subscribe(() => this.forceValidControl(target));
     });
+  }
+
+  subscribeOwnerType() {
+    this.form.get('owner.type').valueChanges.subscribe(() => {
+      if (this.form.get('owner.type').value == 'person') {
+        this.form.get('qualification').patchValue('owner');
+        this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
+        this.form.get('qualification').disable();
+      } else {
+        this.form.get('qualification').enable();
+        this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
+      }
+    })
   }
 
   forceValidControl(list: string[]) {
@@ -271,6 +307,7 @@ export class EdiliziaComponent implements OnInit {
       this.form.get('supplier_business').updateValueAndValidity();
     }
     this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth', 'owner/country_of_birth'], ['owner/fiscal_code']);
+    this.subscribeOwnerType();
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
@@ -381,7 +418,7 @@ export class EdiliziaComponent implements OnInit {
     }
   }
 
-  changeQualification(event: MatRadioChange, control: AbstractControl) {
+  changeQualification(event: any, control: AbstractControl) {
     switch (event.value) {
       case 'owner':
         control.disable();
@@ -405,21 +442,21 @@ export class EdiliziaComponent implements OnInit {
 
   }
 
-  uploadFile(event, form: AbstractControl, control: string) {
-    if (event.target.files[0]) {
-      this[control].push(event.target.files[0]);
-      event.target.value = '';
-      form.get('file').disable();
-    }
-  }
+  // uploadFile(event, form: AbstractControl, control: string) {
+  //   if (event.target.files[0]) {
+  //     this[control].push(event.target.files[0]);
+  //     event.target.value = '';
+  //     form.get('file').disable();
+  //   }
+  // }
 
-  removeFile(target, form: AbstractControl, control: string) {
-    let index = this[control].indexOf(target);
-    if (index >= 0) {
-      this[control].splice(index, 1);
-      form.get('file').enable()
-    }
-  }
+  // removeFile(target, form: AbstractControl, control: string) {
+  //   let index = this[control].indexOf(target);
+  //   if (index >= 0) {
+  //     this[control].splice(index, 1);
+  //     form.get('file').enable()
+  //   }
+  // }
 
   openMap() {
     event.preventDefault();
@@ -478,7 +515,9 @@ export class EdiliziaComponent implements OnInit {
         if (response['status'] === 200) {
           this.loading = false;
           this.saved.emit(true);
-          this.router.navigate(['/dettagli-pratica', response['data'].id]);
+          // this.router.navigate(['/dettagli-pratica', response['data'].id]);
+          this.can_modify = true;
+          this.idProcedure = response['data'].id;
         } else {
           this.loading = false;
         }
@@ -540,6 +579,8 @@ export class EdiliziaComponent implements OnInit {
         break;
     }
     this.parseBirthPlace(body);
+
+    body.qualification = this.form.getRawValue().qualification;
   }
 
   parseDate(body: any) {
@@ -693,5 +734,58 @@ export class EdiliziaComponent implements OnInit {
       out += (index === 0 ? add : add[0].toUpperCase() + add.slice(1));
     });
     return out;
+  }
+
+  getDocumentType() {
+    return new Promise((resolve, reject) => {
+      this.apiservice.getDizionario('owner.person.document_type').subscribe(data => {
+        this.tipi_documento.push(...data['data']);
+        resolve(true);
+      }, error => {
+        resolve(true);
+      });
+    });
+  }
+
+  getDocumentsUploaded() {
+    return new Promise((resolve, reject) => {
+      this.apiservice.getDocumentiPratica('building', this.idProcedure).subscribe(data => {
+        this.documents_uploaded = data['data'];
+        resolve(true);
+      }, error => {
+        resolve(true);
+      });
+    });
+  }
+
+  getTipologieFileObbligatori() {
+    return new Promise((resolve, reject) => {
+      this.apiservice.getListaDocumentiObbligatoriPratica('building', '').subscribe(data => {
+        this.tipologie_file = data['data'];
+        resolve(true);
+      }, error => {
+        resolve(true);
+      });
+    });
+  }
+
+  // tslint:disable-next-line: adjacent-overload-signatures
+  uploadFile(formData) {
+    this.apiservice.updDocumentoPratica('building', this.idProcedure, formData).subscribe(result => {
+      if (this.uploadDocuments) {
+        this.uploadDocuments.uploadComplete();
+      }
+      this.getDocumentsUploaded();
+      this.snackBar.open('Documento caricato con successo!', null, {
+        duration: 2000
+      });
+    }, error => {
+      if (this.uploadDocuments) {
+        this.uploadDocuments.isLoading = false;
+        this.snackBar.open('Errore, impossibile caricare il file!', null, {
+          duration: 2000
+        });
+      }
+    });
   }
 }

@@ -53,7 +53,8 @@
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Partita IVA</mat-label>
         <input formControlName="vat" matInput type="text">
-        <button mat-icon-button matSuffix matTooltip="Compila i campi mancanti con i propri dati" (click)="autocomplete()" [disabled]="checkVat()">
+        <button mat-icon-button matSuffix matTooltip="Compila i campi mancanti con i propri dati"
+            (click)="autocomplete()" [disabled]="checkVat()">
             <mat-icon>post_add</mat-icon>
         </button>
         <mat-error>{{getErrorMessage(form.get('vat'))}}</mat-error>

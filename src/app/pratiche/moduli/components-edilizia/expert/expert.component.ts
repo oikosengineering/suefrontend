@@ -20,6 +20,7 @@ export class ExpertComponent implements OnInit {
   @Input() tipologie_contatto: any[];
   @Input() titoli_professionali: any[];
   @Input() province: any[];
+  @Input() nazioni: any[];
   comuni = {};
   loading = false;
   nazioni = [];

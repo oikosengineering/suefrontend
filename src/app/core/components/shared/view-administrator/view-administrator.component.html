@@ -11,7 +11,7 @@
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Codice fiscale</mat-label>
-        <input formControlName="fiscal_code" matInput type="text">
+        <input formControlName="fiscal_code" matInput type="text"  oninput="this.value = this.value.toUpperCase()">
         <mat-error>{{getErrorMessage(form.get('fiscal_code'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-half" appearance="outline">

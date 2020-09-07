@@ -12,7 +12,7 @@ import { AppApiService } from '../core/services/app-api.service';
 export class NuovaPraticaComponent implements OnInit {
 
   options = [];
-  
+
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   loading = false;
@@ -22,7 +22,7 @@ export class NuovaPraticaComponent implements OnInit {
     private router: Router,
     private validationService: ValidationService,
     private apiservice: AppApiService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loading = true;
@@ -34,35 +34,22 @@ export class NuovaPraticaComponent implements OnInit {
     this.firstFormGroup = this.formBuilder.group({
       tipo_pratica: [null, Validators.required]
     });
-    // this.secondFormGroup = this.formBuilder.group({
-    //   oggetto: ['', Validators.compose(
-    //     [
-    //       Validators.required,
-    //       Validators.maxLength(80)
-    //     ]
-    //   )],
-    //   descrizione: ['', Validators.compose(
-    //     [
-    //       Validators.maxLength(255)
-    //     ]
-    //   )]
-    // });
   }
 
-  getErrorMessage(control: AbstractControl){
+  getErrorMessage(control: AbstractControl) {
     return this.validationService.getErrorMessage(control);
   }
 
-  getPratica(){
+  getPratica() {
     let value = this.options.find(option => option.value == this.firstFormGroup.value.tipo_pratica);
-    if(value){
+    if (value) {
       return value.name;
     } else {
       return '';
     }
   }
 
-  submit(){
+  submit() {
     console.log("Tipo: ", this.firstFormGroup.value);
     this.router.navigate(['/pratiche', this.firstFormGroup.value.tipo_pratica]);
   }

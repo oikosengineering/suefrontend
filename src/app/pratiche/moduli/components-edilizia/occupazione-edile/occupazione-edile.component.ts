@@ -4,6 +4,7 @@ import { ValidationService } from 'src/app/core/services/validation.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
 import { AppApiService } from 'src/app/core/services/app-api.service';
+import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 
 @Component({
   selector: 'app-occupazione-edile',
@@ -17,9 +18,35 @@ export class OccupazioneEdileComponent implements OnInit {
   indirizzi = [];
   civici = [];
 
+  map_cfg = {
+    buttons: [
+      {
+        name: "Occupazione",
+        style: 'style_scavo',
+        geometryType: 'Polygon',
+        tooltip: 'Disegna area occupazione edile',
+        target: 'occupazione'
+      },
+    ],
+    layers: [
+      {
+        name: "Occupazione edilizia",
+        style: "style_scavo",
+        id: 'occupazione'
+      },
+    ],
+    features: [
+      {
+        type: 'occupazione',
+        features: []
+      }
+    ]
+  };
+
   constructor(
     private validationService: ValidationService,
-    private apiService: AppApiService
+    private apiService: AppApiService,
+    private dialog: DialogMessageService
   ) { 
     this.apiService.getStradario().subscribe(result => {
       this.indirizzi = result['data'];
@@ -88,5 +115,33 @@ export class OccupazioneEdileComponent implements OnInit {
   
   getErrorMessage(control: AbstractControl) {
     return this.validationService.getErrorMessage(control);
+  }
+
+  openMap() {
+    event.preventDefault();
+    event.stopPropagation();
+    let features = [
+      {
+        type: 'occupazione',
+        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value] : []
+      }
+    ]
+    this.map_cfg.features = features;
+    this.dialog.openMap(this.map_cfg).subscribe(value => {
+      if (value) {
+        this.map_cfg.features = value;
+        value.forEach(feature => {
+          switch(feature.type){
+            case 'occupazione':
+              this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
+              break;
+          }
+        });
+        console.log("Dati pratica",this.form.value);
+      }
+      console.log('Mappa chiusa', value);
+    }, error => {
+      console.log('errore mappa');
+    });
   }
 }

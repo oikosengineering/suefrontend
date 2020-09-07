@@ -33,7 +33,7 @@ export class FormUtilService {
         Validators.required
       ])),
       insurance: this.createInsurance(),
-    })
+    });
   }
 
   createDetailsOccupazioneSuoloEdilizio(): FormGroup {
@@ -69,6 +69,7 @@ export class FormUtilService {
         Validators.required
       ])),
       address_number: new FormControl(''),
+      building_site: this.createBuildingSize(),
       length: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -106,6 +107,7 @@ export class FormUtilService {
         Validators.required
       ])),
       address_number: new FormControl(''),
+      building_site: this.createBuildingSize(),
       length: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -150,6 +152,9 @@ export class FormUtilService {
       total_square_meters: new FormControl('', Validators.compose([
         Validators.required
       ])),
+      geometry: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     })
   }
 
@@ -165,7 +170,7 @@ export class FormUtilService {
         Validators.required
       ])),
       description: new FormControl('')
-    }, {disabled: true})
+    }, {disabled: true});
   }
 
   createInsurance(): FormGroup{
@@ -176,7 +181,7 @@ export class FormUtilService {
       amount: new FormControl('', Validators.compose([
         Validators.required
       ])),
-    })
+    });
   }
 
   createDescriptionRotturaSuolo(): FormGroup{
@@ -195,7 +200,7 @@ export class FormUtilService {
         Validators.maxLength(80)
       ])),
       notes: new FormControl(''),
-    })
+    });
   }
 
   createGeometryDetails(): FormGroup{
@@ -218,7 +223,7 @@ export class FormUtilService {
         Validators.required
       ])),
       related_addresses: this.fb.array([this.geometryAddress()])
-    })
+    });
   }
 
   geometryAddress(): FormGroup{
@@ -232,7 +237,7 @@ export class FormUtilService {
       to_street_number: new FormControl('', Validators.compose([
         Validators.required
       ])),
-    })
+    });
   }
 
   createOwner(): FormGroup {
@@ -277,6 +282,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       // cellular: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -291,6 +297,7 @@ export class FormUtilService {
       // ]))
     });
   }
+
   createExpertBusiness(): FormGroup{
     return this.fb.group({
       type: new FormControl(null, Validators.compose([
@@ -323,6 +330,7 @@ export class FormUtilService {
       // ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       // pec: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -334,6 +342,7 @@ export class FormUtilService {
       ])),
     });
   }
+
   createExpert(): FormGroup {
     return this.fb.group({
       gender: new FormControl(null, Validators.compose([
@@ -358,6 +367,7 @@ export class FormUtilService {
       address: this.createAddress(),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -378,6 +388,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
+        //Validators.pattern('^([+]\d{2})?\d{10}$')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -395,7 +406,6 @@ export class FormUtilService {
         Validators.required,
       ])),
       country: new FormControl('', Validators.compose([
-        Validators.required,
       ])),
       street_name: new FormControl('', Validators.compose([
         Validators.required,
@@ -432,7 +442,7 @@ export class FormUtilService {
       end_date: new FormControl('', Validators.compose([
         Validators.required
       ])),
-    })
+    });
   }
 
   createFilter(): FormGroup{
@@ -445,7 +455,7 @@ export class FormUtilService {
       referrer_surname: new FormControl(''),
       created_at_since: new FormControl(''),
       created_at_until: new FormControl(''),
-    })
+    });
   }
 
   createDocumenti(): FormGroup{

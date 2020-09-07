@@ -17,6 +17,8 @@ export class ExpertsComponent implements OnInit {
   @Input() tipologie_contatto: any[];
   @Input() titoli_professionali: any[];
   @Input() province: any[];
+  @Input() nazioni: any[];
+  
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,

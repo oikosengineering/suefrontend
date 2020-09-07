@@ -3,7 +3,7 @@ import { Map, View, Overlay, Feature } from 'ol';
 import { Layer } from 'ol/layer';
 import * as proj from 'ol/proj';
 import OSM from 'ol/source/OSM';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import Draw from 'ol/interaction/Draw';
 import TileLayer from 'ol/layer/Tile';
 import Source from 'ol/source/Source';
@@ -28,6 +28,7 @@ import { layer } from '@fortawesome/fontawesome-svg-core';
 import {Extent, isEmpty} from 'ol/extent';
 import Geometry from 'ol/geom/Geometry';
 import LinearRing from 'ol/geom/LinearRing';
+import { MyDialogComponent } from '../my-dialog/my-dialog.component';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -110,7 +111,8 @@ export class MapComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<MapComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog
     ) { }
     
   ngOnInit(): void {
@@ -272,6 +274,9 @@ export class MapComponent implements OnInit {
     var layers_options = document.getElementById('layers_panel');
     var layers_panel = new Control({element: layers_options});
     controls.push(layers_panel);
+    var save_options = document.getElementById('save_panel');
+    var save_panel = new Control({element: save_options});
+    controls.push(save_panel);
     return controls;
   }
 
@@ -307,6 +312,9 @@ export class MapComponent implements OnInit {
     } else {
       this.map.removeInteraction(this.translate);
       this.translate = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
   }
 
@@ -323,6 +331,9 @@ export class MapComponent implements OnInit {
     } else {
       this.map.removeInteraction(this.modify);
       this.modify = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
   }
 
@@ -330,10 +341,16 @@ export class MapComponent implements OnInit {
     if(this.translate){
       this.map.removeInteraction(this.translate);
       this.translate = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
     if(this.modify){
       this.map.removeInteraction(this.modify);
       this.modify = null;
+      if(this.measureTooltip){
+        this.measureTooltip.setPosition(null);
+      }
     }
     let selected_feature = this.select.getFeatures().getArray();
     if(selected_feature.length > 0){
@@ -341,6 +358,7 @@ export class MapComponent implements OnInit {
         let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == feature.get('target'));
         let source = layer.get('source');
         source.removeFeature(feature);
+        this.select.getFeatures().clear();
       });
       this._snackBar.open("Elementi cancellati", null, {duration: 2000});
     } else {
@@ -353,11 +371,8 @@ export class MapComponent implements OnInit {
       var tooltipCoord = event.coordinate;
       this.createMeasureTooltip();
       let listener = sketch.getGeometry().on('change', (evt) => {
-        
-        
-        
         var geom: Polygon = evt.target;
-        console.log("draw event",geom);
+        // console.log("draw event",geom);
         var output;
         output = this.formatLength(geom);
         tooltipCoord = geom.getInteriorPoint().getCoordinates();
@@ -369,10 +384,13 @@ export class MapComponent implements OnInit {
   }
 
   onDrawEnd(event, target){
-    console.log(event);
+    // console.log(event);
     event.feature.setProperties({'target': target});
     this.map.removeInteraction(this.draw);
     this.draw = null;
+    setTimeout(() => {
+      this.measureTooltip.setPosition(null);
+    }, 500);
     this.activeLater();
   }
 
@@ -388,7 +406,6 @@ export class MapComponent implements OnInit {
 
   printInfo(event){
     let features: Feature[] = event.selected;
-    console.log(features);
   }
 
   createMeasureTooltip() {
@@ -427,30 +444,42 @@ export class MapComponent implements OnInit {
   };
 
   search(){
-    console.log("search");
+    // console.log("search");
   }
 
   close(){
-    let result = [];
-    // let total_area = 0;
-    let new_features = this.options.features;
-    let format = new WKT();
-    let layers = this.map.getLayers().getArray().filter(layer => this.options.layers.find(mylayer => mylayer.id == layer.get('id')));
-    layers.forEach(layer => {
-        let features: Feature[] = layer.get('source').getFeatures();
-        features.forEach(feature => {
-          result.push(format.writeFeature(feature));
-          // let area = getArea(feature.getGeometry());
-          // total_area += Math.round((area + Number.EPSILON) * 100) / 100
-        })
-        let dest = new_features.find(opt_feature => opt_feature.type == layer.get('id'));
-        dest.features = [];
-        // dest.area = total_area;
-        dest.features.push(...result);
-        result = []
-        // total_area = 0;
+    this.openDialog("Uscire", "Sei sicuro di voler uscire dalla mappa? Le modifiche non salvate andranno perse.").subscribe(value => {
+      if(value){
+        this.dialogRef.close(null);
+      }
     })
-    this.dialogRef.close(new_features);
+  }
+
+  save() {
+    this.openDialog("Salvare", "Vuoi confermare le modifiche ed uscire?").subscribe(value => {
+      if(value){
+        let result = [];
+        // let total_area = 0;
+        let new_features = this.options.features;
+        let format = new WKT();
+        let layers = this.map.getLayers().getArray().filter(layer => this.options.layers.find(mylayer => mylayer.id == layer.get('id')));
+        layers.forEach(layer => {
+            let features: Feature[] = layer.get('source').getFeatures();
+            features.forEach(feature => {
+              result.push(format.writeFeature(feature));
+              // let area = getArea(feature.getGeometry());
+              // total_area += Math.round((area + Number.EPSILON) * 100) / 100
+            })
+            let dest = new_features.find(opt_feature => opt_feature.type == layer.get('id'));
+            dest.features = [];
+            // dest.area = total_area;
+            dest.features.push(...result);
+            result = []
+            // total_area = 0;
+        })
+        this.dialogRef.close(new_features);
+      }
+    })
   }
 
   getNumberOfGeometry(target: string){
@@ -473,5 +502,15 @@ export class MapComponent implements OnInit {
     var view = this.map.getView();
     var zoom = view.getZoom();
     view.setZoom(zoom - 1);
+  }
+
+  openDialog(title: string, message: string) {
+    console.log('modal');
+    const dialogRef = this.dialog.open(MyDialogComponent, {
+      width: '250px',
+      data: {title: title, message: message}
+    });
+
+    return dialogRef.afterClosed();
   }
 }

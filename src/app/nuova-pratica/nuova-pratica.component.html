@@ -22,35 +22,4 @@
       </div>
     </form>
   </mat-step>
-  <!-- <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Informazioni relativi alla nuova pratica</ng-template>
-      <mat-form-field class="div-full" appearance="outline">
-        <mat-label>Oggetto</mat-label>
-        <input matInput formControlName="oggetto" placeholder="Oggetto" required>
-        <mat-error>{{getErrorMessage(secondFormGroup.get('oggetto'))}}</mat-error>
-      </mat-form-field>
-      <mat-form-field class="div-full" appearance="outline">
-          <mat-label>Breve descrizione</mat-label>
-          <textarea matInput formControlName="descrizione" placeholder="Breve descrizione"></textarea>
-          <mat-error>{{getErrorMessage(secondFormGroup.get('descrizione'))}}</mat-error>
-        </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Indietro</button>
-        <button mat-button matStepperNext>Avanti</button>
-      </div>
-    </form>
-  </mat-step> -->
-  <!-- <mat-step>
-    <ng-template matStepLabel>Riepilogo</ng-template>
-    <p>Confermi i seguenti dati?</p>
-    <p><strong>Tipo pratica: </strong> {{getPratica()}}</p> -->
-    <!-- <p><strong>Oggetto: </strong> {{secondFormGroup.value.oggetto}}</p>
-      <p><strong>Descrizione: </strong> {{secondFormGroup.value.descrizione}}</p> -->
-    <!-- <div>
-      <button mat-button matStepperPrevious>Indietro</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-      <button mat-button [disabled]="!firstFormGroup.valid" (click)="submit()">Conferma</button>
-    </div>
-  </mat-step> -->
 </mat-vertical-stepper>

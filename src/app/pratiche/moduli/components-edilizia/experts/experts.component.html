@@ -16,7 +16,9 @@
             [generi]="generi"
             [tipologie_contatto]="tipologie_contatto"
             [titoli_professionali]="titoli_professionali"
-            [province]="province">
+            [province]="province"
+            [nazioni]="nazioni"
+            >
         </expert>
         <button *ngIf="formExperts.controls.length > 1" class="button-delete" mat-mini-fab color="warn" (click)="removeItem(formExperts, j);"><mat-icon>close</mat-icon></button>
     </mat-card>

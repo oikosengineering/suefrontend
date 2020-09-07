@@ -35,15 +35,15 @@
       <td mat-cell *matCellDef="let element"> {{element.owner.name ? element.owner.name : (element.owner.first_name + ' '+ element.owner.last_name) }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="expert">
+    <ng-container matColumnDef="creator">
       <th mat-header-cell *matHeaderCellDef> Tecnico </th>
       <td mat-cell *matCellDef="let element"> {{element | expertPipe}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="all_mandatory_documents_uploaded">
+    <!-- <ng-container matColumnDef="all_mandatory_documents_uploaded">
       <th mat-header-cell *matHeaderCellDef> Documenti </th>
       <td mat-cell class="documents_uploaded" *matCellDef="let element"><documents-uploaded [doucuments_uploaded]="element.all_mandatory_documents_uploaded"></documents-uploaded></td>
-    </ng-container>
+    </ng-container> -->
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Azioni </th>

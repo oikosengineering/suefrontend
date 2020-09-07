@@ -4,6 +4,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { FormUtilService } from 'src/app/core/services/form-util.service';
 import { formatDate } from '@angular/common';
+import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
 
 @Component({
   selector: 'view-occupazione-suolo-edilizio',
@@ -22,9 +23,35 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
 
   isLoading = false; 
 
+  map_cfg = {
+    buttons: [
+      {
+        name: "Occupazione",
+        style: 'style_scavo',
+        geometryType: 'Polygon',
+        tooltip: 'Disegna area occupazione edile',
+        target: 'occupazione'
+      },
+    ],
+    layers: [
+      {
+        name: "Occupazione edilizia",
+        style: "style_scavo",
+        id: 'occupazione'
+      },
+    ],
+    features: [
+      {
+        type: 'occupazione',
+        features: []
+      }
+    ]
+  };
+
   constructor(
     private validationService: ValidationService,
     private formService: FormUtilService,
+    private dialog: DialogMessageService
   ) { }
 
   ngOnInit(): void {
@@ -150,6 +177,34 @@ export class ViewOccupazioneSuoloEdilizioComponent implements OnInit {
     if(body.other.description == null || body.other.description == undefined || body.other.description == ''){
       delete body.other.description;
     }
+  }
+
+  openMap() {
+    event.preventDefault();
+    event.stopPropagation();
+    let features = [
+      {
+        type: 'occupazione',
+        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value] : []
+      }
+    ]
+    this.map_cfg.features = features;
+    this.dialog.openMap(this.map_cfg).subscribe(value => {
+      if (value) {
+        this.map_cfg.features = value;
+        value.forEach(feature => {
+          switch(feature.type){
+            case 'occupazione':
+              this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
+              break;
+          }
+        });
+        console.log("Dati pratica",this.form.value);
+      }
+      console.log('Mappa chiusa', value);
+    }, error => {
+      console.log('errore mappa');
+    });
   }
   
   getErrorMessage(control: AbstractControl) {

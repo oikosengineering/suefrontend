@@ -7,7 +7,8 @@
     <owner [form]="form.get('owner')" [tipologie]="tipologie" [generi]="generi" [tipi_documento]="tipi_documento"
         [tipologie_contatto]="tipologie_contatto" [province]="province" [nazioni]="nazioni"></owner>
     <experts [form]="form.get('experts')" [tipologie]="tipologie" [generi]="generi"
-        [tipologie_contatto]="tipologie_contatto" [titoli_professionali]="titoli_professionali" [province]="province">
+        [tipologie_contatto]="tipologie_contatto" [titoli_professionali]="titoli_professionali" [province]="province"
+        [nazioni]="nazioni">
     </experts>
     <div class="div-checkbox">
         <mat-checkbox formControlName="delegated">Sottomissione per conto terzi</mat-checkbox>
@@ -60,7 +61,13 @@
 </form>
 <mat-error *ngIf="error">{{errormessage}} -- {{errorcode}}</mat-error>
 <mat-error *ngIf="error">
-    <mat-list *ngFor="let error of errors" >
-        <p matLine >{{error}}</p>
-      </mat-list>
+    <mat-list *ngFor="let error of errors">
+        <p matLine>{{error}}</p>
+    </mat-list>
 </mat-error>
+<ng-container  *ngIf="can_modify">
+    <upload-documents [tipologie_file]="tipologie_file" (upload_file)="uploadFile($event)">
+    </upload-documents>
+    <view-documents [documents]="documents_uploaded">
+    </view-documents>
+</ng-container>
