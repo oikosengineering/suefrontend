@@ -468,6 +468,7 @@ export class EdiliziaComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.valueChange.unsubscribe();
+    this.form.markAllAsTouched();
     this.error = false;
     this.errorcode = '';
     this.errormessage = '';
@@ -510,6 +511,12 @@ export class EdiliziaComponent implements OnInit {
       });
 
     } else {
+      for (let el in this.form.controls) {
+        if (this.form.controls[el].invalid) {
+          console.log(el)
+        }
+   }          
+      
       this.validationService.validateAllFormFields(this.form);
       this.focusInvalidField();
       const body = this.form.getRawValue();
@@ -520,7 +527,7 @@ export class EdiliziaComponent implements OnInit {
 
   focusInvalidField() {
     let element = this.el.nativeElement.querySelector('mat-form-field .ng-invalid');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (element != null) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   parseData(body) {

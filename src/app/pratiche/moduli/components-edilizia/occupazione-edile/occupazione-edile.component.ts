@@ -137,6 +137,8 @@ export class OccupazioneEdileComponent implements OnInit {
           switch(feature.type){
             case 'occupazione':
               this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
+              this.form.get('scaffolding').get('geometry').patchValue(feature.features[0] || '');
+              this.form.get('affected_area').patchValue(feature.features[0] || '');
               break;
           }
         });

@@ -57,6 +57,9 @@ export class FormUtilService {
       end_date: new FormControl('', Validators.compose([
         Validators.required
       ])),
+      affected_area: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     });
   }
 
@@ -93,6 +96,9 @@ export class FormUtilService {
         Validators.required
       ])),
       end_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      affected_area: new FormControl('', Validators.compose([
         Validators.required
       ])),
     });
@@ -136,6 +142,9 @@ export class FormUtilService {
         Validators.required
       ])),
       through_details: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      affected_area: new FormControl('', Validators.compose([
         Validators.required
       ])),
     });
