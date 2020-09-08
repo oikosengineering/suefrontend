@@ -170,6 +170,7 @@ export class ExpertComponent implements OnInit {
   patchParsedData(value) {
     switch (value) {
       case 'person':
+        this.patchCountry('address/country', 'address/country');
         this.patchAddress('address/county', 'address/city');
         this.patchProfessionalTitle();
         break;
@@ -196,6 +197,12 @@ export class ExpertComponent implements OnInit {
     this.getComuniForPatch(value, target, this.profile.address.city_code);
   }
 
+  patchCountry(value: string, target: string) {
+    this.form.get(value.split("/")).patchValue(this.profile.address.country);
+    this.checkValidationElseDisable(value, target);
+    this.getNazioneForPatch(value, target, this.profile.address.country);
+  }
+
   patchProfessionalTitle() {
     if (this.profile.professional_title) {
       this.form.get('professional_title').patchValue(this.profile.professional_title.long.toLowerCase());
@@ -206,6 +213,13 @@ export class ExpertComponent implements OnInit {
     let selectProvince = this.form.get(value.split("/")).value;
     this.apiservice.getComuni(selectProvince).subscribe(value => {
       this.comuni[this.toCamelCase(target)] = value['data'];
+      this.form.get(target.split("/")).patchValue(patchValue);
+    });
+  }
+
+  getNazioneForPatch(value: string, target: string, patchValue: any) {
+    this.apiservice.getNazioni().subscribe(values => {
+      this.nazioni[this.toCamelCase(target)]  = values['data'];
       this.form.get(target.split("/")).patchValue(patchValue);
     });
   }
