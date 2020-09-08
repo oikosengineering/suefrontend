@@ -15,7 +15,6 @@ import { AppApiService } from 'src/app/core/services/app-api.service';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { UploadDocumentsComponent } from 'src/app/core/components/shared/documents/upload-documents/upload-documents.component';
 import { toHtml } from '@fortawesome/fontawesome-svg-core';
 import { ThrowStmt } from '@angular/compiler';
 
@@ -34,11 +33,6 @@ export class EdiliziaComponent implements OnInit {
   esecutori = [];
   tipologie_contatto = [];
   qualifiche = [];
-  tipi_documento = [];
-  tipologie_file = [];
-  documenti = [];
-  idProcedure;
-  documents_uploaded = [];
 
   map_cfg = {
     buttons: [
@@ -82,7 +76,6 @@ export class EdiliziaComponent implements OnInit {
   };
 
   @Output() saved = new EventEmitter<boolean>();
-  @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
 
   saved_form = true;
   valueChange: Subscription;
@@ -106,9 +99,6 @@ export class EdiliziaComponent implements OnInit {
   errormessage = '';
   errorcode = '';
   errors: any[] = [];
-
-  can_modify = false;
-  file_name;
 
   constructor(
     private fb: FormBuilder,
@@ -162,30 +152,10 @@ export class EdiliziaComponent implements OnInit {
       this.qualifiche.push(...data['data']);
     });
 
-    this.apiservice.getDizionario('owner.person.document_type').subscribe(data => {
-      this.tipi_documento.push(...data['data']);
-    });
-
-    this.apiservice.getListaDocumentiObbligatoriPratica('building', this.modulo).subscribe((data) => {
-      this.fileobbligatori.push(...data['data']);
-      this.loading = false;
-    });
-
     this.createForm();
     this.checkState();
     this.subscribeToChanges();
-
-    const promises = [];
-    promises.push(this.getDocumentType());
-    promises.push(this.getDocumentsUploaded());
-    Promise.all(promises).then(result => {
-      this.getTipologieFileObbligatori();
-      this.loading = false;
-    }).catch(error => {
-      this.getTipologieFileObbligatori();
-      console.log(error);
-      this.loading = false;
-    });
+    this.loading = false;
   }
 
   subscribeToChanges() {
@@ -515,9 +485,7 @@ export class EdiliziaComponent implements OnInit {
         if (response['status'] === 200) {
           this.loading = false;
           this.saved.emit(true);
-          // this.router.navigate(['/dettagli-pratica', response['data'].id]);
-          this.can_modify = true;
-          this.idProcedure = response['data'].id;
+          this.router.navigate(['/dettagli-pratica', response['data'].id]);
         } else {
           this.loading = false;
         }
@@ -736,56 +704,4 @@ export class EdiliziaComponent implements OnInit {
     return out;
   }
 
-  getDocumentType() {
-    return new Promise((resolve, reject) => {
-      this.apiservice.getDizionario('owner.person.document_type').subscribe(data => {
-        this.tipi_documento.push(...data['data']);
-        resolve(true);
-      }, error => {
-        resolve(true);
-      });
-    });
-  }
-
-  getDocumentsUploaded() {
-    return new Promise((resolve, reject) => {
-      this.apiservice.getDocumentiPratica('building', this.idProcedure).subscribe(data => {
-        this.documents_uploaded = data['data'];
-        resolve(true);
-      }, error => {
-        resolve(true);
-      });
-    });
-  }
-
-  getTipologieFileObbligatori() {
-    return new Promise((resolve, reject) => {
-      this.apiservice.getListaDocumentiObbligatoriPratica('building', '').subscribe(data => {
-        this.tipologie_file = data['data'];
-        resolve(true);
-      }, error => {
-        resolve(true);
-      });
-    });
-  }
-
-  // tslint:disable-next-line: adjacent-overload-signatures
-  uploadFile(formData) {
-    this.apiservice.updDocumentoPratica('building', this.idProcedure, formData).subscribe(result => {
-      if (this.uploadDocuments) {
-        this.uploadDocuments.uploadComplete();
-      }
-      this.getDocumentsUploaded();
-      this.snackBar.open('Documento caricato con successo!', null, {
-        duration: 2000
-      });
-    }, error => {
-      if (this.uploadDocuments) {
-        this.uploadDocuments.isLoading = false;
-        this.snackBar.open('Errore, impossibile caricare il file!', null, {
-          duration: 2000
-        });
-      }
-    });
-  }
 }

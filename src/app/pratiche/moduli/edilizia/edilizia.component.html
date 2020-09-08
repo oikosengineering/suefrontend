@@ -4,7 +4,7 @@
     </div>
 </div>
 <form [formGroup]="form">
-    <owner [form]="form.get('owner')" [tipologie]="tipologie" [generi]="generi" [tipi_documento]="tipi_documento"
+    <owner [form]="form.get('owner')" [tipologie]="tipologie" [generi]="generi"
         [tipologie_contatto]="tipologie_contatto" [province]="province" [nazioni]="nazioni"></owner>
     <experts [form]="form.get('experts')" [tipologie]="tipologie" [generi]="generi"
         [tipologie_contatto]="tipologie_contatto" [titoli_professionali]="titoli_professionali" [province]="province"
@@ -65,9 +65,3 @@
         <p matLine>{{error}}</p>
     </mat-list>
 </mat-error>
-<ng-container  *ngIf="can_modify">
-    <upload-documents [tipologie_file]="tipologie_file" (upload_file)="uploadFile($event)">
-    </upload-documents>
-    <view-documents [documents]="documents_uploaded">
-    </view-documents>
-</ng-container>

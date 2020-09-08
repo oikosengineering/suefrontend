@@ -61,6 +61,9 @@ export class AuthService {
     if (this.cookieservice.check('XSRF-TOKEN')) {
       this.cookieservice.delete('XSRF-TOKEN', '/');
     }
+    if (this.cookieservice.check('spid_proposed')) {
+      this.cookieservice.delete('spid_proposed', '/');
+    }
 
     this.cookieservice.deleteAll('/');
     this.cookieservice.deleteAll('/', '.digitale.comune.chiavari.ge.it');

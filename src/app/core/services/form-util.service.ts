@@ -282,7 +282,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        //Validators.pattern('^([+]\d{2})?\d{10}$')
+        Validators.pattern('^[+39]{1}[0-9]{12,12}')
       ])),
       // cellular: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -330,7 +330,7 @@ export class FormUtilService {
       // ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        //Validators.pattern('^([+]\d{2})?\d{10}$')
+        Validators.pattern('^[+39]{1}[0-9]{12,12}')
       ])),
       // pec: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -367,7 +367,7 @@ export class FormUtilService {
       address: this.createAddress(),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        //Validators.pattern('^([+]\d{2})?\d{10}$')
+        Validators.pattern('^[+39]{1}[0-9]{12,12}')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -388,7 +388,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        //Validators.pattern('^([+]\d{2})?\d{10}$')
+        Validators.pattern('^[+39]{1}[0-9]{12,12}')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -405,8 +405,7 @@ export class FormUtilService {
       county: new FormControl('', Validators.compose([
         Validators.required,
       ])),
-      country: new FormControl('', Validators.compose([
-      ])),
+      country: new FormControl(''),
       street_name: new FormControl('', Validators.compose([
         Validators.required,
       ])),
@@ -432,7 +431,7 @@ export class FormUtilService {
       ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('\+39([0-9]{10})$'),
+        Validators.pattern('^[+39]{1}[0-9]{12,12}')
       ])),
     });
   }

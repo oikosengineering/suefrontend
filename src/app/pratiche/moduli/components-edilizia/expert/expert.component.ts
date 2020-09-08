@@ -55,8 +55,6 @@ export class ExpertComponent implements OnInit {
         form.get('contacts').disable();
         form.get('name').clearValidators();
         form.get('name').updateValueAndValidity();
-        form.get('country').enable();
-        form.get('county').enable();
         break;
       case 'business':
         form.get('first_name').disable();
