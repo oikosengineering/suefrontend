@@ -57,7 +57,7 @@
 
 #zoom_panel {
   position: absolute;
-  top: 4em;
+  top: 6em;
   right: 0.5em;
 }
 
@@ -80,6 +80,7 @@
 
 #edit_panel button:first-child,
 #zoom_panel button:first-child,
+#close_pane button:first-child,
 #panel_options .features_button:first-child{
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -87,6 +88,7 @@
 
 #edit_panel button:last-child,
 #zoom_panel button:last-child,
+#close_panel button:last-child,
 #panel_options .features_button:last-child{
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -98,19 +100,22 @@
   right: .5em;
 }
 
-#save_panel {
-  position: absolute;
-  display: table;
-  text-align: center;
-  bottom: 0.5em;
-  width: fit-content;
-  left: 45%;
-  button {
-    display: table-cell;
-    vertical-align: bottom;
-  }
-}
+// #save_panel {
+//   position: absolute;
+//   top: 1.5em;
+//   right: .5em;
+  // display: table;
+  // text-align: center;
+  // bottom: 0.5em;
+  // width: fit-content;
+  // left: 45%;
+  // button {
+  //   display: table-cell;
+  //   vertical-align: bottom;
+  // }
+// }
 
+#save_panel button,
 #close_panel button,
 #layers_panel button {
   min-width: 0px;
