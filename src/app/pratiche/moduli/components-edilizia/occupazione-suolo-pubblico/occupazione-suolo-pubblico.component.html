@@ -80,14 +80,14 @@
     </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Inizio occupazione</mat-label>
-        <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
+        <input formControlName="start_date" [min]="minStartDate" matInput [matDatepicker]="start_date" (dateChange)="calculateMinDate(form, 'end_date')">
         <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
         <mat-datepicker #start_date></mat-datepicker>
         <mat-error>{{getErrorMessage(form.get('start_date'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Fine occupazione</mat-label>
-        <input formControlName="end_date" [min]="calculateMinDate(form, 'start_date')" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
+        <input formControlName="end_date" [min]="minEndDate" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
         <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
         <mat-datepicker #end_date></mat-datepicker>
         <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>

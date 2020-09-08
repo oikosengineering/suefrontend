@@ -18,6 +18,8 @@ export class RotturaSuoloComponent implements OnInit {
 
   indirizzi = [];
   civici = [];
+  minStartDate;
+  minEndDate;
 
   map_cfg = {
     buttons: [
@@ -75,6 +77,8 @@ export class RotturaSuoloComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.minStartDate = new Date();
+    this.minStartDate.setDate(this.minStartDate.getDate() + 20);
   }
 
   get formAddress() { return <FormArray>this.form.get(['excavation_details', 'related_addresses']); }
@@ -137,11 +141,11 @@ export class RotturaSuoloComponent implements OnInit {
     }
   }
 
-  minDate(){
-    var result = new Date();
-    result.setDate(result.getDate() + 20);
-    return result;
-  }
+  // minDate(){
+  //   var result = new Date();
+  //   result.setDate(result.getDate() + 20);
+  //   return result;
+  // }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
     if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
@@ -154,10 +158,8 @@ export class RotturaSuoloComponent implements OnInit {
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
-    if (form.get(target).value === null || form.get(target).value === '')
-      return;
-    let date: any = new Date(form.get(target).value);
-    return new Date(date.setDate(date.getDate()));
+    this.minEndDate = new Date(this.minStartDate);
+    this.differenceDate(form, 'end_date', 'start_date', 'duration');
   }
 
   onChangeStradario(control: AbstractControl, target: string){

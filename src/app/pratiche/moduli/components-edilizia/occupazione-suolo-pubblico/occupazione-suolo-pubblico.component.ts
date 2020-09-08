@@ -5,6 +5,8 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
+import { min } from 'rxjs/operators';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-occupazione-suolo-pubblico',
@@ -23,6 +25,8 @@ export class OccupazioneSuoloPubblicoComponent implements OnInit {
 
   indirizzi = [];
   civici = [];
+  minStartDate;
+  minEndDate;
 
   map_cfg = {
     buttons: [
@@ -60,6 +64,8 @@ export class OccupazioneSuoloPubblicoComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.minStartDate = new Date();
+    this.minStartDate.setDate(this.minStartDate.getDate() + 20);
   }
 
   changeTipologia(event: MatSelectChange, target: string[]){
@@ -75,11 +81,11 @@ export class OccupazioneSuoloPubblicoComponent implements OnInit {
     }
   }
 
-  minDate(){
-    var result = new Date();
-    result.setDate(result.getDate() + 20);
-    return result;
-  }
+  // minDate(){
+  //   var result = new Date();
+  //   result.setDate(result.getDate() + 20);
+  //   return result;
+  // }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
     if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
@@ -92,10 +98,8 @@ export class OccupazioneSuoloPubblicoComponent implements OnInit {
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
-    if (form.get(target).value === null || form.get(target).value === '')
-      return;
-    let date: any = new Date(form.get(target).value);
-    return new Date(date.setDate(date.getDate()));
+    this.minEndDate = new Date(this.minStartDate);
+    this.differenceDate(form, 'end_date', 'start_date', 'total_duration');
   }
 
   changeOther(event: MatCheckboxChange, control: AbstractControl){

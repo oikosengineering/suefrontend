@@ -22,6 +22,8 @@ export class OccupazioneTraslochiLavoriComponent implements OnInit {
   
   indirizzi = [];
   civici = [];
+  minStartDate;
+  minEndDate;
 
   map_cfg = {
     buttons: [
@@ -59,6 +61,8 @@ export class OccupazioneTraslochiLavoriComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.minStartDate = new Date();
+    this.minStartDate.setDate(this.minStartDate.getDate() + 20);
   }
 
   changeTipologia(event: MatSelectChange, target: string[]){
@@ -74,11 +78,11 @@ export class OccupazioneTraslochiLavoriComponent implements OnInit {
     }
   }
 
-  minDate(){
-    var result = new Date();
-    result.setDate(result.getDate() + 20);
-    return result;
-  }
+  // minDate(){
+  //   var result = new Date();
+  //   result.setDate(result.getDate() + 20);
+  //   return result;
+  // }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
     if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
@@ -91,10 +95,8 @@ export class OccupazioneTraslochiLavoriComponent implements OnInit {
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
-    if (form.get(target).value === null || form.get(target).value === '')
-      return;
-    let date: any = new Date(form.get(target).value);
-    return new Date(date.setDate(date.getDate()));
+    this.minEndDate = new Date(this.minStartDate);
+    this.differenceDate(form, 'end_date', 'start_date', 'total_duration');
   }
 
   onChangeStradario(control: AbstractControl, target: string){
