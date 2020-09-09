@@ -81,6 +81,12 @@
         <mat-error>{{getErrorMessage(form.get('through_details'))}}</mat-error>
     </mat-form-field>
 
+    <div class="div-half" appearance="outline">
+        <mat-label>N. geometrie occupazione</mat-label>
+        <input matInput readonly="true" type="number" [value]="form.get(['affected_area']).value.length != '' ? 1 : ''">
+        <mat-error>{{getErrorMessage(form.get(['affected_area']))}}</mat-error>
+    </div>
+
     <div class="div-half">
         <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Disegna aree di occupazione</button>
     </div>

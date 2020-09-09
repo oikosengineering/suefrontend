@@ -155,10 +155,10 @@ export class OccupazioneSuoloPubblicoComponent implements OnInit {
         value.forEach(feature => {
           switch(feature.type){
             case 'occupazione':
-              this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
-              this.form.get('building_site').get('length').patchValue(0);
-              this.form.get('building_site').get('width').patchValue(0);
-              this.form.get('building_site').get('total_square_meters').patchValue(0);
+              // this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
+              // this.form.get('building_site').get('length').patchValue(0);
+              // this.form.get('building_site').get('width').patchValue(0);
+              // this.form.get('building_site').get('total_square_meters').patchValue(0);
               this.form.get('affected_area').patchValue(feature.features[0] || '');
               break;
           }

@@ -181,7 +181,7 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
     let features = [
       {
         type: 'occupazione',
-        features: this.form.get('building_site').get('geometry').value != '' ? [this.form.get('building_site').get('geometry').value] : []
+        features: this.form.get('affected_area').value != '' ? [this.form.get('affected_area').value] : []
       }
     ]
     this.map_cfg.features = features;
@@ -191,7 +191,7 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
         value.forEach(feature => {
           switch(feature.type){
             case 'occupazione':
-              this.form.get('building_site').get('geometry').patchValue(feature.features[0] || '');
+              this.form.get('affected_area').patchValue(feature.features[0] || '');
               break;
           }
         });

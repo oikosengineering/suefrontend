@@ -274,9 +274,9 @@ export class MapComponent implements OnInit {
     var layers_options = document.getElementById('layers_panel');
     var layers_panel = new Control({element: layers_options});
     controls.push(layers_panel);
-    var save_options = document.getElementById('save_panel');
-    var save_panel = new Control({element: save_options});
-    controls.push(save_panel);
+    // var save_options = document.getElementById('save_panel');
+    // var save_panel = new Control({element: save_options});
+    // controls.push(save_panel);
     return controls;
   }
 

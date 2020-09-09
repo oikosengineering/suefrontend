@@ -14,7 +14,7 @@
 
 #panel_options {
   width: fit-content;;
-  top: .5em;
+  top: 6.5em;
   left: .5em;
   position: absolute;
 }
@@ -57,12 +57,13 @@
 
 #zoom_panel {
   position: absolute;
-  top: 6em;
-  right: 0.5em;
+  top: 0.5em;
+  left: 0.5em;
 }
 
 #edit_panel button,
-#zoom_panel button{
+#zoom_panel button,
+#close_panel button {
   min-width: 0px;
   width: 2.6em;
   height: 2.6em;
@@ -74,13 +75,14 @@
 
 #edit_panel button:not(:last-child),
 #zoom_panel button:not(:last-child),
+#close_panel button:not(:last-child),
 #panel_options .features_button:not(:last-child) {
   border-bottom: none; /* Prevent double borders */
 }
 
 #edit_panel button:first-child,
 #zoom_panel button:first-child,
-#close_pane button:first-child,
+#close_panel button:first-child,
 #panel_options .features_button:first-child{
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
