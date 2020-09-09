@@ -143,11 +143,15 @@ export class ViewOwnerComponent implements OnInit {
   }
 
   patchBirthday() {
-    let date = this.data.birth_date.split("/");
-    let year = date[2];
-    let month = date[1];
-    let day = date[0];
-    this.form.get(['birthday']).patchValue(new Date(year, month - 1, day));
+    if(this.data.birth_date){
+      let date = this.data.birth_date.split("/");
+      let year = date[2];
+      let month = date[1];
+      let day = date[0];
+      this.form.get(['birthday']).patchValue(new Date(year, month - 1, day));
+    } else {
+      this.form.get(['birthday']).patchValue('');
+    }
   }
 
   addContatto(array: AbstractControl): void {

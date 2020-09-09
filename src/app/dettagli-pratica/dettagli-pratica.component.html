@@ -20,8 +20,9 @@
     <p class="div-half"><b>Ultimo aggiornamento: </b> {{data_procedure.updated_at}}</p>
     <p class="div-full"><b>Allegati pratica: </b> {{(data_procedure.all_mandatory_documents_uploaded | documentsUploaded)['tooltip']}}</p>
 </div>
-<mat-tab-group *ngIf="!isLoading">
-    <mat-tab label="Proprietario" *ngIf="data_procedure.owner" >
+<mat-tab-group #tabGroup *ngIf="!isLoading"
+(selectedIndexChange)="changedTab($event)">
+    <mat-tab label="Proprietario" *ngIf="data_procedure.owner">
         <view-owner 
             [data]="data_procedure.owner"
             [tipologie]="tipologie"

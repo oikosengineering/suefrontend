@@ -486,7 +486,7 @@ export class EdiliziaComponent implements OnInit {
         if (response['status'] === 200) {
           this.loading = false;
           this.saved.emit(true);
-          this.router.navigate(['/dettagli-pratica', response['data'].id]);
+          this.router.navigate(['/dettagli-pratica', response['data'].id], {fragment: 'documents'});
         } else {
           this.loading = false;
         }

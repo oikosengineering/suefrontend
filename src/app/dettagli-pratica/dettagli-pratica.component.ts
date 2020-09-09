@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { Province } from 'src/app/core/models/models';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -10,6 +10,7 @@ import { CreateExtensionComponent } from 'src/app/core/components/shared/extensi
 import { ViewExpertsComponent } from '../core/components/shared/view-experts/view-experts.component';
 import { ViewDetailsDirective } from '../core/directives/view-details.directive';
 import { Location } from '@angular/common';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-dettagli-pratica',
@@ -23,6 +24,10 @@ export class DettagliPraticaComponent implements OnInit {
   id_user;
 
   data_procedure;
+
+  tabs = ['owner', 'experts', 'administrator', 'supplier', 'details', 'documents', 'extensions']
+
+  activeTab: string = 'owner';
 
   documents_uploaded = [];
 
@@ -48,6 +53,7 @@ export class DettagliPraticaComponent implements OnInit {
   @ViewChild(UploadDocumentsComponent) uploadDocuments: UploadDocumentsComponent;
   @ViewChild(ViewExpertsComponent) viewExperts: ViewExpertsComponent;
   @ViewChild(ViewDetailsDirective) viewDetails: ViewDetailsDirective;
+  @ViewChild('tabGroup') tabGroup: MatTabGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,9 +61,15 @@ export class DettagliPraticaComponent implements OnInit {
     private auth: AuthService,
     private canUpload: CanUploadPipe,
     private snackBar: MatSnackBar,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {
     this.getProcedure();
+    this.route.fragment.subscribe(fragment => {
+      if(this.tabGroup){
+        this.tabGroup.selectedIndex = this.getIndexTab(fragment) || 0;
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -80,6 +92,11 @@ export class DettagliPraticaComponent implements OnInit {
     Promise.all(promises).then(result => {
       this.getTipologieFileObbligatori();
       this.isLoading = false;
+      setTimeout(() => {
+        this.activeTab = this.route.snapshot.fragment || 'owner';
+        this.tabGroup.selectedIndex = this.getIndexTab(this.activeTab) || 0;
+      }, 10);
+      
     }).catch(error => {
       this.getTipologieFileObbligatori();
       console.log(error);
@@ -94,12 +111,13 @@ export class DettagliPraticaComponent implements OnInit {
       this.apiService.getDettagliPratica('building', this.idProcedure).subscribe(result => {
         console.log(result);
         if (result !== null) {
-          if(result['data']['user_id'] == localStorage.getItem('id')){
+          if(true){
             this.data_procedure = result['data'];
             this.checkCanModify(this.data_procedure.status);
             this.checkOwner();
             this.checkExtend();
             this.checkCanCommit();
+            this.checkTabs();
             this.chargeData();
           } else {
             this.snackBar.open("Accesso negato", null, {duration: 2000});
@@ -356,5 +374,46 @@ export class DettagliPraticaComponent implements OnInit {
 
   checkCanCommit() {
     this.can_commit = this.data_procedure.status == 'PENDING';
+  }
+
+  checkTabs(){
+    this.tabs = [];
+    if(this.data_procedure.owner){
+      this.tabs.push('owner');
+    }
+    if(this.data_procedure.experts){
+      this.tabs.push('experts');
+    }
+    if(this.data_procedure.administrator){
+      this.tabs.push('administrator');
+    }
+    if(this.data_procedure.supplier){
+      this.tabs.push('supplier');
+    }
+    if(this.data_procedure.details){
+      this.tabs.push('details');
+    }
+    this.tabs.push(...['documents', 'extensions']);
+  }
+
+  getIndexTab(value: string): number {
+    return this.tabs.indexOf(value);
+  }
+
+  getTabName(index: number): string {
+    return this.tabs[index] || null;
+  }
+
+  changedTab(event){
+    this.changeFragment(this.getTabName(event));
+  }
+
+  changeFragment(fragment) {
+    if(this.tabGroup)
+      if(!fragment)
+        this.router.navigate( [ 'dettagli-pratica', this.idProcedure])
+      else {
+        this.router.navigate( [ 'dettagli-pratica', this.idProcedure], { fragment: fragment } )
+      }
   }
 }
