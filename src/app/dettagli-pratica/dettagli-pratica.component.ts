@@ -111,7 +111,7 @@ export class DettagliPraticaComponent implements OnInit {
       this.apiService.getDettagliPratica('building', this.idProcedure).subscribe(result => {
         console.log(result);
         if (result !== null) {
-          if(true){
+          if(result['data']['user_id'] == localStorage.getItem('id')){
             this.data_procedure = result['data'];
             this.checkCanModify(this.data_procedure.status);
             this.checkOwner();
