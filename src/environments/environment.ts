@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_url: 'https://frontoffice-staging.digitale.comune.chiavari.ge.it/backend/api/suechiavari',
+  api_url: 'https://frontoffice-staging.digitale.comune.chiavari.ge.it/backend/api/suechiavaristaging',
   oikos_url: 'https://geo.portalecomuni.net/prodrest/api/stradarioliguria',
   // tslint:disable-next-line: max-line-length
   auth_url: 'https://login-staging.digitale.comune.chiavari.ge.it/?redirect_url=',
