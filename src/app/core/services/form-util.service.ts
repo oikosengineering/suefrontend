@@ -286,7 +286,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
+        Validators.pattern('([\+]39)[0|3]\d{2}\d{6,7}')
       ])),
       // cellular: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -334,7 +334,7 @@ export class FormUtilService {
       // ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
+        Validators.pattern('([\+]39)[0|3]\d{2}\d{6,7}')
       ])),
       // pec: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -371,7 +371,7 @@ export class FormUtilService {
       address: this.createAddress(),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
+        Validators.pattern('([\+]39)[0|3]\d{2}\d{6,7}')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -392,7 +392,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
+        Validators.pattern('([\+]39)[0|3]\d{2}\d{6,7}')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -430,12 +430,12 @@ export class FormUtilService {
         Validators.required,
       ])),
       email: new FormControl('', Validators.compose([
-        Validators.pattern('^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'),
+        Validators.pattern('(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))'),
         Validators.required
       ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
+        Validators.pattern('([\+]39)[0|3]\d{2}\d{6,7}')
       ])),
     });
   }

@@ -6,12 +6,8 @@
 <form [formGroup]="form">
     <owner [form]="form.get('owner')" [tipologie]="tipologie" [generi]="generi"
         [tipologie_contatto]="tipologie_contatto" [province]="province" [nazioni]="nazioni"></owner>
-    <experts [form]="form.get('experts')" [tipologie]="tipologie" [generi]="generi"
-        [tipologie_contatto]="tipologie_contatto" [titoli_professionali]="titoli_professionali" [province]="province"
-        [nazioni]="nazioni">
-    </experts>
-    <div class="div-radio-group">
-        <mat-label>In qualità di:</mat-label>
+    <div class="div-radio-group" [hidden]="form.get('qualification').disabled">
+        <mat-label>Rappresentata da:</mat-label>
         <mat-radio-group formControlName="qualification" class="vertical-radiobutton"
             (change)="changeQualification($event, form.get('business_administrator'))">
             <ng-container *ngFor="let qualification of qualifiche">
@@ -20,9 +16,13 @@
         </mat-radio-group>
         <mat-error>{{getErrorMessage(form.get('qualification'))}}</mat-error>
     </div>
-    <administrator [form]="form.get('business_administrator')" [generi]="generi"
+    <administrator [hidden]="form.get('business_administrator').disabled" [form]="form.get('business_administrator')" [generi]="generi"
         [titoli_professionali]="titoli_professionali" [tipologie_contatto]="tipologie_contatto" [province]="province">
     </administrator>
+    <experts [hidden]="form.get('experts').disabled" [form]="form.get('experts')" [tipologie]="tipologie" [generi]="generi"
+        [tipologie_contatto]="tipologie_contatto" [titoli_professionali]="titoli_professionali" [province]="province"
+        [nazioni]="nazioni">
+    </experts>
     <div class="div-radio-group">
         <mat-label>Esecuzione dei lavori:</mat-label>
         <mat-radio-group formControlName="work_supplier" class="vertical-radiobutton"

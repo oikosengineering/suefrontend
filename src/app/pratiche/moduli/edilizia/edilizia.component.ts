@@ -224,15 +224,21 @@ export class EdiliziaComponent implements OnInit {
 
   subscribeOwnerType() {
     this.form.get('owner.type').valueChanges.subscribe(() => {
-      if (this.form.get('owner.type').value == 'person') {
-        this.form.get('qualification').patchValue('owner');
-        this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
-        this.form.get('qualification').disable();
-      } else {
-        this.form.get('qualification').enable();
-        this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
-      }
+      this.checkOwnerType();
     })
+  }
+
+  checkOwnerType(){
+    if (this.form.get('owner.type').value == 'person' || this.form.get('owner.type').value == null) {
+      this.form.get('qualification').patchValue('owner');
+      this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
+      this.form.get('qualification').disable();
+      this.form.get('experts').disable();
+    } else {
+      this.form.get('experts').enable();
+      this.form.get('qualification').enable();
+      this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
+    }
   }
 
   forceValidControl(list: string[]) {
@@ -276,6 +282,7 @@ export class EdiliziaComponent implements OnInit {
       this.form.get('supplier_business').updateValueAndValidity();
     }
     this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth', 'owner/country_of_birth'], ['owner/fiscal_code']);
+    this.checkOwnerType();
     this.subscribeOwnerType();
   }
 
