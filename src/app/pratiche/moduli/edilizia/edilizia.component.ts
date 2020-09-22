@@ -33,6 +33,7 @@ export class EdiliziaComponent implements OnInit {
   esecutori = [];
   tipologie_contatto = [];
   qualifiche = [];
+  tipi_documento = [];
 
   map_cfg = {
     buttons: [
@@ -150,6 +151,10 @@ export class EdiliziaComponent implements OnInit {
 
     this.apiservice.getDizionario('experts.qualification').subscribe(data => {
       this.qualifiche.push(...data['data']);
+    });
+
+    this.apiservice.getDizionario('owner.person.document_type').subscribe(data => {
+      this.tipi_documento.push(...data['data']);
     });
 
     this.createForm();
@@ -492,7 +497,7 @@ export class EdiliziaComponent implements OnInit {
         if (response['status'] === 200) {
           this.loading = false;
           this.saved.emit(true);
-          this.router.navigate(['/dettagli-pratica', response['data'].id], {fragment: 'documents'});
+          this.router.navigate(['/dettagli-pratica', response['data']._uid], {fragment: 'documents'});
         } else {
           this.loading = false;
         }

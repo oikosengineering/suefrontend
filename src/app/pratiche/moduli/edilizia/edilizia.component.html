@@ -5,7 +5,8 @@
 </div>
 <form [formGroup]="form">
     <owner [form]="form.get('owner')" [tipologie]="tipologie" [generi]="generi"
-        [tipologie_contatto]="tipologie_contatto" [province]="province" [nazioni]="nazioni"></owner>
+        [tipologie_contatto]="tipologie_contatto" [province]="province" [nazioni]="nazioni"
+        [tipi_documento]="tipi_documento"></owner>
     <div class="div-radio-group" [hidden]="form.get('qualification').disabled">
         <mat-label>Rappresentata da:</mat-label>
         <mat-radio-group formControlName="qualification" class="vertical-radiobutton"
