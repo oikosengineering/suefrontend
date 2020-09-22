@@ -23,6 +23,8 @@ export class FilterProceduresComponent implements OnInit {
   isLoading = false;
   isUserLoggedIn = false;
 
+  myProcedures: boolean;
+
   constructor(
     private apiService: AppApiService,
     private formService: FormUtilService,
@@ -30,6 +32,7 @@ export class FilterProceduresComponent implements OnInit {
     private router: Router
   ) {
     this.isUserLoggedIn = this.authService.isUserLoggedIn();
+    this.myProcedures = this.router.url.includes('mie-pratiche');
   }
 
   ngOnInit(): void {
@@ -69,7 +72,7 @@ export class FilterProceduresComponent implements OnInit {
   getStatuses() {
     return new Promise((resolve, reject) => {
       this.apiService.getDizionario('procedure.status').subscribe(data => {
-        this.statuses = this.router.url.includes('mie-pratiche') ? data['data'] : data['data'].filter(value => value['value'] === 'APPROVED');
+        this.statuses = this.myProcedures ? data['data'] : data['data'].filter(value => value['value'] === 'APPROVED');
         resolve(true);
       }, error => {
         resolve(true);
@@ -89,6 +92,11 @@ export class FilterProceduresComponent implements OnInit {
 
   reset() {
     this.filter.reset();
+    if(!this.myProcedures){
+      this.filter.patchValue({
+        status: 'APPROVED'
+      })
+    }
   }
 
   submit() {

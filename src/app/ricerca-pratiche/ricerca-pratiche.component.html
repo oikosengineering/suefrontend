@@ -63,6 +63,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   
-    <mat-paginator [pageIndex]="data?.meta.pagination.current_page - 1" [pageSize]="data?.meta.pagination.per_page" [length]="data?.meta.pagination.total" (page)="changePage($event)" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="data?.meta && data?.meta.pagination" [pageIndex]="data?.meta.pagination.current_page - 1" [pageSize]="data?.meta.pagination.per_page" [length]="data?.meta.pagination.total" (page)="changePage($event)" showFirstLastButtons></mat-paginator>
   </div>
   
