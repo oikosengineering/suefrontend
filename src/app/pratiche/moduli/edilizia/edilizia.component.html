@@ -10,10 +10,6 @@
         [tipologie_contatto]="tipologie_contatto" [titoli_professionali]="titoli_professionali" [province]="province"
         [nazioni]="nazioni">
     </experts>
-    <div class="div-checkbox">
-        <mat-checkbox formControlName="delegated">Sottomissione per conto terzi</mat-checkbox>
-        <mat-error>{{getErrorMessage(form.get('delegated'))}}</mat-error>
-    </div>
     <div class="div-radio-group">
         <mat-label>In qualità di:</mat-label>
         <mat-radio-group formControlName="qualification" class="vertical-radiobutton"
