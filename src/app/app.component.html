@@ -36,7 +36,7 @@
           <h4 matLine>Consultazione Pubblica</h4>
         </mat-list-item>
         <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="nuova-pratica">
-          <h4 matLine>Nuova</h4>
+          <h4 matLine>Nuova pratica</h4>
         </mat-list-item>
         <mat-list-item *ngIf="isUserLoggedIn" (click)="mobileQuery.matches ? snav.toggle() : null"
           routerLink="mie-pratiche">
