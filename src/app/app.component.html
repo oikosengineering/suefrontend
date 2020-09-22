@@ -32,14 +32,14 @@
         </mat-list-item>
         <mat-divider></mat-divider>
         <h3 matSubheader>Pratiche</h3>
-        <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="ricerca-pratiche">
+        <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="ricerca-pratiche" [routerLinkActive]="['is-active']">
           <h4 matLine>Consultazione Pubblica</h4>
         </mat-list-item>
-        <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="nuova-pratica">
+        <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="nuova-pratica" [routerLinkActive]="['is-active']">
           <h4 matLine>Nuova pratica</h4>
         </mat-list-item>
         <mat-list-item *ngIf="isUserLoggedIn" (click)="mobileQuery.matches ? snav.toggle() : null"
-          routerLink="mie-pratiche">
+          routerLink="mie-pratiche" [routerLinkActive]="['is-active']">
           <h4 matLine>Le mie pratiche</h4>
         </mat-list-item>
         <mat-divider></mat-divider>
