@@ -27,7 +27,7 @@
     <mat-sidenav #snav [opened]="mobileQuery.matches ? false : true" [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches">
       <mat-nav-list>
-        <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="">
+        <mat-list-item (click)="mobileQuery.matches ? snav.toggle() : null" routerLink="home" [routerLinkActive]="['is-active']">
           <h4 matLine>Home</h4>
         </mat-list-item>
         <mat-divider></mat-divider>
