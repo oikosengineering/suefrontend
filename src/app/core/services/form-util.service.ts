@@ -286,7 +286,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[+39]{1}[0-9]{12,12}')
+        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
       ])),
       // cellular: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -334,7 +334,7 @@ export class FormUtilService {
       // ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[+39]{1}[0-9]{12,12}')
+        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
       ])),
       // pec: new FormControl('', Validators.compose([
       //   Validators.required,
@@ -371,7 +371,7 @@ export class FormUtilService {
       address: this.createAddress(),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[+39]{1}[0-9]{12,12}')
+        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -392,7 +392,7 @@ export class FormUtilService {
       contacts: this.fb.array([]),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[+39]{1}[0-9]{12,12}')
+        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -435,7 +435,7 @@ export class FormUtilService {
       ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[+39]{1}[0-9]{12,12}')
+        Validators.pattern('^((\+)39)?[0|3]\d{2}\d{6,7}$')
       ])),
     });
   }
