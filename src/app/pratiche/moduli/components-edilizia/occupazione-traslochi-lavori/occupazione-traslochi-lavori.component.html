@@ -27,41 +27,37 @@
         </mat-select>
         <mat-error>{{getErrorMessage(form.get('address_number'))}}</mat-error>
     </mat-form-field>
-    <mat-expansion-panel expanded>
-        <mat-form-field class="div-a-third text-right" appearance="outline">
-            <mat-label>Lunghezza</mat-label>
-            <input matInput formControlName="length" type="number">
-            <span matSuffix>m</span>
-            <mat-hint>Lunghezza dell'occupazione</mat-hint>
-            <mat-error>{{getErrorMessage(form.get('length'))}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="div-a-third text-right" appearance="outline">
-            <mat-label>Larghezza</mat-label>
-            <input matInput formControlName="width" type="number">
-            <span matSuffix>m</span>
-            <mat-hint>Larghezza dell'occupazione</mat-hint>
-            <mat-error>{{getErrorMessage(form.get('width'))}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="div-a-third text-right" appearance="outline">
-            <mat-label>Area</mat-label>
-            <input matInput formControlName="square_meters" type="number">
-            <span matSuffix>m<sup>2</sup></span>
-            <mat-hint>Area dell'occupazione</mat-hint>
-            <mat-error>{{getErrorMessage(form.get('square_meters'))}}</mat-error>
-        </mat-form-field>
-    </mat-expansion-panel>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Lunghezza</mat-label>
+        <input matInput formControlName="length" type="number">
+        <span matSuffix>m</span>
+        <mat-hint>Lunghezza dell'occupazione</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('length'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Larghezza</mat-label>
+        <input matInput formControlName="width" type="number">
+        <span matSuffix>m</span>
+        <mat-hint>Larghezza dell'occupazione</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('width'))}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="div-a-third text-right" appearance="outline">
+        <mat-label>Area</mat-label>
+        <input matInput formControlName="square_meters" type="number">
+        <span matSuffix>m<sup>2</sup></span>
+        <mat-hint>Area dell'occupazione</mat-hint>
+        <mat-error>{{getErrorMessage(form.get('square_meters'))}}</mat-error>
+    </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Inizio occupazione</mat-label>
-        <input formControlName="start_date" [min]="minStartDate" matInput [matDatepicker]="start_date" (dateChange)="calculateMinDate(form, 'end_date')">
-        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
-        <mat-datepicker #start_date></mat-datepicker>
+        <input formControlName="start_date" type="date" [min]="minStartDate" matInput
+        (blur)="checkDate('start_date', minStartDate)">
         <mat-error>{{getErrorMessage(form.get('start_date'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Fine occupazione</mat-label>
-        <input formControlName="end_date" [min]="minEndDate" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
-        <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
-        <mat-datepicker #end_date></mat-datepicker>
+        <input formControlName="end_date" type="date" [min]="minEndDate" matInput
+        (blur)="checkDate('end_date', minEndDate)">
         <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third text-right" appearance="outline">

@@ -74,9 +74,9 @@ export class ViewOccupazioneSuoloPubblicoComponent implements OnInit {
   }
 
   patchDate(){
-    this.form.get('start_date').patchValue(new Date(this.data.start_date.split("/").reverse()));
+    this.form.get('start_date').patchValue(this.formService.convertItalianDate(this.data.start_date));
     if(this.data.end_date){
-      this.form.get('end_date').patchValue(new Date(this.data.end_date.split("/").reverse()));
+      this.form.get('end_date').patchValue(this.formService.convertItalianDate(this.data.end_date));
     }
   }
 

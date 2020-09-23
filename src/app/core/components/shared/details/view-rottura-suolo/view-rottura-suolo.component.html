@@ -13,28 +13,26 @@
             <input matInput formControlName="motive" type="text">
             <mat-error>{{getErrorMessage(form.get(['description','motive']))}}</mat-error>
         </mat-form-field>
-        <mat-expansion-panel expanded>
-            <mat-form-field class="div-a-third" appearance="outline">
-                <mat-label>Tipo di posa</mat-label>
-                <input matInput formControlName="laying_type" type="text">
-                <mat-hint>Tubazioni, polifore, etc.</mat-hint>
-                <mat-error>{{getErrorMessage(form.get(['description','laying_type']))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-third text-right" appearance="outline">
-                <mat-label>Diametro</mat-label>
-                <input matInput formControlName="diameter" type="number">
-                <span matSuffix>cm</span>
-                <mat-hint>Diametro espresso in cm</mat-hint>
-                <mat-error>{{getErrorMessage(form.get(['description','diameter']))}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="div-a-third text-right" appearance="outline">
-                <mat-label>Lunghezza</mat-label>
-                <input matInput formControlName="length" type="number">
-                <span matSuffix>m</span>
-                <mat-hint>Lunghezza espressa in metri</mat-hint>
-                <mat-error>{{getErrorMessage(form.get(['description','length']))}}</mat-error>
-            </mat-form-field>
-        </mat-expansion-panel>
+        <mat-form-field class="div-a-third" appearance="outline">
+            <mat-label>Tipo di posa</mat-label>
+            <input matInput formControlName="laying_type" type="text">
+            <mat-hint>Tubazioni, polifore, etc.</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['description','laying_type']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Diametro</mat-label>
+            <input matInput formControlName="diameter" type="number">
+            <span matSuffix>cm</span>
+            <mat-hint>Diametro espresso in cm</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['description','diameter']))}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-a-third text-right" appearance="outline">
+            <mat-label>Lunghezza</mat-label>
+            <input matInput formControlName="length" type="number">
+            <span matSuffix>m</span>
+            <mat-hint>Lunghezza espressa in metri</mat-hint>
+            <mat-error>{{getErrorMessage(form.get(['description','length']))}}</mat-error>
+        </mat-form-field>
         <mat-form-field class="div-full" appearance="outline">
             <mat-label>Note</mat-label>
             <textarea matInput formControlName="notes" type="text"></textarea>
@@ -44,16 +42,14 @@
     </ng-container>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Inizio lavori</mat-label>
-        <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date"
+        <input formControlName="start_date" type="date" [min]="minDate()" matInput
             (dateChange)="differenceDate(form, 'end_date', 'start_date', 'duration')">
-        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
-        <mat-datepicker #start_date></mat-datepicker>
         <mat-error>{{getErrorMessage(form.get('start_date'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Fine lavori</mat-label>
-        <input formControlName="end_date" [min]="calculateMinDate(form, 'start_date')" matInput
-            [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'duration')">
+        <input formControlName="end_date" type="date" [min]="calculateMinDate(form, 'start_date')" matInput
+        (dateChange)="differenceDate(form, 'end_date', 'start_date', 'duration')">
         <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
         <mat-datepicker #end_date></mat-datepicker>
         <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>

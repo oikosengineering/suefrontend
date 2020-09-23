@@ -53,10 +53,10 @@
     <mat-form-field class="div-half" appearance="outline">
         <mat-label>Partita IVA</mat-label>
         <input formControlName="vat" matInput type="text">
-        <button mat-icon-button matSuffix matTooltip="Compila i campi mancanti con i propri dati"
+        <!-- <button mat-icon-button matSuffix matTooltip="Compila i campi mancanti con i propri dati"
             (click)="autocomplete()" [disabled]="checkVat()">
             <mat-icon>post_add</mat-icon>
-        </button>
+        </button> -->
         <mat-error>{{getErrorMessage(form.get('vat'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-full" appearance="outline">
@@ -114,9 +114,7 @@
     </mat-form-field>
     <mat-form-field class="div-full" appearance="outline">
         <mat-label>Data di nascita</mat-label>
-        <input formControlName="birthday" matInput [matDatepicker]="picker_owner">
-        <mat-datepicker-toggle matSuffix [for]="picker_owner"></mat-datepicker-toggle>
-        <mat-datepicker #picker_owner></mat-datepicker>
+        <input formControlName="birthday" type="date" matInput>
         <mat-error>{{getErrorMessage(form.get('birthday'))}}</mat-error>
     </mat-form-field>
     <ng-container formGroupName="address">

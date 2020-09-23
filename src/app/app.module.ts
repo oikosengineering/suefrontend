@@ -32,18 +32,6 @@ import { PipesModule } from './core/pipes/pipes.module';
 import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 import { ViewDetailsDirective } from './core/directives/view-details.directive';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'LL',
-  },
-  display: {
-    dateInput: 'YYYY-MM-DD',
-    monthYearLabel: 'YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'YYYY',
-  },
-};
-
 registerLocaleData(localeIt, 'it-IT');
 
 @NgModule({
@@ -79,7 +67,6 @@ registerLocaleData(localeIt, 'it-IT');
     CanDeactivateGuard,
     { provide: MatPaginatorIntl, useClass: CustomPaginator},
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: LocationStrategy, useClass: PathLocationStrategy },
   ],

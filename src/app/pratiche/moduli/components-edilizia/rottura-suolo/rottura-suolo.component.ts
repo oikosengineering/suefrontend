@@ -66,7 +66,7 @@ export class RotturaSuoloComponent implements OnInit {
     private dialog: DialogMessageService,
     private validationService: ValidationService,
     private apiService: AppApiService,
-    private formService: FormUtilService
+    private formUtil: FormUtilService
   ) {
     this.apiService.getDizionario('building.details.flooring_type').subscribe(data => {
       this.pavimentazioni.push(...data['data']);
@@ -77,8 +77,8 @@ export class RotturaSuoloComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.minStartDate = new Date();
-    this.minStartDate.setDate(this.minStartDate.getDate() + 20);
+    this.minStartDate = this.formUtil.setDateDelayFromToday(20);
+    this.subscribeChanges();
   }
 
   get formAddress() { return <FormArray>this.form.get(['excavation_details', 'related_addresses']); }
@@ -117,6 +117,15 @@ export class RotturaSuoloComponent implements OnInit {
     }, error => {
       console.log('errore mappa');
     });
+  }
+
+  subscribeChanges(){
+    this.form.get('start_date').valueChanges.subscribe((value) => {
+      this.calculateMinDate(this.form, 'end_date');
+    })
+    this.form.get('end_date').valueChanges.subscribe((value) => {
+      this.differenceDate(this.form, 'end_date', 'start_date', 'duration');
+    })
   }
 
   multiplicationPolizza(form: AbstractControl, value1: string, value2: string, dest: string) {
@@ -158,8 +167,21 @@ export class RotturaSuoloComponent implements OnInit {
   }
 
   calculateMinDate(form: AbstractControl, target: string) {
-    this.minEndDate = new Date(this.minStartDate);
-    this.differenceDate(form, 'end_date', 'start_date', 'duration');
+    this.minEndDate = this.formUtil.setDate(form.get('start_date').value);
+    this.differenceDate(form, 'end_date', 'start_date', 'total_duration');
+  }
+
+  checkDate(target: string, limit: string){
+    let value = this.form.get(target).value
+    let date: Date;
+    let limit_date = new Date(limit);
+    if(value){
+      date = new Date(value);
+      if(date < limit_date){
+        this.form.get(target).setValue(limit);
+        this.form.get(target).updateValueAndValidity();
+      }
+    }
   }
 
   onChangeStradario(control: AbstractControl, target: string){
@@ -178,7 +200,7 @@ export class RotturaSuoloComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     let items = array as FormArray;
-    items.push(this.formService.geometryAddress());
+    items.push(this.formUtil.geometryAddress());
   }
 
   removeItem(array: AbstractControl, index: number){

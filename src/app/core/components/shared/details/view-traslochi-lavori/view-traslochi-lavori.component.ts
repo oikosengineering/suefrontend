@@ -75,9 +75,11 @@ export class ViewTraslochiLavoriComponent implements OnInit {
   patchDate(){
     this.form.get('start_time').setValue(this.formatTime(this.data.start_time));
     this.form.get('end_time').setValue(this.formatTime(this.data.end_time));
-    this.form.get('start_date').patchValue(new Date(this.data.start_date.split("/").reverse()));
+    // this.form.get('start_date').patchValue(new Date(this.data.start_date.split("/").reverse()));
+    this.form.get('start_date').patchValue(this.formService.convertItalianDate(this.data.start_date));
     if(this.data.end_date){
-      this.form.get('end_date').patchValue(new Date(this.data.end_date.split("/").reverse()));
+      // this.form.get('end_date').patchValue(new Date(this.data.end_date.split("/").reverse()));
+      this.form.get('end_date').patchValue(this.formService.convertItalianDate(this.data.end_date));
     }
   }
 

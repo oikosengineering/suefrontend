@@ -470,4 +470,30 @@ export class FormUtilService {
       ])),
     });
   }
+
+  setDateDelayFromToday(days: number){
+    let today = new Date();
+    today.setDate(today.getDate() + days);
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    let delay = yyyy+'-'+mm+'-'+dd;
+    return delay;
+  }
+
+  setDate(date: string, delay: number = 0){
+    let tmp = new Date(date);
+    tmp.setDate(tmp.getDate() + delay);
+    var dd = tmp.getDate();
+    var mm = tmp.getMonth()+1; //January is 0!
+    var yyyy = tmp.getFullYear();
+
+    let newDate = yyyy+'-'+mm+'-'+dd;
+    return newDate;
+  }
+
+  convertItalianDate(date): string {
+    return new Date(date.split("/").reverse()).toISOString().split('T')[0];
+  }
 }

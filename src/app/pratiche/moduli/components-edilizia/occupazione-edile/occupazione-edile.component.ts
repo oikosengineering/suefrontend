@@ -5,6 +5,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
 import { AppApiService } from 'src/app/core/services/app-api.service';
 import { DialogMessageService } from 'src/app/core/services/dialog-message.service';
+import { FormUtilService } from 'src/app/core/services/form-util.service';
 
 @Component({
   selector: 'app-occupazione-edile',
@@ -48,7 +49,8 @@ export class OccupazioneEdileComponent implements OnInit {
   constructor(
     private validationService: ValidationService,
     private apiService: AppApiService,
-    private dialog: DialogMessageService
+    private dialog: DialogMessageService,
+    private formUtil: FormUtilService
   ) { 
     this.apiService.getStradario().subscribe(result => {
       this.indirizzi = result['data'];
@@ -57,15 +59,18 @@ export class OccupazioneEdileComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.get('other').disable();
-    this.minStartDate = new Date();
-    this.minStartDate.setDate(this.minStartDate.getDate() + 20);
+    this.minStartDate = this.formUtil.setDateDelayFromToday(20);
+    this.subscribeChanges();
   }
 
-  // minDate(){
-  //   var result = new Date();
-  //   result.setDate(result.getDate() + 20);
-  //   return result;
-  // }
+  subscribeChanges(){
+    this.form.get('start_date').valueChanges.subscribe((value) => {
+      this.calculateMinDate(this.form, 'end_date');
+    })
+    this.form.get('end_date').valueChanges.subscribe((value) => {
+      this.differenceDate(this.form, 'end_date', 'start_date', 'total_duration');
+    })
+  }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
     if (form.get(value1).value === null || form.get(value1).value === '' || form.get(value2).value === undefined)
@@ -79,8 +84,21 @@ export class OccupazioneEdileComponent implements OnInit {
 
 
   calculateMinDate(form: AbstractControl, target: string) {
-    this.minEndDate = new Date(this.minStartDate);
+    this.minEndDate = this.formUtil.setDate(form.get('start_date').value);
     this.differenceDate(form, 'end_date', 'start_date', 'total_duration');
+  }
+
+  checkDate(target: string, limit: string){
+    let value = this.form.get(target).value
+    let date: Date;
+    let limit_date = new Date(limit);
+    if(value){
+      date = new Date(value);
+      if(date < limit_date){
+        this.form.get(target).setValue(limit);
+        this.form.get(target).updateValueAndValidity();
+      }
+    }
   }
 
   changeOther(event: MatCheckboxChange, control: AbstractControl){

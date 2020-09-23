@@ -95,16 +95,12 @@
     </ng-container>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Inizio lavori</mat-label>
-        <input formControlName="start_date" [min]="minDate()" matInput [matDatepicker]="start_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
-        <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
-        <mat-datepicker #start_date></mat-datepicker>
+        <input formControlName="start_date" type="date" [min]="minDate()" matInput (change)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
         <mat-error>{{getErrorMessage(form.get('start_date'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third" appearance="outline">
         <mat-label>Fine lavori</mat-label>
-        <input formControlName="end_date" [min]="calculateMinDate(form, 'start_date')" matInput [matDatepicker]="end_date" (dateChange)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
-        <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
-        <mat-datepicker #end_date></mat-datepicker>
+        <input formControlName="end_date" type="date" [min]="calculateMinDate(form, 'start_date')" matInput (change)="differenceDate(form, 'end_date', 'start_date', 'total_duration')">
         <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>
     </mat-form-field>
     <mat-form-field class="div-a-third text-right" appearance="outline">
@@ -120,7 +116,7 @@
         <mat-error>{{getErrorMessage(form.get(['affected_area']))}}</mat-error>
     </div>
 
-    <div class="div-half">
+    <div class="div-half" *ngIf="can_modify && modifiable">
         <button class="button-login" mat-raised-button color="primary" (click)="openMap()">Disegna aree di occupazione</button>
     </div>
 </mat-card>

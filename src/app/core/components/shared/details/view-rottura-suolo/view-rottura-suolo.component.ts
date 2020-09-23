@@ -84,6 +84,7 @@ export class ViewRotturaSuoloComponent implements OnInit {
     })
     this.form.patchValue(this.data);
     this.form.get('description').patchValue(this.data);
+    this.patchDate();
     this.form.disable();
   }
 
@@ -91,6 +92,7 @@ export class ViewRotturaSuoloComponent implements OnInit {
     this.form.patchValue(this.data);
     this.form.get('description').patchValue(this.data);
     this.patchExcavationAddress();
+    this.patchDate();
     this.form.disable();
   }
 
@@ -158,6 +160,11 @@ export class ViewRotturaSuoloComponent implements OnInit {
     var result = new Date();
     result.setDate(result.getDate() + 20);
     return result;
+  }
+
+  patchDate(){
+    this.form.get('start_date').patchValue(this.formService.convertItalianDate(this.data.start_date));
+    this.form.get('end_date').patchValue(this.formService.convertItalianDate(this.data.end_date));
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
