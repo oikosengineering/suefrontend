@@ -233,16 +233,30 @@ export class EdiliziaComponent implements OnInit {
     })
   }
 
+  subscribeQualification() {
+    this.form.get('qualification').valueChanges.subscribe((value) => {
+      switch(value){
+        case 'company_representative':
+          this.form.get('business_administrator.vat').disable();
+          break;
+        case 'property_manager':
+          this.form.get('business_administrator.vat').enable();
+          break;
+      }
+    })
+  }
+
   checkOwnerType(){
     if (this.form.get('owner.type').value == 'person' || this.form.get('owner.type').value == null) {
       this.form.get('qualification').patchValue('owner');
-      this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
+      this.form.get('business_administrator').disable();
       this.form.get('qualification').disable();
       this.form.get('experts').disable();
     } else {
       this.form.get('experts').enable();
       this.form.get('qualification').enable();
-      this.changeQualification({ value: this.form.get('qualification').value }, this.form.get('business_administrator'));
+      this.form.get('qualification').reset();
+      this.form.get('business_administrator').enable();
     }
   }
 
@@ -289,6 +303,7 @@ export class EdiliziaComponent implements OnInit {
     this.subscriptionForChange(['owner/first_name', 'owner/last_name', 'owner/gender', 'owner/birthday', 'owner/birthplace', 'owner/county_of_birth', 'owner/country_of_birth'], ['owner/fiscal_code']);
     this.checkOwnerType();
     this.subscribeOwnerType();
+    this.subscribeQualification();
   }
 
   differenceDate(form: AbstractControl, value1: string, value2: string, dest: string) {
@@ -399,16 +414,24 @@ export class EdiliziaComponent implements OnInit {
     }
   }
 
-  changeQualification(event: any, control: AbstractControl) {
-    switch (event.value) {
-      case 'owner':
-        control.disable();
-        control.updateValueAndValidity();
-        break;
-      default:
-        control.enable();
-        control.updateValueAndValidity();
-        break;
+  // changeQualification(event: any, control: AbstractControl) {
+  //   switch (event.value) {
+  //     case 'owner':
+  //       control.disable();
+  //       control.updateValueAndValidity();
+  //       break;
+  //     default:
+  //       control.enable();
+  //       control.updateValueAndValidity();
+  //       break;
+  //   }
+  // }
+
+  checkQualification(value: string): boolean {
+    if(value === 'owner' && this.form.get('owner.type').value == 'business'){
+      return true;
+    } else {
+      return false;
     }
   }
 

@@ -9,10 +9,11 @@
         [tipi_documento]="tipi_documento"></owner>
     <div class="div-radio-group" [hidden]="form.get('qualification').disabled">
         <mat-label>Rappresentata da:</mat-label>
-        <mat-radio-group formControlName="qualification" class="vertical-radiobutton"
-            (change)="changeQualification($event, form.get('business_administrator'))">
+        <mat-radio-group formControlName="qualification" class="vertical-radiobutton">
             <ng-container *ngFor="let qualification of qualifiche">
-                <mat-radio-button [value]="qualification.value">{{qualification.name}}</mat-radio-button>
+                <mat-radio-button
+                [value]="qualification.value"
+                [disabled]="checkQualification(qualification.value)">{{qualification.name}}</mat-radio-button>
             </ng-container>
         </mat-radio-group>
         <mat-error>{{getErrorMessage(form.get('qualification'))}}</mat-error>
