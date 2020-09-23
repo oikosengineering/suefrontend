@@ -62,7 +62,7 @@
     </mat-form-field>
     <ng-container formGroupName="address">
         <mat-form-field class="div-half" appearance="outline">
-            <mat-label>Provincia</mat-label>
+            <mat-label>Provincia di residenza</mat-label>
             <mat-select formControlName="county" (selectionChange)="onChangeProvince('address/county', 'address/city')">
                 <mat-option>----</mat-option>
                 <mat-option *ngFor="let provincia of province" [value]="provincia.code">
@@ -72,7 +72,7 @@
             <mat-error>{{getErrorMessage(form.get('address').get('county'))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-half" appearance="outline">
-            <mat-label>Comune</mat-label>
+            <mat-label>Comune di residenza</mat-label>
             <mat-select formControlName="city" [disabled]="checkValidation(['address/county'])">
                 <mat-option>----</mat-option>
                 <mat-option *ngFor="let comune of comuni[toCamelCase('address/city')] || []" [value]="comune.code">
@@ -82,12 +82,12 @@
             <mat-error>{{getErrorMessage(form.get('address').get('city'))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-two-thirds" appearance="outline">
-            <mat-label>Indirizzo</mat-label>
+            <mat-label>Indirizzo di residenza</mat-label>
             <input formControlName="street_name" matInput type="text">
             <mat-error>{{getErrorMessage(form.get('address').get('street_name'))}}</mat-error>
         </mat-form-field>
         <mat-form-field class="div-a-third" appearance="outline">
-            <mat-label>Cap</mat-label>
+            <mat-label>Cap di residenza</mat-label>
             <input formControlName="postcode" matInput type="text">
             <mat-error>{{getErrorMessage(form.get('address').get('postcode'))}}</mat-error>
         </mat-form-field>
