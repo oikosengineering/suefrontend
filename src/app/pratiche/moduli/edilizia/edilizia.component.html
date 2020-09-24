@@ -21,7 +21,7 @@
     <administrator [hidden]="form.get('business_administrator').disabled" [form]="form.get('business_administrator')" [generi]="generi"
         [titoli_professionali]="titoli_professionali" [tipologie_contatto]="tipologie_contatto" [province]="province">
     </administrator>
-    <experts [hidden]="form.get('experts').disabled" [form]="form.get('experts')" [tipologie]="tipologie" [generi]="generi"
+    <experts [form]="form.get('experts')" [tipologie]="tipologie" [generi]="generi"
         [tipologie_contatto]="tipologie_contatto" [titoli_professionali]="titoli_professionali" [province]="province"
         [nazioni]="nazioni">
     </experts>

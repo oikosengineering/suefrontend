@@ -111,10 +111,15 @@ export class ViewOwnerComponent implements OnInit {
   }
 
   patchCounty(value: string, target_enable: string, target_disable: string) {
-    let selected_county = this.province.find(element => element.code == this.data.birthplace.county)
-    let selected_country = this.nazioni.find(element => element.code == 'IT');
+    // let selected_county = this.province.find(element => element.code == this.data.birthplace.county)
+    // let selected_country = this.nazioni.find(element => element.code == 'IT');
+    // this.form.get(value.split("/")).patchValue(selected_county);
+    // this.form.get(target_disable.split("/")).patchValue(selected_country);
+    // this.getComuniBirthPlaceForPatch(value, target_enable, this.data.birthplace.city);
+    let selected_county = this.province.find(element => element.code == this.data.birthplace.county);
     this.form.get(value.split("/")).patchValue(selected_county);
-    this.form.get(target_disable.split("/")).patchValue(selected_country);
+    this.checkValidationElseDisable(value, target_enable);
+    this.checkValidationElseEnable(value, target_disable);
     this.getComuniBirthPlaceForPatch(value, target_enable, this.data.birthplace.city);
   }
 

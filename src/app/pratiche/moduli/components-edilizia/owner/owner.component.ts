@@ -256,7 +256,7 @@ export class OwnerComponent implements OnInit {
     let year = date[2];
     let month = date[1];
     let day = date[0];
-    this.form.get(['birthday']).patchValue(new Date(year, month - 1, day));
+    this.form.get(['birthday']).patchValue(year+'-'+month+'-'+day);
   }
 
   getComuniForPatch(value: string, target: string, patchValue: any) {

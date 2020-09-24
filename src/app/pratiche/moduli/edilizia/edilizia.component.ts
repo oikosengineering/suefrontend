@@ -175,6 +175,7 @@ export class EdiliziaComponent implements OnInit {
     this.form = this.fb.group({
       category: new FormControl(this.modulo),
       user_id: new FormControl(this.user_id),
+      delegated: new FormControl(true), //da togliere
       owner: this.formService.createOwner(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
       details: this.getDetailsProcedures(this.modulo),
@@ -251,9 +252,9 @@ export class EdiliziaComponent implements OnInit {
       this.form.get('qualification').patchValue('owner');
       this.form.get('business_administrator').disable();
       this.form.get('qualification').disable();
-      this.form.get('experts').disable();
+      // this.form.get('experts').disable();
     } else {
-      this.form.get('experts').enable();
+      // this.form.get('experts').enable();
       this.form.get('qualification').enable();
       this.form.get('qualification').reset();
       this.form.get('business_administrator').enable();
@@ -520,9 +521,12 @@ export class EdiliziaComponent implements OnInit {
         if (response['status'] === 200) {
           this.loading = false;
           this.saved.emit(true);
-          this.router.navigate(['/dettagli-pratica', response['data']._uid], {fragment: 'documents'});
+          if(response['data'].id){
+            this.router.navigate(['/dettagli-pratica', response['data'].id], {fragment: 'documents'});
+          }
         } else {
           this.loading = false;
+          this.snackBar.open("Impossibile inviare la pratica, contattare l'Amministratore di sitema", null, {duration: 3000});
         }
       }, error => {
         this.loading = false;

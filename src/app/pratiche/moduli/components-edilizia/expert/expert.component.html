@@ -68,7 +68,7 @@
         <mat-error>{{getErrorMessage(form.get('name'))}}</mat-error>
     </mat-form-field>
     <ng-container formGroupName="address">
-        <mat-form-field class="div-a-third" appearance="outline">
+        <!-- <mat-form-field class="div-a-third" appearance="outline">
             <mat-label>Stato</mat-label>
             <mat-select formControlName="country"
                 (selectionChange)="onChangeCountry('address/country', 'address/county')">
@@ -78,8 +78,8 @@
                 </mat-option>
             </mat-select>
             <mat-error>{{getErrorMessage(form.get('address').get('country'))}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="div-a-third" appearance="outline">
+        </mat-form-field> -->
+        <mat-form-field class="div-half" appearance="outline">
             <mat-label>Provincia di residenza</mat-label>
             <mat-select formControlName="county" (selectionChange)="onChangeProvince('address/county', 'address/city')">
                 <mat-option>----</mat-option>
@@ -89,7 +89,7 @@
             </mat-select>
             <mat-error>{{getErrorMessage(form.get('address').get('county'))}}</mat-error>
         </mat-form-field>
-        <mat-form-field class="div-a-third" appearance="outline">
+        <mat-form-field class="div-half" appearance="outline">
             <mat-label>Comune di residenza</mat-label>
             <mat-select formControlName="city" [disabled]="checkValidation(['address/county'])">
                 <mat-option>----</mat-option>
