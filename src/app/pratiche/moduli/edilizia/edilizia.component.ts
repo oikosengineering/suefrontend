@@ -175,7 +175,7 @@ export class EdiliziaComponent implements OnInit {
     this.form = this.fb.group({
       category: new FormControl(this.modulo),
       user_id: new FormControl(this.user_id),
-      delegated: new FormControl(true), //da togliere
+      // delegated: new FormControl(true), //da togliere
       owner: this.formService.createOwner(),
       experts: this.fb.array([this.formService.createExpertBusiness()]),
       details: this.getDetailsProcedures(this.modulo),
