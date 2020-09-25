@@ -55,7 +55,6 @@ export class ViewExtensionsComponent implements OnInit {
 
   addExtension(value: any){
     this.apiService.creaProroga('building', this.procedure.id, value).subscribe(result => {
-      console.log(result);
       if(this.createExtension){
         this.createExtension.uploadComplete();
         this.loadExtensions();
@@ -63,8 +62,8 @@ export class ViewExtensionsComponent implements OnInit {
     }, error => {
       if(this.createExtension){
         this.createExtension.isLoading = false;
-        this.snackBar.open('Si è verrificato un errore!', null, {
-          duration: 2000
+        this.snackBar.open(error.error.errors.message, 'Chiudi', {
+          duration: 4000
         });
       }
     });

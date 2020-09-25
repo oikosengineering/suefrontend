@@ -19,9 +19,8 @@
         </div>
         <mat-form-field class="div-half" appearance="outline">
             <mat-label>Nuova data</mat-label>
-            <input formControlName="end_date" [min]="setMinDate()" matInput [matDatepicker]="end_date">
-            <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
-            <mat-datepicker #end_date></mat-datepicker>
+            <input formControlName="end_date" type="date" [min]="min_value_date" matInput
+            (blur)="checkDate('end_date', min_value_date)">
             <mat-hint>La data deve essere futura</mat-hint>
             <mat-error>{{getErrorMessage(form.get('end_date'))}}</mat-error>
         </mat-form-field>

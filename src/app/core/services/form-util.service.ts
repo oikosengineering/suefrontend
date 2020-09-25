@@ -482,8 +482,12 @@ export class FormUtilService {
     return delay;
   }
 
-  setDate(date: string, delay: number = 0){
-    let tmp = new Date(date);
+  setDate(date: any, delay: number = 0){
+    var tmp = new Date(date.split("/").reverse());
+    if (!this.isValidDate(tmp)) {
+      tmp = new Date(date);
+    }
+    // let tmp = new Date(date);
     tmp.setDate(tmp.getDate() + delay);
     var dd = tmp.getDate();
     var mm = tmp.getMonth()+1; //January is 0!
@@ -491,6 +495,10 @@ export class FormUtilService {
 
     let newDate = yyyy+'-'+mm+'-'+dd;
     return newDate;
+  }
+
+  isValidDate(date: any) {
+    return date instanceof Date && !isNaN(date.getTime());
   }
 
   convertItalianDate(date): string {

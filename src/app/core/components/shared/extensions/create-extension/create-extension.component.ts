@@ -16,6 +16,8 @@ export class CreateExtensionComponent implements OnInit {
   @Input() min_date: any;
   @Output() add_extension = new EventEmitter();
 
+  min_value_date: string;
+
   isLoading = false;
   createExtension = false;
 
@@ -31,12 +33,7 @@ export class CreateExtensionComponent implements OnInit {
   }
 
   setMinDate() {
-    var result = new Date(this.min_date.split("/").reverse());
-    if (!this.isValidDate(result)) {
-      result = new Date(this.min_date);
-    }
-    result.setDate(result.getDate() + 1);
-    return result;
+    this.min_value_date = this.formService.setDate(this.min_date,  1);
   }
 
   isValidDate(date: any) {
@@ -85,6 +82,23 @@ export class CreateExtensionComponent implements OnInit {
     let today: any = new Date();
     let diference = Math.floor((target - today) / (1000 * 60 * 60 * 24));
     return diference >= 7;
+  }
+
+  checkDate(target: string, limit: string){
+    let value = this.form.get(target).value
+    let date: Date;
+    let limit_date = new Date(limit);
+    
+    if(value){
+      date = new Date(value);
+      console.log(limit_date);
+      console.log(date)
+      if(date < limit_date){
+        this.form.get(target).setValue(limit);
+        this.form.get(target).updateValueAndValidity();
+        console.log(this.form.get(target).value);
+      }
+    }
   }
 
   getErrorMessage(control: AbstractControl) {
