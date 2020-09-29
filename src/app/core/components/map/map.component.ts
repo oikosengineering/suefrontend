@@ -150,8 +150,8 @@ export class MapComponent implements OnInit {
       ],
       view: new View({
         projection: 'EPSG:3857',
-        center: proj.fromLonLat([9.32, 44.32]),
-        zoom: 14
+        center: proj.fromLonLat([9.323943,44.316721]),
+        zoom: 17
       }),
       
     });
