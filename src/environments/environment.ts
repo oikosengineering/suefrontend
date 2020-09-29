@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  api_url: 'https://frontoffice-staging.digitale.comune.chiavari.ge.it/backend/api/suechiavaristaging',
+  api_url: 'https://frontoffice.digitale.comune.chiavari.ge.it/backend/api/suechiavari',
   oikos_url: 'https://geo.portalecomuni.net/prodrest/api/stradarioliguria',
   // tslint:disable-next-line: max-line-length
-  auth_url: 'https://login-staging.digitale.comune.chiavari.ge.it/?redirect_url=',
+  auth_url: 'https://login.digitale.comune.chiavari.ge.it/?redirect_url=',
   // tslint:disable-next-line: max-line-length
-  logout_url: ' https://login-staging.digitale.comune.chiavari.ge.it/logout?redirect_url=https://frontoffice-staging.digitale.comune.chiavari.ge.it'
+  logout_url: ' https://login.digitale.comune.chiavari.ge.it/logout?redirect_url=https://frontoffice.digitale.comune.chiavari.ge.it'
 };
 
 /*
