@@ -180,7 +180,7 @@ export class ViewTraslochiLavoriComponent implements OnInit {
     let features = [
       {
         type: 'occupazione',
-        features: this.form.get('affected_area').value != '' ? [this.form.get('affected_area').value] : []
+        features: this.form.get('affected_area').value != '' || this.form.get('affected_area').value != null  ? [this.form.get('affected_area').value] : []
       }
     ]
     this.map_cfg.features = features;

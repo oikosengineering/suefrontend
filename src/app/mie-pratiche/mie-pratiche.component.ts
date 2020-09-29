@@ -45,8 +45,13 @@ export class MiePraticheComponent implements AfterViewInit{
     query['user'] = this.auth.getIdUser();
     this.apiService.getListaPratiche('building', query, '').subscribe(result => {
       if(result['status'] === 200){
-        this.data = result['data'];
-        this.dataSource = new MatTableDataSource(this.data.procedures);
+        if (result['data'] != null)  {
+          this.data = result['data'];
+          this.dataSource = new MatTableDataSource(this.data.procedures);
+        } else { 
+          this.data = [];
+          this.dataSource = [];
+        }
         this.isLoadingResults = false;
       } else {
         this.isLoadingResults = false;

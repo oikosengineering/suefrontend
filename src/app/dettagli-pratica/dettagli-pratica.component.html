@@ -8,7 +8,7 @@
         </button>
     </div>
     <p class="div-half"><b>Pratica N.: </b> {{data_procedure.number}}</p>
-    <p class="div-half"><b>N. Protocollo: </b> {{data_procedure.protocol || '/'}}</p>
+    <p class="div-half"><b>N. pratica: </b> {{data_procedure.protocol || '/'}}</p>
     <p class="div-half"><b>Stato: </b><status-procedures [status]="data_procedure.status"></status-procedures></p>
     <p class="div-half"><b>Marca da bollo: </b> {{data_procedure.stamp_number || '/'}}</p>
     <p class="div-half"><b>Tipologia: </b> {{data_procedure.type | procedureType}}</p>

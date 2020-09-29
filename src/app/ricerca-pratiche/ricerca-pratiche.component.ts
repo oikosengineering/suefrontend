@@ -69,8 +69,13 @@ export class RicercaPraticheComponent implements AfterViewInit {
   getResults(query: any) {
     this.apiService.getListaPratichePubbliche('building', query, 'public').subscribe(result => {
       if (result['status'] === 200) {
-        this.data = result['data'];
-        this.dataSource = new MatTableDataSource(this.data.procedures);
+        if (result['data'] != null) {
+          this.data = result['data'];
+          this.dataSource = new MatTableDataSource(this.data.procedures);
+        } else {
+          this.data = [];
+          this.dataSource = [];
+        }
         this.isLoadingResults = false;
       } else {
         this.isLoadingResults = false;
