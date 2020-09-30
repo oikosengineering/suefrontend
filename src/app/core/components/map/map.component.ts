@@ -149,8 +149,8 @@ export class MapComponent implements OnInit {
         ...this.layers
       ],
       view: new View({
-        projection: 'EPSG:3857',
-        center: proj.fromLonLat([9.323943,44.316721]),
+        projection: 'EPSG:4326',
+        center: [9.323943,44.316721],
         zoom: 17
       }),
       
@@ -190,7 +190,7 @@ export class MapComponent implements OnInit {
         let layer = this.map.getLayers().getArray().find(layer => layer.get('id') == init_feature.type);
         let source: VectorSource = layer.get('source');
         init_feature.features.forEach(feature => {
-          let new_feature = format.readFeature(feature);
+          let new_feature = format.readFeature(feature, { dataProjection : 'EPSG: 4326'});
           new_feature.setProperties({'target': init_feature.type})
           source.addFeature(new_feature);
         });
@@ -207,7 +207,7 @@ export class MapComponent implements OnInit {
     let oms = new TileLayer({
         source: new OSM(),
       });
-    oms.setProperties({'name': 'Open Streat Map'});
+    oms.setProperties({'name': 'Open Street Map'});
     console.log(oms.get('name'));
     base_layers.push(oms);
     return base_layers;
@@ -219,7 +219,7 @@ export class MapComponent implements OnInit {
       let source = new VectorSource({wrapX: false});
       let vector = new VectorLayer({
         source: source,
-        style: this[layer.style]
+        style: this[layer.style],
       });
       vector.setProperties({'name': layer.name});
       vector.setProperties({'id': layer.id});
@@ -466,7 +466,7 @@ export class MapComponent implements OnInit {
         layers.forEach(layer => {
             let features: Feature[] = layer.get('source').getFeatures();
             features.forEach(feature => {
-              result.push(format.writeFeature(feature));
+              result.push(format.writeFeature(feature, { dataProjection: 'EPSG:4326' } ));
               // let area = getArea(feature.getGeometry());
               // total_area += Math.round((area + Number.EPSILON) * 100) / 100
             })

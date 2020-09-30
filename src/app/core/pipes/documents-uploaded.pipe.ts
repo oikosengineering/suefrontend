@@ -10,7 +10,7 @@ export class DocumentsUploadedPipe implements PipeTransform {
       case true:
         return {icon: 'verified', tooltip: 'Tutti i documenti sono caricati', color: 'primary'};
       case false:
-        return {icon: 'warning', tooltip: 'Mancano alcuni documenti', color: 'warn'};
+        return {icon: 'warning', tooltip: 'DOCUMENTI MANCANTI - PRATICA NON LAVORABILE', color: 'warn'};
     }
   }
 

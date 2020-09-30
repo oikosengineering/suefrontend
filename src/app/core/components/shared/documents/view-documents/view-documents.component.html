@@ -1,3 +1,8 @@
+<h3 *ngIf="documents.length == 0" ngstyle="color:red; font-weight: bold">
+    DOCUMENTI MANCANTI - PRATICA NON LAVORABILE. 
+    E' NECESSARIO CARICARE TUTTI I DOCUMENTI RICHIESTI.
+    GRAZIE
+</h3>
 <section class="margin-top">
     <h2>Lista file caricati:</h2>
     <mat-list class="div-full list-element" *ngIf="documents.length > 0">
