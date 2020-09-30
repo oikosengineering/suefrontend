@@ -536,12 +536,14 @@ export class EdiliziaComponent implements OnInit {
             this.error = true;
             this.errorcode = error.error['errors'].error_code;
             this.errormessage = error.error['errors'].message;
+            let errorstring = '\r\n';
 
             for (var obj in error.error['errors']['details']) {
               this.errors.push(obj);
+              errorstring += (obj) + '\r\n';
             }
-
-            console.log(this.errors);
+            this.dialog.openDialog('Attenzione', 'Sono stati riscontrati i seguenti errori:'  +  errorstring, '350px');
+            // console.log(this.errors);
           }
         }
         this.loading = false;

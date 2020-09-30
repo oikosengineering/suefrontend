@@ -10,10 +10,10 @@ export class DialogMessageService {
 
   constructor(public dialog: MatDialog) {}
 
-  openDialog(title: string, message: string) {
+  openDialog(title: string, message: string, width: string = '250px') {
     console.log('entrato');
     const dialogRef = this.dialog.open(MyDialogComponent, {
-      width: '250px',
+      width: width,
       data: {title: title, message: message}
     });
 
