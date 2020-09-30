@@ -9,7 +9,8 @@ export const environment = {
   // tslint:disable-next-line: max-line-length
   auth_url: 'https://login-staging.digitale.comune.chiavari.ge.it/?redirect_url=',
   // tslint:disable-next-line: max-line-length
-  logout_url: ' https://login-staging.digitale.comune.chiavari.ge.it/logout?redirect_url=https://frontoffice-staging.digitale.comune.chiavari.ge.it'
+  logout_url: ' https://login-staging.digitale.comune.chiavari.ge.it/logout?redirect_url=https://frontoffice-staging.digitale.comune.chiavari.ge.it',
+  cookie_name: 'staging_comune_chiavari_ge_it_idtoken'
 };
 
 /*

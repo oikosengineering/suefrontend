@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import * as jwt_decode from 'jwt-decode';
 import { AppApiService } from './app-api.service';
+import { env } from 'process';
 declare var window;
 
 @Injectable({
@@ -46,6 +47,9 @@ export class AuthService {
     if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken')) {
       this.cookieservice.delete('staging_comune_chiavari_ge_it_idtoken', '/');
     }
+    if (this.cookieservice.check(environment.cookie_name)) {
+      this.cookieservice.delete(environment.cookie_name, '/');
+    }
     if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken_refresh_token')) {
       this.cookieservice.delete('staging_comune_chiavari_ge_it_idtoken_refresh_token', '/');
     }
@@ -63,6 +67,9 @@ export class AuthService {
     }
     if (this.cookieservice.check('spid_proposed')) {
       this.cookieservice.delete('spid_proposed', '/');
+    }
+    if (this.cookieservice.check('chiavari_data')) {
+      this.cookieservice.delete('chiavari_data', '/');
     }
 
     this.cookieservice.deleteAll('/');
@@ -192,12 +199,12 @@ export class AuthService {
   }
 
   signin() {
-    if (this.cookieservice.check('staging_comune_chiavari_ge_it_idtoken')) {
-      const fkjson = jwt_decode(this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'));
+    if (this.cookieservice.check(environment.cookie_name)) {
+      const fkjson = jwt_decode(this.cookieservice.get(environment.cookie_name));
       const fkuser: FakeUser = new FakeUser(fkjson as iFakeUser);
       if (fkuser.ifk.user.status !== undefined && fkuser.ifk.user.status !== null) {
         if (fkuser.ifk.user.status.includes('active')) {
-          localStorage.setItem('token', this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'));
+          localStorage.setItem('token', this.cookieservice.get(environment.cookie_name));
           localStorage.setItem('first_name', fkuser.ifk.user.first_name);
           localStorage.setItem('last_name', fkuser.ifk.user.last_name);
           localStorage.setItem('email', fkuser.ifk.user.email);
@@ -209,7 +216,7 @@ export class AuthService {
           localStorage.setItem('status', 'true');
 
           this.userislogin.emit({
-            token: this.cookieservice.get('staging_comune_chiavari_ge_it_idtoken'),
+            token: this.cookieservice.get(environment.cookie_name),
             id: fkuser.ifk.user.id,
             email: fkuser.ifk.user.email,
             first_name: fkuser.ifk.user.first_name,
