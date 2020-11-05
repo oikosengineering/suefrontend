@@ -63,6 +63,12 @@ export class AppComponent implements OnInit {
         this.profile = jwt.user.profile;
         this.isUserLoggedIn = true;
         this.isUserActive = true;
+
+        if (environment.production) {
+          if (this.auth.isTokenExpired()) {
+          this.auth.logout();
+          }
+        }
       }
     );
 
@@ -79,17 +85,6 @@ export class AppComponent implements OnInit {
       }
     }
 
-    if (environment.production) {
-      if (this.auth.isTokenExpired()) {
-        console.log("Token expired");
-      this.auth.logout();
-      }
-    }
-
-    // if (this.auth.isTokenValid()) {
-    //   console.log("Token not valid");
-    //   this.auth.logout();
-    // }
   }
 
   login() {

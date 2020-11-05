@@ -251,9 +251,9 @@ export class AuthService {
     return date;
   }
 
-  isTokenExpired(token?: string): boolean {
+  isTokenExpired(token?: string): boolean | undefined {
     if (!token) { token = this.getToken(); }
-    if (!token) { return true; }
+    if (!token) { return undefined; }
 
     const date = this.getTokenExpirationDate(token);
     if (date === undefined) { return false; }

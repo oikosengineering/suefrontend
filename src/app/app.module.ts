@@ -31,6 +31,7 @@ import localeIt from '@angular/common/locales/it'
 import { PipesModule } from './core/pipes/pipes.module';
 import { DettagliPraticaComponent } from './dettagli-pratica/dettagli-pratica.component';
 import { ViewDetailsDirective } from './core/directives/view-details.directive';
+import { FooterComponent } from './footer/footer.component';
 
 registerLocaleData(localeIt, 'it-IT');
 
@@ -46,7 +47,8 @@ registerLocaleData(localeIt, 'it-IT');
     UserComponent,
     RicercaPraticheComponent,
     DettagliPraticaComponent,
-    ViewDetailsDirective
+    ViewDetailsDirective,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
