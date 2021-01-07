@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AppComponent implements OnInit {
   open = true;
-  title = 'Comune di Chiavari';
+  title = 'SUEFrontend';
   mobileQuery: MediaQueryList;
   profile: any;
   isUserLoggedIn = false;

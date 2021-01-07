@@ -1,4 +1,4 @@
-# Chiavari
+# SueFrontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.5.
 
@@ -26,10 +26,4 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-
-## Esempio di chiamata WMS su server Staging
-
-https://192.168.1.26/qgis/qgis_mapserv.fcgi?map=/projects/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1033032,5513836,1041229,5518664&SRS=EPSG:3857&WIDTH=1024&HEIGHT=768&LAYERS=pratiche_edilizie&FORMAT=image/png&transparent=TRUE&STYLES=predefinito
-
-https://frontoffice-staging.digitale.comune.chiavari.ge.it/qgis/qgis_mapserv.fcgi?map=/projects/mappa.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=1033032,5513836,1041229,5518664&SRS=EPSG:3857&WIDTH=1024&HEIGHT=768&LAYERS=pratiche_edilizie&FORMAT=image/png&transparent=TRUE&STYLES=predefinito
 

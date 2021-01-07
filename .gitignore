@@ -40,6 +40,10 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+/docs
+/qgisproject
+PROBLEMS.md
+README.todo
 
 # System Files
 .DS_Store
